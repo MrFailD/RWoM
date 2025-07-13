@@ -8,7 +8,7 @@ namespace TorannMagic.ModOptions
         {
             get
             {
-                return "ARimWorldOfMagic";
+                return "ARimWorldOfMagic-Forked";
             }
         }
     }
