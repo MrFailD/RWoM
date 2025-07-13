@@ -1195,15 +1195,6 @@ namespace TorannMagic.AutoCast
                     TM_MoteMaker.ThrowGenericFleck(FleckDefOf.Smoke, targetCell.ToVector3Shifted(), caster.Map, Rand.Range(.6f, 1f), .4f, .1f, Rand.Range(.8f, 1.2f), 0, Rand.Range(2, 3), Rand.Range(-30, 30), 0);
                     TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Casting, targetCell.ToVector3Shifted(), caster.Map, Rand.Range(1.4f, 2f), .2f, .05f, Rand.Range(.4f, .6f), Rand.Range(-200, 200), 0, 0, 0);
                 }
-
-                //Job job = new Job(retainJobDef, retainTargetA, retainTargetB, retainTargetC)
-                //{
-                //    count = retainJobCount
-                //};
-                ////caster.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-                //caster.jobs.ClearQueuedJobs();
-                //caster.jobs.startingNewJob = true;
-                //caster.jobs.StartJob(job);
             }
             catch
             {

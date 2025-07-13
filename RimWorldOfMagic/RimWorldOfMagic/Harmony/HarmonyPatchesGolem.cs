@@ -96,259 +96,262 @@ namespace TorannMagic
             }
         }
 
-        [HarmonyPatch(typeof(FloatMenuMakerMap), "CanTakeOrder", null)]
-        public class GolemOrders_Patch
-        {
-            public static bool Prefix(Pawn pawn, ref bool __result)
-            {
-                if ((pawn is TMPawnGolem) && pawn.Faction == Faction.OfPlayerSilentFail)
-                {
-                    __result = true;
-                    return false;
-                }
-                return true;
-            }
-        }
+        //todo: fix this
+        // [HarmonyPatch(typeof(FloatMenuMakerMap), "CanTakeOrder", null)]
+        // public class GolemOrders_Patch
+        // {
+        //     public static bool Prefix(Pawn pawn, ref bool __result)
+        //     {
+        //         if ((pawn is TMPawnGolem) && pawn.Faction == Faction.OfPlayerSilentFail)
+        //         {
+        //             __result = true;
+        //             return false;
+        //         }
+        //         return true;
+        //     }
+        // }
 
-        [HarmonyPatch(typeof(FloatMenuMakerMap), "AddUndraftedOrders", null)]
-        public class GolemUndraftedOrder_Patch
-        {
-            public static bool Prefix(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts)
-            {
-                if(pawn is TMPawnGolem || TM_Calc.IsPolymorphed(pawn))
-                {
-                    return false;
-                }
-                return true;
-            }
-        }
+        //todo: fix this
+        // [HarmonyPatch(typeof(FloatMenuMakerMap), "AddUndraftedOrders", null)]
+        // public class GolemUndraftedOrder_Patch
+        // {
+        //     public static bool Prefix(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts)
+        //     {
+        //         if(pawn is TMPawnGolem || TM_Calc.IsPolymorphed(pawn))
+        //         {
+        //             return false;
+        //         }
+        //         return true;
+        //     }
+        // }
 
-        [HarmonyPatch(typeof(FloatMenuMakerMap), "AddDraftedOrders", null)]
-        public class GolemMenu_Patch
-        {
-            public static bool Prefix(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts, bool suppressAutoTakeableGoto = false)
-            {
-                if (pawn is TMPawnGolem || (TM_Calc.IsPossessedBySpirit(pawn) && !pawn.RaceProps.Humanlike) || TM_Calc.IsPolymorphed(pawn))
-                {
-                    IntVec3 clickCell = IntVec3.FromVector3(clickPos);
-                    if (pawn is TMPawnGolem)
-                    {                        
-                        foreach (LocalTargetInfo item6 in GenUI.TargetsAt(clickPos, TargetingParameters.ForAttackAny(), thingsOnly: true))
-                        {
-                            LocalTargetInfo attackTarg = item6;
-                            if (pawn.VerbTracker.AllVerbs != null && pawn.VerbTracker.AllVerbs.Count > 0)
-                            {
-                                string failStr;
-                                Action rangedAct = TM_GolemUtility.GetGolemRangedAttackAction(pawn as TMPawnGolem, attackTarg, out failStr);
-                                string text = "FireAt".Translate(attackTarg.Thing.Label, attackTarg.Thing);
-                                FloatMenuOption floatMenuOption = new FloatMenuOption("", null, MenuOptionPriority.High, null, item6.Thing);
-                                if (rangedAct == null)
-                                {
-                                    text = text + ": " + failStr;
-                                }
-                                else
-                                {
-                                    floatMenuOption.autoTakeable = (!attackTarg.HasThing || attackTarg.Thing.HostileTo(Faction.OfPlayer));
-                                    floatMenuOption.autoTakeablePriority = 40f;
-                                    floatMenuOption.action = delegate
-                                    {
-                                        FleckMaker.Static(attackTarg.Thing.DrawPos, attackTarg.Thing.Map, FleckDefOf.FeedbackShoot);
-                                        rangedAct();
-                                    };
-                                }
-                                floatMenuOption.Label = text;
-                                opts.Add(floatMenuOption);
-                            }
-                            string failStr2;
-                            Action meleeAct = TM_GolemUtility.GetGolemMeleeAttackAction(pawn, attackTarg, out failStr2);
-                            Pawn pawn2 = attackTarg.Thing as Pawn;
-                            string text2 = (pawn2 == null || !pawn2.Downed) ? ((string)"MeleeAttack".Translate(attackTarg.Thing.Label, attackTarg.Thing)) : ((string)"MeleeAttackToDeath".Translate(attackTarg.Thing.Label, attackTarg.Thing));
-                            MenuOptionPriority priority = (!attackTarg.HasThing || !pawn.HostileTo(attackTarg.Thing)) ? MenuOptionPriority.VeryLow : MenuOptionPriority.AttackEnemy;
-                            FloatMenuOption floatMenuOption2 = new FloatMenuOption("", null, priority, null, attackTarg.Thing);
-                            if (meleeAct == null)
-                            {
-                                text2 = text2 + ": " + failStr2.CapitalizeFirst();
-                            }
-                            else
-                            {
-                                floatMenuOption2.autoTakeable = (!attackTarg.HasThing || attackTarg.Thing.HostileTo(Faction.OfPlayer));
-                                floatMenuOption2.autoTakeablePriority = 30f;
-                                floatMenuOption2.action = delegate
-                                {
-                                    FleckMaker.Static(attackTarg.Thing.DrawPos, attackTarg.Thing.Map, FleckDefOf.FeedbackMelee);
-                                    meleeAct();
-                                };
-                            }
-                            floatMenuOption2.Label = text2;
-                            opts.Add(floatMenuOption2);
-                        }
-                    }
-                    else if ((TM_Calc.IsPossessedBySpirit(pawn) || TM_Calc.IsPolymorphed(pawn)) && pawn.RaceProps.Animal)
-                    {
-                        foreach (LocalTargetInfo item6 in GenUI.TargetsAt(clickPos, TargetingParameters.ForAttackAny(), thingsOnly: true))
-                        {
-                            LocalTargetInfo attackTarg = item6;                            
-                            string failStr2;
-                            Action meleeAct = FloatMenuUtility.GetMeleeAttackAction(pawn, attackTarg, out failStr2);
-                            Pawn pawn2 = attackTarg.Thing as Pawn;
-                            string text2 = (pawn2 == null || !pawn2.Downed) ? ((string)"MeleeAttack".Translate(attackTarg.Thing.Label, attackTarg.Thing)) : ((string)"MeleeAttackToDeath".Translate(attackTarg.Thing.Label, attackTarg.Thing));
-                            MenuOptionPriority priority = (!attackTarg.HasThing || !pawn.HostileTo(attackTarg.Thing)) ? MenuOptionPriority.VeryLow : MenuOptionPriority.AttackEnemy;
-                            FloatMenuOption floatMenuOption2 = new FloatMenuOption("", null, priority, null, attackTarg.Thing);
-                            if (meleeAct == null)
-                            {
-                                text2 = text2 + ": " + failStr2.CapitalizeFirst();
-                            }
-                            else
-                            {
-                                floatMenuOption2.autoTakeable = (!attackTarg.HasThing || attackTarg.Thing.HostileTo(Faction.OfPlayer));
-                                floatMenuOption2.autoTakeablePriority = 30f;
-                                floatMenuOption2.action = delegate
-                                {
-                                    FleckMaker.Static(attackTarg.Thing.DrawPos, attackTarg.Thing.Map, FleckDefOf.FeedbackMelee);
-                                    meleeAct();
-                                };
-                            }
-                            floatMenuOption2.Label = text2;
-                            opts.Add(floatMenuOption2);
-                        }
-                    }
-                    if (pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
-                    {
-                        TargetingParameters Params = TargetingParameters.ForColonist();
-                        Params.targetSpecificThing = pawn;
-                        foreach (LocalTargetInfo item7 in GenUI.TargetsAt(clickPos, Params, thingsOnly: true))
-                        {
-                            LocalTargetInfo carryTarget = item7;
-                            FloatMenuOption item = pawn.CanReach(carryTarget, PathEndMode.ClosestTouch, Danger.Deadly) ? FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Carry".Translate(carryTarget.Thing), delegate
-                            {
-                                carryTarget.Thing.SetForbidden(value: false, warnOnFail: false);
-                                Job job7 = JobMaker.MakeJob(JobDefOf.CarryDownedPawnDrafted, carryTarget);
-                                job7.count = 1;
-                                pawn.jobs.TryTakeOrderedJob(job7, JobTag.Misc);
-                            }), pawn, carryTarget) : new FloatMenuOption("CannotCarry".Translate(carryTarget.Thing) + ": " + "NoPath".Translate().CapitalizeFirst(), null);
-                            opts.Add(item);
-                        }
-                    }
-                    if (pawn.IsCarryingPawn())
-                    {
-                        Pawn carriedPawn = (Pawn)pawn.carryTracker.CarriedThing;
-                        TargetingParameters Params = TargetingParameters.ForPawns();
-                        Params.targetSpecificThing = pawn;
-                        if (!carriedPawn.IsPrisonerOfColony)
-                        {
-                            
-                            foreach (LocalTargetInfo item8 in GenUI.TargetsAt(clickPos, Params, thingsOnly: true))
-                            {
-                                LocalTargetInfo destTarget = item8;
-                                FloatMenuOption item2 = pawn.CanReach(destTarget, PathEndMode.ClosestTouch, Danger.Deadly) ? FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("PlaceIn".Translate(carriedPawn, destTarget.Thing), delegate
-                                {
-                                    destTarget.Thing.SetForbidden(value: false, warnOnFail: false);
-                                    Job job6 = JobMaker.MakeJob(JobDefOf.TakeDownedPawnToBedDrafted, pawn.carryTracker.CarriedThing, destTarget);
-                                    job6.count = 1;
-                                    pawn.jobs.TryTakeOrderedJob(job6, JobTag.Misc);
-                                }), pawn, destTarget) : new FloatMenuOption("CannotPlaceIn".Translate(carriedPawn, destTarget.Thing) + ": " + "NoPath".Translate().CapitalizeFirst(), null);
-                                opts.Add(item2);
-                            }
-                        }
-                        foreach (LocalTargetInfo item9 in GenUI.TargetsAt(clickPos, Params, thingsOnly: true))
-                        {
-                            LocalTargetInfo destTarget2 = item9;
-                            FloatMenuOption item3;
-                            if (!pawn.CanReach(destTarget2, PathEndMode.ClosestTouch, Danger.Deadly))
-                            {
-                                item3 = new FloatMenuOption("CannotPlaceIn".Translate(carriedPawn, destTarget2.Thing) + ": " + "NoPath".Translate().CapitalizeFirst(), null);
-                            }
-                            else
-                            {
-                                TaggedString taggedString = "PlaceIn".Translate(carriedPawn, destTarget2.Thing);
-                                if (!carriedPawn.IsPrisonerOfColony)
-                                {
-                                    taggedString += ": " + "ArrestChance".Translate(carriedPawn.GetAcceptArrestChance(pawn).ToStringPercent());
-                                }
-                                item3 = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(taggedString, delegate
-                                {
-                                    destTarget2.Thing.SetForbidden(value: false, warnOnFail: false);
-                                    Job job5 = JobMaker.MakeJob(JobDefOf.CarryToPrisonerBedDrafted, pawn.carryTracker.CarriedThing, destTarget2);
-                                    job5.count = 1;
-                                    pawn.jobs.TryTakeOrderedJob(job5, JobTag.Misc);
-                                }), pawn, destTarget2);
-                            }
-                            opts.Add(item3);
-                        }
-                        foreach (LocalTargetInfo item10 in GenUI.TargetsAt(clickPos, Params, thingsOnly: true))
-                        {
-                            Thing transporterThing = item10.Thing;
-                            if (transporterThing != null)
-                            {
-                                CompTransporter compTransporter = transporterThing.TryGetComp<CompTransporter>();
-                                if (compTransporter.Shuttle == null || compTransporter.Shuttle.IsAllowedNow(carriedPawn))
-                                {
-                                    if (!pawn.CanReach(transporterThing, PathEndMode.ClosestTouch, Danger.Deadly))
-                                    {
-                                        opts.Add(new FloatMenuOption("CannotPlaceIn".Translate(carriedPawn, transporterThing) + ": " + "NoPath".Translate().CapitalizeFirst(), null));
-                                    }
-                                    else if (compTransporter.Shuttle == null && !compTransporter.LeftToLoadContains(carriedPawn))
-                                    {
-                                        opts.Add(new FloatMenuOption("CannotPlaceIn".Translate(carriedPawn, transporterThing) + ": " + "NotPartOfLaunchGroup".Translate(), null));
-                                    }
-                                    else
-                                    {
-                                        string label = "PlaceIn".Translate(carriedPawn, transporterThing);
-                                        Action action = delegate
-                                        {
-                                            if (!compTransporter.LoadingInProgressOrReadyToLaunch)
-                                            {
-                                                TransporterUtility.InitiateLoading(Gen.YieldSingle(compTransporter));
-                                            }
-                                            Job job4 = JobMaker.MakeJob(JobDefOf.HaulToTransporter, carriedPawn, transporterThing);
-                                            job4.ignoreForbidden = true;
-                                            job4.count = 1;
-                                            pawn.jobs.TryTakeOrderedJob(job4, JobTag.Misc);
-                                        };
-                                        opts.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(label, action), pawn, transporterThing));
-                                    }
-                                }
-                            }
-                        }
-                        foreach (LocalTargetInfo item11 in GenUI.TargetsAt(clickPos, Params, thingsOnly: true))
-                        {
-                            Thing casket = item11.Thing;
-                            TaggedString taggedString2 = "PlaceIn".Translate(carriedPawn, casket);
-                            if (((Building_CryptosleepCasket)casket).HasAnyContents)
-                            {
-                                opts.Add(new FloatMenuOption("CannotPlaceIn".Translate(carriedPawn, casket) + ": " + "CryptosleepCasketOccupied".Translate(), null));
-                            }
-                            else if (carriedPawn.IsQuestLodger())
-                            {
-                                opts.Add(new FloatMenuOption("CannotPlaceIn".Translate(carriedPawn, casket) + ": " + "CryptosleepCasketGuestsNotAllowed".Translate(), null));
-                            }
-                            else if (carriedPawn.GetExtraHostFaction() != null)
-                            {
-                                opts.Add(new FloatMenuOption("CannotPlaceIn".Translate(carriedPawn, casket) + ": " + "CryptosleepCasketGuestPrisonersNotAllowed".Translate(), null));
-                            }
-                            else
-                            {
-                                Action action2 = delegate
-                                {
-                                    Job job3 = JobMaker.MakeJob(JobDefOf.CarryToCryptosleepCasketDrafted, carriedPawn, casket);
-                                    job3.count = 1;
-                                    job3.playerForced = true;
-                                    pawn.jobs.TryTakeOrderedJob(job3, JobTag.Misc);
-                                };
-                                opts.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(taggedString2, action2), pawn, casket));
-                            }
-                        }
-                    }
-                    FloatMenuOption floatMenuOption3 = GolemUtility.GotoLocationOption(clickCell, pawn, suppressAutoTakeableGoto);
-                    if (floatMenuOption3 != null)
-                    {
-                        opts.Add(floatMenuOption3);
-                    }
-                    return false;                    
-                }
-                return true;                
-            }
-        }
+        //todo: fix this
+        // [HarmonyPatch(typeof(FloatMenuMakerMap), "AddDraftedOrders", null)]
+        // public class GolemMenu_Patch
+        // {
+        //     public static bool Prefix(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts, bool suppressAutoTakeableGoto = false)
+        //     {
+        //         if (pawn is TMPawnGolem || (TM_Calc.IsPossessedBySpirit(pawn) && !pawn.RaceProps.Humanlike) || TM_Calc.IsPolymorphed(pawn))
+        //         {
+        //             IntVec3 clickCell = IntVec3.FromVector3(clickPos);
+        //             if (pawn is TMPawnGolem)
+        //             {                        
+        //                 foreach (LocalTargetInfo item6 in GenUI.TargetsAt(clickPos, TargetingParameters.ForAttackAny(), thingsOnly: true))
+        //                 {
+        //                     LocalTargetInfo attackTarg = item6;
+        //                     if (pawn.VerbTracker.AllVerbs != null && pawn.VerbTracker.AllVerbs.Count > 0)
+        //                     {
+        //                         string failStr;
+        //                         Action rangedAct = TM_GolemUtility.GetGolemRangedAttackAction(pawn as TMPawnGolem, attackTarg, out failStr);
+        //                         string text = "FireAt".Translate(attackTarg.Thing.Label, attackTarg.Thing);
+        //                         FloatMenuOption floatMenuOption = new FloatMenuOption("", null, MenuOptionPriority.High, null, item6.Thing);
+        //                         if (rangedAct == null)
+        //                         {
+        //                             text = text + ": " + failStr;
+        //                         }
+        //                         else
+        //                         {
+        //                             floatMenuOption.autoTakeable = (!attackTarg.HasThing || attackTarg.Thing.HostileTo(Faction.OfPlayer));
+        //                             floatMenuOption.autoTakeablePriority = 40f;
+        //                             floatMenuOption.action = delegate
+        //                             {
+        //                                 FleckMaker.Static(attackTarg.Thing.DrawPos, attackTarg.Thing.Map, FleckDefOf.FeedbackShoot);
+        //                                 rangedAct();
+        //                             };
+        //                         }
+        //                         floatMenuOption.Label = text;
+        //                         opts.Add(floatMenuOption);
+        //                     }
+        //                     string failStr2;
+        //                     Action meleeAct = TM_GolemUtility.GetGolemMeleeAttackAction(pawn, attackTarg, out failStr2);
+        //                     Pawn pawn2 = attackTarg.Thing as Pawn;
+        //                     string text2 = (pawn2 == null || !pawn2.Downed) ? ((string)"MeleeAttack".Translate(attackTarg.Thing.Label, attackTarg.Thing)) : ((string)"MeleeAttackToDeath".Translate(attackTarg.Thing.Label, attackTarg.Thing));
+        //                     MenuOptionPriority priority = (!attackTarg.HasThing || !pawn.HostileTo(attackTarg.Thing)) ? MenuOptionPriority.VeryLow : MenuOptionPriority.AttackEnemy;
+        //                     FloatMenuOption floatMenuOption2 = new FloatMenuOption("", null, priority, null, attackTarg.Thing);
+        //                     if (meleeAct == null)
+        //                     {
+        //                         text2 = text2 + ": " + failStr2.CapitalizeFirst();
+        //                     }
+        //                     else
+        //                     {
+        //                         floatMenuOption2.autoTakeable = (!attackTarg.HasThing || attackTarg.Thing.HostileTo(Faction.OfPlayer));
+        //                         floatMenuOption2.autoTakeablePriority = 30f;
+        //                         floatMenuOption2.action = delegate
+        //                         {
+        //                             FleckMaker.Static(attackTarg.Thing.DrawPos, attackTarg.Thing.Map, FleckDefOf.FeedbackMelee);
+        //                             meleeAct();
+        //                         };
+        //                     }
+        //                     floatMenuOption2.Label = text2;
+        //                     opts.Add(floatMenuOption2);
+        //                 }
+        //             }
+        //             else if ((TM_Calc.IsPossessedBySpirit(pawn) || TM_Calc.IsPolymorphed(pawn)) && pawn.RaceProps.Animal)
+        //             {
+        //                 foreach (LocalTargetInfo item6 in GenUI.TargetsAt(clickPos, TargetingParameters.ForAttackAny(), thingsOnly: true))
+        //                 {
+        //                     LocalTargetInfo attackTarg = item6;                            
+        //                     string failStr2;
+        //                     Action meleeAct = FloatMenuUtility.GetMeleeAttackAction(pawn, attackTarg, out failStr2);
+        //                     Pawn pawn2 = attackTarg.Thing as Pawn;
+        //                     string text2 = (pawn2 == null || !pawn2.Downed) ? ((string)"MeleeAttack".Translate(attackTarg.Thing.Label, attackTarg.Thing)) : ((string)"MeleeAttackToDeath".Translate(attackTarg.Thing.Label, attackTarg.Thing));
+        //                     MenuOptionPriority priority = (!attackTarg.HasThing || !pawn.HostileTo(attackTarg.Thing)) ? MenuOptionPriority.VeryLow : MenuOptionPriority.AttackEnemy;
+        //                     FloatMenuOption floatMenuOption2 = new FloatMenuOption("", null, priority, null, attackTarg.Thing);
+        //                     if (meleeAct == null)
+        //                     {
+        //                         text2 = text2 + ": " + failStr2.CapitalizeFirst();
+        //                     }
+        //                     else
+        //                     {
+        //                         floatMenuOption2.autoTakeable = (!attackTarg.HasThing || attackTarg.Thing.HostileTo(Faction.OfPlayer));
+        //                         floatMenuOption2.autoTakeablePriority = 30f;
+        //                         floatMenuOption2.action = delegate
+        //                         {
+        //                             FleckMaker.Static(attackTarg.Thing.DrawPos, attackTarg.Thing.Map, FleckDefOf.FeedbackMelee);
+        //                             meleeAct();
+        //                         };
+        //                     }
+        //                     floatMenuOption2.Label = text2;
+        //                     opts.Add(floatMenuOption2);
+        //                 }
+        //             }
+        //             if (pawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
+        //             {
+        //                 TargetingParameters Params = TargetingParameters.ForColonist();
+        //                 Params.targetSpecificThing = pawn;
+        //                 foreach (LocalTargetInfo item7 in GenUI.TargetsAt(clickPos, Params, thingsOnly: true))
+        //                 {
+        //                     LocalTargetInfo carryTarget = item7;
+        //                     FloatMenuOption item = pawn.CanReach(carryTarget, PathEndMode.ClosestTouch, Danger.Deadly) ? FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("Carry".Translate(carryTarget.Thing), delegate
+        //                     {
+        //                         carryTarget.Thing.SetForbidden(value: false, warnOnFail: false);
+        //                         Job job7 = JobMaker.MakeJob(JobDefOf.CarryDownedPawnDrafted, carryTarget);
+        //                         job7.count = 1;
+        //                         pawn.jobs.TryTakeOrderedJob(job7, JobTag.Misc);
+        //                     }), pawn, carryTarget) : new FloatMenuOption("CannotCarry".Translate(carryTarget.Thing) + ": " + "NoPath".Translate().CapitalizeFirst(), null);
+        //                     opts.Add(item);
+        //                 }
+        //             }
+        //             if (pawn.IsCarryingPawn())
+        //             {
+        //                 Pawn carriedPawn = (Pawn)pawn.carryTracker.CarriedThing;
+        //                 TargetingParameters Params = TargetingParameters.ForPawns();
+        //                 Params.targetSpecificThing = pawn;
+        //                 if (!carriedPawn.IsPrisonerOfColony)
+        //                 {
+        //                     
+        //                     foreach (LocalTargetInfo item8 in GenUI.TargetsAt(clickPos, Params, thingsOnly: true))
+        //                     {
+        //                         LocalTargetInfo destTarget = item8;
+        //                         FloatMenuOption item2 = pawn.CanReach(destTarget, PathEndMode.ClosestTouch, Danger.Deadly) ? FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("PlaceIn".Translate(carriedPawn, destTarget.Thing), delegate
+        //                         {
+        //                             destTarget.Thing.SetForbidden(value: false, warnOnFail: false);
+        //                             Job job6 = JobMaker.MakeJob(JobDefOf.TakeDownedPawnToBedDrafted, pawn.carryTracker.CarriedThing, destTarget);
+        //                             job6.count = 1;
+        //                             pawn.jobs.TryTakeOrderedJob(job6, JobTag.Misc);
+        //                         }), pawn, destTarget) : new FloatMenuOption("CannotPlaceIn".Translate(carriedPawn, destTarget.Thing) + ": " + "NoPath".Translate().CapitalizeFirst(), null);
+        //                         opts.Add(item2);
+        //                     }
+        //                 }
+        //                 foreach (LocalTargetInfo item9 in GenUI.TargetsAt(clickPos, Params, thingsOnly: true))
+        //                 {
+        //                     LocalTargetInfo destTarget2 = item9;
+        //                     FloatMenuOption item3;
+        //                     if (!pawn.CanReach(destTarget2, PathEndMode.ClosestTouch, Danger.Deadly))
+        //                     {
+        //                         item3 = new FloatMenuOption("CannotPlaceIn".Translate(carriedPawn, destTarget2.Thing) + ": " + "NoPath".Translate().CapitalizeFirst(), null);
+        //                     }
+        //                     else
+        //                     {
+        //                         TaggedString taggedString = "PlaceIn".Translate(carriedPawn, destTarget2.Thing);
+        //                         if (!carriedPawn.IsPrisonerOfColony)
+        //                         {
+        //                             taggedString += ": " + "ArrestChance".Translate(carriedPawn.GetAcceptArrestChance(pawn).ToStringPercent());
+        //                         }
+        //                         item3 = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(taggedString, delegate
+        //                         {
+        //                             destTarget2.Thing.SetForbidden(value: false, warnOnFail: false);
+        //                             Job job5 = JobMaker.MakeJob(JobDefOf.CarryToPrisonerBedDrafted, pawn.carryTracker.CarriedThing, destTarget2);
+        //                             job5.count = 1;
+        //                             pawn.jobs.TryTakeOrderedJob(job5, JobTag.Misc);
+        //                         }), pawn, destTarget2);
+        //                     }
+        //                     opts.Add(item3);
+        //                 }
+        //                 foreach (LocalTargetInfo item10 in GenUI.TargetsAt(clickPos, Params, thingsOnly: true))
+        //                 {
+        //                     Thing transporterThing = item10.Thing;
+        //                     if (transporterThing != null)
+        //                     {
+        //                         CompTransporter compTransporter = transporterThing.TryGetComp<CompTransporter>();
+        //                         if (compTransporter.Shuttle == null || compTransporter.Shuttle.IsAllowedNow(carriedPawn))
+        //                         {
+        //                             if (!pawn.CanReach(transporterThing, PathEndMode.ClosestTouch, Danger.Deadly))
+        //                             {
+        //                                 opts.Add(new FloatMenuOption("CannotPlaceIn".Translate(carriedPawn, transporterThing) + ": " + "NoPath".Translate().CapitalizeFirst(), null));
+        //                             }
+        //                             else if (compTransporter.Shuttle == null && !compTransporter.LeftToLoadContains(carriedPawn))
+        //                             {
+        //                                 opts.Add(new FloatMenuOption("CannotPlaceIn".Translate(carriedPawn, transporterThing) + ": " + "NotPartOfLaunchGroup".Translate(), null));
+        //                             }
+        //                             else
+        //                             {
+        //                                 string label = "PlaceIn".Translate(carriedPawn, transporterThing);
+        //                                 Action action = delegate
+        //                                 {
+        //                                     if (!compTransporter.LoadingInProgressOrReadyToLaunch)
+        //                                     {
+        //                                         TransporterUtility.InitiateLoading(Gen.YieldSingle(compTransporter));
+        //                                     }
+        //                                     Job job4 = JobMaker.MakeJob(JobDefOf.HaulToTransporter, carriedPawn, transporterThing);
+        //                                     job4.ignoreForbidden = true;
+        //                                     job4.count = 1;
+        //                                     pawn.jobs.TryTakeOrderedJob(job4, JobTag.Misc);
+        //                                 };
+        //                                 opts.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(label, action), pawn, transporterThing));
+        //                             }
+        //                         }
+        //                     }
+        //                 }
+        //                 foreach (LocalTargetInfo item11 in GenUI.TargetsAt(clickPos, Params, thingsOnly: true))
+        //                 {
+        //                     Thing casket = item11.Thing;
+        //                     TaggedString taggedString2 = "PlaceIn".Translate(carriedPawn, casket);
+        //                     if (((Building_CryptosleepCasket)casket).HasAnyContents)
+        //                     {
+        //                         opts.Add(new FloatMenuOption("CannotPlaceIn".Translate(carriedPawn, casket) + ": " + "CryptosleepCasketOccupied".Translate(), null));
+        //                     }
+        //                     else if (carriedPawn.IsQuestLodger())
+        //                     {
+        //                         opts.Add(new FloatMenuOption("CannotPlaceIn".Translate(carriedPawn, casket) + ": " + "CryptosleepCasketGuestsNotAllowed".Translate(), null));
+        //                     }
+        //                     else if (carriedPawn.GetExtraHostFaction() != null)
+        //                     {
+        //                         opts.Add(new FloatMenuOption("CannotPlaceIn".Translate(carriedPawn, casket) + ": " + "CryptosleepCasketGuestPrisonersNotAllowed".Translate(), null));
+        //                     }
+        //                     else
+        //                     {
+        //                         Action action2 = delegate
+        //                         {
+        //                             Job job3 = JobMaker.MakeJob(JobDefOf.CarryToCryptosleepCasketDrafted, carriedPawn, casket);
+        //                             job3.count = 1;
+        //                             job3.playerForced = true;
+        //                             pawn.jobs.TryTakeOrderedJob(job3, JobTag.Misc);
+        //                         };
+        //                         opts.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(taggedString2, action2), pawn, casket));
+        //                     }
+        //                 }
+        //             }
+        //             FloatMenuOption floatMenuOption3 = GolemUtility.GotoLocationOption(clickCell, pawn, suppressAutoTakeableGoto);
+        //             if (floatMenuOption3 != null)
+        //             {
+        //                 opts.Add(floatMenuOption3);
+        //             }
+        //             return false;                    
+        //         }
+        //         return true;                
+        //     }
+        // }
 
         [HarmonyPatch(typeof(GenRecipe), "MakeRecipeProducts", null)]
         public class GolemRecipe_Action_Patch

@@ -295,7 +295,7 @@ namespace TorannMagic
             }
         }
 
-        [HarmonyPatch(typeof(Pawn_InteractionsTracker), "InteractionsTrackerTick", null)]
+        [HarmonyPatch(typeof(Pawn_InteractionsTracker), "InteractionsTrackerTickInterval", null)]
         public class InteractionsTrackerTick_Patch
         {
             public static void Postfix(Pawn_InteractionsTracker __instance, Pawn ___pawn, ref bool ___wantsRandomInteract, int ___lastInteractionTime)
@@ -1522,131 +1522,132 @@ namespace TorannMagic
             }
         }
 
-        [HarmonyPatch(typeof(FloatMenuMakerMap), "AddHumanlikeOrders", null)]
-        public static class FloatMenuMakerMap_Patch
-        {
-            public static void Postfix(Vector3 clickPos, Pawn pawn, ref List<FloatMenuOption> opts)
-            {
-                if (pawn == null)
-                {
-                    return;
-                }
-                IntVec3 c = IntVec3.FromVector3(clickPos);
-                Enchantment.CompEnchant comp = pawn.TryGetComp<Enchantment.CompEnchant>();
-                CompAbilityUserMagic pawnComp = pawn.GetCompAbilityUserMagic();
-                if (comp != null && pawnComp != null && pawnComp.IsMagicUser && pawn.story != null && pawn.story.traits != null && !pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
-                {
-                    if (comp.enchantingContainer == null)
-                    {
-                        Log.Warning($"Enchanting container is null for {pawn}, initializing.");
-                        comp.enchantingContainer = new ThingOwner<Thing>();
-                        //comp.enchantingContainer = new ThingOwner<Thing>(comp);
-                    }
-                    bool emptyGround = true;
-                    foreach (Thing current in c.GetThingList(pawn.Map))
-                    {
-                        if (current != null && current.def.EverHaulable)
-                        {
-                            emptyGround = false;
-                        }
-                    }
-                    if (emptyGround && !pawn.Drafted) //c.GetThingList(pawn.Map).Count == 0 &&
-                    {
-                        if (comp.enchantingContainer?.Count > 0)
-                        {
-                            if (!pawn.CanReach(c, PathEndMode.ClosestTouch, Danger.Deadly, false, false, TraverseMode.ByPawn))
-                            {
-                                opts.Add(new FloatMenuOption("TM_CannotDrop".Translate(
-                                    comp.enchantingContainer[0].Label
-                                ) + " (" + "NoPath".Translate() + ")", null, MenuOptionPriority.Default, null, null, 0f, null, null));
-                            }
-                            else
-                            {
-                                opts.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("TM_DropGem".Translate(
-                                comp.enchantingContainer.ContentsString
-                                ), delegate
-                                {
-                                    Job job = new Job(TorannMagicDefOf.JobDriver_RemoveEnchantingGem, c);
-                                    pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-                                }, MenuOptionPriority.High, null, null, 0f, null, null), pawn, c, "ReservedBy"));
-                            }
-                        }
+        //todo: fix this
+        // [HarmonyPatch(typeof(FloatMenuMakerMap), "AddHumanlikeOrders", null)]
+        // public static class FloatMenuMakerMap_Patch
+        // {
+        //     public static void Postfix(Vector3 clickPos, Pawn pawn, ref List<FloatMenuOption> opts)
+        //     {
+        //         if (pawn == null)
+        //         {
+        //             return;
+        //         }
+        //         IntVec3 c = IntVec3.FromVector3(clickPos);
+        //         Enchantment.CompEnchant comp = pawn.TryGetComp<Enchantment.CompEnchant>();
+        //         CompAbilityUserMagic pawnComp = pawn.GetCompAbilityUserMagic();
+        //         if (comp != null && pawnComp != null && pawnComp.IsMagicUser && pawn.story != null && pawn.story.traits != null && !pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
+        //         {
+        //             if (comp.enchantingContainer == null)
+        //             {
+        //                 Log.Warning($"Enchanting container is null for {pawn}, initializing.");
+        //                 comp.enchantingContainer = new ThingOwner<Thing>();
+        //                 //comp.enchantingContainer = new ThingOwner<Thing>(comp);
+        //             }
+        //             bool emptyGround = true;
+        //             foreach (Thing current in c.GetThingList(pawn.Map))
+        //             {
+        //                 if (current != null && current.def.EverHaulable)
+        //                 {
+        //                     emptyGround = false;
+        //                 }
+        //             }
+        //             if (emptyGround && !pawn.Drafted) //c.GetThingList(pawn.Map).Count == 0 &&
+        //             {
+        //                 if (comp.enchantingContainer?.Count > 0)
+        //                 {
+        //                     if (!pawn.CanReach(c, PathEndMode.ClosestTouch, Danger.Deadly, false, false, TraverseMode.ByPawn))
+        //                     {
+        //                         opts.Add(new FloatMenuOption("TM_CannotDrop".Translate(
+        //                             comp.enchantingContainer[0].Label
+        //                         ) + " (" + "NoPath".Translate() + ")", null, MenuOptionPriority.Default, null, null, 0f, null, null));
+        //                     }
+        //                     else
+        //                     {
+        //                         opts.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("TM_DropGem".Translate(
+        //                         comp.enchantingContainer.ContentsString
+        //                         ), delegate
+        //                         {
+        //                             Job job = new Job(TorannMagicDefOf.JobDriver_RemoveEnchantingGem, c);
+        //                             pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+        //                         }, MenuOptionPriority.High, null, null, 0f, null, null), pawn, c, "ReservedBy"));
+        //                     }
+        //                 }
+        //
+        //             }
+        //             foreach (Thing current in c.GetThingList(pawn.Map))
+        //             {
+        //                 Thing t = current;
+        //                 if (t != null && t.def.EverHaulable && t.def.defName.ToString().Contains("TM_EStone_"))
+        //                 {
+        //                     if (!pawn.CanReach(t, PathEndMode.ClosestTouch, Danger.Deadly, false, false, TraverseMode.ByPawn))
+        //                     {
+        //                         opts.Add(new FloatMenuOption("CannotPickUp".Translate(
+        //                         t.Label
+        //                         ) + " (" + "NoPath".Translate() + ")", null, MenuOptionPriority.Default, null, null, 0f, null, null));
+        //                     }
+        //                     else if (MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, t, 1))
+        //                     {
+        //                         opts.Add(new FloatMenuOption("CannotPickUp".Translate(
+        //                         t.Label
+        //                         ) + " (" + "TooHeavy".Translate() + ")", null, MenuOptionPriority.Default, null, null, 0f, null, null));
+        //                     }
+        //                     else// if (item.stackCount == 1)
+        //                     {
+        //                         opts.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("TM_PickupGem".Translate(
+        //                         t.Label
+        //                         ), delegate
+        //                         {
+        //                             t.SetForbidden(false, false);
+        //                             Job job = new Job(TorannMagicDefOf.JobDriver_AddEnchantingGem, t);
+        //                             job.count = 1;
+        //                             pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+        //                         }, MenuOptionPriority.High, null, null, 0f, null, null), pawn, t, "ReservedBy"));
+        //                     }
+        //                 }
+        //                 else if ((current.def.IsApparel || current.def.IsWeapon || current.def.IsRangedWeapon) && comp.enchantingContainer?.Count > 0)
+        //                 {
+        //                     if (!pawn.CanReach(t, PathEndMode.ClosestTouch, Danger.Deadly, false, false, TraverseMode.ByPawn))
+        //                     {
+        //                         opts.Add(new FloatMenuOption("TM_CannotReach".Translate(
+        //                         t.Label
+        //                         ) + " (" + "NoPath".Translate() + ")", null, MenuOptionPriority.Default, null, null, 0f, null, null));
+        //                     }
+        //                     else if (pawnComp.Mana.CurLevel < .5f)
+        //                     {
+        //                         opts.Add(new FloatMenuOption("TM_NeedManaForEnchant".Translate(
+        //                         pawnComp.Mana.CurLevel.ToString("0.000")
+        //                         ), null, MenuOptionPriority.Default, null, null, 0f, null, null));
+        //                     }
+        //                     else// if (item.stackCount == 1)
+        //                     {
+        //                         if (current.stackCount == 1)
+        //                         {
+        //                             opts.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("TM_EnchantItem".Translate(
+        //                                 t.Label
+        //                             ), delegate
+        //                             {
+        //                                 t.SetForbidden(true, false);
+        //                                 Job job = new Job(TorannMagicDefOf.JobDriver_EnchantItem, t);
+        //                                 job.count = 1;
+        //                                 pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+        //                             }, MenuOptionPriority.High, null, null, 0f, null, null), pawn, t, "ReservedBy"));
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
-                    }
-                    foreach (Thing current in c.GetThingList(pawn.Map))
-                    {
-                        Thing t = current;
-                        if (t != null && t.def.EverHaulable && t.def.defName.ToString().Contains("TM_EStone_"))
-                        {
-                            if (!pawn.CanReach(t, PathEndMode.ClosestTouch, Danger.Deadly, false, false, TraverseMode.ByPawn))
-                            {
-                                opts.Add(new FloatMenuOption("CannotPickUp".Translate(
-                                t.Label
-                                ) + " (" + "NoPath".Translate() + ")", null, MenuOptionPriority.Default, null, null, 0f, null, null));
-                            }
-                            else if (MassUtility.WillBeOverEncumberedAfterPickingUp(pawn, t, 1))
-                            {
-                                opts.Add(new FloatMenuOption("CannotPickUp".Translate(
-                                t.Label
-                                ) + " (" + "TooHeavy".Translate() + ")", null, MenuOptionPriority.Default, null, null, 0f, null, null));
-                            }
-                            else// if (item.stackCount == 1)
-                            {
-                                opts.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("TM_PickupGem".Translate(
-                                t.Label
-                                ), delegate
-                                {
-                                    t.SetForbidden(false, false);
-                                    Job job = new Job(TorannMagicDefOf.JobDriver_AddEnchantingGem, t);
-                                    job.count = 1;
-                                    pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-                                }, MenuOptionPriority.High, null, null, 0f, null, null), pawn, t, "ReservedBy"));
-                            }
-                        }
-                        else if ((current.def.IsApparel || current.def.IsWeapon || current.def.IsRangedWeapon) && comp.enchantingContainer?.Count > 0)
-                        {
-                            if (!pawn.CanReach(t, PathEndMode.ClosestTouch, Danger.Deadly, false, false, TraverseMode.ByPawn))
-                            {
-                                opts.Add(new FloatMenuOption("TM_CannotReach".Translate(
-                                t.Label
-                                ) + " (" + "NoPath".Translate() + ")", null, MenuOptionPriority.Default, null, null, 0f, null, null));
-                            }
-                            else if (pawnComp.Mana.CurLevel < .5f)
-                            {
-                                opts.Add(new FloatMenuOption("TM_NeedManaForEnchant".Translate(
-                                pawnComp.Mana.CurLevel.ToString("0.000")
-                                ), null, MenuOptionPriority.Default, null, null, 0f, null, null));
-                            }
-                            else// if (item.stackCount == 1)
-                            {
-                                if (current.stackCount == 1)
-                                {
-                                    opts.Add(FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption("TM_EnchantItem".Translate(
-                                        t.Label
-                                    ), delegate
-                                    {
-                                        t.SetForbidden(true, false);
-                                        Job job = new Job(TorannMagicDefOf.JobDriver_EnchantItem, t);
-                                        job.count = 1;
-                                        pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
-                                    }, MenuOptionPriority.High, null, null, 0f, null, null), pawn, t, "ReservedBy"));
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        [HarmonyPatch(typeof(FloatMenuMakerMap), "AddJobGiverWorkOrders", null)]
+        [HarmonyPatch(typeof(FloatMenuOptionProvider_WorkGivers), "GetWorkGiversOptionsFor", null)]
         public static class FloatMenuMakerMap_MagicJobGiver_Patch
         {
-            public static void Postfix(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts, bool drafted)
+            public static void Postfix(Pawn pawn, LocalTargetInfo target, FloatMenuContext context, ref IEnumerable<FloatMenuOption> __result)
             {
                 RimWorld.JobGiver_Work jobGiver_Work = pawn.thinker.TryGetMainTreeThinkNode<RimWorld.JobGiver_Work>();
                 if (jobGiver_Work != null)
                 {
-                    foreach (Thing item in pawn.Map.thingGrid.ThingsAt(clickPos.ToIntVec3()))
+                    foreach (Thing item in pawn.Map.thingGrid.ThingsAt(target.Cell))
                     {
                         if (item is Building && (item.def == TorannMagicDefOf.TableArcaneForge))
                         {
@@ -1657,10 +1658,10 @@ namespace TorannMagic
                                 Action action = null;
                                 text = "TM_InsufficientManaForJob".Translate((comp.Mana.CurLevel * 100).ToString("0.##"));
                                 FloatMenuOption menuOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(text, action), pawn, item);
-                                if (!opts.Any((FloatMenuOption op) => op.Label == menuOption.Label))
+                                if (!__result.Any((FloatMenuOption op) => op.Label == menuOption.Label))
                                 {
                                     menuOption.Disabled = true;
-                                    opts.Add(menuOption);
+                                    __result.AddItem(menuOption);
                                 }
                             }
                         }
@@ -1719,15 +1720,12 @@ namespace TorannMagic
             }
         }
         
-        [HarmonyPatch(typeof(QualityUtility), "GenerateQualityCreatedByPawn", null)]
-        [HarmonyPatch(new Type[]
-        {
-            typeof(Pawn),
-            typeof(SkillDef)
-        })]
+        [HarmonyPatch(typeof(QualityUtility), "GenerateQualityCreatedByPawn", 
+            new[] { typeof(Pawn), typeof(SkillDef), typeof(bool) })]
         public static class ArcaneForge_Quality_Patch
         {
-            public static void Postfix(Pawn pawn, SkillDef relevantSkill, ref QualityCategory __result)
+            public static void Postfix(Pawn pawn, SkillDef relevantSkill, bool consumeInspiration, 
+                ref QualityCategory __result)
             {
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
                 if (comp != null && comp.IsMagicUser && pawn.story.traits != null && !pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless) && comp.ArcaneForging)
@@ -2087,34 +2085,46 @@ namespace TorannMagic
             }
         }
 
-        [HarmonyPatch(typeof(FloatMenuMakerMap), "ChoicesAtFor", null), HarmonyPriority(100)]
+        [HarmonyPatch(typeof(FloatMenuOptionProvider), "GetOptionsFor", new[] { typeof(Pawn), typeof(FloatMenuContext) })]
+        [HarmonyPriority(100)]
         public static class FloatMenuMakerMap_ROMV_Undead_Patch
         {
-            public static void Postfix(Vector3 clickPos, Pawn pawn, ref List<FloatMenuOption> __result)
+            public static void Postfix( Pawn clickedPawn, 
+                FloatMenuContext context, 
+                ref IEnumerable<FloatMenuOption> __result)
             {
-                IntVec3 c = IntVec3.FromVector3(clickPos);
-                Pawn target = c.GetFirstPawn(pawn.Map);
+                // Materialize __result to a list, which we can edit
+                var options = new List<FloatMenuOption>(__result);
+
+                // Get the pawn at the context's ClickedCell
+                Pawn target = context.ClickedCell.GetFirstPawn(context.map);
+
                 if (target != null)
                 {
-                    if ((target.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadHD")) ||
-                         target.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadAnimalHD")) ||
-                         target.health.hediffSet.HasHediff(HediffDef.Named("TM_LichHD"))))
+                    if (target.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadHD")) ||
+                        target.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadAnimalHD")) ||
+                        target.health.hediffSet.HasHediff(HediffDef.Named("TM_LichHD")))
                     {
-                        for (int i = 0; i < __result.Count(); i++)
+                        string name = target.LabelShort;
+                        for (int i = options.Count - 1; i >= 0; i--)
                         {
-                            string name = target.LabelShort;
-                            if (__result[i].Label.Contains("Feed on") || __result[i].Label.Contains("Sip") ||
-                                __result[i].Label.Contains("Embrace") ||
-                                __result[i].Label.Contains("Give vampirism") ||
-                                __result[i].Label.Contains("Create Ghoul") ||
-                                __result[i].Label.Contains("Give vitae") || __result[i].Label ==
-                                "Embrace " + name + " (Give vampirism)")
+                            var label = options[i].Label;
+                            if (label.Contains("Feed on") ||
+                                label.Contains("Sip") ||
+                                label.Contains("Embrace") ||
+                                label.Contains("Give vampirism") ||
+                                label.Contains("Create Ghoul") ||
+                                label.Contains("Give vitae") ||
+                                label == "Embrace " + name + " (Give vampirism)")
                             {
-                                __result.Remove(__result[i]);
+                                options.RemoveAt(i);
                             }
                         }
                     }
                 }
+
+                // Assign the modified list back
+                __result = options;
             }
         }
         
