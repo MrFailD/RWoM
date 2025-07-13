@@ -42,16 +42,8 @@ namespace TorannMagic
         public TorannMagicMod(ModContentPack content) : base(content)
         {
             var harmonyInstance = new Harmony("rimworld.torann.tmagic");
-            // Harmony.DEBUG = true;
-            PatchMethod(harmonyInstance, AccessTools.Method(typeof(Pawn), "CanTakeOrder"),
-                new HarmonyMethod(patchType, nameof(GolemOrders_Patch)), null,
-                 null, null,
-                "Pawn_CanTakeOrder");
-            PatchMethod(harmonyInstance, AccessTools.Method(typeof(Pawn), "AddUndraftedOrders"),
-                new HarmonyMethod(patchType, nameof(GolemUndraftedOrder_Patch)), null,
-                 null, null,
-                "Pawn_AddUndraftedOrders");
-            
+            Harmony.DEBUG = true;
+
             PatchMethod(harmonyInstance, AccessTools.Method(typeof(IncidentWorker_SelfTame), "Candidates"),
                 null,
                 new HarmonyMethod(patchType, nameof(SelfTame_Candidates_Patch)), null, null,
@@ -85,6 +77,7 @@ namespace TorannMagic
                 new HarmonyMethod(patchType, nameof(AutoUndrafter_Undead_Prefix)), null, null, null,
                 "AutoUndrafter_ShouldAutoUndraft");
 
+            //todo: fix this
             // PatchMethod(harmonyInstance, AccessTools.Method(typeof(FloatMenuMakerMap), "AddHumanlikeOrders"),
             //     null,
             //     new HarmonyMethod(patchType, nameof(AddHumanLikeOrders_RestrictEquipmentPatch)), null, null,
@@ -774,7 +767,7 @@ namespace TorannMagic
             }
         }
 
-        [HarmonyPatch(typeof(Pawn_IdeoTracker), "IdeoTrackerTick", null)]
+        [HarmonyPatch(typeof(Pawn_IdeoTracker), "IdeoTrackerTickInterval", null)]
         public class NoIdeoForSpirits_Patch
         {
             private static bool Prefix(Pawn_IdeoTracker __instance, Pawn ___pawn)
@@ -1706,18 +1699,13 @@ namespace TorannMagic
             }
         }
 
-        [HarmonyPatch(typeof(Caravan_PathFollower), "CostToMove", new Type[]
-        {
-            typeof(Caravan),
-            typeof(int),
-            typeof(int),
-            typeof(int?)
-        })]
+        [HarmonyPatch(typeof(Caravan_PathFollower), "CostToMove",
+            new Type[] { typeof(Caravan), typeof(PlanetTile), typeof(PlanetTile), typeof(int?) })]
         public static class CostToMove_Caravan_Patch
         {
             [HarmonyPostfix]
             public static void CostToMove_Caravan_Postfix(Caravan_PathFollower __instance, Caravan caravan,
-                int start, int end, ref int __result, int? ticksAbs = default(int?))
+                PlanetTile start, PlanetTile end, int? ticksAbs, ref int __result)
             {
                 if (caravan != null)
                 {
@@ -2362,19 +2350,17 @@ namespace TorannMagic
             }
         }
 
-        [HarmonyPatch(typeof(FloatMenuMakerMap), "AddJobGiverWorkOrders", null)]
+        [HarmonyPatch(typeof(FloatMenuOptionProvider_WorkGivers), "GetWorkGiversOptionsFor")]
         public class SkipPolymorph_UndraftedOrders_Patch
         {
-            public static bool Prefix(Vector3 clickPos, Pawn pawn, List<FloatMenuOption> opts, bool drafted)
+            static bool Prefix(Pawn pawn, LocalTargetInfo target, FloatMenuContext context, ref IEnumerable<FloatMenuOption> __result)
             {
-                if ((pawn.GetComp<CompPolymorph>() != null &&
-                     pawn.GetComp<CompPolymorph>().Original != null) ||
-                    pawn.def == TorannMagicDefOf.TM_SpiritTD)
+                if (pawn != null && (pawn.GetComp<CompPolymorph>()?.Original != null || pawn.def == TorannMagicDefOf.TM_SpiritTD))
                 {
-                    return false;
+                    __result = Enumerable.Empty<FloatMenuOption>();
+                    return false; 
                 }
-
-                return true;
+                return true; 
             }
         }
 
@@ -5837,11 +5823,10 @@ namespace TorannMagic
             }
         }
 
-        [HarmonyPatch(typeof(FloatMenuMap), "StillValid", null)]
+        [HarmonyPatch(typeof(FloatMenuMap), "StillValid")]
         public static class IncitePassion_MenuValid
         {
-            public static bool Prefix(FloatMenuOption opt, List<FloatMenuOption> curOpts, Pawn forPawn,
-                ref bool __result)
+            public static bool Prefix(FloatMenuOption opt, List<FloatMenuOption> curOpts, ref bool __result)
             {
                 if (opt.orderInPriority == 991)
                 {
