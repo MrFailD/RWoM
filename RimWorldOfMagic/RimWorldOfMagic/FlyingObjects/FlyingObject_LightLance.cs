@@ -50,7 +50,7 @@ namespace TorannMagic
         {
             get
             {
-                int num = Mathf.RoundToInt((this.origin - this.destination).magnitude / (this.speed / 100f));
+                int num = Mathf.RoundToInt((origin - destination).magnitude / (speed / 100f));
                 bool flag = num < 1;
                 if (flag)
                 {
@@ -64,7 +64,7 @@ namespace TorannMagic
         {
             get
             {
-                return new IntVec3(this.destination);
+                return new IntVec3(destination);
             }
         }
 
@@ -72,8 +72,8 @@ namespace TorannMagic
         {
             get
             {
-                Vector3 b = (this.destination - this.origin) * (1f - (float)this.ticksToImpact / (float)this.StartingTicksToImpact);
-                return this.origin + b + Vector3.up * this.def.Altitude;
+                Vector3 b = (destination - origin) * (1f - (float)ticksToImpact / (float)StartingTicksToImpact);
+                return origin + b + Vector3.up * def.Altitude;
             }
         }
 
@@ -81,7 +81,7 @@ namespace TorannMagic
         {
             get
             {
-                return Quaternion.LookRotation(this.destination - this.origin);
+                return Quaternion.LookRotation(destination - origin);
             }
         }
 
@@ -89,28 +89,28 @@ namespace TorannMagic
         {
             get
             {
-                return this.ExactPosition;
+                return ExactPosition;
             }
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<Vector3>(ref this.origin, "origin", default(Vector3), false);
-            Scribe_Values.Look<Vector3>(ref this.destination, "destination", default(Vector3), false);
-            Scribe_Values.Look<int>(ref this.ticksToImpact, "ticksToImpact", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<float>(ref this.radius, "radius", 1.4f, false);
-            Scribe_Values.Look<bool>(ref this.damageLaunched, "damageLaunched", true, false);
-            Scribe_Values.Look<bool>(ref this.explosion, "explosion", false, false);
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<bool>(ref this.impacted, "impacted", false, false);
-            Scribe_Values.Look<bool>(ref this.powered, "powered", false, false);
-            Scribe_References.Look<Thing>(ref this.assignedTarget, "assignedTarget", false);
-            Scribe_References.Look<Pawn>(ref this.pawn, "pawn", false);
+            Scribe_Values.Look<Vector3>(ref origin, "origin", default(Vector3), false);
+            Scribe_Values.Look<Vector3>(ref destination, "destination", default(Vector3), false);
+            Scribe_Values.Look<int>(ref ticksToImpact, "ticksToImpact", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<float>(ref radius, "radius", 1.4f, false);
+            Scribe_Values.Look<bool>(ref damageLaunched, "damageLaunched", true, false);
+            Scribe_Values.Look<bool>(ref explosion, "explosion", false, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<bool>(ref impacted, "impacted", false, false);
+            Scribe_Values.Look<bool>(ref powered, "powered", false, false);
+            Scribe_References.Look<Thing>(ref assignedTarget, "assignedTarget", false);
+            Scribe_References.Look<Pawn>(ref pawn, "pawn", false);
             //Scribe_References.Look<Thing>(ref this.flyingThing, "flyingThing", false);
-            Scribe_Deep.Look<Thing>(ref this.flyingThing, "flyingThing", new object[0]);
+            Scribe_Deep.Look<Thing>(ref flyingThing, "flyingThing", new object[0]);
         }
 
         private void Initialize()
@@ -125,11 +125,11 @@ namespace TorannMagic
                     //verVal = comp.MagicData.MagicPowerSkill_LightLance.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_LightLance_ver").level;
                     pwrVal = TM_Calc.GetSkillPowerLevel(pawn, TorannMagicDefOf.TM_LightLance, true);
                     verVal = TM_Calc.GetSkillVersatilityLevel(pawn, TorannMagicDefOf.TM_LightLance, true);
-                    this.radius += (verVal * .2f);
+                    radius += (verVal * .2f);
                     if (pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_LightCapacitanceHD))
                     {
                         HediffComp_LightCapacitance hd = pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_LightCapacitanceHD).TryGetComp<HediffComp_LightCapacitance>();
-                        this.lightPotency = hd.LightPotency;
+                        lightPotency = hd.LightPotency;
                     }
 
                 }
@@ -148,75 +148,75 @@ namespace TorannMagic
         {
             filteredTargets = new List<Pawn>();
             filteredTargets.Clear();
-            IEnumerable<Pawn> pList = from p in this.Map.mapPawns.AllPawnsSpawned
-                                      where (!p.DestroyedOrNull() && p != pawn && (p.Position - pawn.Position).LengthHorizontal < ((this.destination - this.origin).magnitude * 1.5f))
+            IEnumerable<Pawn> pList = from p in Map.mapPawns.AllPawnsSpawned
+                                      where (!p.DestroyedOrNull() && p != pawn && (p.Position - pawn.Position).LengthHorizontal < ((destination - origin).magnitude * 1.5f))
                                       select p;
             filteredTargets = pList.ToList();
         }
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing, DamageInfo? impactDamage)
         {
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, impactDamage);
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, impactDamage);
         }
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing)
         {
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, null);
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, null);
         }
 
         public void Launch(Thing launcher, Vector3 origin, LocalTargetInfo targ, Thing flyingThing, DamageInfo? newDamageInfo = null)
         {
             bool spawned = flyingThing.Spawned;
-            this.pawn = launcher as Pawn;
+            pawn = launcher as Pawn;
             if (spawned)
             {
                 flyingThing.DeSpawn();
             }
             this.origin = origin;
-            this.impactDamage = newDamageInfo;
-            this.speed = this.def.projectile.speed;
+            impactDamage = newDamageInfo;
+            speed = def.projectile.speed;
             this.flyingThing = flyingThing;
             bool flag = targ.Thing != null;
             if (flag)
             {
-                this.assignedTarget = targ.Thing;
+                assignedTarget = targ.Thing;
             }
-            this.destination = targ.Cell.ToVector3Shifted();
-            this.ticksToImpact = this.StartingTicksToImpact;
-            this.Initialize();
+            destination = targ.Cell.ToVector3Shifted();
+            ticksToImpact = StartingTicksToImpact;
+            Initialize();
         }
 
         protected override void Tick()
         {
             //base.Tick();
             age++;
-            if (this.ticksToImpact >= 0)
+            if (ticksToImpact >= 0)
             {
-                DrawEffects(this.ExactPosition, base.Map);
+                DrawEffects(ExactPosition, Map);
             }
-            if(Find.TickManager.TicksGame % this.scanFrequency == 0)
+            if(Find.TickManager.TicksGame % scanFrequency == 0)
             {
                 DamageScan();
             }
-            this.ticksToImpact--;            
-            base.Position = this.ExactPosition.ToIntVec3();
-            bool flag = !this.ExactPosition.InBoundsWithNullCheck(base.Map);
+            ticksToImpact--;            
+            Position = ExactPosition.ToIntVec3();
+            bool flag = !ExactPosition.InBoundsWithNullCheck(Map);
             if (flag)
             {
-                this.ticksToImpact++;
-                this.Destroy(DestroyMode.Vanish);
+                ticksToImpact++;
+                Destroy(DestroyMode.Vanish);
             }
             else
             {                                           
-                bool flag2 = this.ticksToImpact <= 0 && !impacted;
+                bool flag2 = ticksToImpact <= 0 && !impacted;
                 if (flag2)
                 {
-                    bool flag3 = this.DestinationCell.InBoundsWithNullCheck(base.Map);
+                    bool flag3 = DestinationCell.InBoundsWithNullCheck(Map);
                     if (flag3)
                     {
-                        base.Position = this.DestinationCell;
+                        Position = DestinationCell;
                     }
-                    this.ImpactSomething();
+                    ImpactSomething();
                 }
             }
         }
@@ -232,7 +232,7 @@ namespace TorannMagic
             targets.Clear();
             for (int i = 0; i < num; i++)
             {
-                if ((filteredTargets[i].DrawPos - this.ExactPosition).magnitude < this.radius)
+                if ((filteredTargets[i].DrawPos - ExactPosition).magnitude < radius)
                 {
                     if (!(filteredTargets[i].Faction == Faction.OfPlayer && (filteredTargets[i].DrawPos - origin).magnitude < 2f))
                     {
@@ -244,7 +244,7 @@ namespace TorannMagic
             {
                 for(int k =0; k < targets.Count; k++)
                 {
-                    TM_Action.DamageEntities(targets[k], null, (4 + (.6f*pwrVal)) * arcaneDmg * this.lightPotency, TMDamageDefOf.DamageDefOf.TM_BurningLight, pawn);
+                    TM_Action.DamageEntities(targets[k], null, (4 + (.6f*pwrVal)) * arcaneDmg * lightPotency, TMDamageDefOf.DamageDefOf.TM_BurningLight, pawn);
                 }           
             }
         }
@@ -258,39 +258,39 @@ namespace TorannMagic
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            bool flag = this.flyingThing != null && !this.impacted;
+            bool flag = flyingThing != null && !impacted;
             if (flag)
             {
-                Graphics.DrawMesh(MeshPool.plane10, this.DrawPos, this.ExactRotation, this.flyingThing.def.DrawMatSingle, 0);
-                base.Comps_PostDraw();
+                Graphics.DrawMesh(MeshPool.plane10, DrawPos, ExactRotation, flyingThing.def.DrawMatSingle, 0);
+                Comps_PostDraw();
             }
         }
 
         private void ImpactSomething()
         {
-            bool flag = this.assignedTarget != null;
+            bool flag = assignedTarget != null;
             if (flag)
             {
-                Pawn pawn = this.assignedTarget as Pawn;
-                bool flag2 = pawn != null && pawn.GetPosture() != PawnPosture.Standing && (this.origin - this.destination).MagnitudeHorizontalSquared() >= 20.25f && Rand.Value > 0.2f;
+                Pawn pawn = assignedTarget as Pawn;
+                bool flag2 = pawn != null && pawn.GetPosture() != PawnPosture.Standing && (origin - destination).MagnitudeHorizontalSquared() >= 20.25f && Rand.Value > 0.2f;
                 if (flag2)
                 {
-                    this.Impact(null);
+                    Impact(null);
                 }
                 else
                 {
-                    this.Impact(this.assignedTarget);
+                    Impact(assignedTarget);
                 }
             }
             else
             {
-                this.Impact(null);
+                Impact(null);
             }
         }
 
         protected new void Impact(Thing hitThing)
         {
-            this.Destroy(DestroyMode.Vanish);
+            Destroy(DestroyMode.Vanish);
         }        
     }
 }

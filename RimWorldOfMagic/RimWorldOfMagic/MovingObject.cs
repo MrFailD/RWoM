@@ -11,7 +11,7 @@ namespace TorannMagic
     {
 
         private static readonly Color cleaveColor = new Color(160f, 160f, 160f);
-        private static readonly Material cleavingMat = MaterialPool.MatFrom("Spells/cleave", ShaderDatabase.Transparent, MovingObject.cleaveColor);
+        private static readonly Material cleavingMat = MaterialPool.MatFrom("Spells/cleave", ShaderDatabase.Transparent, cleaveColor);
 
         private bool arg_40_0;
         private bool arg_41_0;
@@ -47,15 +47,15 @@ namespace TorannMagic
 
         public void Launch(Pawn pawn_, Map map_, IntVec3 origin_, IntVec3 target_)
         {
-            this.pawn = pawn_;
+            pawn = pawn_;
             bool spawned = pawn_.Spawned;
             if (spawned)
             {
                 pawn_.DeSpawn();
             }            
-            this.map = map_;
-            this.origin = origin_;
-            this.target = target_;
+            map = map_;
+            origin = origin_;
+            target = target_;
             GenSpawn.Spawn(pawn, origin_, map_);
 
 
@@ -94,9 +94,9 @@ namespace TorannMagic
             {
                 Log.Message("age is " + age + " lastmove: " + lastMove + " moverate: " + moveRate);
 
-                if (!destinationReached && this.age >= lastMove + moveRate)
+                if (!destinationReached && age >= lastMove + moveRate)
                 {
-                    lastMove = this.age;
+                    lastMove = age;
                     XProb(target, pawn);
                     if (target.x == pawn.Position.x)
                     {
@@ -376,7 +376,7 @@ namespace TorannMagic
                 Vector3 s = new Vector3(3f, 3f, 5f);
                 Matrix4x4 matrix = default(Matrix4x4);
                 matrix.SetTRS(vector, Quaternion.AngleAxis(angle, Vector3.up), s);
-                Graphics.DrawMesh(MeshPool.plane10, matrix, MovingObject.cleavingMat, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, cleavingMat, 0);
 
             }
         }
@@ -452,7 +452,7 @@ namespace TorannMagic
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.destinationReached;
+            bool flag = destinationReached;
             if (flag)
             {
                 base.Destroy(mode);

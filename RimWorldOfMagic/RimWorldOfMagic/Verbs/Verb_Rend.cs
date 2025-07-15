@@ -19,16 +19,16 @@ namespace TorannMagic
         //can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -45,25 +45,25 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool flag = false;
-            this.TargetsAoE.Clear();
+            TargetsAoE.Clear();
             //this.UpdateTargets();
-            this.FindTargets();
+            FindTargets();
             MagicPowerSkill ver = base.CasterPawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Rend.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Rend_ver");
-            this.arcaneDmg = base.CasterPawn.GetCompAbilityUserMagic().arcaneDmg;
+            arcaneDmg = base.CasterPawn.GetCompAbilityUserMagic().arcaneDmg;
             verVal = ver.level;
-            bool flag2 = this.UseAbilityProps.AbilityTargetCategory != AbilityTargetCategory.TargetAoE && this.TargetsAoE.Count > 1;
+            bool flag2 = UseAbilityProps.AbilityTargetCategory != AbilityTargetCategory.TargetAoE && TargetsAoE.Count > 1;
             if (flag2)
             {
-                this.TargetsAoE.RemoveRange(0, this.TargetsAoE.Count - 1);
+                TargetsAoE.RemoveRange(0, TargetsAoE.Count - 1);
             }
-            for (int i = 0; i < this.TargetsAoE.Count; i++)
+            for (int i = 0; i < TargetsAoE.Count; i++)
             {
-                Pawn newPawn = this.TargetsAoE[i].Thing as Pawn;
+                Pawn newPawn = TargetsAoE[i].Thing as Pawn;
                 if(newPawn.RaceProps.IsFlesh)
                 {
-                    if (Rand.Chance(TM_Calc.GetSpellSuccessChance(this.CasterPawn, newPawn, true)))
+                    if (Rand.Chance(TM_Calc.GetSpellSuccessChance(CasterPawn, newPawn, true)))
                     {
-                        HealthUtility.AdjustSeverity(newPawn, HediffDef.Named("TM_RendHD"), (3f + (.6f * ver.level)) * this.arcaneDmg);
+                        HealthUtility.AdjustSeverity(newPawn, HediffDef.Named("TM_RendHD"), (3f + (.6f * ver.level)) * arcaneDmg);
                         if (newPawn.Faction != null && !newPawn.Faction.HostileTo(base.CasterPawn.Faction))
                         {
                             newPawn.Faction.TryAffectGoodwillWith(base.CasterPawn.Faction, -20, true, false, null, null);
@@ -84,75 +84,75 @@ namespace TorannMagic
                 }
                 else
                 {
-                    TM_Action.DamageEntities(newPawn, null, (4f), DamageDefOf.Cut, this.CasterPawn);
+                    TM_Action.DamageEntities(newPawn, null, (4f), DamageDefOf.Cut, CasterPawn);
                 }
             }
-            this.PostCastShot(flag, out flag);
+            PostCastShot(flag, out flag);
             return flag;
         }
 
         private void FindTargets()
         {
-            bool flag = this.UseAbilityProps.AbilityTargetCategory == AbilityTargetCategory.TargetAoE;
+            bool flag = UseAbilityProps.AbilityTargetCategory == AbilityTargetCategory.TargetAoE;
             if (flag)
             {
-                bool flag2 = this.UseAbilityProps.TargetAoEProperties == null;
+                bool flag2 = UseAbilityProps.TargetAoEProperties == null;
                 if (flag2)
                 {
                     Log.Error("Tried to Cast AoE-Ability without defining a target class");
                 }
                 List<Thing> list = new List<Thing>();
-                IntVec3 aoeStartPosition = this.caster.PositionHeld;
-                bool flag3 = !this.UseAbilityProps.TargetAoEProperties.startsFromCaster;
+                IntVec3 aoeStartPosition = caster.PositionHeld;
+                bool flag3 = !UseAbilityProps.TargetAoEProperties.startsFromCaster;
                 if (flag3)
                 {
-                    aoeStartPosition = this.currentTarget.Cell;
+                    aoeStartPosition = currentTarget.Cell;
                 }
-                bool flag4 = !this.UseAbilityProps.TargetAoEProperties.friendlyFire;
+                bool flag4 = !UseAbilityProps.TargetAoEProperties.friendlyFire;
                 if (flag4)
                 {
-                    list = (from x in this.caster.Map.listerThings.AllThings
-                            where x.Position.InHorDistOf(aoeStartPosition, (float)this.UseAbilityProps.TargetAoEProperties.range) && this.UseAbilityProps.TargetAoEProperties.targetClass.IsAssignableFrom(x.GetType()) && x.Faction != Faction.OfPlayer
+                    list = (from x in caster.Map.listerThings.AllThings
+                            where x.Position.InHorDistOf(aoeStartPosition, (float)UseAbilityProps.TargetAoEProperties.range) && UseAbilityProps.TargetAoEProperties.targetClass.IsAssignableFrom(x.GetType()) && x.Faction != Faction.OfPlayer
                             select x).ToList<Thing>();
                 }
                 else
                 {
-                    bool flag5 = this.UseAbilityProps.TargetAoEProperties.targetClass == typeof(Plant) || this.UseAbilityProps.TargetAoEProperties.targetClass == typeof(Building);
+                    bool flag5 = UseAbilityProps.TargetAoEProperties.targetClass == typeof(Plant) || UseAbilityProps.TargetAoEProperties.targetClass == typeof(Building);
                     if (flag5)
                     {
-                        list = (from x in this.caster.Map.listerThings.AllThings
-                                where x.Position.InHorDistOf(aoeStartPosition, (float)this.UseAbilityProps.TargetAoEProperties.range) && this.UseAbilityProps.TargetAoEProperties.targetClass.IsAssignableFrom(x.GetType())
+                        list = (from x in caster.Map.listerThings.AllThings
+                                where x.Position.InHorDistOf(aoeStartPosition, (float)UseAbilityProps.TargetAoEProperties.range) && UseAbilityProps.TargetAoEProperties.targetClass.IsAssignableFrom(x.GetType())
                                 select x).ToList<Thing>();
                         foreach (Thing current in list)
                         {
                             LocalTargetInfo item = new LocalTargetInfo(current);
-                            this.TargetsAoE.Add(item);
+                            TargetsAoE.Add(item);
                         }
                         return;
                     }
                     list.Clear();
-                    list = (from x in this.caster.Map.listerThings.AllThings
-                            where x.Position.InHorDistOf(aoeStartPosition, (float)this.UseAbilityProps.TargetAoEProperties.range) && this.UseAbilityProps.TargetAoEProperties.targetClass.IsAssignableFrom(x.GetType()) && (x.HostileTo(Faction.OfPlayer) || this.UseAbilityProps.TargetAoEProperties.friendlyFire)
+                    list = (from x in caster.Map.listerThings.AllThings
+                            where x.Position.InHorDistOf(aoeStartPosition, (float)UseAbilityProps.TargetAoEProperties.range) && UseAbilityProps.TargetAoEProperties.targetClass.IsAssignableFrom(x.GetType()) && (x.HostileTo(Faction.OfPlayer) || UseAbilityProps.TargetAoEProperties.friendlyFire)
                             select x).ToList<Thing>();
                 }
-                int maxTargets = this.UseAbilityProps.abilityDef.MainVerb.TargetAoEProperties.maxTargets;
+                int maxTargets = UseAbilityProps.abilityDef.MainVerb.TargetAoEProperties.maxTargets;
                 List<Thing> list2 = new List<Thing>(list.InRandomOrder(null));
                 int num = 0;
                 while (num < maxTargets && num < list2.Count<Thing>())
                 {
                     TargetInfo targ = new TargetInfo(list2[num]);
-                    bool flag6 = this.UseAbilityProps.targetParams.CanTarget(targ);
+                    bool flag6 = UseAbilityProps.targetParams.CanTarget(targ);
                     if (flag6)
                     {
-                        this.TargetsAoE.Add(new LocalTargetInfo(list2[num]));
+                        TargetsAoE.Add(new LocalTargetInfo(list2[num]));
                     }
                     num++;
                 }
             }
             else
             {
-                this.TargetsAoE.Clear();
-                this.TargetsAoE.Add(this.currentTarget);
+                TargetsAoE.Clear();
+                TargetsAoE.Add(currentTarget);
             }
         }
 

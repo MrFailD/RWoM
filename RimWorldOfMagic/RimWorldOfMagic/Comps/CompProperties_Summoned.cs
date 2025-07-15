@@ -6,7 +6,7 @@ namespace TorannMagic
     {
         public CompProperties_Summoned()
         {
-            this.compClass = typeof(CompSummoned);
+            compClass = typeof(CompSummoned);
         }
     }
 }

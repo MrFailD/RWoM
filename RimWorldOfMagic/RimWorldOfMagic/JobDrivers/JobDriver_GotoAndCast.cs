@@ -24,7 +24,7 @@ namespace TorannMagic
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            if (pawn.Reserve(TargetA, this.job, 1, 1, null, errorOnFailed))
+            if (pawn.Reserve(TargetA, job, 1, 1, null, errorOnFailed))
             {
                 return true;
             }
@@ -51,27 +51,27 @@ namespace TorannMagic
             {
                 if(ability != null)
                 {
-                    this.duration = (int)(ability.Def.MainVerb.warmupTime * 60 * this.pawn.GetStatValue(StatDefOf.AimingDelayFactor, false));
+                    duration = (int)(ability.Def.MainVerb.warmupTime * 60 * pawn.GetStatValue(StatDefOf.AimingDelayFactor, false));
                 }
                 if (age > duration)
                 {
-                    this.EndJobWith(JobCondition.Succeeded);
+                    EndJobWith(JobCondition.Succeeded);
                 }
                 if (targetThing != null && (targetThing.DestroyedOrNull() || targetThing.Map == null))
                 {
-                    this.EndJobWith(JobCondition.Incompletable);
+                    EndJobWith(JobCondition.Incompletable);
                 }
 
                 if (targetThing != null)
                 {
-                    this.pawn.rotationTracker.FaceTarget(targetThing);
+                    pawn.rotationTracker.FaceTarget(targetThing);
                 }
             };
             doSpell.tickAction = delegate
             {
                 if (targetThing != null && (targetThing.DestroyedOrNull() || targetThing.Map == null))
                 {
-                    this.EndJobWith(JobCondition.Incompletable);
+                    EndJobWith(JobCondition.Incompletable);
                 }                
                 age++;
                 ticksLeftThisToil = duration - age;
@@ -82,11 +82,11 @@ namespace TorannMagic
 
                 if (age > duration)
                 {
-                    this.EndJobWith(JobCondition.Succeeded);
+                    EndJobWith(JobCondition.Succeeded);
                 }
             };
             doSpell.defaultCompleteMode = ToilCompleteMode.Never;
-            doSpell.defaultDuration = this.duration;
+            doSpell.defaultDuration = duration;
             doSpell.AddFinishAction(delegate
             {
                 if (ability != null)
@@ -104,7 +104,7 @@ namespace TorannMagic
                     }
                     else if(ability.Def == TorannMagicDefOf.TM_RegrowLimb)
                     {
-                        AbilityUser.SpawnThings tempThing = new SpawnThings();
+                        SpawnThings tempThing = new SpawnThings();
                         tempThing.def = ThingDef.Named("SeedofRegrowth");
                         Verb_RegrowLimb.SingleSpawnLoop(tempThing, TargetA.Cell, pawn.Map);
                     }
@@ -117,7 +117,7 @@ namespace TorannMagic
 
         private void AssignXP()
         {
-            CompAbilityUserMight comp = this.pawn.GetCompAbilityUserMight();
+            CompAbilityUserMight comp = pawn.GetCompAbilityUserMight();
 
             if (comp != null)
             {
@@ -128,13 +128,13 @@ namespace TorannMagic
                     int xpGain = Mathf.RoundToInt(xpBase * comp.xpGain);
                     MoteMaker.ThrowText(pawn.DrawPos, pawn.MapHeld, "XP +" + xpGain, -1f);
                     comp.MightUserXP += xpGain;
-                    if (this.pawn.needs.joy != null)
+                    if (pawn.needs.joy != null)
                     {
-                        this.pawn.needs.joy.GainJoy(.4f, TorannMagicDefOf.Social);
+                        pawn.needs.joy.GainJoy(.4f, TorannMagicDefOf.Social);
                     }
-                    if (this.pawn.skills != null)
+                    if (pawn.skills != null)
                     {
-                        this.pawn.skills.Learn(SkillDefOf.Social, Rand.Range(200f, 500f));
+                        pawn.skills.Learn(SkillDefOf.Social, Rand.Range(200f, 500f));
                     }
                 }
                 catch (NullReferenceException ex)

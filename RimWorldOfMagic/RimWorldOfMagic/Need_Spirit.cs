@@ -41,14 +41,14 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.wasDead, "wasDead", false);
+            Scribe_Values.Look<bool>(ref wasDead, "wasDead", false);
         }
 
         public StaminaPoolCategory CurCategory
         {
             get
             {
-                bool flag = this.CurLevel < 10f;
+                bool flag = CurLevel < 10f;
                 StaminaPoolCategory result;
                 if (flag)
                 {
@@ -56,21 +56,21 @@ namespace TorannMagic
                 }
                 else
                 {
-                    bool flag2 = this.CurLevel < 30f;
+                    bool flag2 = CurLevel < 30f;
                     if (flag2)
                     {
                         result = StaminaPoolCategory.Weakened;
                     }
                     else
                     {
-                        bool flag3 = this.CurLevel < 50f;
+                        bool flag3 = CurLevel < 50f;
                         if (flag3)
                         {
                             result = StaminaPoolCategory.Steady;
                         }
                         else
                         {
-                            bool flag4 = this.CurLevel < 75f;
+                            bool flag4 = CurLevel < 75f;
                             if (flag4)
                             {
                                 result = StaminaPoolCategory.Energetic;
@@ -97,18 +97,18 @@ namespace TorannMagic
             get
             {
                 float maxBase = 100f;
-                if(this.pawn.story != null && this.pawn.story.Adulthood != null && this.pawn.story.Adulthood.identifier == "tm_ancient_spirit")
+                if(pawn.story != null && pawn.story.Adulthood != null && pawn.story.Adulthood.identifier == "tm_ancient_spirit")
                 {
                     maxBase += 50f;
                 }
-                if (this.pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_SpiritPossessorHD))
+                if (pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_SpiritPossessorHD))
                 {
-                    Hediff_Possessor hdp = this.pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_SpiritPossessorHD) as Hediff_Possessor;
+                    Hediff_Possessor hdp = pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_SpiritPossessorHD) as Hediff_Possessor;
                     return maxBase + (hdp.SpiritLevel * 2f) + hdp.MaxLevelBonus;
                 }
-                if(this.pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_SpiritPossessionHD))
+                if(pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_SpiritPossessionHD))
                 {
-                    HediffComp_SpiritPossession hdc = this.pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_SpiritPossessionHD).TryGetComp<HediffComp_SpiritPossession>();
+                    HediffComp_SpiritPossession hdc = pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_SpiritPossessionHD).TryGetComp<HediffComp_SpiritPossession>();
                     return maxBase + (hdc.SpiritLevel * 2f) + hdc.MaxLevelBonus;
                 }
                 return maxBase;
@@ -119,7 +119,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.GainingNeed ? 1 : -1;
+                return GainingNeed ? 1 : -1;
             }
         }
 
@@ -127,7 +127,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.CurLevel;
+                return CurLevel;
             }
         }
 
@@ -135,7 +135,7 @@ namespace TorannMagic
         {
             get
             {
-                return Find.TickManager.TicksGame < this.lastGainTick + 10;
+                return Find.TickManager.TicksGame < lastGainTick + 10;
             }
         }
 
@@ -145,65 +145,65 @@ namespace TorannMagic
 
         public Need_Spirit(Pawn pawn) : base(pawn)
 		    {
-            this.lastGainTick = -999;
-            this.threshPercents = new List<float>();
-            this.threshPercents.Add((25f / this.MaxLevel));
-            this.threshPercents.Add((50f / this.MaxLevel));
-            this.threshPercents.Add((75f / this.MaxLevel));
+            lastGainTick = -999;
+            threshPercents = new List<float>();
+            threshPercents.Add((25f / MaxLevel));
+            threshPercents.Add((50f / MaxLevel));
+            threshPercents.Add((75f / MaxLevel));
         }
 
         private void AdjustThresh()
         {
-            this.threshPercents.Clear();
-            this.threshPercents.Add((25f / this.MaxLevel));
-            this.threshPercents.Add((50f / this.MaxLevel));
-            this.threshPercents.Add((75f / this.MaxLevel));
-            if (this.MaxLevel > 100)
+            threshPercents.Clear();
+            threshPercents.Add((25f / MaxLevel));
+            threshPercents.Add((50f / MaxLevel));
+            threshPercents.Add((75f / MaxLevel));
+            if (MaxLevel > 100)
             {
-                this.threshPercents.Add((100f / this.MaxLevel));
+                threshPercents.Add((100f / MaxLevel));
             }
-            if (this.MaxLevel > 125f)
+            if (MaxLevel > 125f)
             {
-                this.threshPercents.Add((125f / this.MaxLevel));
+                threshPercents.Add((125f / MaxLevel));
             }
-            if (this.MaxLevel > 150f)
+            if (MaxLevel > 150f)
             {
-                this.threshPercents.Add((150f / this.MaxLevel));
+                threshPercents.Add((150f / MaxLevel));
             }
-            if (this.MaxLevel > 175f)
+            if (MaxLevel > 175f)
             {
-                this.threshPercents.Add((175f / this.MaxLevel));
+                threshPercents.Add((175f / MaxLevel));
             }
-            if (this.MaxLevel > 200f)
+            if (MaxLevel > 200f)
             {
-                this.threshPercents.Add((200f / this.MaxLevel));
+                threshPercents.Add((200f / MaxLevel));
             }
-            if (this.MaxLevel > 250f)
+            if (MaxLevel > 250f)
             {
-                this.threshPercents.Add((250f / this.MaxLevel));
+                threshPercents.Add((250f / MaxLevel));
             }
-            if (this.MaxLevel > 300f)
+            if (MaxLevel > 300f)
             {
-                this.threshPercents.Add((300f / this.MaxLevel));
+                threshPercents.Add((300f / MaxLevel));
             }
-            if (this.MaxLevel > 400f)
+            if (MaxLevel > 400f)
             {
-                this.threshPercents.Add((400f / this.MaxLevel));
+                threshPercents.Add((400f / MaxLevel));
             }
-            if (this.MaxLevel > 500f)
+            if (MaxLevel > 500f)
             {
-                this.threshPercents.Add((500f / this.MaxLevel));
+                threshPercents.Add((500f / MaxLevel));
             }
         }
 
         public override void SetInitialLevel()
         {
-            this.CurLevel = InitSpiritLevel;           
+            CurLevel = InitSpiritLevel;           
         }
 
         public void GainNeed(float amount)
         {            
-            Pawn pawn = base.pawn;                
+            Pawn pawn = this.pawn;                
             
             CompAbilityUserMagic comp = this.pawn.GetCompAbilityUserMagic();
             float eff = 1f;
@@ -211,12 +211,12 @@ namespace TorannMagic
             {
                 eff = (1f + (.1f * comp.MagicData.GetSkill_Efficiency(TorannMagicDefOf.TM_SpiritDrain).level));
             }
-            this.baseSpiritGain = amount;                         
-            this.modifiedSpiritGain = (amount * eff) - this.baseSpiritGain;
-            amount = Mathf.Min(amount * eff, this.MaxLevel - this.CurLevel);
-            this.CurLevel += amount;
-            this.lastGainPct = amount/this.MaxLevel;
-            this.lastGainTick = Find.TickManager.TicksGame;             
+            baseSpiritGain = amount;                         
+            modifiedSpiritGain = (amount * eff) - baseSpiritGain;
+            amount = Mathf.Min(amount * eff, MaxLevel - CurLevel);
+            CurLevel += amount;
+            lastGainPct = amount/MaxLevel;
+            lastGainTick = Find.TickManager.TicksGame;             
             
             if(amount > 0)
             {
@@ -253,16 +253,16 @@ namespace TorannMagic
                 }
             }
             AdjustThresh();
-            if(this.CurLevel < 25f && !TM_Calc.IsSpirit(this.pawn))
+            if(CurLevel < 25f && !TM_Calc.IsSpirit(this.pawn))
             {
                 HealthUtility.AdjustSeverity(this.pawn, TorannMagicDefOf.TM_SpiritDrainHD, .01f);
                 Hediff sd = this.pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_SpiritDrainHD);
                 if(!(sd != null && sd.Severity >= .95f))
                 {
-                    this.CurLevel += .03f;
+                    CurLevel += .03f;
                 }
             }
-            if(this.CurLevel <= 0)
+            if(CurLevel <= 0)
             {
                 if(TM_Calc.IsSpirit(this.pawn))
                 {
@@ -278,7 +278,7 @@ namespace TorannMagic
 
         public void UseMightPower(float amount)
         {
-            this.curLevelInt = Mathf.Clamp(this.curLevelInt - amount, 0f, this.pawn.GetCompAbilityUserMight().maxSP); //change for max sp
+            curLevelInt = Mathf.Clamp(curLevelInt - amount, 0f, pawn.GetCompAbilityUserMight().maxSP); //change for max sp
         }
 
         public override void NeedInterval()
@@ -294,11 +294,11 @@ namespace TorannMagic
             //        wasDead = true;
             //    }
             //}
-            if (this.pawn.RaceProps.Animal || TM_Calc.IsSpirit(this.pawn) || this.wasDead)
+            if (pawn.RaceProps.Animal || TM_Calc.IsSpirit(pawn) || wasDead)
             {
                 lossModifier = 2f;
             }
-            this.GainNeed(Rand.Range(-0.015f, -0.04f) * lossModifier);
+            GainNeed(Rand.Range(-0.015f, -0.04f) * lossModifier);
         }
 
         public override string GetTipString()
@@ -306,11 +306,11 @@ namespace TorannMagic
             //return base.GetTipString();
             return string.Concat(new string[]
             {
-                this.LabelCap,
+                LabelCap,
                 ": ",
-                (this.CurLevel).ToString("n2"),
+                (CurLevel).ToString("n2"),
                 "\n",
-                this.def.description
+                def.description
             });
         }
 
@@ -342,30 +342,30 @@ namespace TorannMagic
             Text.Font = ((rect.height <= 55f) ? GameFont.Tiny : GameFont.Small);
             Text.Anchor = TextAnchor.LowerLeft;
             Rect _rect2 = new Rect(rect.x + num3 + rect.width * 0.1f, rect.y, rect.width - num3 - rect.width * 0.1f, rect.height / 2f);
-            Widgets.Label(_rect2, base.LabelCap);
+            Widgets.Label(_rect2, LabelCap);
             GUI.color = Color.grey;
             Text.Anchor = TextAnchor.UpperLeft;
             Rect rect3 = new Rect(rect.x, rect.y + rect.height / 2f, rect.width, rect.height / 2f);
             rect3 = new Rect(rect3.x + num3, rect3.y, rect3.width - num3 * 2f, rect3.height - num2);
-            Widgets.FillableBar(rect3, base.CurLevelPercentage);
-            bool flag4 = this.threshPercents != null;
+            Widgets.FillableBar(rect3, CurLevelPercentage);
+            bool flag4 = threshPercents != null;
             if (flag4)
             {
-                for (int i = 0; i < this.threshPercents.Count; i++)
+                for (int i = 0; i < threshPercents.Count; i++)
                 {
-                    this.DrawBarThreshold(rect3, this.threshPercents[i]);
+                    DrawBarThreshold(rect3, threshPercents[i]);
                 }
             }
-            float curInstantLevelPercentage = Mathf.Clamp(this.CurLevel / this.MaxLevel, 0f, 1f);
+            float curInstantLevelPercentage = Mathf.Clamp(CurLevel / MaxLevel, 0f, 1f);
             bool flag5 = curInstantLevelPercentage >= 0f;
             if (flag5)
             {
-                base.DrawBarInstantMarkerAt(rect3, curInstantLevelPercentage);
+                DrawBarInstantMarkerAt(rect3, curInstantLevelPercentage);
             }
-            bool flag6 = !this.def.tutorHighlightTag.NullOrEmpty();
+            bool flag6 = !def.tutorHighlightTag.NullOrEmpty();
             if (flag6)
             {
-                UIHighlighter.HighlightOpportunity(rect, this.def.tutorHighlightTag);
+                UIHighlighter.HighlightOpportunity(rect, def.tutorHighlightTag);
             }
             Text.Font = GameFont.Small;
         }
@@ -374,7 +374,7 @@ namespace TorannMagic
         {
             float num = (float)((barRect.width <= 60f) ? 1 : 2);
             Rect position = new Rect(barRect.x + barRect.width * threshPct - (num - 1f), barRect.y + barRect.height / 2f, num, barRect.height / 2f);
-            bool flag = threshPct < base.CurLevelPercentage;
+            bool flag = threshPct < CurLevelPercentage;
             Texture2D image;
             if (flag)
             {

@@ -29,11 +29,11 @@ namespace TorannMagic
         {
             get
             {
-                return this.pwrVal;
+                return pwrVal;
             }
             set
             {
-                this.pwrVal = value;
+                pwrVal = value;
             }
         }
 
@@ -41,11 +41,11 @@ namespace TorannMagic
         {
             get
             {
-                return this.effVal;
+                return effVal;
             }
             set
             {
-                this.effVal = value;
+                effVal = value;
             }
         }
 
@@ -53,11 +53,11 @@ namespace TorannMagic
         {
             get
             {
-                return this.verVal;
+                return verVal;
             }
             set
             {
-                this.verVal = value;
+                verVal = value;
             }
         }
 
@@ -65,7 +65,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -73,62 +73,62 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             
             if (spawned)
             {
-                this.parent.Severity = 90f;
-                FleckMaker.ThrowLightningGlow(base.Pawn.TrueCenter(), base.Pawn.Map, 1f);
+                parent.Severity = 90f;
+                FleckMaker.ThrowLightningGlow(Pawn.TrueCenter(), Pawn.Map, 1f);
                 DetermineHDRank();
             }
         }
 
         private void DetermineHDRank()
         {
-            CompAbilityUserMagic comp = this.Pawn.GetCompAbilityUserMagic();
-            this.PwrVal = comp.MagicData.MagicPowerSkill_TechnoBit.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_TechnoBit_pwr").level;
-            this.EffVal = comp.MagicData.MagicPowerSkill_TechnoBit.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_TechnoBit_eff").level;
-            this.VerVal = comp.MagicData.MagicPowerSkill_TechnoBit.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_TechnoBit_ver").level;
+            CompAbilityUserMagic comp = Pawn.GetCompAbilityUserMagic();
+            PwrVal = comp.MagicData.MagicPowerSkill_TechnoBit.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_TechnoBit_pwr").level;
+            EffVal = comp.MagicData.MagicPowerSkill_TechnoBit.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_TechnoBit_eff").level;
+            VerVal = comp.MagicData.MagicPowerSkill_TechnoBit.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_TechnoBit_ver").level;
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
-            if (this.Pawn.Spawned && !this.Pawn.Dead && !this.Pawn.Downed)
+            if (Pawn.Spawned && !Pawn.Dead && !Pawn.Downed)
             {
                 base.CompPostTick(ref severityAdjustment);
-                if (base.Pawn != null & base.parent != null)
+                if (Pawn != null & parent != null)
                 {
                     if (!initialized)
                     {
                         initialized = true;
-                        this.Initialize();
+                        Initialize();
                     }
                 }
 
-                CompAbilityUserMagic comp = this.Pawn.GetCompAbilityUserMagic();
+                CompAbilityUserMagic comp = Pawn.GetCompAbilityUserMagic();
 
-                if (this.ticksBitWorking > 0 && this.nextBitEffect < Find.TickManager.TicksGame && this.moteLoc != Vector3.zero)
+                if (ticksBitWorking > 0 && nextBitEffect < Find.TickManager.TicksGame && moteLoc != Vector3.zero)
                 {
-                    Vector3 rndVec = this.moteLoc;
+                    Vector3 rndVec = moteLoc;
                     rndVec.x += Rand.Range(-.15f, .15f);
                     rndVec.z += Rand.Range(-.15f, .15f);
-                    TM_MoteMaker.ThrowGenericFleck(TorannMagicDefOf.SparkFlash, rndVec, this.Pawn.Map, Rand.Range(.9f, 1.5f), .05f, 0f, .1f, 0, 0f, 0f, 0f);
-                    rndVec = this.moteLoc;
+                    TM_MoteMaker.ThrowGenericFleck(TorannMagicDefOf.SparkFlash, rndVec, Pawn.Map, Rand.Range(.9f, 1.5f), .05f, 0f, .1f, 0, 0f, 0f, 0f);
+                    rndVec = moteLoc;
                     rndVec.x += Rand.Range(-.15f, .15f);
                     rndVec.z += Rand.Range(-.15f, .15f);
-                    TM_MoteMaker.ThrowGenericFleck(TorannMagicDefOf.SparkFlash, rndVec, this.Pawn.Map, Rand.Range(.6f, 1.1f), .05f, 0f, .1f, 0, 0f, 0f, 0f);
-                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Enchanting, comp.bitPosition, this.Pawn.Map, Rand.Range(0.35f, 0.43f), .2f, .05f, Rand.Range(.4f, .6f), Rand.Range(-200, 200), 0, 0, 0);
-                    this.ticksBitWorking--;
-                    this.nextBitEffect = Find.TickManager.TicksGame + Rand.Range(6, 10);
-                    if(this.ticksBitWorking == 0)
+                    TM_MoteMaker.ThrowGenericFleck(TorannMagicDefOf.SparkFlash, rndVec, Pawn.Map, Rand.Range(.6f, 1.1f), .05f, 0f, .1f, 0, 0f, 0f, 0f);
+                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Enchanting, comp.bitPosition, Pawn.Map, Rand.Range(0.35f, 0.43f), .2f, .05f, Rand.Range(.4f, .6f), Rand.Range(-200, 200), 0, 0, 0);
+                    ticksBitWorking--;
+                    nextBitEffect = Find.TickManager.TicksGame + Rand.Range(6, 10);
+                    if(ticksBitWorking == 0)
                     {
-                        this.moteLoc = Vector3.zero;
+                        moteLoc = Vector3.zero;
                     }
                 }
 
@@ -138,27 +138,27 @@ namespace TorannMagic
                     {
                         DetermineHDRank();
                     }
-                    if (Find.TickManager.TicksGame % 600 == 0 && !this.Pawn.Drafted)
+                    if (Find.TickManager.TicksGame % 600 == 0 && !Pawn.Drafted)
                     {
-                        if (comp.Mana.CurLevelPercentage >= .9f && comp.Mana.CurLevel >= (.06f - (.001f * this.VerVal)) && this.Pawn.CurJob.targetA.Thing != null)
+                        if (comp.Mana.CurLevelPercentage >= .9f && comp.Mana.CurLevel >= (.06f - (.001f * VerVal)) && Pawn.CurJob.targetA.Thing != null)
                         {                                                       
-                            if (this.Pawn.CurJob.targetA.Thing != null)
+                            if (Pawn.CurJob.targetA.Thing != null)
                             {
-                                if((this.Pawn.Position - this.Pawn.CurJob.targetA.Thing.Position).LengthHorizontal < 2 && (this.Pawn.CurJob.bill != null || this.Pawn.CurJob.def.defName == "FinishFrame" || this.Pawn.CurJob.def.defName == "Deconstruct" || this.Pawn.CurJob.def.defName == "Repair" || this.Pawn.CurJob.def.defName == "Mine" || this.Pawn.CurJob.def.defName == "SmoothFloor" || this.Pawn.CurJob.def.defName == "SmoothWall"))
+                                if((Pawn.Position - Pawn.CurJob.targetA.Thing.Position).LengthHorizontal < 2 && (Pawn.CurJob.bill != null || Pawn.CurJob.def.defName == "FinishFrame" || Pawn.CurJob.def.defName == "Deconstruct" || Pawn.CurJob.def.defName == "Repair" || Pawn.CurJob.def.defName == "Mine" || Pawn.CurJob.def.defName == "SmoothFloor" || Pawn.CurJob.def.defName == "SmoothWall"))
                                 {
-                                    comp.Mana.CurLevel -= (.05f - (.001f * this.VerVal));
-                                    HealthUtility.AdjustSeverity(this.Pawn, HediffDef.Named("TM_BitAssistHD"), .5f + 1f * this.VerVal);                                                                      
+                                    comp.Mana.CurLevel -= (.05f - (.001f * VerVal));
+                                    HealthUtility.AdjustSeverity(Pawn, HediffDef.Named("TM_BitAssistHD"), .5f + 1f * VerVal);                                                                      
                                     comp.MagicUserXP += Rand.Range(6, 8);
-                                    this.ticksBitWorking = 8;
-                                    this.moteLoc = this.Pawn.CurJob.targetA.Thing.DrawPos;
+                                    ticksBitWorking = 8;
+                                    moteLoc = Pawn.CurJob.targetA.Thing.DrawPos;
                                 }
                             }
                         }
                     }
 
-                    if(comp.useTechnoBitRepairToggle && Find.TickManager.TicksGame % (160 - 3 * EffVal) == 0 && this.Pawn.Drafted && comp.Mana.CurLevel >= (.03f - .0006f * EffVal))
+                    if(comp.useTechnoBitRepairToggle && Find.TickManager.TicksGame % (160 - 3 * EffVal) == 0 && Pawn.Drafted && comp.Mana.CurLevel >= (.03f - .0006f * EffVal))
                     {
-                        Thing damagedThing = TM_Calc.FindNearbyDamagedThing(this.Pawn, Mathf.RoundToInt(5 + .33f * EffVal));
+                        Thing damagedThing = TM_Calc.FindNearbyDamagedThing(Pawn, Mathf.RoundToInt(5 + .33f * EffVal));
                         if (damagedThing != null)
                         {
                             Building repairBuilding = damagedThing as Building;
@@ -167,53 +167,53 @@ namespace TorannMagic
                                 repairBuilding.HitPoints = Mathf.Min(Mathf.RoundToInt(repairBuilding.HitPoints + (Rand.Range(8, 12) + (.5f * EffVal))), repairBuilding.MaxHitPoints);
                                 comp.Mana.CurLevel -= (.03f - .0006f * EffVal);
                                 comp.MagicUserXP += Rand.Range(4, 5);
-                                this.ticksBitWorking = 8;
-                                this.moteLoc = repairBuilding.DrawPos;
+                                ticksBitWorking = 8;
+                                moteLoc = repairBuilding.DrawPos;
                             }
                             Pawn damagedRobot = damagedThing as Pawn;
                             if (damagedRobot != null)
                             {
-                                TM_Action.DoAction_HealPawn(this.Pawn, damagedRobot, 1, (4 + .4f * EffVal));
+                                TM_Action.DoAction_HealPawn(Pawn, damagedRobot, 1, (4 + .4f * EffVal));
                                 comp.Mana.CurLevel -= (.03f - .0006f * EffVal);
                                 comp.MagicUserXP += Rand.Range(4, 6);
-                                this.ticksBitWorking = 5;
-                                this.moteLoc = damagedRobot.DrawPos;
+                                ticksBitWorking = 5;
+                                moteLoc = damagedRobot.DrawPos;
                             }
                         }
                     }
 
-                    if (comp.useTechnoBitRepairToggle && Find.TickManager.TicksGame % (600 - 6 * EffVal) == 0 && !this.Pawn.Drafted && comp.Mana.CurLevel >= .05f)
+                    if (comp.useTechnoBitRepairToggle && Find.TickManager.TicksGame % (600 - 6 * EffVal) == 0 && !Pawn.Drafted && comp.Mana.CurLevel >= .05f)
                     {
-                        Thing damagedThing = TM_Calc.FindNearbyDamagedThing(this.Pawn, Mathf.RoundToInt(10 + .5f * EffVal));
+                        Thing damagedThing = TM_Calc.FindNearbyDamagedThing(Pawn, Mathf.RoundToInt(10 + .5f * EffVal));
                         Building repairBuilding = damagedThing as Building;
                         if (repairBuilding != null)
                         {
                             repairBuilding.HitPoints = Mathf.Min(repairBuilding.HitPoints + (25 + (2*EffVal)), repairBuilding.MaxHitPoints);
                             comp.Mana.CurLevel -= (.05f - .0008f * EffVal);
                             comp.MagicUserXP += Rand.Range(9, 11);
-                            this.ticksBitWorking = 8;
-                            this.moteLoc = repairBuilding.DrawPos;
+                            ticksBitWorking = 8;
+                            moteLoc = repairBuilding.DrawPos;
                         }
                         Pawn damagedRobot = damagedThing as Pawn;
                         if (damagedRobot != null)
                         {
-                            TM_Action.DoAction_HealPawn(this.Pawn, damagedRobot, 2, (8+.4f * EffVal));
+                            TM_Action.DoAction_HealPawn(Pawn, damagedRobot, 2, (8+.4f * EffVal));
                             comp.Mana.CurLevel -= (.05f - .0008f * EffVal);
                             comp.MagicUserXP += Rand.Range(9, 11);
-                            this.ticksBitWorking = 5;
-                            this.moteLoc = damagedRobot.DrawPos;
+                            ticksBitWorking = 5;
+                            moteLoc = damagedRobot.DrawPos;
                         }
                     }
 
-                    if (comp.Mana.CurLevel >= .1f && (this.Pawn.Drafted || !this.Pawn.IsColonist))
+                    if (comp.Mana.CurLevel >= .1f && (Pawn.Drafted || !Pawn.IsColonist))
                     {
-                        if (this.Pawn.TargetCurrentlyAimingAt != null && (this.Pawn.CurJob.def.defName == "AttackStatic" || this.Pawn.CurJob.def.defName == "Wait_Combat") && this.nextBitGrenade < Find.TickManager.TicksGame) 
+                        if (Pawn.TargetCurrentlyAimingAt != null && (Pawn.CurJob.def.defName == "AttackStatic" || Pawn.CurJob.def.defName == "Wait_Combat") && nextBitGrenade < Find.TickManager.TicksGame) 
                         {
-                            float maxRange = 25 + this.PwrVal;
-                            Thing targetThing = this.Pawn.TargetCurrentlyAimingAt.Thing;
-                            float targetDistance = (this.Pawn.Position - targetThing.Position).LengthHorizontal;
+                            float maxRange = 25 + PwrVal;
+                            Thing targetThing = Pawn.TargetCurrentlyAimingAt.Thing;
+                            float targetDistance = (Pawn.Position - targetThing.Position).LengthHorizontal;
                             float acc = 15f + (PwrVal / 3f);
-                            if (TM_Calc.HasLoSFromTo(this.Pawn.Position, this.Pawn.TargetCurrentlyAimingAt.Thing, this.Pawn as Thing, 2f, maxRange) && targetThing.Map != null && this.bitGrenadeCount > 0)
+                            if (TM_Calc.HasLoSFromTo(Pawn.Position, Pawn.TargetCurrentlyAimingAt.Thing, Pawn as Thing, 2f, maxRange) && targetThing.Map != null && bitGrenadeCount > 0)
                             {                              
                                 IntVec3 rndTargetCell = targetThing.Position;
                                 rndTargetCell.x += Mathf.RoundToInt(Rand.Range(-targetDistance / acc, targetDistance / acc)); //grenades were 8
@@ -253,36 +253,36 @@ namespace TorannMagic
                                 //    projectile.def.projectile.explosionDelay = Rand.Range(80, 120) - (4 * PwrVal);
                                 //    projectile.Launch(this.Pawn, comp.bitPosition, ltiTarget, targetThing, ProjectileHitFlags.All, null, null);
                                 //}
-                                Projectile p = (Projectile)(GenSpawn.Spawn(ThingDef.Named("Projectile_TM_BitTechLaser"), this.Pawn.Position, this.Pawn.Map, WipeMode.Vanish));
+                                Projectile p = (Projectile)(GenSpawn.Spawn(ThingDef.Named("Projectile_TM_BitTechLaser"), Pawn.Position, Pawn.Map, WipeMode.Vanish));
                                 //float launchAngle = (Quaternion.AngleAxis(90, Vector3.up) * TM_Calc.GetVector(this.Pawn.Position, ltiTarget.Cell)).ToAngleFlat();
                                 
-                                SoundInfo info = SoundInfo.InMap(new TargetInfo(this.Pawn.Position, this.Pawn.Map, false), MaintenanceType.None);
+                                SoundInfo info = SoundInfo.InMap(new TargetInfo(Pawn.Position, Pawn.Map, false), MaintenanceType.None);
                                 info.pitchFactor = 1.5f;
                                 info.volumeFactor = .9f;
                                 SoundDef.Named("Shot_ChargeBlaster").PlayOneShot(info);
                                 
                                 if (rndTargetCell == targetThing.Position)
                                 {
-                                    p.Launch(this.Pawn, comp.bitPosition, targetThing, targetThing, ProjectileHitFlags.IntendedTarget, false, null, null);
+                                    p.Launch(Pawn, comp.bitPosition, targetThing, targetThing, ProjectileHitFlags.IntendedTarget, false, null, null);
                                 }
                                 else
                                 {
-                                    p.Launch(this.Pawn, comp.bitPosition, ltiTarget, targetThing, ProjectileHitFlags.All, false, null, null);
+                                    p.Launch(Pawn, comp.bitPosition, ltiTarget, targetThing, ProjectileHitFlags.All, false, null, null);
                                 }
-                                this.nextBitGrenade = 3 + Find.TickManager.TicksGame;
-                                this.bitGrenadeCount--;
-                                if (this.bitGrenadeCount == 0)
+                                nextBitGrenade = 3 + Find.TickManager.TicksGame;
+                                bitGrenadeCount--;
+                                if (bitGrenadeCount == 0)
                                 {
-                                    this.bitGrenadeCount = 3 + (int)((this.PwrVal) / 5);
-                                    this.nextBitGrenade = Find.TickManager.TicksGame + (180 - 3*PwrVal);
-                                    comp.Mana.CurLevel -= (.06f - (.001f * this.PwrVal));
+                                    bitGrenadeCount = 3 + (int)((PwrVal) / 5);
+                                    nextBitGrenade = Find.TickManager.TicksGame + (180 - 3*PwrVal);
+                                    comp.Mana.CurLevel -= (.06f - (.001f * PwrVal));
                                     comp.MagicUserXP += Rand.Range(8, 12);
                                 }
                             }
-                            else if (this.nextBitGrenade < Find.TickManager.TicksGame && this.bitGrenadeCount <= 0)
+                            else if (nextBitGrenade < Find.TickManager.TicksGame && bitGrenadeCount <= 0)
                             {
-                                this.bitGrenadeCount = 3 + (int)((this.PwrVal) / 5);
-                                this.nextBitGrenade = Find.TickManager.TicksGame + (180 - 3 * PwrVal);
+                                bitGrenadeCount = 3 + (int)((PwrVal) / 5);
+                                nextBitGrenade = Find.TickManager.TicksGame + (180 - 3 * PwrVal);
                             }
                         }                        
                     }
@@ -301,10 +301,10 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_Values.Look<int>(ref this.effVal, "effVal", 0, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<int>(ref effVal, "effVal", 0, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
         }       
     }
 }

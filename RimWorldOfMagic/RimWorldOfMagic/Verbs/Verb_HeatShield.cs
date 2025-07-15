@@ -16,10 +16,10 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {            
             bool flag = false;
-            if (this.CasterPawn.Map != null)
+            if (CasterPawn.Map != null)
             {
-                IEnumerable<Pawn> pList = from obj in this.CasterPawn.Map.mapPawns.AllPawnsSpawned
-                                           where (!obj.HostileTo(CasterPawn.Faction) && (obj.Position - currentTarget.Cell).LengthHorizontal <= this.UseAbilityProps.TargetAoEProperties.range)
+                IEnumerable<Pawn> pList = from obj in CasterPawn.Map.mapPawns.AllPawnsSpawned
+                                           where (!obj.HostileTo(CasterPawn.Faction) && (obj.Position - currentTarget.Cell).LengthHorizontal <= UseAbilityProps.TargetAoEProperties.range)
                                            select obj;
                 if (pList != null)
                 {
@@ -34,7 +34,7 @@ namespace TorannMagic
                 }
             }
 
-            this.PostCastShot(flag, out flag);
+            PostCastShot(flag, out flag);
             return flag;
         }
 

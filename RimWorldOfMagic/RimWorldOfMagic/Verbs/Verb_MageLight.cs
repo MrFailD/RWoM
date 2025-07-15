@@ -12,14 +12,14 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool result = false;
-            Pawn p = this.CasterPawn;
-            CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
+            Pawn p = CasterPawn;
+            CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
 
-            if (this.currentTarget != null && base.CasterPawn != null)
+            if (currentTarget != null && base.CasterPawn != null)
             {                
-                Map map = this.CasterPawn.Map;
+                Map map = CasterPawn.Map;
                 
-                if(this.currentTarget.Thing != null && this.currentTarget.Thing == base.CasterPawn)
+                if(currentTarget.Thing != null && currentTarget.Thing == base.CasterPawn)
                 {
                     if (comp.mageLightActive == true)
                     {
@@ -56,7 +56,7 @@ namespace TorannMagic
                         else
                         {
                             Messages.Message("TM_NotEnoughManaToSustain".Translate(
-                                            this.CasterPawn.LabelShort,
+                                            CasterPawn.LabelShort,
                                             TorannMagicDefOf.TM_MageLight.label
                                         ), MessageTypeDefOf.RejectInput);
                         }
@@ -70,7 +70,7 @@ namespace TorannMagic
                 result = true;
             }
 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             //this.ability.TicksUntilCasting = (int)base.UseAbilityProps.SecondsToRecharge * 60;
             return result;
         }        

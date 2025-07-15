@@ -13,10 +13,10 @@ namespace TorannMagic
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
 
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
-            CellRect cellRect = CellRect.CenteredOn(base.Position, 1);
+            CellRect cellRect = CellRect.CenteredOn(Position, 1);
             cellRect.ClipInsideMap(map);
 
             IntVec3 c = cellRect.CenterCell;

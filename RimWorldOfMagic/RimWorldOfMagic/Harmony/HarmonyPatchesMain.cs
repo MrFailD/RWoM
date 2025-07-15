@@ -23,7 +23,7 @@ namespace TorannMagic
     {
         private static readonly Type patchType = typeof(TorannMagicMod);
 
-        private void PatchMethod(HarmonyLib.Harmony harmonyInstance,
+        private void PatchMethod(Harmony harmonyInstance,
             MethodBase original,
             HarmonyMethod prefix = null,
             HarmonyMethod postfix = null,
@@ -3659,7 +3659,7 @@ namespace TorannMagic
                                     }
 
                                     __instance.forceDowned = false;
-                                    CheckForStateChange_Patch.MakeDowned.Invoke(__instance, new object[]
+                                    MakeDowned.Invoke(__instance, new object[]
                                     {
                                         dinfo,
                                         hediff
@@ -3711,7 +3711,7 @@ namespace TorannMagic
                                     ___pawn != null;
                                 if (flag11)
                                 {
-                                    CheckForStateChange_Patch.MakeUnDowned.Invoke(__instance, null);
+                                    MakeUnDowned.Invoke(__instance, null);
                                     result = false;
                                     return result;
                                 }

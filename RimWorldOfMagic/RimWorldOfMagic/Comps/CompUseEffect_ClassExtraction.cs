@@ -38,7 +38,7 @@ namespace TorannMagic
                     {
                         itemComp.magicEssence = essenceXP;
                     }
-                    GenPlace.TryPlaceThing(mes, this.parent.Position, this.parent.Map, ThingPlaceMode.Near);
+                    GenPlace.TryPlaceThing(mes, parent.Position, parent.Map, ThingPlaceMode.Near);
                     essenceXP = 0;
                 }
                 if (compMight != null && compMight.IsMightUser && compMight.MightUserXP != 0 && compMight.MightData != null)
@@ -59,7 +59,7 @@ namespace TorannMagic
                     {
                         itemComp.mightEssence = essenceXP;
                     }
-                    GenPlace.TryPlaceThing(mes, this.parent.Position, this.parent.Map, ThingPlaceMode.Near);
+                    GenPlace.TryPlaceThing(mes, parent.Position, parent.Map, ThingPlaceMode.Near);
                     essenceXP = 0;
                 }
                 ModOptions.TM_DebugTools.RemoveClass(user);

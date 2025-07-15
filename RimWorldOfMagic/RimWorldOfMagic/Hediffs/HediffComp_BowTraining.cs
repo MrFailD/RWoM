@@ -13,7 +13,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -21,32 +21,32 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
-                FleckMaker.ThrowLightningGlow(base.Pawn.TrueCenter(), base.Pawn.Map, 3f);
+                FleckMaker.ThrowLightningGlow(Pawn.TrueCenter(), Pawn.Map, 3f);
             }
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
             }
-            base.Pawn.SetPositionDirect(base.Pawn.Position);
+            Pawn.SetPositionDirect(Pawn.Position);
         }
 
     }

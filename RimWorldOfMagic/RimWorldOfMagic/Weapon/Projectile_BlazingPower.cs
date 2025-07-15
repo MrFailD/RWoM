@@ -11,8 +11,8 @@ namespace TorannMagic.Weapon
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Pawn pawn = this.launcher as Pawn;
-            Map map = base.Map;
+            Pawn pawn = launcher as Pawn;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
             if (pawn != null)
@@ -20,14 +20,14 @@ namespace TorannMagic.Weapon
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
                 if (comp != null && comp.IsMagicUser)
                 {
-                    this.arcaneDmg = comp.arcaneDmg;
+                    arcaneDmg = comp.arcaneDmg;
                 }
                 try
                 {
-                    ExplosionHelper.Explode(base.Position, map, this.def.projectile.explosionRadius,
-                        TMDamageDefOf.DamageDefOf.TM_BlazingPower, this.launcher,
-                        Mathf.RoundToInt(this.def.projectile.GetDamageAmount(1, null) * this.arcaneDmg),
-                        2, SoundDefOf.Crunch, def, this.equipmentDef, null,
+                    ExplosionHelper.Explode(Position, map, this.def.projectile.explosionRadius,
+                        TMDamageDefOf.DamageDefOf.TM_BlazingPower, launcher,
+                        Mathf.RoundToInt(this.def.projectile.GetDamageAmount(1, null) * arcaneDmg),
+                        2, SoundDefOf.Crunch, def, equipmentDef, null,
                         null, 0f, 1, null,
                         false, null, 0f,
                         1, 0.0f, true);

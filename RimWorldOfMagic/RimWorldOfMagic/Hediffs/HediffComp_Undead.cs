@@ -37,11 +37,11 @@ namespace TorannMagic
         {
             get
             {
-                if (this.linkedPawn != null)
+                if (linkedPawn != null)
                 {
-                    return base.Def.LabelCap + "(" + this.linkedPawn.LabelShort + ")";
+                    return Def.LabelCap + "(" + linkedPawn.LabelShort + ")";
                 }
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -49,20 +49,20 @@ namespace TorannMagic
         {
             get
             {
-                if (this.linkedPawn != null)
+                if (linkedPawn != null)
                 {
-                    return base.Def.label + "(" + this.linkedPawn.LabelShort + ")";
+                    return Def.label + "(" + linkedPawn.LabelShort + ")";
                 }
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            if(this.Pawn.IsSlave)
+            bool spawned = Pawn.Spawned;
+            if(Pawn.IsSlave)
             {
-                this.Pawn.guest.SetGuestStatus(null);
+                Pawn.guest.SetGuestStatus(null);
             }
             if (spawned)
             {
@@ -72,7 +72,7 @@ namespace TorannMagic
 
         private void UpdateHediff()
         {
-            if(this.linkedPawn != null)
+            if(linkedPawn != null)
             {
                 CompAbilityUserMagic comp = linkedPawn.GetCompAbilityUserMagic();
                 try
@@ -81,19 +81,19 @@ namespace TorannMagic
                     {
                         //int ver = TM_Calc.GetMagicSkillLevel(linkedPawn, comp.MagicData.MagicPowerSkill_RaiseUndead, "TM_RaiseUndead", "_ver");
                         int ver = TM_Calc.GetSkillVersatilityLevel(linkedPawn, TorannMagicDefOf.TM_RaiseUndead, false);
-                        if (this.parent.Severity != ver + .5f)
+                        if (parent.Severity != ver + .5f)
                         {
-                            this.parent.Severity = .5f + ver;
+                            parent.Severity = .5f + ver;
                         }
-                        if(this.Pawn.IsPrisoner || this.Pawn.Faction != linkedPawn.Faction)
+                        if(Pawn.IsPrisoner || Pawn.Faction != linkedPawn.Faction)
                         {
-                            base.Pawn.Kill(null, null);
+                            Pawn.Kill(null, null);
                         }
                     }
                 }
                 catch
                 {
-                    base.Pawn.Kill(null, null);
+                    Pawn.Kill(null, null);
                 }
 
             }
@@ -102,13 +102,13 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
             }
             if(Find.TickManager.TicksGame % 16 == 0)
@@ -117,7 +117,7 @@ namespace TorannMagic
                 {
                     if(hd.def.defName == "SpaceHypoxia")
                     {
-                        this.Pawn.health.RemoveHediff(hd);
+                        Pawn.health.RemoveHediff(hd);
                         break;
                     }
                 }
@@ -125,25 +125,25 @@ namespace TorannMagic
             if (Find.TickManager.TicksGame % 6000 == 0 && linkedPawn != null)
             {
                 Find.HistoryEventsManager.RecordEvent(new HistoryEvent(TorannMagicDefOf.TM_UsedMagic, linkedPawn.Named(HistoryEventArgsNames.Doer), linkedPawn.Named(HistoryEventArgsNames.Subject), linkedPawn.Named(HistoryEventArgsNames.AffectedFaction), linkedPawn.Named(HistoryEventArgsNames.Victim)), true);
-                TM_Action.UpdateAnimalTraining(base.Pawn);                
+                TM_Action.UpdateAnimalTraining(Pawn);                
             }
-            bool flag4 = Find.TickManager.TicksGame % 600 == 0 && this.Pawn.def != TorannMagicDefOf.TM_SkeletonR && this.Pawn.def != TorannMagicDefOf.TM_GiantSkeletonR;
-            if (flag4 && !this.Pawn.Dead)
+            bool flag4 = Find.TickManager.TicksGame % 600 == 0 && Pawn.def != TorannMagicDefOf.TM_SkeletonR && Pawn.def != TorannMagicDefOf.TM_GiantSkeletonR;
+            if (flag4 && !Pawn.Dead)
             {                
                 UpdateHediff();
-                Pawn pawn = base.Pawn;
+                Pawn pawn = Pawn;
                 necroValid = false;
-                if (base.Pawn != null && !linkedPawn.DestroyedOrNull())
+                if (Pawn != null && !linkedPawn.DestroyedOrNull())
                 {
                     necroValid = true;
                     lichStrike = 0;
 
-                    if (ModsConfig.IdeologyActive && !this.Pawn.Downed && this.Pawn.guest != null && this.Pawn.IsColonist)
+                    if (ModsConfig.IdeologyActive && !Pawn.Downed && Pawn.guest != null && Pawn.IsColonist)
                     {
-                        TM_Action.TryCopyIdeo(linkedPawn, this.Pawn);
-                        if (this.Pawn.guest.GuestStatus != GuestStatus.Slave)
+                        TM_Action.TryCopyIdeo(linkedPawn, Pawn);
+                        if (Pawn.guest.GuestStatus != GuestStatus.Slave)
                         {
-                            this.Pawn.guest.SetGuestStatus(linkedPawn.Faction, GuestStatus.Slave);
+                            Pawn.guest.SetGuestStatus(linkedPawn.Faction, GuestStatus.Slave);
                         }                        
                     }                    
                 }
@@ -154,15 +154,15 @@ namespace TorannMagic
                 
                 if (!necroValid && !Pawn.Dead && ((pawn.IsColonist && lichStrike > 2) || (!pawn.IsColonist && lichStrike >= 1)))
                 {
-                    if (base.Pawn.Map != null)
+                    if (Pawn.Map != null)
                     {
-                        TM_MoteMaker.ThrowScreamMote(base.Pawn.Position.ToVector3(), base.Pawn.Map, .8f, 255, 255, 255);
+                        TM_MoteMaker.ThrowScreamMote(Pawn.Position.ToVector3(), Pawn.Map, .8f, 255, 255, 255);
                     }
-                    base.Pawn.Kill(null, null);
+                    Pawn.Kill(null, null);
                 }
                 else
                 {
-                    List<Need> needs = base.Pawn?.needs?.AllNeeds;
+                    List<Need> needs = Pawn?.needs?.AllNeeds;
                     if (needs != null && needs.Count > 0)
                     { 
                         for (int i = 0; i < needs.Count; i++)
@@ -255,12 +255,12 @@ namespace TorannMagic
                         pawn.health.RemoveHediff(hd);
                     }
 
-                    CompHatcher cp_h = this.Pawn.TryGetComp<CompHatcher>();
+                    CompHatcher cp_h = Pawn.TryGetComp<CompHatcher>();
                     if (cp_h != null)
                     {
                         Traverse.Create(root: cp_h).Field(name: "gestateProgress").SetValue(0);
                     }
-                    CompMilkable cp_m = this.Pawn.TryGetComp<CompMilkable>();
+                    CompMilkable cp_m = Pawn.TryGetComp<CompMilkable>();
                     if (cp_m != null)
                     {
                         Traverse.Create(root: cp_m).Field(name: "fullness").SetValue(0);

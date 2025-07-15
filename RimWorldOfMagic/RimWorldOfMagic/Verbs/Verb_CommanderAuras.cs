@@ -26,26 +26,26 @@ namespace TorannMagic
         {
             bool auraRemoved = false;
             Hediff hediff = null;
-            for (int h = 0; h < this.CasterPawn.health.hediffSet.hediffs.Count; h++)
+            for (int h = 0; h < CasterPawn.health.hediffSet.hediffs.Count; h++)
             {
-                if (this.Ability.Def == TorannMagicDefOf.TM_ProvisionerAura && this.CasterPawn.health.hediffSet.hediffs[h].def == TorannMagicDefOf.TM_ProvisionerAuraHD)
+                if (Ability.Def == TorannMagicDefOf.TM_ProvisionerAura && CasterPawn.health.hediffSet.hediffs[h].def == TorannMagicDefOf.TM_ProvisionerAuraHD)
                 {
-                    hediff = this.CasterPawn.health.hediffSet.hediffs[h];
-                    this.CasterPawn.health.RemoveHediff(hediff);
+                    hediff = CasterPawn.health.hediffSet.hediffs[h];
+                    CasterPawn.health.RemoveHediff(hediff);
                     auraRemoved = true;
                     break;
                 }
-                if (this.Ability.Def == TorannMagicDefOf.TM_TaskMasterAura && this.CasterPawn.health.hediffSet.hediffs[h].def == TorannMagicDefOf.TM_TaskMasterAuraHD)
+                if (Ability.Def == TorannMagicDefOf.TM_TaskMasterAura && CasterPawn.health.hediffSet.hediffs[h].def == TorannMagicDefOf.TM_TaskMasterAuraHD)
                 {
-                    hediff = this.CasterPawn.health.hediffSet.hediffs[h];
-                    this.CasterPawn.health.RemoveHediff(hediff);
+                    hediff = CasterPawn.health.hediffSet.hediffs[h];
+                    CasterPawn.health.RemoveHediff(hediff);
                     auraRemoved = true;
                     break;
                 }
-                if (this.Ability.Def == TorannMagicDefOf.TM_CommanderAura && this.CasterPawn.health.hediffSet.hediffs[h].def == TorannMagicDefOf.TM_CommanderAuraHD)
+                if (Ability.Def == TorannMagicDefOf.TM_CommanderAura && CasterPawn.health.hediffSet.hediffs[h].def == TorannMagicDefOf.TM_CommanderAuraHD)
                 {
-                    hediff = this.CasterPawn.health.hediffSet.hediffs[h];
-                    this.CasterPawn.health.RemoveHediff(hediff);
+                    hediff = CasterPawn.health.hediffSet.hediffs[h];
+                    CasterPawn.health.RemoveHediff(hediff);
                     auraRemoved = true;
                     break;
                 }
@@ -55,34 +55,34 @@ namespace TorannMagic
 
         private void ApplyAura()
         {
-            if (this.Ability.Def == TorannMagicDefOf.TM_ProvisionerAura)
+            if (Ability.Def == TorannMagicDefOf.TM_ProvisionerAura)
             {
-                HealthUtility.AdjustSeverity(this.CasterPawn, TorannMagicDefOf.TM_ProvisionerAuraHD, .5f);
+                HealthUtility.AdjustSeverity(CasterPawn, TorannMagicDefOf.TM_ProvisionerAuraHD, .5f);
             }
-            else if(this.Ability.Def == TorannMagicDefOf.TM_TaskMasterAura)
+            else if(Ability.Def == TorannMagicDefOf.TM_TaskMasterAura)
             {
-                HealthUtility.AdjustSeverity(this.CasterPawn, TorannMagicDefOf.TM_TaskMasterAuraHD, .5f);
+                HealthUtility.AdjustSeverity(CasterPawn, TorannMagicDefOf.TM_TaskMasterAuraHD, .5f);
             }
-            else if (this.Ability.Def == TorannMagicDefOf.TM_CommanderAura)
+            else if (Ability.Def == TorannMagicDefOf.TM_CommanderAura)
             {
-                HealthUtility.AdjustSeverity(this.CasterPawn, TorannMagicDefOf.TM_CommanderAuraHD, .5f);
+                HealthUtility.AdjustSeverity(CasterPawn, TorannMagicDefOf.TM_CommanderAuraHD, .5f);
             }            
         }
 
         private void ToggleAbilityAutocast()
         {
             MightPower mightPower = null;
-            if (this.Ability.Def == TorannMagicDefOf.TM_ProvisionerAura)
+            if (Ability.Def == TorannMagicDefOf.TM_ProvisionerAura)
             {
-               mightPower = this.CasterPawn.GetCompAbilityUserMight().MightData.MightPowersC.FirstOrDefault<MightPower>((MightPower x) => x.abilityDef == TorannMagicDefOf.TM_ProvisionerAura);
+               mightPower = CasterPawn.GetCompAbilityUserMight().MightData.MightPowersC.FirstOrDefault<MightPower>((MightPower x) => x.abilityDef == TorannMagicDefOf.TM_ProvisionerAura);
             }
-            else if (this.Ability.Def == TorannMagicDefOf.TM_TaskMasterAura)
+            else if (Ability.Def == TorannMagicDefOf.TM_TaskMasterAura)
             {
-                mightPower = this.CasterPawn.GetCompAbilityUserMight().MightData.MightPowersC.FirstOrDefault<MightPower>((MightPower x) => x.abilityDef == TorannMagicDefOf.TM_TaskMasterAura);
+                mightPower = CasterPawn.GetCompAbilityUserMight().MightData.MightPowersC.FirstOrDefault<MightPower>((MightPower x) => x.abilityDef == TorannMagicDefOf.TM_TaskMasterAura);
             }
-            else if (this.Ability.Def == TorannMagicDefOf.TM_CommanderAura)
+            else if (Ability.Def == TorannMagicDefOf.TM_CommanderAura)
             {
-                mightPower = this.CasterPawn.GetCompAbilityUserMight().MightData.MightPowersC.FirstOrDefault<MightPower>((MightPower x) => x.abilityDef == TorannMagicDefOf.TM_CommanderAura);
+                mightPower = CasterPawn.GetCompAbilityUserMight().MightData.MightPowersC.FirstOrDefault<MightPower>((MightPower x) => x.abilityDef == TorannMagicDefOf.TM_CommanderAura);
             }            
 
             if (mightPower != null)

@@ -20,17 +20,17 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<int>(ref this.feedbackRate, "feedbackRate", 300, false);
-            Scribe_Values.Look<int>(ref this.nextFeedback, "nextFeedback", 0, false);
-            Scribe_Values.Look<int>(ref this.hediffPwr, "hediffPwr", 0, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<int>(ref feedbackRate, "feedbackRate", 300, false);
+            Scribe_Values.Look<int>(ref nextFeedback, "nextFeedback", 0, false);
+            Scribe_Values.Look<int>(ref hediffPwr, "hediffPwr", 0, false);
         }
 
         public string labelCap
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -38,26 +38,26 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             
             if (spawned)
             {
-                FleckMaker.ThrowLightningGlow(base.Pawn.TrueCenter(), base.Pawn.Map, 1f);
-                if (this.Def.defName == "TM_OverdriveHD_III")
+                FleckMaker.ThrowLightningGlow(Pawn.TrueCenter(), Pawn.Map, 1f);
+                if (Def.defName == "TM_OverdriveHD_III")
                 {
                     hediffPwr = 3;
                 }
-                else if (this.Def.defName == "TM_OverdriveHD_II")
+                else if (Def.defName == "TM_OverdriveHD_II")
                 {
                     hediffPwr = 2;
                 }
-                else if (this.Def.defName == "TM_OverdriveHD_I")
+                else if (Def.defName == "TM_OverdriveHD_I")
                 {
                     hediffPwr = 1;
                 }
@@ -65,34 +65,34 @@ namespace TorannMagic
                 {
                     hediffPwr = 0;
                 }
-                this.feedbackRate = 300 + (50 * hediffPwr);
+                feedbackRate = 300 + (50 * hediffPwr);
             }
         }
 
-        public override bool CompShouldRemove => base.CompShouldRemove || this.parent.Severity < .01f;
+        public override bool CompShouldRemove => base.CompShouldRemove || parent.Severity < .01f;
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            if (base.Pawn != null & base.parent != null)
+            if (Pawn != null & parent != null)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
             }
 
             if(Find.TickManager.TicksGame % 60 == 0)
             {
-                this.parent.Severity -= (.015f * (1+hediffPwr));
+                parent.Severity -= (.015f * (1+hediffPwr));
                 //HealthUtility.AdjustSeverity(base.Pawn, this.Def, -(0.025f* hediffPwr));
             }
             
-            if (this.nextFeedback < Find.TickManager.TicksGame)
+            if (nextFeedback < Find.TickManager.TicksGame)
             {
-                this.nextFeedback = Find.TickManager.TicksGame + this.feedbackRate;
-                Pawn pawn = base.Pawn as Pawn;
+                nextFeedback = Find.TickManager.TicksGame + feedbackRate;
+                Pawn pawn = Pawn as Pawn;
                 bool flag = pawn != null;
                 if (flag)
                 {

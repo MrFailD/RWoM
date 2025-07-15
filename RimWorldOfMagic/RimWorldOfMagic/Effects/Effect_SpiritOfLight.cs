@@ -18,7 +18,7 @@ namespace TorannMagic
             }
             else
             {
-                LocalTargetInfo t = this.TargetsAoE[0];
+                LocalTargetInfo t = TargetsAoE[0];
                 bool flag = t.Cell != default(IntVec3);
                 if (flag)
                 {
@@ -27,8 +27,8 @@ namespace TorannMagic
 
                     LongEventHandler.QueueLongEvent(delegate
                     {
-                        FlyingObject_SpiritOfLight flyingObject = (FlyingObject_SpiritOfLight)GenSpawn.Spawn(ThingDef.Named("FlyingObject_SpiritOfLight"), this.CasterPawn.Position, this.CasterPawn.Map);
-                        flyingObject.Launch(this.CasterPawn, t.Cell, sol);
+                        FlyingObject_SpiritOfLight flyingObject = (FlyingObject_SpiritOfLight)GenSpawn.Spawn(ThingDef.Named("FlyingObject_SpiritOfLight"), CasterPawn.Position, CasterPawn.Map);
+                        flyingObject.Launch(CasterPawn, t.Cell, sol);
                         flyingObject.shouldDismiss = false;
                         comp.SoL = flyingObject;
                     }, "LaunchingFlyer", false, null);
@@ -40,7 +40,7 @@ namespace TorannMagic
         {
             if (inResult)
             {
-                this.Effect();
+                Effect();
                 outResult = true;
             }
             outResult = inResult;

@@ -56,7 +56,7 @@ namespace TorannMagic
         {
             get
             {
-                int num = Mathf.RoundToInt((this.origin - this.destination).magnitude / (this.speed / 100f));
+                int num = Mathf.RoundToInt((origin - destination).magnitude / (speed / 100f));
                 bool flag = num < 1;
                 if (flag)
                 {
@@ -70,7 +70,7 @@ namespace TorannMagic
         {
             get
             {
-                return new IntVec3(this.destination);
+                return new IntVec3(destination);
             }
         }
 
@@ -80,7 +80,7 @@ namespace TorannMagic
             {
                 //Vector3 b = (this.destination - this.origin) * (1f - (float)this.ticksToImpact / (float)this.StartingTicksToImpact);
                 //return this.origin + b + Vector3.up * this.def.Altitude;
-                return this.origin + Vector3.up * this.def.Altitude;
+                return origin + Vector3.up * def.Altitude;
             }
         }
 
@@ -88,7 +88,7 @@ namespace TorannMagic
         {
             get
             {
-                return Quaternion.LookRotation(this.origin - this.destination);
+                return Quaternion.LookRotation(origin - destination);
             }
         }
 
@@ -96,70 +96,70 @@ namespace TorannMagic
         {
             get
             {
-                return this.ExactPosition;
+                return ExactPosition;
             }
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<Vector3>(ref this.origin, "origin", default(Vector3), false);
-            Scribe_Values.Look<Vector3>(ref this.destination, "destination", default(Vector3), false);
-            Scribe_Values.Look<int>(ref this.ticksToImpact, "ticksToImpact", 0, false);
-            Scribe_Values.Look<bool>(ref this.damageLaunched, "damageLaunched", true, false);
-            Scribe_Values.Look<bool>(ref this.explosion, "explosion", false, false);
-            Scribe_References.Look<Thing>(ref this.assignedTarget, "assignedTarget", false);
+            Scribe_Values.Look<Vector3>(ref origin, "origin", default(Vector3), false);
+            Scribe_Values.Look<Vector3>(ref destination, "destination", default(Vector3), false);
+            Scribe_Values.Look<int>(ref ticksToImpact, "ticksToImpact", 0, false);
+            Scribe_Values.Look<bool>(ref damageLaunched, "damageLaunched", true, false);
+            Scribe_Values.Look<bool>(ref explosion, "explosion", false, false);
+            Scribe_References.Look<Thing>(ref assignedTarget, "assignedTarget", false);
             //Scribe_References.Look<Thing>(ref this.launcher, "launcher", false);
-            Scribe_Deep.Look<Thing>(ref this.flyingThing, "flyingThing", new object[0]);
-            Scribe_Values.Look<bool>(ref this.drafted, "drafted", false, false);
-            Scribe_Values.Look<float>(ref this.xVariation, "xVariation", 0, false);
-            Scribe_Values.Look<float>(ref this.zVariation, "zVariation", 0, false);
-            Scribe_Values.Look<float>(ref this.solidTime, "solidTime", .5f, false);
-            Scribe_Values.Look<float>(ref this.fadeInTime, "fadeInTime", .25f, false);
-            Scribe_Values.Look<float>(ref this.fadeOutTime, "fadeOutTime", .25f, false);
-            Scribe_Defs.Look<ThingDef>(ref this.moteDef, "moteDef");
-            Scribe_Values.Look<float>(ref this.moteScale, "moteScale", 1f, false);
-            Scribe_Values.Look<int>(ref this.moteFrequency, "moteFrequency", 0, false);
-            Scribe_Values.Look<float>(ref this.destroyPctAtEnd, "destroyPctAtEnd", 0f, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 600, false);
+            Scribe_Deep.Look<Thing>(ref flyingThing, "flyingThing", new object[0]);
+            Scribe_Values.Look<bool>(ref drafted, "drafted", false, false);
+            Scribe_Values.Look<float>(ref xVariation, "xVariation", 0, false);
+            Scribe_Values.Look<float>(ref zVariation, "zVariation", 0, false);
+            Scribe_Values.Look<float>(ref solidTime, "solidTime", .5f, false);
+            Scribe_Values.Look<float>(ref fadeInTime, "fadeInTime", .25f, false);
+            Scribe_Values.Look<float>(ref fadeOutTime, "fadeOutTime", .25f, false);
+            Scribe_Defs.Look<ThingDef>(ref moteDef, "moteDef");
+            Scribe_Values.Look<float>(ref moteScale, "moteScale", 1f, false);
+            Scribe_Values.Look<int>(ref moteFrequency, "moteFrequency", 0, false);
+            Scribe_Values.Look<float>(ref destroyPctAtEnd, "destroyPctAtEnd", 0f, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 600, false);
         }
 
         private void Initialize()
         {
             if (pawn != null)
             {
-                FleckMaker.ThrowDustPuff(this.origin, this.Map, Rand.Range(1.2f, 1.8f));
+                FleckMaker.ThrowDustPuff(origin, Map, Rand.Range(1.2f, 1.8f));
             }
 
-            this.direction = TM_Calc.GetVector(this.origin.ToIntVec3(), this.destination.ToIntVec3());
+            direction = TM_Calc.GetVector(origin.ToIntVec3(), destination.ToIntVec3());
             //flyingThing.ThingID += Rand.Range(0, 2147).ToString();
         }
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing, DamageInfo? impactDamage)
         {
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, impactDamage);
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, impactDamage);
         }
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing)
         {
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, null);
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, null);
         }
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing, int _spinRate)
         {
-            this.spinRate = _spinRate;
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, null);
+            spinRate = _spinRate;
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, null);
         }
 
         public void LaunchVaryPosition(Thing launcher, LocalTargetInfo targ, Thing flyingThing, int _spinRate, float _xVariation, float _zVariation, ThingDef mote = null, int moteFreq = 0, float destroy = 0f)
         {
-            this.destroyPctAtEnd = destroy;
-            this.moteDef = mote;
-            this.moteFrequency = moteFreq; 
-            this.xVariation = _xVariation;
-            this.zVariation = _zVariation;
-            this.spinRate = _spinRate;
-            this.Launch(launcher, flyingThing.DrawPos, flyingThing.Position, flyingThing, null);
+            destroyPctAtEnd = destroy;
+            moteDef = mote;
+            moteFrequency = moteFreq; 
+            xVariation = _xVariation;
+            zVariation = _zVariation;
+            spinRate = _spinRate;
+            Launch(launcher, flyingThing.DrawPos, flyingThing.Position, flyingThing, null);
         }
 
         public void Launch(Thing launcher, Vector3 origin, LocalTargetInfo targ, Thing flyingThing, DamageInfo? newDamageInfo = null)
@@ -168,92 +168,92 @@ namespace TorannMagic
             pawn = launcher as Pawn;
             if (pawn != null && pawn.Drafted)
             {
-                this.drafted = true;
+                drafted = true;
             }
             if (spawned)
             {
                 flyingThing.DeSpawn();
             }
-            this.speed = this.speed * this.force;
+            speed = speed * force;
             this.launcher = launcher;
             this.origin = origin;
-            this.impactDamage = newDamageInfo;
+            impactDamage = newDamageInfo;
             this.flyingThing = flyingThing;
 
             bool flag = targ.Thing != null;
             if (flag)
             {
-                this.assignedTarget = targ.Thing;
+                assignedTarget = targ.Thing;
             }
-            this.destination = targ.Cell.ToVector3Shifted();
-            this.ticksToImpact = this.StartingTicksToImpact;
-            this.variationDestination = base.Position.ToVector3Shifted(); //this.DrawPos //not initialized?
-            this.drawPosition = base.Position.ToVector3Shifted(); //this.DrawPos; 
-            this.Initialize();
+            destination = targ.Cell.ToVector3Shifted();
+            ticksToImpact = StartingTicksToImpact;
+            variationDestination = Position.ToVector3Shifted(); //this.DrawPos //not initialized?
+            drawPosition = Position.ToVector3Shifted(); //this.DrawPos; 
+            Initialize();
         }        
 
         protected override void Tick()
         {
-            this.duration--;
-            base.Position = this.origin.ToIntVec3();
-            bool flag2 = this.duration <= 0;
-            if(this.moteDef != null && this.Map != null && Find.TickManager.TicksGame % this.moteFrequency == 0)
+            duration--;
+            Position = origin.ToIntVec3();
+            bool flag2 = duration <= 0;
+            if(moteDef != null && Map != null && Find.TickManager.TicksGame % moteFrequency == 0)
             {
-                TM_MoteMaker.ThrowGenericMote(this.moteDef, this.ExactPosition, this.Map, Rand.Range(this.moteScale * .75f, this.moteScale * 1.25f), this.solidTime, this.fadeInTime, this.fadeOutTime, Rand.Range(200, 400), 0, 0, Rand.Range(0, 360));
+                TM_MoteMaker.ThrowGenericMote(moteDef, ExactPosition, Map, Rand.Range(moteScale * .75f, moteScale * 1.25f), solidTime, fadeInTime, fadeOutTime, Rand.Range(200, 400), 0, 0, Rand.Range(0, 360));
             }
             if (flag2)
             {
-                this.ImpactSomething();
+                ImpactSomething();
             }
 
         }
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            bool flag = this.flyingThing != null;
+            bool flag = flyingThing != null;
             if (flag)
             {
-                if (this.spinRate > 0)
+                if (spinRate > 0)
                 {
-                    if(Find.TickManager.TicksGame % this.spinRate ==0)
+                    if(Find.TickManager.TicksGame % spinRate ==0)
                     {
-                        this.rotation++;
-                        if(this.rotation >= 4)
+                        rotation++;
+                        if(rotation >= 4)
                         {
-                            this.rotation = 0;
+                            rotation = 0;
                         }
                     }
                     if (rotation == 0)
                     {
-                        this.flyingThing.Rotation = Rot4.West;
+                        flyingThing.Rotation = Rot4.West;
                     }
                     else if (rotation == 1)
                     {
-                        this.flyingThing.Rotation = Rot4.North;
+                        flyingThing.Rotation = Rot4.North;
                     }
                     else if (rotation == 2)
                     {
-                        this.flyingThing.Rotation = Rot4.East;
+                        flyingThing.Rotation = Rot4.East;
                     }
                     else
                     {
-                        this.flyingThing.Rotation = Rot4.South;
+                        flyingThing.Rotation = Rot4.South;
                     }
                 }
 
-                bool flag2 = this.flyingThing is Pawn;
+                bool flag2 = flyingThing is Pawn;
                 if (flag2 && zVariation == 0 && xVariation == 0)
                 {
-                    Vector3 arg_2B_0 = this.DrawPos;
-                    bool flag4 = !this.DrawPos.ToIntVec3().IsValid;
+                    Vector3 arg_2B_0 = DrawPos;
+                    bool flag4 = !DrawPos.ToIntVec3().IsValid;
                     if (flag4)
                     {
                         return;
                     }
-                    Pawn pawn = this.flyingThing as Pawn;
-                    pawn.Drawer.renderer.RenderPawnAt(this.DrawPos);
+                    Pawn pawn = flyingThing as Pawn;
+                    pawn.Drawer.renderer.RenderPawnAt(DrawPos);
                     Material bubble = TM_MatPool.TimeBubble;
-                    Vector3 vec3 = this.DrawPos;
+                    Vector3 vec3 = DrawPos;
                     vec3.y++;
                     Vector3 s = new Vector3(2f, 1f, 2f);
                     Matrix4x4 matrix = default(Matrix4x4);
@@ -263,7 +263,7 @@ namespace TorannMagic
                 }
                 else if(zVariation != 0 || xVariation != 0)
                 {
-                    this.drawPosition = VariationPosition(this.drawPosition);
+                    drawPosition = VariationPosition(drawPosition);
                     //bool flag4 = !this.DrawPos.ToIntVec3().IsValid;
                     //if (flag4)
                     //{
@@ -272,15 +272,15 @@ namespace TorannMagic
                     //Pawn pawn = this.flyingThing as Pawn;
                     //pawn.Drawer.DrawAt(this.DrawPos);
                     //this.flyingThing.DrawAt(this.drawPosition);
-                    this.flyingThing.DrawNowAt(drawPosition);
+                    flyingThing.DrawNowAt(drawPosition);
                     //this.flyingThing.DrawAt(drawPosition);
                 }
                 else
                 {
-                    Graphics.DrawMesh(MeshPool.plane10, this.DrawPos, this.ExactRotation, this.flyingThing.def.DrawMatSingle, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, DrawPos, ExactRotation, flyingThing.def.DrawMatSingle, 0);
                 }
             }
-            base.Comps_PostDraw();
+            Comps_PostDraw();
         }
 
         private Vector3 VariationPosition(Vector3 currentDrawPos)
@@ -296,9 +296,9 @@ namespace TorannMagic
             {
                 startPos.x += -variance;
             }
-            else if (this.xVariation != 0)
+            else if (xVariation != 0)
             {
-                variationDestination.x = this.DrawPos.x + Rand.Range(-xVariation, xVariation);
+                variationDestination.x = DrawPos.x + Rand.Range(-xVariation, xVariation);
             }
             variance = (zVariation / 100f);
             if ((startPos.z - variationDestination.z) < -variance)
@@ -309,9 +309,9 @@ namespace TorannMagic
             {
                 startPos.z += -variance;
             }
-            else if (this.zVariation != 0)
+            else if (zVariation != 0)
             {
-                variationDestination.z = this.DrawPos.z + Rand.Range(-zVariation, zVariation);
+                variationDestination.z = DrawPos.z + Rand.Range(-zVariation, zVariation);
             }
 
             return startPos;
@@ -320,52 +320,52 @@ namespace TorannMagic
 
         private void ImpactSomething()
         {
-            this.Impact(null);            
+            Impact(null);            
         }
 
         protected new void Impact(Thing hitThing)
         {
-            if (this.Map != null)
+            if (Map != null)
             {
-                GenPlace.TryPlaceThing(this.flyingThing, base.Position, base.Map, ThingPlaceMode.Direct);
-                if (this.flyingThing is Pawn p)
+                GenPlace.TryPlaceThing(flyingThing, Position, Map, ThingPlaceMode.Direct);
+                if (flyingThing is Pawn p)
                 {
-                    if (p.IsColonist && this.drafted && p.drafter != null)
+                    if (p.IsColonist && drafted && p.drafter != null)
                     {
                         p.drafter.Drafted = true;
                     }
                 }
 
-                if (this.destroyPctAtEnd != 0)
+                if (destroyPctAtEnd != 0)
                 {
                     int rangeMax = 10;
                     for (int i = 0; i < rangeMax; i++)
                     {
                         float direction = Rand.Range(0, 360);
-                        Vector3 rndPos = this.flyingThing.DrawPos;
+                        Vector3 rndPos = flyingThing.DrawPos;
                         rndPos.x += Rand.Range(-.3f, .3f);
                         rndPos.z += Rand.Range(-.3f, .3f);
                         ThingDef mote = TorannMagicDefOf.Mote_Shadow;
-                        TM_MoteMaker.ThrowGenericMote(mote, rndPos, this.Map, Rand.Range(.5f, 1f), 0.4f, Rand.Range(.1f, .4f), Rand.Range(1.2f, 2f), Rand.Range(-200, 200), Rand.Range(1.2f, 2f), direction, direction);
+                        TM_MoteMaker.ThrowGenericMote(mote, rndPos, Map, Rand.Range(.5f, 1f), 0.4f, Rand.Range(.1f, .4f), Rand.Range(1.2f, 2f), Rand.Range(-200, 200), Rand.Range(1.2f, 2f), direction, direction);
 
                     }
-                    SoundInfo info = SoundInfo.InMap(new TargetInfo(base.Position, this.Map, false), MaintenanceType.None);
+                    SoundInfo info = SoundInfo.InMap(new TargetInfo(Position, Map, false), MaintenanceType.None);
                     info.pitchFactor = .8f;
                     info.volumeFactor = 1.2f;
                     TorannMagicDefOf.TM_Vibration.PlayOneShot(info);
                 }
 
-                if (this.destroyPctAtEnd >= 1f)
+                if (destroyPctAtEnd >= 1f)
                 {
-                    this.flyingThing.Destroy(DestroyMode.Vanish);
+                    flyingThing.Destroy(DestroyMode.Vanish);
                 }
-                else if (this.destroyPctAtEnd != 0)
+                else if (destroyPctAtEnd != 0)
                 {
-                    this.flyingThing.SplitOff(Mathf.RoundToInt(this.flyingThing.stackCount * this.destroyPctAtEnd)).Destroy(DestroyMode.Vanish);
+                    flyingThing.SplitOff(Mathf.RoundToInt(flyingThing.stackCount * destroyPctAtEnd)).Destroy(DestroyMode.Vanish);
                 }
             }
 
-            this.Destroy(DestroyMode.Vanish);
+            Destroy(DestroyMode.Vanish);
         }
     }
 }

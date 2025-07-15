@@ -35,24 +35,24 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<bool>(ref this.launchedFlag, "launchedFlag", false, false);
-            Scribe_Values.Look<bool>(ref this.landedFlag, "landedFlag", false, false);
-            Scribe_Values.Look<bool>(ref this.pivotFlag, "pivotFlag", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 1800, false);
-            Scribe_Values.Look<int>(ref this.strikeDelay, "strikeDelay", 0, false);
-            Scribe_Values.Look<int>(ref this.strikeNum, "strikeNum", 0, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_Values.Look<IntVec3>(ref this.safePos, "safePos", default(IntVec3), false);
-            Scribe_References.Look<Pawn>(ref this.pawn, "pawn", false);
-            Scribe_Collections.Look<IntVec3>(ref this.cellList, "cellList", LookMode.Value);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<bool>(ref launchedFlag, "launchedFlag", false, false);
+            Scribe_Values.Look<bool>(ref landedFlag, "landedFlag", false, false);
+            Scribe_Values.Look<bool>(ref pivotFlag, "pivotFlag", false, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 1800, false);
+            Scribe_Values.Look<int>(ref strikeDelay, "strikeDelay", 0, false);
+            Scribe_Values.Look<int>(ref strikeNum, "strikeNum", 0, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<IntVec3>(ref safePos, "safePos", default(IntVec3), false);
+            Scribe_References.Look<Pawn>(ref pawn, "pawn", false);
+            Scribe_Collections.Look<IntVec3>(ref cellList, "cellList", LookMode.Value);
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < duration;
+            bool flag = age < duration;
             if (!flag)
             {
                 base.Destroy(mode);
@@ -71,25 +71,25 @@ namespace TorannMagic
            
             ThingDef def = this.def;          
 
-            if (!this.initialized)
+            if (!initialized)
             {
-                this.pawn = this.launcher as Pawn;
-                this.map = this.pawn.Map;                
+                pawn = launcher as Pawn;
+                map = pawn.Map;                
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
                 MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Scorn.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Scorn_pwr");
                 MagicPowerSkill ver = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Scorn.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Scorn_ver");
                 
                 pwrVal = pwr.level;
                 verVal = ver.level;
-                this.arcaneDmg = comp.arcaneDmg;
+                arcaneDmg = comp.arcaneDmg;
                 if (ModOptions.Settings.Instance.AIHardMode && !pawn.IsColonist)
                 {
                     pwrVal = 1;
                     verVal = 1;
                 }
-                this.radius = this.def.projectile.explosionRadius + verVal;
+                radius = this.def.projectile.explosionRadius + verVal;
                 //this.duration = Mathf.RoundToInt(this.radius * this.strikeDelay);
-                this.initialized = true;
+                initialized = true;
             }
 
             if (!launchedFlag)
@@ -99,41 +99,41 @@ namespace TorannMagic
                 {
                     ModCheck.GiddyUp.ForceDismount(pawn);
                 }
-                skyfaller = SkyfallerMaker.SpawnSkyfaller(ThingDef.Named("TM_ScornLeaving"), pawn.Position, this.map);
-                if(base.Position.x < pawn.Position.x)
+                skyfaller = SkyfallerMaker.SpawnSkyfaller(ThingDef.Named("TM_ScornLeaving"), pawn.Position, map);
+                if(Position.x < pawn.Position.x)
                 {
-                    this.angle = Rand.Range(20, 40);
+                    angle = Rand.Range(20, 40);
                 }
                 else
                 {
-                    this.angle = Rand.Range(-40, -20);
+                    angle = Rand.Range(-40, -20);
                 }
-                skyfaller.angle = this.angle;
+                skyfaller.angle = angle;
                 launchedFlag = true;
                 pawn.DeSpawn();
             }
             if (skyfaller.DestroyedOrNull() && !pivotFlag)
             {
-                safePos = base.Position;
-                if (safePos.x > this.map.Size.x - 5)
+                safePos = Position;
+                if (safePos.x > map.Size.x - 5)
                 {
-                    safePos.x = this.map.Size.x - 5;
+                    safePos.x = map.Size.x - 5;
                 }
                 else if (safePos.x < 5)
                 {
                     safePos.x = 5;
                 }
 
-                if (safePos.z > this.map.Size.z - 5)
+                if (safePos.z > map.Size.z - 5)
                 {
-                    safePos.z = this.map.Size.z - 5;
+                    safePos.z = map.Size.z - 5;
                 }
                 else if (safePos.z < 5)
                 {
                     safePos.z = 5;
                 }
-                skyfaller2 = SkyfallerMaker.SpawnSkyfaller(ThingDef.Named("TM_ScornIncoming"), safePos, this.map);
-                skyfaller2.angle = this.angle;
+                skyfaller2 = SkyfallerMaker.SpawnSkyfaller(ThingDef.Named("TM_ScornIncoming"), safePos, map);
+                skyfaller2.angle = angle;
                 pivotFlag = true;
 
             }
@@ -141,7 +141,7 @@ namespace TorannMagic
             if (skyfaller2.DestroyedOrNull() && pivotFlag && launchedFlag && !landedFlag)
             {
                 landedFlag = true;
-                GenSpawn.Spawn(pawn, safePos, this.map);
+                GenSpawn.Spawn(pawn, safePos, map);
                 if (pawn.drafter != null)
                 {
                     pawn.drafter.Drafted = true;
@@ -168,38 +168,38 @@ namespace TorannMagic
             { 
                 if (Find.TickManager.TicksGame % strikeDelay == 0)
                 {
-                    if (safePos.DistanceToEdge(this.map) > strikeNum)
+                    if (safePos.DistanceToEdge(map) > strikeNum)
                     {
                         List<IntVec3> targets;
                         if (strikeNum == 1)
                         {
-                            targets = GenRadial.RadialCellsAround(safePos, this.strikeNum, false).ToList();
+                            targets = GenRadial.RadialCellsAround(safePos, strikeNum, false).ToList();
                         }
                         else
                         {
-                            IEnumerable<IntVec3> oldTargets = GenRadial.RadialCellsAround(base.Position, this.strikeNum - 1, false);
-                            targets = GenRadial.RadialCellsAround(safePos, this.strikeNum, false).Except(oldTargets).ToList();
+                            IEnumerable<IntVec3> oldTargets = GenRadial.RadialCellsAround(Position, strikeNum - 1, false);
+                            targets = GenRadial.RadialCellsAround(safePos, strikeNum, false).Except(oldTargets).ToList();
                         }
                         for (int j = 0; j < targets.Count(); j++)
                         {
                             IntVec3 curCell = targets[j];
-                            if (this.map != null && curCell.IsValid && curCell.InBoundsWithNullCheck(this.map))
+                            if (map != null && curCell.IsValid && curCell.InBoundsWithNullCheck(map))
                             {
-                                ExplosionHelper.Explode(curCell, this.Map, .4f, TMDamageDefOf.DamageDefOf.TM_Shadow, this.pawn, (int)((this.def.projectile.GetDamageAmount(1, null) * (1 + .15 * pwrVal)) * this.arcaneDmg * Rand.Range(.75f, 1.25f)), 0, TorannMagicDefOf.TM_SoftExplosion, def, null, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
+                                ExplosionHelper.Explode(curCell, Map, .4f, TMDamageDefOf.DamageDefOf.TM_Shadow, pawn, (int)((this.def.projectile.GetDamageAmount(1, null) * (1 + .15 * pwrVal)) * arcaneDmg * Rand.Range(.75f, 1.25f)), 0, TorannMagicDefOf.TM_SoftExplosion, def, null, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
                             }
                         }
-                        this.strikeNum++;
+                        strikeNum++;
                     }
                     else
                     {
-                        strikeNum = (int)this.radius + 1;
+                        strikeNum = (int)radius + 1;
                     }
                 }               
             }
-            if (this.strikeNum > this.radius)
+            if (strikeNum > radius)
             {
-                this.age = this.duration;
-                this.Destroy(DestroyMode.Vanish);
+                age = duration;
+                Destroy(DestroyMode.Vanish);
             }
         }
 

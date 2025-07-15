@@ -64,11 +64,11 @@ namespace TorannMagic
         private void UpdateSpiritCompatibilityRatio()
         {
             int matchingCount = 0;
-            if (this.Pawn.story != null && this.Pawn.story.traits != null)
+            if (Pawn.story != null && Pawn.story.traits != null)
             {              
                 foreach(TraitDef td in SpiritPawn_Hediff.traitCompatibilityList)
                 {
-                    foreach(Trait t in this.Pawn.story.traits.allTraits)
+                    foreach(Trait t in Pawn.story.traits.allTraits)
                     {
                         if(t.def == td)
                         {
@@ -78,15 +78,15 @@ namespace TorannMagic
                 }
                 foreach (BackstoryDef bs in SpiritPawn_Hediff.BackstoryCompatibilityList)
                 {
-                    if(this.Pawn.story.Childhood == bs || this.Pawn.story.Adulthood == bs)
+                    if(Pawn.story.Childhood == bs || Pawn.story.Adulthood == bs)
                     {
                         matchingCount += 2;
                     }
                 }
             }
-            if(this.Pawn.RaceProps != null && this.Pawn.RaceProps.Humanlike)
+            if(Pawn.RaceProps != null && Pawn.RaceProps.Humanlike)
             {
-                if(this.Pawn.gender == SpiritPawn.gender)
+                if(Pawn.gender == SpiritPawn.gender)
                 {
                     matchingCount++;
                 }
@@ -112,7 +112,7 @@ namespace TorannMagic
         {            
             if (magicComp == null)
             {
-                magicComp = this.Pawn.GetCompAbilityUserMagic();
+                magicComp = Pawn.GetCompAbilityUserMagic();
             }            
             if (magicComp != null)
             {
@@ -160,7 +160,7 @@ namespace TorannMagic
         public void UpdateSpiritEnergy()
         {
             Need nds = SpiritPawn_Need;
-            Need ndp = this.Pawn.needs.TryGetNeed(TorannMagicDefOf.TM_SpiritND);
+            Need ndp = Pawn.needs.TryGetNeed(TorannMagicDefOf.TM_SpiritND);
             if (nds != null && ndp != null)
             {
                 nds.CurLevel = ndp.CurLevel;
@@ -173,9 +173,9 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look<float>(ref this.compatibilityRatio, "compatibilityRatio", -5f);
+            Scribe_Values.Look<float>(ref compatibilityRatio, "compatibilityRatio", -5f);
             Scribe_Deep.Look(ref innerContainer, "innerContainer", this);
-            Scribe_Values.Look<int>(ref this.conversionAttempts, "conversionAttempts", 0);
+            Scribe_Values.Look<int>(ref conversionAttempts, "conversionAttempts", 0);
         }
 
         public override string CompLabelInBracketsExtra => SpiritPawn != null ? SpiritPawn.LabelShort + ": " + CRatio.ToString("#.#") + base.CompLabelInBracketsExtra : base.CompLabelInBracketsExtra;
@@ -186,9 +186,9 @@ namespace TorannMagic
             {
                 if (SpiritPawn != null)
                 {
-                    return base.Def.LabelCap + "(" + SpiritPawn.LabelShort + ")";
+                    return Def.LabelCap + "(" + SpiritPawn.LabelShort + ")";
                 }
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -198,16 +198,16 @@ namespace TorannMagic
             {
                 if (SpiritPawn != null)
                 {
-                    return base.Def.label + "(" + SpiritPawn.LabelShort + ")";
+                    return Def.label + "(" + SpiritPawn.LabelShort + ")";
                 }
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            if (spawned && base.Pawn.Map != null)
+            bool spawned = Pawn.Spawned;
+            if (spawned && Pawn.Map != null)
             {
                 
             }
@@ -217,13 +217,13 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null && SpiritPawn != null;
+            bool flag = Pawn != null && SpiritPawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
                 if (Find.TickManager.TicksGame > (lastSpiritCheckTick + spiritCheckFrequency))
                 {
@@ -242,15 +242,15 @@ namespace TorannMagic
                 {
                     if (SpiritPawn.DestroyedOrNull())
                     {
-                        this.shouldUnPossess = true;
+                        shouldUnPossess = true;
                     }
                     if (SpiritPawn.Dead)
                     {
-                        this.shouldUnPossess = true;
+                        shouldUnPossess = true;
                     }          
-                    if(this.Pawn.Dead)
+                    if(Pawn.Dead)
                     {
-                        this.shouldUnPossess = true;
+                        shouldUnPossess = true;
                     }
 
                     UpdateSpiritEnergy();
@@ -261,7 +261,7 @@ namespace TorannMagic
                     {
 
                     }
-                    float amt = (CRatio - this.parent.Severity) * Rand.Range(.01f, .015f);
+                    float amt = (CRatio - parent.Severity) * Rand.Range(.01f, .015f);
                     severityAdjustment = amt;
                 }
                 //do possession harmony sync
@@ -272,12 +272,12 @@ namespace TorannMagic
                 failCheck++;
                 if (failCheck > 5)
                 {
-                    this.shouldRemove = true;
+                    shouldRemove = true;
                 }
             }
             if(shouldUnPossess)
             {
-                this.shouldRemove = true;
+                shouldRemove = true;
             }
         }
 
@@ -286,21 +286,21 @@ namespace TorannMagic
             
             if(ModsConfig.IdeologyActive)
             {
-                if (this.Pawn.story != null && Pawn.story.traits != null && Pawn.jobs != null)
+                if (Pawn.story != null && Pawn.story.traits != null && Pawn.jobs != null)
                 {
-                    if (this.Pawn.ideo != null && this.Pawn.Ideo != SpiritPawn.Ideo)
+                    if (Pawn.ideo != null && Pawn.Ideo != SpiritPawn.Ideo)
                     {
-                        this.Pawn.ideo.OffsetCertainty(Rand.Range(-.01f, -.03f));
-                        if(this.Pawn.ideo.Certainty <= 0.2f)
+                        Pawn.ideo.OffsetCertainty(Rand.Range(-.01f, -.03f));
+                        if(Pawn.ideo.Certainty <= 0.2f)
                         {
-                            this.Pawn.ideo.IdeoConversionAttempt(-.5f, SpiritPawn.Ideo);
+                            Pawn.ideo.IdeoConversionAttempt(-.5f, SpiritPawn.Ideo);
                         }
-                        if (this.Pawn.ideo.Certainty > .8f)
+                        if (Pawn.ideo.Certainty > .8f)
                         {
                             conversionAttempts++;
                             if (conversionAttempts >= 100)
                             {
-                                SpiritPawn.ideo.IdeoConversionAttempt(-1f, this.Pawn.Ideo);
+                                SpiritPawn.ideo.IdeoConversionAttempt(-1f, Pawn.Ideo);
                             }
                         }
                     }
@@ -358,7 +358,7 @@ namespace TorannMagic
             }
         }
 
-        public override bool CompShouldRemove => base.CompShouldRemove || this.shouldRemove;
+        public override bool CompShouldRemove => base.CompShouldRemove || shouldRemove;
         
     }
 }

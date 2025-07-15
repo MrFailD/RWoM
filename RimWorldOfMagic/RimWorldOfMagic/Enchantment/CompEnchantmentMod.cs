@@ -10,9 +10,9 @@ namespace TorannMagic.Enchantment
     {
         public CompEnchantmentMod(ModContentPack mcp) : base(mcp)
         {
-            LongEventHandler.ExecuteWhenFinished(new Action(CompEnchantmentMod.AddComp));
-            LongEventHandler.ExecuteWhenFinished(new Action(CompEnchantmentMod.AddUniversalBodyparts));            
-            LongEventHandler.ExecuteWhenFinished(new Action(CompEnchantmentMod.FillCloakPool));
+            LongEventHandler.ExecuteWhenFinished(new Action(AddComp));
+            LongEventHandler.ExecuteWhenFinished(new Action(AddUniversalBodyparts));            
+            LongEventHandler.ExecuteWhenFinished(new Action(FillCloakPool));
         }
 
         private static void AddComp()

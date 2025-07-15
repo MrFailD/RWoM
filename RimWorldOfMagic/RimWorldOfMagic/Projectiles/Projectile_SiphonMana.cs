@@ -10,12 +10,12 @@ namespace TorannMagic
     {
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             //base.Impact(hitThing);
             ThingDef def = this.def;
 
             Pawn hitPawn = hitThing as Pawn;
-            Pawn caster = this.launcher as Pawn;
+            Pawn caster = launcher as Pawn;
             CompAbilityUserMagic compHitPawn = hitPawn.GetCompAbilityUserMagic();            
             CompAbilityUserMagic compCaster = caster.GetCompAbilityUserMagic();
 

@@ -23,9 +23,9 @@ namespace TorannMagic
 
         public override void CompExposeData()
         {
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 1, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 1, false);
             base.CompExposeData();
         }
 
@@ -33,7 +33,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -41,14 +41,14 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
 
@@ -58,19 +58,19 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
             }
-            if(Find.TickManager.TicksGame >= this.nextTickAction)
+            if(Find.TickManager.TicksGame >= nextTickAction)
             {
-                this.duration--;                
-                this.nextTickAction = Find.TickManager.TicksGame + Rand.Range(600, 700);
+                duration--;                
+                nextTickAction = Find.TickManager.TicksGame + Rand.Range(600, 700);
                 if (pwrVal >= 1 && Rand.Chance(.2f + (.04f * pwrVal)))
                 {
                     TickActionGear();
@@ -79,16 +79,16 @@ namespace TorannMagic
                 {
                     TickActionHealth();
                 }
-                if (this.duration <= 0)
+                if (duration <= 0)
                 {
-                    this.removeNow = true;
+                    removeNow = true;
                 }
             }
         }
 
         public void TickActionGear()
         {
-            List<Apparel> gear = this.Pawn.apparel.WornApparel;
+            List<Apparel> gear = Pawn.apparel.WornApparel;
             for(int i = 0; i < gear.Count; i++)
             {
                 if(gear[i].HitPoints < gear[i].MaxHitPoints)
@@ -96,7 +96,7 @@ namespace TorannMagic
                     gear[i].HitPoints++;
                 }
             }
-            Thing weapon = this.Pawn.equipment.Primary;
+            Thing weapon = Pawn.equipment.Primary;
             if (weapon != null && (weapon.def.IsRangedWeapon || weapon.def.IsMeleeWeapon))
             {
                 if(weapon.HitPoints < weapon.MaxHitPoints)
@@ -124,7 +124,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.removeNow;
+                return base.CompShouldRemove || removeNow;
             }
         }
     }

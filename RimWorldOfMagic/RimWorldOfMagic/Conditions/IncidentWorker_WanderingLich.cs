@@ -21,7 +21,7 @@ namespace TorannMagic.Conditions
             }
             if (ModOptions.Settings.Instance.wanderingLichChallenge > 0 || tempAllow)
             {
-                int duration = Mathf.RoundToInt(this.def.durationDays.RandomInRange * 60000f);
+                int duration = Mathf.RoundToInt(def.durationDays.RandomInRange * 60000f);
                 List<Faction> lichFaction = Find.FactionManager.AllFactions.ToList();
                 bool factionFlag = false;
                 for (int i = 0; i < lichFaction.Count; i++)
@@ -40,7 +40,7 @@ namespace TorannMagic.Conditions
                 TM_Action.ForceFactionDiscoveryAndRelation(TorannMagicDefOf.TM_SkeletalFaction);
                 GameCondition_WanderingLich gameCondition_WanderingLich = (GameCondition_WanderingLich)GameConditionMaker.MakeCondition(GameConditionDef.Named("WanderingLich"), duration);
                 map.gameConditionManager.RegisterCondition(gameCondition_WanderingLich);
-                base.SendStandardLetter(parms, gameCondition_WanderingLich.thing, "");
+                SendStandardLetter(parms, gameCondition_WanderingLich.thing, "");
                 //base.SendStandardLetter(new TargetInfo(gameCondition_WanderingLich.edgeLocation.ToIntVec3, map, false), null, new string[0]);
                 return true;
             }

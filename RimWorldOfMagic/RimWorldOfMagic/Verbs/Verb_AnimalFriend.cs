@@ -14,7 +14,7 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     validTarg = true;
                 }
@@ -37,8 +37,8 @@ namespace TorannMagic
             CompAbilityUserMight comp = base.CasterPawn.GetCompAbilityUserMight();
             MightPowerSkill pwr = base.CasterPawn.GetCompAbilityUserMight().MightData.MightPowerSkill_AnimalFriend.FirstOrDefault((MightPowerSkill x) => x.label == "TM_AnimalFriend_pwr");
             MightPowerSkill ver = base.CasterPawn.GetCompAbilityUserMight().MightData.MightPowerSkill_AnimalFriend.FirstOrDefault((MightPowerSkill x) => x.label == "TM_AnimalFriend_ver");
-            Pawn pawn = this.CasterPawn;
-            Pawn animal = this.currentTarget.Thing as Pawn;
+            Pawn pawn = CasterPawn;
+            Pawn animal = currentTarget.Thing as Pawn;
 
             if(animal !=null && animal.RaceProps.Animal && animal.RaceProps.IsFlesh)
             {
@@ -155,7 +155,7 @@ namespace TorannMagic
                 }
 
             }
-            this.PostCastShot(flag, out flag);
+            PostCastShot(flag, out flag);
             return flag;
         }
     }

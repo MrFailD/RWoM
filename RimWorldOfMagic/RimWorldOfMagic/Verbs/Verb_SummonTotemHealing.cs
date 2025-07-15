@@ -16,16 +16,16 @@ namespace TorannMagic
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -57,14 +57,14 @@ namespace TorannMagic
             IntVec3 shiftPos = TM_Calc.GetEmptyCellForNewBuilding(cell, map, 2f, true, 0, true);
             if (shiftPos != IntVec3.Invalid && (shiftPos.IsValid && shiftPos.Standable(map)))
             {
-                AbilityUser.SpawnThings tempPod = new SpawnThings();
+                SpawnThings tempPod = new SpawnThings();
                 tempPod.def = TorannMagicDefOf.TM_HealingTotem;
                 tempPod.spawnCount = 1;
                 try
                 {
-                    this.totem = TM_Action.SingleSpawnLoop(caster, tempPod, shiftPos, map, 2500 + (125 * verVal), true, false, caster.Faction, false, ThingDefOf.WoodLog);
-                    this.totem.SetFaction(caster.Faction);
-                    Building_TMTotem_Healing totemBuilding = this.totem as Building_TMTotem_Healing;
+                    totem = TM_Action.SingleSpawnLoop(caster, tempPod, shiftPos, map, 2500 + (125 * verVal), true, false, caster.Faction, false, ThingDefOf.WoodLog);
+                    totem.SetFaction(caster.Faction);
+                    Building_TMTotem_Healing totemBuilding = totem as Building_TMTotem_Healing;
                     if (totemBuilding != null)
                     {
                         totemBuilding.pwrVal = pwrVal;
@@ -73,7 +73,7 @@ namespace TorannMagic
                     }
                     for (int i = 0; i < 3; i++)
                     {
-                        Vector3 rndPos = this.totem.DrawPos;
+                        Vector3 rndPos = totem.DrawPos;
                         rndPos.x += Rand.Range(-.5f, .5f);
                         rndPos.z += Rand.Range(-.5f, .5f);
                         TM_MoteMaker.ThrowGenericFleck(FleckDefOf.DustPuffThick, rndPos, map, Rand.Range(.6f, 1f), .1f, .05f, .05f, 0, 0, 0, Rand.Range(0, 360));

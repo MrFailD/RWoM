@@ -16,9 +16,9 @@ namespace TorannMagic
             CompAbilityUserMagic compMagic = user.GetCompAbilityUserMagic();
             CompAbilityUserMight compMight = user.GetCompAbilityUserMight();
 
-            if(this.parent.def == TorannMagicDefOf.TM_MagicArtifact_MightEssence && compMight != null && compMight.IsMightUser)
+            if(parent.def == TorannMagicDefOf.TM_MagicArtifact_MightEssence && compMight != null && compMight.IsMightUser)
             {
-                CompEnchantedItem compItem = this.parent.TryGetComp<CompEnchantedItem>();
+                CompEnchantedItem compItem = parent.TryGetComp<CompEnchantedItem>();
                 if (compItem != null && compItem.HasEnchantment)
                 {
                     if(compItem.mightEssence != 0)
@@ -29,17 +29,17 @@ namespace TorannMagic
                     {
                         Log.Message("might essence granted 0 experience");
                     }
-                    FleckMaker.ThrowSmoke(this.parent.DrawPos, this.parent.Map, Rand.Range(.5f, .8f));
-                    FleckMaker.ThrowHeatGlow(this.parent.Position, this.parent.Map, .8f);
+                    FleckMaker.ThrowSmoke(parent.DrawPos, parent.Map, Rand.Range(.5f, .8f));
+                    FleckMaker.ThrowHeatGlow(parent.Position, parent.Map, .8f);
                     TM_Action.TransmutateEffects(user.Position, user);
-                    TargetInfo ti = new TargetInfo(this.parent.Position, this.parent.Map, false);
+                    TargetInfo ti = new TargetInfo(parent.Position, parent.Map, false);
                     TM_MoteMaker.MakeOverlay(ti, TorannMagicDefOf.TM_Mote_PsycastAreaEffect, user.Map, Vector3.zero, .1f, 0f, .05f, .4f, .2f, 1f);
                     parent.SplitOff(1).Destroy();
                 }
             }
-            else if (this.parent.def == TorannMagicDefOf.TM_MagicArtifact_MagicEssence && compMagic != null && compMagic.IsMagicUser)
+            else if (parent.def == TorannMagicDefOf.TM_MagicArtifact_MagicEssence && compMagic != null && compMagic.IsMagicUser)
             {
-                CompEnchantedItem compItem = this.parent.TryGetComp<CompEnchantedItem>();
+                CompEnchantedItem compItem = parent.TryGetComp<CompEnchantedItem>();
                 if (compItem != null && compItem.HasEnchantment)
                 {
                     if (compItem.magicEssence != 0)
@@ -50,17 +50,17 @@ namespace TorannMagic
                     {
                         Log.Message("magic essence granted 0 experience");
                     }
-                    FleckMaker.ThrowSmoke(this.parent.DrawPos, this.parent.Map, Rand.Range(.5f, .8f));
-                    FleckMaker.ThrowHeatGlow(this.parent.Position, this.parent.Map, .8f);
+                    FleckMaker.ThrowSmoke(parent.DrawPos, parent.Map, Rand.Range(.5f, .8f));
+                    FleckMaker.ThrowHeatGlow(parent.Position, parent.Map, .8f);
                     TM_Action.TransmutateEffects(user.Position, user);
-                    TargetInfo ti = new TargetInfo(this.parent.Position, this.parent.Map, false);
+                    TargetInfo ti = new TargetInfo(parent.Position, parent.Map, false);
                     TM_MoteMaker.MakeOverlay(ti, TorannMagicDefOf.TM_Mote_PsycastAreaEffect, user.Map, Vector3.zero, .1f, 0f, .05f, .4f, .2f, 1f);
                     parent.SplitOff(1).Destroy();
                 }
             }
             else
             {
-                Messages.Message("TM_InvalidAction".Translate(user.LabelShort, this.parent.def.label), MessageTypeDefOf.RejectInput);
+                Messages.Message("TM_InvalidAction".Translate(user.LabelShort, parent.def.label), MessageTypeDefOf.RejectInput);
             }
 
         }

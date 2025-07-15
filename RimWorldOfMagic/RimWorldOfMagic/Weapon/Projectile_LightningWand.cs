@@ -15,26 +15,26 @@ namespace TorannMagic.Weapon
 
         public override void Impact_Override(Thing hitThing)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact_Override(hitThing);
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             if (pawn != null)
             {
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
                 if (comp.IsMagicUser)
                 {
-                    this.arcaneDmg = comp.arcaneDmg;
+                    arcaneDmg = comp.arcaneDmg;
                 }
             }
 
             bool flag = hitThing != null;
             if (flag)
             {
-                int DamageAmount = Mathf.RoundToInt(this.def.projectile.GetDamageAmount(1,null) * this.arcaneDmg);
-                DamageInfo dinfo = new DamageInfo(this.def.projectile.damageDef, DamageAmount, 0, this.ExactRotation.eulerAngles.y, this.launcher, null, this.equipmentDef, DamageInfo.SourceCategory.ThingOrUnknown);
+                int DamageAmount = Mathf.RoundToInt(def.projectile.GetDamageAmount(1,null) * arcaneDmg);
+                DamageInfo dinfo = new DamageInfo(def.projectile.damageDef, DamageAmount, 0, ExactRotation.eulerAngles.y, launcher, null, equipmentDef, DamageInfo.SourceCategory.ThingOrUnknown);
                 hitThing.TakeDamage(dinfo);
 
-                bool flag2 = this.canStartFire && Rand.Range(0f, 1f) > this.startFireChance;
+                bool flag2 = canStartFire && Rand.Range(0f, 1f) > startFireChance;
                 if (flag2)
                 {
                     hitThing.TryAttachFire(0.05f, null);
@@ -43,17 +43,17 @@ namespace TorannMagic.Weapon
                 bool flag3 = (hitTarget = (hitThing as Pawn)) != null;
                 if (flag3)
                 {
-                    this.PostImpactEffects(this.launcher as Pawn, hitTarget);
-                    FleckMaker.ThrowMicroSparks(this.destination, base.Map);
+                    PostImpactEffects(launcher as Pawn, hitTarget);
+                    FleckMaker.ThrowMicroSparks(destination, Map);
                 }
             }
             else
             {
-                FleckMaker.ThrowMicroSparks(this.ExactPosition, base.Map);
+                FleckMaker.ThrowMicroSparks(ExactPosition, Map);
             }
             for (int i = 0; i <= 1; i++)
             {
-                SoundInfo info = SoundInfo.InMap(new TargetInfo(base.Position, base.Map, false), MaintenanceType.None);
+                SoundInfo info = SoundInfo.InMap(new TargetInfo(Position, Map, false), MaintenanceType.None);
                 //SoundDef.Named("TM_Thunder_OnMap");
             }
             CellRect cellRect = CellRect.CenteredOn(hitThing.Position, 2);
@@ -61,14 +61,14 @@ namespace TorannMagic.Weapon
             for (int i = 0; i < Rand.Range(1, 3); i++)
             {
                 IntVec3 randomCell = cellRect.RandomCell;
-                this.StaticExplosion(randomCell, map, 0.4f);
+                StaticExplosion(randomCell, map, 0.4f);
             }
         }
 
         protected void StaticExplosion(IntVec3 pos, Map map, float radius)
         {
             ThingDef def = this.def;
-            Explosion(pos, map, radius, DamageDefOf.Stun, this.launcher, null, def, this.equipmentDef, ThingDefOf.Spark, 0.4f, 1, false, null, 0f, 1);
+            Explosion(pos, map, radius, DamageDefOf.Stun, launcher, null, def, equipmentDef, ThingDefOf.Spark, 0.4f, 1, false, null, 0f, 1);
 
         }
 

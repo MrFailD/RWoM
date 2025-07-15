@@ -18,7 +18,7 @@ namespace TorannMagic.Golems
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<int>(ref this.jobDuration, "jobDuration");
+            Scribe_Values.Look<int>(ref jobDuration, "jobDuration");
         }
 
         public override void Apply(LocalTargetInfo target, Pawn caster, TM_GolemAbilityDef ability, float effectLevel = 1f, float effectBonus = 1f)

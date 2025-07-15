@@ -16,16 +16,16 @@ namespace TorannMagic
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -49,14 +49,14 @@ namespace TorannMagic
             Pawn caster = base.CasterPawn;
             Map map = caster.Map;
             cellList.Clear();
-            List<IntVec3> tmpList = GenRadial.RadialCellsAround(currentTarget.Cell, this.Projectile.projectile.explosionRadius, true).ToList();
+            List<IntVec3> tmpList = GenRadial.RadialCellsAround(currentTarget.Cell, Projectile.projectile.explosionRadius, true).ToList();
             CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
             //pwrVal = TM_Calc.GetMagicSkillLevel(caster, comp.MagicData.MagicPowerSkill_SpiritWolves, "TM_SpiritWolves", "_pwr", true);
             //verVal = TM_Calc.GetMagicSkillLevel(caster, comp.MagicData.MagicPowerSkill_SpiritWolves, "TM_SpiritWolves", "_ver", true);
             //effVal = TM_Calc.GetMagicSkillLevel(caster, comp.MagicData.MagicPowerSkill_SpiritWolves, "TM_SpiritWolves", "_eff", true);
-            pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef);
-            verVal = TM_Calc.GetSkillVersatilityLevel(caster, this.Ability.Def as TMAbilityDef);
-            effVal = TM_Calc.GetSkillEfficiencyLevel(caster, this.Ability.Def as TMAbilityDef);
+            pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef);
+            verVal = TM_Calc.GetSkillVersatilityLevel(caster, Ability.Def as TMAbilityDef);
+            effVal = TM_Calc.GetSkillEfficiencyLevel(caster, Ability.Def as TMAbilityDef);
             if (tmpList != null && tmpList.Count > 0)
             {
                 foreach (IntVec3 c in tmpList)
@@ -72,7 +72,7 @@ namespace TorannMagic
                     FleckMaker.ThrowSmoke(cellList.RandomElement().ToVector3Shifted(), map, Rand.Range(3f, 4f));
                     IntVec3 cell = cellList.RandomElement();
 
-                    AbilityUser.SpawnThings tempPod = new SpawnThings();
+                    SpawnThings tempPod = new SpawnThings();
                     tempPod.def = TorannMagicDefOf.TM_SpiritWolfR;
                     tempPod.kindDef = TorannMagicDefOf.TM_SpiritWolf;
                     tempPod.spawnCount = 1;

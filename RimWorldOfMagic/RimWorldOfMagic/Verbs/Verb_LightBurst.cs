@@ -22,9 +22,9 @@ namespace TorannMagic
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             //pwrVal = TM_Calc.GetMagicSkillLevel(pawn, comp.MagicData.MagicPowerSkill_LightBurst, "TM_LightBurst", "_pwr", TorannMagicDefOf.TM_LightBurst.canCopy);
             //verVal = TM_Calc.GetMagicSkillLevel(pawn, comp.MagicData.MagicPowerSkill_LightBurst, "TM_LightBurst", "_ver", TorannMagicDefOf.TM_LightBurst.canCopy);
-            pwrVal = TM_Calc.GetSkillPowerLevel(pawn, this.Ability.Def as TMAbilityDef);
-            verVal = TM_Calc.GetSkillVersatilityLevel(pawn, this.Ability.Def as TMAbilityDef);
-            this.burstCount = 2;
+            pwrVal = TM_Calc.GetSkillPowerLevel(pawn, Ability.Def as TMAbilityDef);
+            verVal = TM_Calc.GetSkillVersatilityLevel(pawn, Ability.Def as TMAbilityDef);
+            burstCount = 2;
             if (verVal >= 1)
             {
                 burstCount++;
@@ -33,40 +33,40 @@ namespace TorannMagic
                     burstCount++;
                 }
             }
-            this.arcaneDmg = comp.arcaneDmg;
+            arcaneDmg = comp.arcaneDmg;
             if (pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_LightCapacitanceHD))
             {
                 HediffComp_LightCapacitance hd = pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_LightCapacitanceHD).TryGetComp<HediffComp_LightCapacitance>();
-                this.lightPotency = hd.LightPotency;
-                hd.LightEnergy -= (2.5f * this.burstCount);
+                lightPotency = hd.LightPotency;
+                hd.LightEnergy -= (2.5f * burstCount);
             }
         }
 
         protected override bool TryCastShot()
         {
             bool result = false;
-            Pawn pawn = this.CasterPawn;
+            Pawn pawn = CasterPawn;
             if (!initialized)
             {
-                this.initialized = true;
-                this.Initialize(pawn);
+                initialized = true;
+                Initialize(pawn);
             }
 
-            Map map = this.CasterPawn.Map;
-            IntVec3 targetVariation = this.currentTarget.Cell;
-            float radius = (this.Ability.Def.MainVerb.TargetAoEProperties.range / 2f) + (.3f*pwrVal);
+            Map map = CasterPawn.Map;
+            IntVec3 targetVariation = currentTarget.Cell;
+            float radius = (Ability.Def.MainVerb.TargetAoEProperties.range / 2f) + (.3f*pwrVal);
             targetVariation.x += Mathf.RoundToInt(Rand.Range(-radius, radius));
             targetVariation.z += Mathf.RoundToInt(Rand.Range(-radius, radius));
-            this.CreateLightBurst(targetVariation, map, radius);
-            this.ApplyEffects(targetVariation, map, radius);
-            this.burstCount--;
-            result = this.burstCount > 0;           
+            CreateLightBurst(targetVariation, map, radius);
+            ApplyEffects(targetVariation, map, radius);
+            burstCount--;
+            result = burstCount > 0;           
             return result;
         }
 
         public void CreateLightBurst(IntVec3 center, Map map, float radius)
         {
-            GenClamor.DoClamor(this.CasterPawn, 2*radius, ClamorDefOf.Ability);
+            GenClamor.DoClamor(CasterPawn, 2*radius, ClamorDefOf.Ability);
             Effecter flashED = TorannMagicDefOf.TM_LightBurstED.Spawn();
             flashED.Trigger(new TargetInfo(center, map, false), new TargetInfo(center, map, false));
             flashED.Cleanup();
@@ -90,7 +90,7 @@ namespace TorannMagic
                         List<BodyPartRecord> bpr = p.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.SightSource).ToList();
                         float distanceToCenter = (p.Position - center).LengthHorizontal;
                         float distanceMultiplier = radius - distanceToCenter;
-                        if(p.Faction != null && p.Faction == this.CasterPawn.Faction)
+                        if(p.Faction != null && p.Faction == CasterPawn.Faction)
                         {
                             distanceMultiplier *= .5f;
                         }
@@ -98,7 +98,7 @@ namespace TorannMagic
                         {
                             for (int j = 0; j < bpr.Count; j++)
                             {
-                                TM_Action.DamageEntities(p, bpr[j], distanceMultiplier * (baseDamage + (.3f * pwrVal)), TMDamageDefOf.DamageDefOf.TM_BurningLight, this.CasterPawn);                                
+                                TM_Action.DamageEntities(p, bpr[j], distanceMultiplier * (baseDamage + (.3f * pwrVal)), TMDamageDefOf.DamageDefOf.TM_BurningLight, CasterPawn);                                
                                 HealthUtility.AdjustSeverity(p, TorannMagicDefOf.TM_LightBurstHD, distanceMultiplier * lightPotency * (.1f + (.015f * pwrVal)));
                             }
                         }

@@ -28,14 +28,14 @@ namespace TorannMagic.Enchantment
         {
             get
             {
-                return ITab_Enchantment.SelectedCompEnchantment != null && ITab_Enchantment.SelectedCompEnchantment.HasEnchantment;  
+                return SelectedCompEnchantment != null && SelectedCompEnchantment.HasEnchantment;  
             }
         }
 
         public ITab_Enchantment()
         {
-            this.size = ITab_Enchantment.WinSize;
-            this.labelKey = "TabEnchantment";
+            size = WinSize;
+            labelKey = "TabEnchantment";
         }
 
         protected override void FillTab()
@@ -46,7 +46,7 @@ namespace TorannMagic.Enchantment
             {
                 enchantmentMultiplier = 1.2f;
             }
-            Rect rect = GenUI.ContractedBy(new Rect(0f, 0f, ITab_Enchantment.WinSize.x, ITab_Enchantment.WinSize.y), 10f);
+            Rect rect = GenUI.ContractedBy(new Rect(0f, 0f, WinSize.x, WinSize.y), 10f);
             Rect rect2 = rect;
             Text.Font = GameFont.Small;
             string rectLabel = "Enchantments:"; 

@@ -15,7 +15,7 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     validTarg = true;
                 }
@@ -37,9 +37,9 @@ namespace TorannMagic
             Map map = base.CasterPawn.Map;
             Pawn mentor = base.CasterPawn;
 
-            if(this.currentTarget.Thing is Pawn student && this.currentTarget.Thing != mentor)
+            if(currentTarget.Thing is Pawn student && currentTarget.Thing != mentor)
             {
-                if (this.Ability.Def == TorannMagicDefOf.TM_TeachMagic)
+                if (Ability.Def == TorannMagicDefOf.TM_TeachMagic)
                 {
                     if (TM_Calc.IsMagicUser(mentor) && !TM_Calc.IsCrossClass(mentor, true) && student.story != null)
                     {
@@ -72,7 +72,7 @@ namespace TorannMagic
                         Log.Message("undetected might or magic user attempting to teach skill");
                     }
                 }
-                if (this.Ability.Def == TorannMagicDefOf.TM_TeachMight)
+                if (Ability.Def == TorannMagicDefOf.TM_TeachMight)
                 {
                     if (TM_Calc.IsMightUser(mentor) && !TM_Calc.IsCrossClass(mentor, false) && student.story != null)
                     {
@@ -110,11 +110,11 @@ namespace TorannMagic
             {
                 Messages.Message("TM_InvalidTarget".Translate(
                         mentor.LabelShort,
-                        this.Ability.Def.label
+                        Ability.Def.label
                     ), MessageTypeDefOf.RejectInput, false);
             }
 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return false;
         }
     }

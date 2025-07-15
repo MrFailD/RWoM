@@ -8,7 +8,7 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             Pawn caster = base.CasterPawn;
-            Pawn pawn = this.currentTarget.Thing as Pawn;
+            Pawn pawn = currentTarget.Thing as Pawn;
 
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             if(comp.IsMagicUser)

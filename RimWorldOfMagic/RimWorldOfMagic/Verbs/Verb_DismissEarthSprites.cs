@@ -14,7 +14,7 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool flag = false;
-            CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
+            CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
 
             if (comp.IsMagicUser)
             {
@@ -27,12 +27,12 @@ namespace TorannMagic
                 else
                 {
                     Messages.Message("TM_NoSpritesToDismiss".Translate(
-                            this.CasterPawn.LabelShort
+                            CasterPawn.LabelShort
                         ), MessageTypeDefOf.RejectInput);
                 }
             }
 
-            this.PostCastShot(flag, out flag);
+            PostCastShot(flag, out flag);
             return flag;
         }
     }

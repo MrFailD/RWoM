@@ -16,16 +16,16 @@ namespace TorannMagic
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -43,17 +43,17 @@ namespace TorannMagic
         {
 
             bool flag10 = false;
-            this.TargetsAoE.Clear();
-            this.UpdateTargets();
-            int shotsPerBurst = this.ShotsPerBurst;
-            bool flag2 = this.UseAbilityProps.AbilityTargetCategory != AbilityTargetCategory.TargetAoE && this.TargetsAoE.Count > 1;
+            TargetsAoE.Clear();
+            UpdateTargets();
+            int shotsPerBurst = ShotsPerBurst;
+            bool flag2 = UseAbilityProps.AbilityTargetCategory != AbilityTargetCategory.TargetAoE && TargetsAoE.Count > 1;
             if (flag2)
             {
-                this.TargetsAoE.RemoveRange(0, this.TargetsAoE.Count - 1);
+                TargetsAoE.RemoveRange(0, TargetsAoE.Count - 1);
             }
-            for (int i = 0; i < this.TargetsAoE.Count; i++)
+            for (int i = 0; i < TargetsAoE.Count; i++)
             {
-                bool? flag3 = this.TryLaunchProjectile(this.verbProps.defaultProjectile, this.TargetsAoE[i]);
+                bool? flag3 = TryLaunchProjectile(verbProps.defaultProjectile, TargetsAoE[i]);
                 bool hasValue = flag3.HasValue;
                 if (hasValue)
                 {
@@ -70,7 +70,7 @@ namespace TorannMagic
                 }
             }
 
-            CellRect cellRect = CellRect.CenteredOn(this.currentTarget.Cell, 1);
+            CellRect cellRect = CellRect.CenteredOn(currentTarget.Cell, 1);
             Map map = caster.Map;
             cellRect.ClipInsideMap(map);
 
@@ -92,13 +92,13 @@ namespace TorannMagic
             else
             {
                 pVect = summonableThing.TrueCenter();
-                pVect.x = base.caster.TrueCenter().x;
-                pVect.z = base.caster.TrueCenter().z;
+                pVect.x = caster.TrueCenter().x;
+                pVect.z = caster.TrueCenter().z;
                 pVect.y = 0f;
                 victim = summonableThing as Pawn;
                 if (victim != null)
                 {
-                    if (!victim.IsColonist && !victim.IsPrisoner && !victim.Faction.HostileTo(this.CasterPawn.Faction) && victim.Faction != null && victim.RaceProps.Humanlike)
+                    if (!victim.IsColonist && !victim.IsPrisoner && !victim.Faction.HostileTo(CasterPawn.Faction) && victim.Faction != null && victim.RaceProps.Humanlike)
                     {
                         //Faction faction = victim.Faction;
                         //faction.TrySetRelationKind(this.CasterPawn.Faction, FactionRelationKind.Ally, false, null);
@@ -112,10 +112,10 @@ namespace TorannMagic
             }
             bool result;
             bool arg_40_0;
-            if (this.currentTarget != null && base.caster != null)
+            if (currentTarget != null && caster != null)
             {
-                IntVec3 arg_29_0 = this.currentTarget.Cell;
-                arg_40_0 = this.caster.Position.IsValid;
+                IntVec3 arg_29_0 = currentTarget.Cell;
+                arg_40_0 = caster.Position.IsValid;
             }
             else
             {
@@ -128,8 +128,8 @@ namespace TorannMagic
                 {
                     if (pflag)
                     {
-                        DamageInfo dinfo2 = new DamageInfo(DamageDefOf.Stun, 10, 10, -1, this.CasterPawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown, victim);
-                        if (!victim.RaceProps.Humanlike || victim.Faction == this.CasterPawn.Faction)
+                        DamageInfo dinfo2 = new DamageInfo(DamageDefOf.Stun, 10, 10, -1, CasterPawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown, victim);
+                        if (!victim.RaceProps.Humanlike || victim.Faction == CasterPawn.Faction)
                         {
                             if (ModCheck.Validate.GiddyUp.Core_IsInitialized())
                             {
@@ -142,7 +142,7 @@ namespace TorannMagic
                             //summonablePawn.impactDamage = dinfo2;
                             //summonablePawn.Launch(base.caster, new LocalTargetInfo(pVect.ToIntVec3()), summonableThing);
                         }
-                        else if (victim.RaceProps.Humanlike && victim.Faction != this.CasterPawn.Faction && Rand.Chance(TM_Calc.GetSpellSuccessChance(this.CasterPawn, victim, true)))
+                        else if (victim.RaceProps.Humanlike && victim.Faction != CasterPawn.Faction && Rand.Chance(TM_Calc.GetSpellSuccessChance(CasterPawn, victim, true)))
                         {
                             if(ModCheck.Validate.GiddyUp.Core_IsInitialized())
                             {
@@ -173,7 +173,7 @@ namespace TorannMagic
             }
             //this.burstShotsLeft = 0;
             //this.ability.TicksUntilCasting = (int)base.UseAbilityProps.SecondsToRecharge * 60;
-            this.PostCastShot(flag10, out flag10);
+            PostCastShot(flag10, out flag10);
             return flag;
         }
 

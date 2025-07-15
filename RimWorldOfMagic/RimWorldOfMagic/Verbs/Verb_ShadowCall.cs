@@ -16,7 +16,7 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool result = false;
-            CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
+            CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
             Pawn soulPawn = comp.soulBondPawn;
 
             if(soulPawn != null && !soulPawn.Dead && !soulPawn.Destroyed)
@@ -56,24 +56,24 @@ namespace TorannMagic
                     if (soulPawn.ParentHolder != null && soulPawn.ParentHolder is Caravan van)
                     {
                         van.RemovePawn(soulPawn);
-                        GenPlace.TryPlaceThing(soulPawn, this.CasterPawn.Position, this.CasterPawn.Map, ThingPlaceMode.Near);
+                        GenPlace.TryPlaceThing(soulPawn, CasterPawn.Position, CasterPawn.Map, ThingPlaceMode.Near);
                         if(van.PawnsListForReading != null && van.PawnsListForReading.Count <= 0)
                         {
-                            CaravanEnterMapUtility.Enter(van, this.CasterPawn.Map, CaravanEnterMode.Center, CaravanDropInventoryMode.DropInstantly, false);
+                            CaravanEnterMapUtility.Enter(van, CasterPawn.Map, CaravanEnterMode.Center, CaravanDropInventoryMode.DropInstantly, false);
                         }
                         
                         //Messages.Message("" + p.LabelShort + " has shadow stepped to a caravan with " + soulPawn.LabelShort, MessageTypeDefOf.NeutralEvent);
                         goto fin;
                     }
                 }
-                IntVec3 casterCell = this.CasterPawn.Position;
+                IntVec3 casterCell = CasterPawn.Position;
                 IntVec3 targetCell = soulPawn.Position;
                 if (soulPawnSpawned)
                 {
                     try
                     {
                         soulPawn.DeSpawn();
-                        GenSpawn.Spawn(soulPawn, casterCell, this.CasterPawn.Map);
+                        GenSpawn.Spawn(soulPawn, casterCell, CasterPawn.Map);
                         if (drafted)
                         {
                             soulPawn.drafter.Drafted = true;
@@ -99,7 +99,7 @@ namespace TorannMagic
                 Log.Warning("No soul bond found to shadow call.");
             }
             fin:;
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             //this.ability.TicksUntilCasting = (int)base.UseAbilityProps.SecondsToRecharge * 60;
             return result;
         }

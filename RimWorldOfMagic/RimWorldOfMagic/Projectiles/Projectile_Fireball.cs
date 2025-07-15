@@ -14,19 +14,19 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
 			base.Impact(hitThing);
 			ThingDef def = this.def;
 
             //ExplosionHelper.Explode(base.Position, map, this.def.projectile.explosionRadius, DamageDefOf.Bomb, this.launcher, SoundDefOf.PlanetkillerImpact, def, this.equipmentDef, null, 0f, 1, false, null, 0f, 1);
-            ExplosionHelper.Explode(base.Position, map, this.def.projectile.explosionRadius, DamageDefOf.Bomb, this.launcher, Mathf.RoundToInt(Rand.Range(this.def.projectile.GetDamageAmount(1,null)/2, this.def.projectile.GetDamageAmount(1,null)) * this.arcaneDmg), 0, TorannMagicDefOf.TM_SoftExplosion, def, this.equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0.1f, true);
+            ExplosionHelper.Explode(Position, map, this.def.projectile.explosionRadius, DamageDefOf.Bomb, launcher, Mathf.RoundToInt(Rand.Range(this.def.projectile.GetDamageAmount(1,null)/2, this.def.projectile.GetDamageAmount(1,null)) * arcaneDmg), 0, TorannMagicDefOf.TM_SoftExplosion, def, equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0.1f, true);
 
             //ExplosionHelper.Explode(Position, Map,this.def.projectile.explosionRadius, DamageDefOf.Bomb, Launcher, Mathf.RoundToInt(Rand.Range(this.def.projectile.GetDamageAmount(1, null) / 2, this.def.projectile.GetDamageAmount(1, null)) * this.arcaneDmg), 0f, TorannMagicDefOf.TM_SoftExplosion)
                 
-            CellRect cellRect = CellRect.CenteredOn(base.Position, 5);
+            CellRect cellRect = CellRect.CenteredOn(Position, 5);
 			cellRect.ClipInsideMap(map);
             
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Fireball.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Fireball_pwr");
             MagicPowerSkill ver = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Fireball.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Fireball_ver");
@@ -39,7 +39,7 @@ namespace TorannMagic
                 pwrVal = mpwr.level;
                 verVal = mver.level;
             }
-            this.arcaneDmg = comp.arcaneDmg;
+            arcaneDmg = comp.arcaneDmg;
             if(ModOptions.Settings.Instance.AIHardMode && !pawn.IsColonist)
             {
                 pwrVal = 3;
@@ -50,7 +50,7 @@ namespace TorannMagic
 				IntVec3 randomCell = cellRect.RandomCell;
                 if(randomCell.IsValid && randomCell.InBoundsWithNullCheck(map) && !randomCell.Fogged(map))
                 {
-                    this.FireExplosion(randomCell, map, 2.2f, ver);
+                    FireExplosion(randomCell, map, 2.2f, ver);
                 }
                 else
                 {
@@ -65,19 +65,19 @@ namespace TorannMagic
             ThingDef def = this.def;
             if (verVal == 0)
             {
-                Explosion(pos, map, radius, DamageDefOf.Flame, this.launcher, null, def, this.equipmentDef, null, 0.3f, 1, false, null, 0f, 1);
+                Explosion(pos, map, radius, DamageDefOf.Flame, launcher, null, def, equipmentDef, null, 0.3f, 1, false, null, 0f, 1);
             }
             else if (verVal == 1)
             {
-                Explosion(pos, map, radius, TMDamageDefOf.DamageDefOf.TM_Fireball_I, this.launcher, null, def, this.equipmentDef, null, 0.5f, 1, false, null, 0f, 1);
+                Explosion(pos, map, radius, TMDamageDefOf.DamageDefOf.TM_Fireball_I, launcher, null, def, equipmentDef, null, 0.5f, 1, false, null, 0f, 1);
             }
             else if (verVal == 2)
             {
-                Explosion(pos, map, radius, TMDamageDefOf.DamageDefOf.TM_Fireball_II, this.launcher, null, def, this.equipmentDef, null, 0.8f, 1, false, null, 0f, 1);
+                Explosion(pos, map, radius, TMDamageDefOf.DamageDefOf.TM_Fireball_II, launcher, null, def, equipmentDef, null, 0.8f, 1, false, null, 0f, 1);
             }
             else if (verVal == 3)
             {
-                Explosion(pos, map, radius, TMDamageDefOf.DamageDefOf.TM_Fireball_III, this.launcher, null, def, this.equipmentDef, null, 1.1f, 1, false, null, 0f, 1);
+                Explosion(pos, map, radius, TMDamageDefOf.DamageDefOf.TM_Fireball_III, launcher, null, def, equipmentDef, null, 1.1f, 1, false, null, 0f, 1);
             }
             else
             {
@@ -90,7 +90,7 @@ namespace TorannMagic
             FleckMaker.Static(center, map, FleckDefOf.ExplosionFlash, 1f);
             System.Random rnd = new System.Random();
 			int modDamAmountRand = (int)GenMath.RoundRandom(rnd.Next(6, projectile.projectile.GetDamageAmount(1,null) / 2));
-            modDamAmountRand = Mathf.RoundToInt(modDamAmountRand * this.arcaneDmg);
+            modDamAmountRand = Mathf.RoundToInt(modDamAmountRand * arcaneDmg);
 			if (map == null)
 			{
 				Log.Warning("Tried to do explosion in a null map.");
@@ -118,10 +118,10 @@ namespace TorannMagic
 
         public override void Tick()
         {
-            Vector3 rndPos = this.DrawPos;
+            Vector3 rndPos = DrawPos;
             rndPos.x += Rand.Range(-.4f, .4f);
             rndPos.z += Rand.Range(-.4f, .4f);
-            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Heat, rndPos, this.Map, Rand.Range(.5f, .6f), .05f, 0.15f, .1f, Rand.Range(-300, 300), Rand.Range(.8f, 1.3f), Rand.Range(0, 360), Rand.Range(0, 360));
+            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Heat, rndPos, Map, Rand.Range(.5f, .6f), .05f, 0.15f, .1f, Rand.Range(-300, 300), Rand.Range(.8f, 1.3f), Rand.Range(0, 360), Rand.Range(0, 360));
             base.Tick();
         }
 

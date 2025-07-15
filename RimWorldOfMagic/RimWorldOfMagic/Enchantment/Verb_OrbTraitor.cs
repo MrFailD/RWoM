@@ -15,7 +15,7 @@ namespace TorannMagic.Enchantment
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     validTarg = true;
                 }
@@ -35,23 +35,23 @@ namespace TorannMagic.Enchantment
         protected override bool TryCastShot()
         {
             bool result = false;
-            CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
-            if (this.currentTarget != null && base.CasterPawn != null && comp != null)
+            CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
+            if (currentTarget != null && base.CasterPawn != null && comp != null)
             {
-                if(this.currentTarget.Thing != null && this.currentTarget.Thing is Pawn traitor)
+                if(currentTarget.Thing != null && currentTarget.Thing is Pawn traitor)
                 {
-                    if(traitor.Faction != null && traitor.Faction != this.CasterPawn.Faction && traitor.RaceProps.Humanlike)
+                    if(traitor.Faction != null && traitor.Faction != CasterPawn.Faction && traitor.RaceProps.Humanlike)
                     {
-                        if (Rand.Chance(TM_Calc.GetSpellSuccessChance(this.CasterPawn, traitor, true)))
+                        if (Rand.Chance(TM_Calc.GetSpellSuccessChance(CasterPawn, traitor, true)))
                         {
                             string letterLabel = "LetterLabelMessageRecruitSuccess".Translate();
                             int relationChange = Rand.RangeInclusive(-50, -20);
                             if (traitor.Faction.leader != null)
                             {
-                                Find.LetterStack.ReceiveLetter(letterLabel, "TM_TraitorOrbRecruit".Translate(this.CasterPawn, traitor.LabelShort, traitor.Faction.Name, traitor.Faction.leader.LabelShort, traitor.Faction.leader.gender.GetObjective().ToString(), relationChange), LetterDefOf.PositiveEvent);
+                                Find.LetterStack.ReceiveLetter(letterLabel, "TM_TraitorOrbRecruit".Translate(CasterPawn, traitor.LabelShort, traitor.Faction.Name, traitor.Faction.leader.LabelShort, traitor.Faction.leader.gender.GetObjective().ToString(), relationChange), LetterDefOf.PositiveEvent);
                             }
-                            this.CasterPawn.Faction.TryAffectGoodwillWith(traitor.Faction, relationChange, true, true, TorannMagicDefOf.TM_OffensiveMagic, null);
-                            traitor.SetFaction(caster.Faction, this.CasterPawn);
+                            CasterPawn.Faction.TryAffectGoodwillWith(traitor.Faction, relationChange, true, true, TorannMagicDefOf.TM_OffensiveMagic, null);
+                            traitor.SetFaction(caster.Faction, CasterPawn);
                             HealthUtility.AdjustSeverity(traitor, HediffDefOf.PsychicShock, 1);
                             Effects(traitor.Position);
                             result = true;
@@ -65,8 +65,8 @@ namespace TorannMagic.Enchantment
                     {
                         //invalid target
                         Messages.Message("TM_InvalidTarget".Translate(
-                                this.CasterPawn.LabelShort,
-                                this.verbProps.label
+                                CasterPawn.LabelShort,
+                                verbProps.label
                             ), MessageTypeDefOf.RejectInput);
                     }
                 }
@@ -74,8 +74,8 @@ namespace TorannMagic.Enchantment
                 {
                     //invalid target
                     Messages.Message("TM_InvalidTarget".Translate(
-                            this.CasterPawn.LabelShort,
-                            this.verbProps.label
+                            CasterPawn.LabelShort,
+                            verbProps.label
                         ), MessageTypeDefOf.RejectInput);
                 }
             }
@@ -83,7 +83,7 @@ namespace TorannMagic.Enchantment
             {
                 Log.Warning("failed to TryCastShot");
             }
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             //this.ability.TicksUntilCasting = (int)base.UseAbilityProps.SecondsToRecharge * 60;
             PostCastShot(result);
             return false;
@@ -92,14 +92,14 @@ namespace TorannMagic.Enchantment
         public void Effects(IntVec3 position)
         {
             Vector3 rndPos = position.ToVector3Shifted();
-            FleckMaker.ThrowHeatGlow(position, this.CasterPawn.Map, 1f);
+            FleckMaker.ThrowHeatGlow(position, CasterPawn.Map, 1f);
             for (int i = 0; i < 3; i++)
             {
                 rndPos.x += Rand.Range(-.5f, .5f);
                 rndPos.z += Rand.Range(-.5f, .5f);
                 rndPos.y += Rand.Range(.3f, 1.3f);
-                FleckMaker.ThrowSmoke(rndPos, this.CasterPawn.Map, Rand.Range(.7f, 1.1f));
-                FleckMaker.ThrowLightningGlow(position.ToVector3Shifted(), this.CasterPawn.Map, 1.4f);
+                FleckMaker.ThrowSmoke(rndPos, CasterPawn.Map, Rand.Range(.7f, 1.1f));
+                FleckMaker.ThrowLightningGlow(position.ToVector3Shifted(), CasterPawn.Map, 1.4f);
             }
         }
 
@@ -107,7 +107,7 @@ namespace TorannMagic.Enchantment
         {
             if(inResult)
             {
-                List<Apparel> apparel = this.CasterPawn.apparel.WornApparel;
+                List<Apparel> apparel = CasterPawn.apparel.WornApparel;
                 if (apparel != null)
                 {
                     for (int i = 0; i < apparel.Count; i++)
@@ -119,7 +119,7 @@ namespace TorannMagic.Enchantment
                         }
                     }
                 }
-                CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
+                CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
                 if(comp != null)
                 {
                     comp.RemovePawnAbility(TorannMagicDefOf.TM_Artifact_Conviction);

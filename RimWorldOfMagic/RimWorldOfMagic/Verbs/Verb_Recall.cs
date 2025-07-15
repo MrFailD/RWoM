@@ -17,19 +17,19 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool result = false;
-            map = this.CasterPawn.Map;
-            comp = this.CasterPawn.GetCompAbilityUserMagic();
+            map = CasterPawn.Map;
+            comp = CasterPawn.GetCompAbilityUserMagic();
 
-            if (this.CasterPawn != null && !this.CasterPawn.Downed && comp != null && comp.recallSet)
+            if (CasterPawn != null && !CasterPawn.Downed && comp != null && comp.recallSet)
             {
-                TM_Action.DoRecall(this.CasterPawn, comp, false);
+                TM_Action.DoRecall(CasterPawn, comp, false);
             }
             else
             {
                 Log.Warning("failed to TryCastShot");
             }
 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return result;
         }
 

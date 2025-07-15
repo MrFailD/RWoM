@@ -18,8 +18,8 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
-            Pawn pawn = this.launcher as Pawn;
+            Map map = Map;
+            Pawn pawn = launcher as Pawn;
             base.Impact(hitThing);
             ThingDef def = this.def;
             try
@@ -46,7 +46,7 @@ namespace TorannMagic
         {
             if (spinCheck)
             {
-                if (this.launcher is Pawn pawn)
+                if (launcher is Pawn pawn)
                 {
                     if (pawn.equipment != null && pawn.equipment.Primary != null)
                     {
@@ -61,13 +61,13 @@ namespace TorannMagic
             }
             if (shouldSpin)
             {
-                this.rotationOffset += 49;
+                rotationOffset += 49;
             }
-            if (this.rotationOffset > 360)
+            if (rotationOffset > 360)
             {
-                this.rotationOffset = this.rotationOffset - 360;
+                rotationOffset = rotationOffset - 360;
             }
-            Mesh mesh = MeshPool.GridPlane(this.def.graphicData.drawSize);
+            Mesh mesh = MeshPool.GridPlane(def.graphicData.drawSize);
             Graphics.DrawMesh(mesh, DrawPos, (Quaternion.AngleAxis(rotationOffset, Vector3.up) * ExactRotation), def.DrawMatSingle, 0);
             
             Comps_PostDraw();

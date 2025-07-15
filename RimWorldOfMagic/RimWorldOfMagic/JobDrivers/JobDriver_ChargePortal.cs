@@ -35,7 +35,7 @@ namespace TorannMagic
             this.FailOnDestroyedOrNull(building);
             Toil reserveTargetA = Toils_Reserve.Reserve(building);
             yield return reserveTargetA;
-            comp = this.pawn.GetCompAbilityUserMagic();
+            comp = pawn.GetCompAbilityUserMagic();
             portalBldg = TargetA.Thing as Building_TMPortal;
             arcaneCapacitor = TargetA.Thing as Building_TMArcaneCapacitor;
             dmp = TargetA.Thing as Building_TM_DMP;
@@ -61,24 +61,24 @@ namespace TorannMagic
                 {
                     if (age > duration)
                     {
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                     if (comp != null && comp.Mana != null && comp.Mana.CurLevel < .01f)
                     {
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                     else if (bldg.def.defName == "TM_DimensionalManaPocket")
                     {
-                        this.duration = 220;
+                        duration = 220;
                     }
                 },
                 tickAction = () =>
                 {
                     if (age > (effectsAge + ticksTillEffects))
                     {
-                        this.effectsAge = this.age;
+                        effectsAge = age;
                         TM_MoteMaker.ThrowCastingMote(pawn.DrawPos, pawn.Map, Rand.Range(1.2f, 2f));
-                        Vector3 moteDirection = TM_Calc.GetVector(this.pawn.Position, bldg.Position);
+                        Vector3 moteDirection = TM_Calc.GetVector(pawn.Position, bldg.Position);
                         TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Shadow, pawn.DrawPos, pawn.Map, Rand.Range(.4f, .6f), Rand.Range(.1f, .2f), .04f, Rand.Range(.1f, .2f), 300, 5f, (Quaternion.AngleAxis(90, Vector3.up) * moteDirection).ToAngleFlat(), 0);
                     }
                     if (age > (chargeAge + ticksTillCharge))
@@ -110,32 +110,32 @@ namespace TorannMagic
                     if (age > duration)
                     {
                         AttributeXP(comp);
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                     if (comp.Mana.CurLevel < .1f)
                     {
                         AttributeXP(comp);
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                     if (comp.Mana.CurLevel < .05f && bldg.def.defName == "TM_DimensionalManaPocket")
                     {
                         //AttributeXP(comp);
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                     if (portalBldg != null && portalBldg.ArcaneEnergyCur >= 1f)
                     {
                         AttributeXP(comp);
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                     if (arcaneCapacitor != null && arcaneCapacitor.ArcaneEnergyCur >= arcaneCapacitor.TargetArcaneEnergyPct)
                     {
                         //AttributeXP(comp);
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                     if (dmp != null && dmp.ArcaneEnergyCur >= dmp.TargetArcaneEnergyPct)
                     {
                         //AttributeXP(comp);
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                 },
                 defaultCompleteMode = ToilCompleteMode.Never
@@ -146,7 +146,7 @@ namespace TorannMagic
         private void AttributeXP(CompAbilityUserMagic comp)
         {
             comp.MagicUserXP += xpNum;
-            MoteMaker.ThrowText(this.pawn.DrawPos, this.pawn.MapHeld, "XP +" + xpNum, -1f);
+            MoteMaker.ThrowText(pawn.DrawPos, pawn.MapHeld, "XP +" + xpNum, -1f);
         }
     }
 }

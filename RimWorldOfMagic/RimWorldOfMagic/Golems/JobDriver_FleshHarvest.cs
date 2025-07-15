@@ -47,7 +47,7 @@ namespace TorannMagic.Golems
                 }   
                 else
                 {
-                    this.EndJobWith(JobCondition.Errored);
+                    EndJobWith(JobCondition.Errored);
                 }
             };
             doJob.tickAction = delegate
@@ -97,7 +97,7 @@ namespace TorannMagic.Golems
                                         thing.SetForbidden(value: true);
                                     }
                                     Find.QuestManager.Notify_PlantHarvested(pawn, thing);
-                                    GenPlace.TryPlaceThing(thing, pawn.Position, base.Map, ThingPlaceMode.Near);
+                                    GenPlace.TryPlaceThing(thing, pawn.Position, Map, ThingPlaceMode.Near);
                                     pawn.records.Increment(RecordDefOf.PlantsHarvested);
                                     plant.def.plant.soundHarvestFinish.PlayOneShot(pawn);
                                 }
@@ -106,18 +106,18 @@ namespace TorannMagic.Golems
                             plant.PlantCollected(pawn, PlantDestructionMode.Cut);
                         }
                     }
-                    this.EndJobWith(JobCondition.Succeeded);
+                    EndJobWith(JobCondition.Succeeded);
                 }
             };
             doJob.defaultCompleteMode = ToilCompleteMode.Never;
-            doJob.defaultDuration = this.durationTicks;
+            doJob.defaultDuration = durationTicks;
             doJob.WithProgressBar(TargetIndex.A, delegate
             {
-                if (this.pawn.DestroyedOrNull() || this.pawn.Dead || this.pawn.Downed)
+                if (pawn.DestroyedOrNull() || pawn.Dead || pawn.Downed)
                 {
                     return 1f;
                 }
-                return 1f - (float)doJob.actor.jobs.curDriver.ticksLeftThisToil / this.durationTicks;
+                return 1f - (float)doJob.actor.jobs.curDriver.ticksLeftThisToil / durationTicks;
             }, false, 0f);
             yield return doJob;
         }

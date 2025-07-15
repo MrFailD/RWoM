@@ -25,14 +25,14 @@ namespace TorannMagic.Golems
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<float>(ref this.severity, "severity");
-            Scribe_Values.Look<float>(ref this.maxRange, "maxRange");
-            Scribe_Values.Look<HediffDef>(ref this.hediff, "hediff");
-            Scribe_Values.Look<bool>(ref this.canStack, "canStack");
-            Scribe_Values.Look<bool>(ref this.requiresLoS, "requiresLoS");
-            Scribe_Values.Look<bool>(ref this.targetNeutral, "targetNeutral");
-            Scribe_Values.Look<bool>(ref this.targetFriendly, "targetFriendly");
-            Scribe_Values.Look<bool>(ref this.targetEnemy, "targetEnemy");
+            Scribe_Values.Look<float>(ref severity, "severity");
+            Scribe_Values.Look<float>(ref maxRange, "maxRange");
+            Scribe_Values.Look<HediffDef>(ref hediff, "hediff");
+            Scribe_Values.Look<bool>(ref canStack, "canStack");
+            Scribe_Values.Look<bool>(ref requiresLoS, "requiresLoS");
+            Scribe_Values.Look<bool>(ref targetNeutral, "targetNeutral");
+            Scribe_Values.Look<bool>(ref targetFriendly, "targetFriendly");
+            Scribe_Values.Look<bool>(ref targetEnemy, "targetEnemy");
 
         }
 

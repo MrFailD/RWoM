@@ -34,7 +34,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -42,14 +42,14 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            CompAbilityUserMight comp = this.Pawn.GetCompAbilityUserMight();
+            bool spawned = Pawn.Spawned;
+            CompAbilityUserMight comp = Pawn.GetCompAbilityUserMight();
 
             if (comp != null && comp.IsMightUser)
             {
@@ -59,29 +59,29 @@ namespace TorannMagic
             }
             else
             {
-                this.removeNow = true;
+                removeNow = true;
             }
         } 
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null && base.Pawn.Map != null;
+            bool flag = Pawn != null && Pawn.Map != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }                
             }
-            if(initialized && Find.TickManager.TicksGame % this.eventFrequency == 0)
+            if(initialized && Find.TickManager.TicksGame % eventFrequency == 0)
             {
-                if (this.Pawn.IsColonist)
+                if (Pawn.IsColonist)
                 {
                     severityAdjustment -= (Rand.Range(.03f, .05f) - (.008f * verVal));
                 }
-                else if(this.Pawn.IsPrisoner)
+                else if(Pawn.IsPrisoner)
                 {
                     severityAdjustment -= (Rand.Range(.25f, .5f) - (.00375f * verVal));
                 }
@@ -90,14 +90,14 @@ namespace TorannMagic
                     severityAdjustment += 2f;
                 }
             }
-            this.parent.Severity = Mathf.Clamp(this.parent.Severity, 0, this.maxSev);
+            parent.Severity = Mathf.Clamp(parent.Severity, 0, maxSev);
         }
 
         public override bool CompShouldRemove
         {
             get
             {
-                return base.CompShouldRemove || this.removeNow;
+                return base.CompShouldRemove || removeNow;
             }
         }        
     }

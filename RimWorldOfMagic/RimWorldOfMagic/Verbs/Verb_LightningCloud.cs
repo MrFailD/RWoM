@@ -17,11 +17,11 @@ namespace TorannMagic
             TargetAoEProperties targetAoEProperties = UseAbilityProps.abilityDef.MainVerb.TargetAoEProperties;
             if (targetAoEProperties == null || !targetAoEProperties.showRangeOnSelect)
             {
-                CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
+                CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
                 float adjustedRadius = verbProps.defaultProjectile?.projectile?.explosionRadius - 2f ?? 1f;
                 if (comp != null && comp.MagicData != null)
                 {
-                    int verVal = TM_Calc.GetSkillVersatilityLevel(this.CasterPawn, this.Ability.Def as TMAbilityDef);
+                    int verVal = TM_Calc.GetSkillVersatilityLevel(CasterPawn, Ability.Def as TMAbilityDef);
                     adjustedRadius += verVal;
                 }
                 return adjustedRadius;

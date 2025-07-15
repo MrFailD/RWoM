@@ -17,11 +17,11 @@ namespace TorannMagic
         {
             get
             {
-                return this.shieldFade;
+                return shieldFade;
             }
             set
             {
-                this.shieldFade = value;
+                shieldFade = value;
             }
         }
 
@@ -30,11 +30,11 @@ namespace TorannMagic
         {
             get
             {
-                return this.sevChange;
+                return sevChange;
             }
             set
             {
-                this.sevChange = value;
+                sevChange = value;
             }
         }
 
@@ -50,7 +50,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -58,7 +58,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
@@ -74,66 +74,66 @@ namespace TorannMagic
         {
             get
             {
-                return this.energy;
+                return energy;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
-                SoundDefOf.EnergyShield_Reset.PlayOneShot(new TargetInfo(base.Pawn.Position, base.Pawn.Map, false));
-                FleckMaker.ThrowLightningGlow(base.Pawn.TrueCenter(), base.Pawn.Map, 3f);
+                SoundDefOf.EnergyShield_Reset.PlayOneShot(new TargetInfo(Pawn.Position, Pawn.Map, false));
+                FleckMaker.ThrowLightningGlow(Pawn.TrueCenter(), Pawn.Map, 3f);
             }
-            this.energy = 2700; //45s
+            energy = 2700; //45s
         }
 
         public override void CompPostTick(ref float severityAdjustment) 
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
                 ResolveSeverityChange();
                 if (SevChange > 0.005f)
                 {
-                    TM_Action.DisplayShield(base.Pawn, SevChange);
+                    TM_Action.DisplayShield(Pawn, SevChange);
                 }
-                this.energy -= this.EnergyLossPerTick;
-                bool flag5 = this.energy <= 0;
+                energy -= EnergyLossPerTick;
+                bool flag5 = energy <= 0;
                 if (flag5)
                 {
                     severityAdjustment = -10f;
-                    this.Break();
+                    Break();
                 }
 
             }
-            base.Pawn.SetPositionDirect(base.Pawn.Position);
+            Pawn.SetPositionDirect(Pawn.Position);
         }
 
         private void ResolveSeverityChange()
         {
-            SevChange = this.lastSev - this.parent.Severity; 
+            SevChange = lastSev - parent.Severity; 
         }
 
         private void Break()
         {
             if (!broken)
             {
-                TorannMagicDefOf.EnergyShield_Broken.PlayOneShot(new TargetInfo(base.Pawn.Position, base.Pawn.Map, false));
-                FleckMaker.Static(base.Pawn.TrueCenter(), base.Pawn.Map, FleckDefOf.ExplosionFlash, 12f);
+                TorannMagicDefOf.EnergyShield_Broken.PlayOneShot(new TargetInfo(Pawn.Position, Pawn.Map, false));
+                FleckMaker.Static(Pawn.TrueCenter(), Pawn.Map, FleckDefOf.ExplosionFlash, 12f);
                 for (int i = 0; i < 6; i++)
                 {
-                    Vector3 loc = base.Pawn.TrueCenter() + Vector3Utility.HorizontalVectorFromAngle((float)Rand.Range(0, 360)) * Rand.Range(0.3f, 0.6f);
-                    FleckMaker.ThrowDustPuff(loc, base.Pawn.Map, Rand.Range(0.8f, 1.2f));
+                    Vector3 loc = Pawn.TrueCenter() + Vector3Utility.HorizontalVectorFromAngle((float)Rand.Range(0, 360)) * Rand.Range(0.3f, 0.6f);
+                    FleckMaker.ThrowDustPuff(loc, Pawn.Map, Rand.Range(0.8f, 1.2f));
                 }
-                this.energy = 0f;
+                energy = 0f;
                 broken = true;
             }
         }
@@ -141,7 +141,7 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look<float>(ref this.energy, "energy", 0f, false);
+            Scribe_Values.Look<float>(ref energy, "energy", 0f, false);
         }
     }
 }

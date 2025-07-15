@@ -13,7 +13,7 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool flag = false;
-            CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
+            CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
 
             if (comp.IsMagicUser)
             {
@@ -29,7 +29,7 @@ namespace TorannMagic
                 }
             }
 
-            this.PostCastShot(flag, out flag);
+            PostCastShot(flag, out flag);
             return flag;
         }
     }

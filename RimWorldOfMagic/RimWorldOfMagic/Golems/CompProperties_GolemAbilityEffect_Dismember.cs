@@ -18,7 +18,7 @@ namespace TorannMagic.Golems
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.canDecapitate, "canDecapitate");
+            Scribe_Values.Look<bool>(ref canDecapitate, "canDecapitate");
         }
 
         public override void Apply(LocalTargetInfo target, Pawn caster, TM_GolemAbilityDef ability, float effectLevel = 1f, float effectBonus = 1f)

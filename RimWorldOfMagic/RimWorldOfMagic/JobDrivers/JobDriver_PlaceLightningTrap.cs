@@ -60,7 +60,7 @@ namespace TorannMagic
                                 tempThing.Destroy();
                             }
                         }
-                        this.SingleSpawnLoop(tempPod, pawn, TargetLocA, pawn.Map);
+                        SingleSpawnLoop(tempPod, pawn, TargetLocA, pawn.Map);
                     }
                     catch
                     {

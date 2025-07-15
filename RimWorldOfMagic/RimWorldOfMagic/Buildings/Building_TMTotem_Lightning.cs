@@ -17,18 +17,18 @@ namespace TorannMagic
         {
             if(!initialized)
             {
-                this.nextSearch = Find.TickManager.TicksGame + Rand.Range(120, 180);
-                this.range = 40 + (4 * pwrVal);
+                nextSearch = Find.TickManager.TicksGame + Rand.Range(120, 180);
+                range = 40 + (4 * pwrVal);
                 initialized = true;
             }
-            else if(Find.TickManager.TicksGame >= this.nextSearch)
+            else if(Find.TickManager.TicksGame >= nextSearch)
             {
-                this.nextSearch = Find.TickManager.TicksGame + Rand.Range(120, 180);               
+                nextSearch = Find.TickManager.TicksGame + Rand.Range(120, 180);               
 
                 ScanForTarget();
                 if (target != null)
                 {
-                    if (TM_Calc.HasLoSFromTo(this.Position, target.Position, this, 0, range))
+                    if (TM_Calc.HasLoSFromTo(Position, target.Position, this, 0, range))
                     {
                         Projectile_Lightning bolt = ThingMaker.MakeThing(TorannMagicDefOf.Projectile_Lightning, null) as Projectile_Lightning;
                         bolt.pwrVal = pwrVal;
@@ -43,13 +43,13 @@ namespace TorannMagic
         private void ScanForTarget()
         {            
             //Log.Message("totem has faction " + this.Faction);
-            target = TM_Calc.FindNearbyEnemy(this.Position, this.Map, this.Faction, this.range, 5);
+            target = TM_Calc.FindNearbyEnemy(Position, Map, Faction, range, 5);
         }
 
         public override void ExposeData()
         {
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
             base.ExposeData();
         }
     }

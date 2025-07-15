@@ -10,7 +10,7 @@ namespace TorannMagic
 	{
 		protected override void Impact(Thing hitThing, bool blockedByShield = false)
 		{            
-            Map map = base.Map;
+            Map map = Map;
 			base.Impact(hitThing);
 			ThingDef def = this.def;
             Pawn p = launcher as Pawn;
@@ -23,7 +23,7 @@ namespace TorannMagic
                 }
                 if (p.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Cantrips.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Cantrips_pwr").level >= 1)
                 {
-                    List<Pawn> blindedPawns = TM_Calc.FindAllPawnsAround(map, base.Position, explosionRadius);
+                    List<Pawn> blindedPawns = TM_Calc.FindAllPawnsAround(map, Position, explosionRadius);
                     if (blindedPawns != null && blindedPawns.Count > 0)
                     {
                         for (int i = 0; i < blindedPawns.Count; i++)
@@ -48,7 +48,7 @@ namespace TorannMagic
                 }
             }
 
-            ExplosionHelper.Explode(base.Position, map, explosionRadius, this.def.projectile.damageDef, this.launcher, this.def.projectile.GetDamageAmount(1,null), 0, SoundDefOf.Artillery_ShellLoaded, def, this.equipmentDef, null, null, 1f, 1, GasType.BlindSmoke, false, null, 0f, 1, 0f, false);
+            ExplosionHelper.Explode(Position, map, explosionRadius, this.def.projectile.damageDef, launcher, this.def.projectile.GetDamageAmount(1,null), 0, SoundDefOf.Artillery_ShellLoaded, def, equipmentDef, null, null, 1f, 1, GasType.BlindSmoke, false, null, 0f, 1, 0f, false);
 
 		}		
 	}	

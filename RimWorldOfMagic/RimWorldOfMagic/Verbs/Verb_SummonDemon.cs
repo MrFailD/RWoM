@@ -13,20 +13,20 @@ namespace TorannMagic
             bool flag = false;
             Map map = base.CasterPawn.Map;
 
-            CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
+            CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
             Pawn sacrificialPawn = comp.soulBondPawn;
 
             if (!sacrificialPawn.DestroyedOrNull() && sacrificialPawn.Spawned && !sacrificialPawn.Dead)
             {
-                if (this.CasterPawn.story.traits.HasTrait(TorannMagicDefOf.Succubus))
+                if (CasterPawn.story.traits.HasTrait(TorannMagicDefOf.Succubus))
                 {
                     Job summonDemon = new Job(TorannMagicDefOf.JobDriver_SummonDemon, sacrificialPawn);
-                    this.CasterPawn.jobs.TryTakeOrderedJob(summonDemon, JobTag.Misc);
+                    CasterPawn.jobs.TryTakeOrderedJob(summonDemon, JobTag.Misc);
                     return true;
                 }
                 else
                 {
-                    List<Pawn> allPawns = this.CasterPawn.Map.mapPawns.AllPawnsSpawned.ToList();
+                    List<Pawn> allPawns = CasterPawn.Map.mapPawns.AllPawnsSpawned.ToList();
                     for(int i = 0; i < allPawns.Count; i++)
                     {
                         if(allPawns[i].IsColonist && allPawns[i].RaceProps.Humanlike)
@@ -38,7 +38,7 @@ namespace TorannMagic
                                     CompAbilityUserMagic supportComp = allPawns[i].GetCompAbilityUserMagic();
                                     if (supportComp.soulBondPawn == sacrificialPawn)
                                     {
-                                        this.TryLaunchProjectile(ThingDef.Named("Projectile_SummonDemon"), this.CasterPawn);
+                                        TryLaunchProjectile(ThingDef.Named("Projectile_SummonDemon"), CasterPawn);
                                         return true;
                                     }
                                     else
@@ -56,8 +56,8 @@ namespace TorannMagic
                 Log.Message("failed demon summoning - bonded pawn doesn't exist or unable to be sacrificed");
             }
 
-            this.burstShotsLeft = 0;
-            this.PostCastShot(flag, out flag);
+            burstShotsLeft = 0;
+            PostCastShot(flag, out flag);
             return false;
         }
 

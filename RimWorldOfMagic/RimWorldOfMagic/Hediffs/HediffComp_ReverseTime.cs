@@ -22,11 +22,11 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<bool>(ref this.isBad, "isBad", false, false);
-            Scribe_Values.Look<int>(ref this.durationTicks, "durationTicks", 6000, false);
-            Scribe_Values.Look<long>(ref this.currentAge, "currentAge", 1, false);
-            Scribe_Values.Look<int>(ref this.tickEffect, "tickEffect", 300, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<bool>(ref isBad, "isBad", false, false);
+            Scribe_Values.Look<int>(ref durationTicks, "durationTicks", 6000, false);
+            Scribe_Values.Look<long>(ref currentAge, "currentAge", 1, false);
+            Scribe_Values.Look<int>(ref tickEffect, "tickEffect", 300, false);
         }
 
         public override string CompLabelInBracketsExtra
@@ -37,7 +37,7 @@ namespace TorannMagic
                 {
                     return base.CompLabelInBracketsExtra + " (warped)";
                 }
-                return base.CompLabelInBracketsExtra + " " + (this.durationTicks/60) + "s";
+                return base.CompLabelInBracketsExtra + " " + (durationTicks/60) + "s";
             }
         }
         
@@ -48,9 +48,9 @@ namespace TorannMagic
             {
                 if (isBad)
                 {
-                    return base.Def.LabelCap + " (warped)";
+                    return Def.LabelCap + " (warped)";
                 }
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -60,28 +60,28 @@ namespace TorannMagic
             {
                 if(isBad)
                 {
-                    return base.Def.label + " (warped)";
+                    return Def.label + " (warped)";
                 }
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            if (spawned && base.Pawn.Map != null)
+            bool spawned = Pawn.Spawned;
+            if (spawned && Pawn.Map != null)
             {
-                FleckMaker.ThrowLightningGlow(base.Pawn.TrueCenter(), base.Pawn.Map, 3f);
+                FleckMaker.ThrowLightningGlow(Pawn.TrueCenter(), Pawn.Map, 3f);
             }
-            this.currentAge = base.Pawn.ageTracker.AgeBiologicalTicks;
-            this.tickEffect = Mathf.RoundToInt(this.durationTicks / 500);
+            currentAge = Pawn.ageTracker.AgeBiologicalTicks;
+            tickEffect = Mathf.RoundToInt(durationTicks / 500);
         }
 
         public override void CompPostPostRemoved()
         {
-            if(base.Pawn.ageTracker.AgeBiologicalTicks + (60*60000) <  this.currentAge)
+            if(Pawn.ageTracker.AgeBiologicalTicks + (60*60000) <  currentAge)
             {
-                base.Pawn.ageTracker.ResetAgeReversalDemand(Pawn_AgeTracker.AgeReversalReason.ViaTreatment);
+                Pawn.ageTracker.ResetAgeReversalDemand(Pawn_AgeTracker.AgeReversalReason.ViaTreatment);
             }
             base.CompPostPostRemoved();
         }
@@ -89,36 +89,36 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
             }
 
             if (Find.TickManager.TicksGame % tickPeriod == 0)
             {                
 
-                ReverseHediff(this.Pawn, tickPeriod);
-                this.durationTicks -= tickPeriod;                
+                ReverseHediff(Pawn, tickPeriod);
+                durationTicks -= tickPeriod;                
 
                 if (true)
                 {
-                    this.Pawn.ageTracker.AgeBiologicalTicks -= Mathf.RoundToInt(15000f * Mathf.Clamp(this.Pawn.ageTracker.AgeBiologicalYearsFloat/10f, .5f, 20f));
-                    if (this.Pawn.ageTracker.AgeBiologicalTicks < 0 && this.Pawn.ageTracker.AgeBiologicalYears > -10)
+                    Pawn.ageTracker.AgeBiologicalTicks -= Mathf.RoundToInt(15000f * Mathf.Clamp(Pawn.ageTracker.AgeBiologicalYearsFloat/10f, .5f, 20f));
+                    if (Pawn.ageTracker.AgeBiologicalTicks < 0 && Pawn.ageTracker.AgeBiologicalYears > -10)
                     {
-                        Messages.Message("TM_CeaseToExist".Translate(this.Pawn.LabelShort), MessageTypeDefOf.NeutralEvent);
-                        this.Pawn.Destroy(DestroyMode.Vanish);
+                        Messages.Message("TM_CeaseToExist".Translate(Pawn.LabelShort), MessageTypeDefOf.NeutralEvent);
+                        Pawn.Destroy(DestroyMode.Vanish);
                     }
                 }
             }
 
-            if (Find.TickManager.TicksGame % this.tickEffect == 0)
+            if (Find.TickManager.TicksGame % tickEffect == 0)
             {
-                ReverseEffects(this.Pawn, 1);
+                ReverseEffects(Pawn, 1);
             }
         }
 
@@ -141,7 +141,7 @@ namespace TorannMagic
                                 float immuneSevDay = immuneComp.Def.CompProps<HediffCompProperties_Immunizable>().severityPerDayNotImmune;
                                 if (immuneSevDay != 0 && !rec.FullyImmune())
                                 {
-                                    rec.Severity -= ((immuneSevDay * ticks * this.parent.Severity) / (2000));
+                                    rec.Severity -= ((immuneSevDay * ticks * parent.Severity) / (2000));
                                 }
                             }
                         }
@@ -164,7 +164,7 @@ namespace TorannMagic
                                     }
                                     if (!drugTolerance)
                                     {
-                                        rec.Severity -= ((sevDay * ticks * this.parent.Severity) / (800));
+                                        rec.Severity -= ((sevDay * ticks * parent.Severity) / (800));
                                     }
                                 }
                             }
@@ -175,7 +175,7 @@ namespace TorannMagic
                             int ticksToDisappear = Traverse.Create(root: tickComp).Field(name: "ticksToDisappear").GetValue<int>();
                             if (ticksToDisappear != 0)
                             {
-                                Traverse.Create(root: tickComp).Field(name: "ticksToDisappear").SetValue(ticksToDisappear + (Mathf.RoundToInt(ticks * this.parent.Severity)));
+                                Traverse.Create(root: tickComp).Field(name: "ticksToDisappear").SetValue(ticksToDisappear + (Mathf.RoundToInt(ticks * parent.Severity)));
                             }
                         }
                         if (rec.Bleeding)
@@ -186,7 +186,7 @@ namespace TorannMagic
                 }
                 if (totalBleedRate != 0)
                 {
-                    HealthUtility.AdjustSeverity(pawn, HediffDefOf.BloodLoss, -(totalBleedRate * ticks * this.parent.Severity) / (24 * 2500));
+                    HealthUtility.AdjustSeverity(pawn, HediffDefOf.BloodLoss, -(totalBleedRate * ticks * parent.Severity) / (24 * 2500));
                 }
             }
             List<Hediff> hediffList = pawn.health.hediffSet.hediffs.ToList();
@@ -195,7 +195,7 @@ namespace TorannMagic
                 for (int i = 0; i < hediffList.Count; i++)
                 {
                     Hediff rec = hediffList[i];
-                    if (rec != null && rec != this.parent)
+                    if (rec != null && rec != parent)
                     {
                         if (rec.def.scenarioCanAdd || rec.def.isBad)
                         {
@@ -206,7 +206,7 @@ namespace TorannMagic
                                     if (rec.def.isBad && rec.def != TorannMagicDefOf.TM_ResurrectionHD && rec.def != TorannMagicDefOf.TM_DeathReversalHD)
                                     {
                                         totalHDremoved++;
-                                        this.Pawn.health.RemoveHediff(rec);
+                                        Pawn.health.RemoveHediff(rec);
                                         break;
                                     }
                                 }
@@ -234,9 +234,9 @@ namespace TorannMagic
                                             }
                                             else
                                             {
-                                                if (this.Pawn.needs != null && this.Pawn.needs.mood != null && this.Pawn.needs.mood.thoughts != null && this.Pawn.needs.mood.thoughts.memories != null)
+                                                if (Pawn.needs != null && Pawn.needs.mood != null && Pawn.needs.mood.thoughts != null && Pawn.needs.mood.thoughts.memories != null)
                                                 {
-                                                    this.Pawn.needs.mood.thoughts.memories.TryGainMemory(TorannMagicDefOf.TM_PhantomLimb);
+                                                    Pawn.needs.mood.thoughts.memories.TryGainMemory(TorannMagicDefOf.TM_PhantomLimb);
                                                 }
                                             }
                                         }
@@ -246,7 +246,7 @@ namespace TorannMagic
                                         }
                                     }
                                     totalHDremoved +=2;
-                                    this.Pawn.health.RemoveHediff(rec);
+                                    Pawn.health.RemoveHediff(rec);
                                     i = hediffList.Count;
                                     break;
                                     IgnoreHediff:;                                    
@@ -293,7 +293,7 @@ namespace TorannMagic
 
         public void ReduceReverseTime(int removedCount)
         {
-            this.durationTicks -= Mathf.RoundToInt(removedCount * Rand.Range(20f, 30f) * tickPeriod);
+            durationTicks -= Mathf.RoundToInt(removedCount * Rand.Range(20f, 30f) * tickPeriod);
         }
 
         public void ReverseEffects(Pawn pawn, int intensity)
@@ -307,7 +307,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.durationTicks <= 0;
+                return base.CompShouldRemove || durationTicks <= 0;
             }
         }
 
@@ -316,7 +316,7 @@ namespace TorannMagic
             bool hasMissingParent = false;
             if (mphd.Part.parent != null)
             {
-                List<Hediff_MissingPart> hediffList = this.Pawn.health.hediffSet.hediffs.OfType<Hediff_MissingPart>().ToList();
+                List<Hediff_MissingPart> hediffList = Pawn.health.hediffSet.hediffs.OfType<Hediff_MissingPart>().ToList();
                 for (int i = 0; i < hediffList.Count; i++)
                 {
                     if(mphd.Part.parent == hediffList[i].Part)
@@ -330,11 +330,11 @@ namespace TorannMagic
 
         public bool RemoveChildParts(Hediff_MissingPart mphd)
         {
-            List<Hediff> hediffList = this.Pawn.health.hediffSet.hediffs.ToList();
+            List<Hediff> hediffList = Pawn.health.hediffSet.hediffs.ToList();
             for (int i = 0; i < hediffList.Count; i++)
             {
                 Hediff_MissingPart mpChild = hediffList[i] as Hediff_MissingPart;
-                if (mpChild != null && mpChild != this.parent && mpChild != mphd && mpChild.Part != null)
+                if (mpChild != null && mpChild != parent && mpChild != mphd && mpChild.Part != null)
                 {
                     if (mphd.Part == mpChild.Part.parent)
                     {
@@ -344,7 +344,7 @@ namespace TorannMagic
                         }
                         else
                         {
-                            this.Pawn.health.RemoveHediff(hediffList[i]);
+                            Pawn.health.RemoveHediff(hediffList[i]);
                             return true;
                         }
                     }

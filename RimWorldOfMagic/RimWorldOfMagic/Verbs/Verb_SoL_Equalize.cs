@@ -12,8 +12,8 @@ namespace TorannMagic
         
         protected override bool TryCastShot()
         {
-            Pawn pawn = this.CasterPawn;
-            Map map = this.CasterPawn.Map;
+            Pawn pawn = CasterPawn;
+            Map map = CasterPawn.Map;
             if (pawn != null && !pawn.Downed)
             {
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
@@ -32,7 +32,7 @@ namespace TorannMagic
                 }
             }
              
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return false;
         }
     }

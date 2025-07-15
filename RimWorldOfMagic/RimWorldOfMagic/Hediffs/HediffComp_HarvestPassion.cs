@@ -29,17 +29,17 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_References.Look<Pawn>(ref this.caster, "caster");
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0);
-            Scribe_Values.Look<int>(ref this.effVal, "effVal", 0);
-            Scribe_Values.Look<float>(ref this.arcaneDmg, "arcaneDmg", 1f);
+            Scribe_References.Look<Pawn>(ref caster, "caster");
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0);
+            Scribe_Values.Look<int>(ref effVal, "effVal", 0);
+            Scribe_Values.Look<float>(ref arcaneDmg, "arcaneDmg", 1f);
         }
         public string labelCap
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -47,14 +47,14 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned && Pawn.skills != null && !Pawn.Dead;
+            bool spawned = Pawn.Spawned && Pawn.skills != null && !Pawn.Dead;
             if (spawned && !caster.DestroyedOrNull() && !caster.Dead && !caster.Downed)
             {                
                 CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
@@ -108,14 +108,14 @@ namespace TorannMagic
             return validSkillPassions.Count > 0;
         }
 
-        public override bool CompShouldRemove => base.CompShouldRemove || this.shouldRemove;
+        public override bool CompShouldRemove => base.CompShouldRemove || shouldRemove;
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
             if (Find.TickManager.TicksGame % 8 == 0)
             {
-                bool flag = !base.Pawn.DestroyedOrNull() && base.Pawn.Spawned && !Pawn.Dead && !caster.DestroyedOrNull() && !caster.Dead && !caster.Downed && !shouldRemove;
+                bool flag = !Pawn.DestroyedOrNull() && Pawn.Spawned && !Pawn.Dead && !caster.DestroyedOrNull() && !caster.Dead && !caster.Downed && !shouldRemove;
                 if (flag)
                 {
                     if (!initialized)
@@ -201,13 +201,13 @@ namespace TorannMagic
 
         public void DrawEffects()
         {
-            Vector3 headOffset = this.Pawn.DrawPos;
+            Vector3 headOffset = Pawn.DrawPos;
             headOffset.z += Rand.Range(-.2f, .2f);
             headOffset.x += Rand.Range(-.2f, .2f);
             rotationDegree += Rand.Range(8, 16);
             TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_RedSwirl, headOffset, parent.pawn.Map, .6f, 0.2f, .1f, .2f, 30 + rotationDegree, 0, 0, rotationDegree);
 
-            Vector3 throwVec = TM_Calc.GetVector(this.Pawn.DrawPos, caster.DrawPos);
+            Vector3 throwVec = TM_Calc.GetVector(Pawn.DrawPos, caster.DrawPos);
             float throwAngle = (Quaternion.AngleAxis(90, Vector3.up) * throwVec).ToAngleFlat();
             float magnitude = (parent.pawn.Position - caster.Position).LengthHorizontal;
             for (int i = 0; i < 4; i++)

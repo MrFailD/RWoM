@@ -11,15 +11,15 @@ namespace TorannMagic
 
         public virtual void Effect()
         {
-            LocalTargetInfo t = this.TargetsAoE[0];
+            LocalTargetInfo t = TargetsAoE[0];
             bool flag = t.Cell != default(IntVec3);
             if (flag)
             {
                 Thing dirtDevil = new Thing();
                 dirtDevil.def = TorannMagicDefOf.FlyingObject_DirtDevil;
                 Pawn casterPawn = base.CasterPawn;
-                FlyingObject_DirtDevil flyingObject = (FlyingObject_DirtDevil)GenSpawn.Spawn(ThingDef.Named("FlyingObject_DirtDevil"), this.CasterPawn.Position, this.CasterPawn.Map);
-                flyingObject.Launch(this.CasterPawn, t.Cell, dirtDevil);
+                FlyingObject_DirtDevil flyingObject = (FlyingObject_DirtDevil)GenSpawn.Spawn(ThingDef.Named("FlyingObject_DirtDevil"), CasterPawn.Position, CasterPawn.Map);
+                flyingObject.Launch(CasterPawn, t.Cell, dirtDevil);
             }
         }
 
@@ -27,7 +27,7 @@ namespace TorannMagic
         {
             if (inResult)
             {
-                this.Effect();
+                Effect();
                 outResult = true;
             }
             outResult = inResult;

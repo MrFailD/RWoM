@@ -16,7 +16,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -24,14 +24,14 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (Find.TickManager.TicksGame % 300 == 0)  //occurs 200x per day; hediff lasts .7 to 1 day - applies 140 to 200 times per elixir; 
@@ -43,8 +43,8 @@ namespace TorannMagic
 
         public void TickAction()
         {
-            SkillDef ski = this.Pawn.skills.skills.RandomElement().def;
-            this.Pawn.skills.Learn(ski, Rand.Range(-5, -15), true);
+            SkillDef ski = Pawn.skills.skills.RandomElement().def;
+            Pawn.skills.Learn(ski, Rand.Range(-5, -15), true);
         }
     }
 }

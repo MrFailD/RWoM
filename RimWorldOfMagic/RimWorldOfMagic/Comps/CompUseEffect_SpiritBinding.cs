@@ -79,7 +79,7 @@ namespace TorannMagic
                 {
                     newType = comp.GuardianSpiritType.label;
                 }
-                this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                 Messages.Message("TM_SpiritAnimalChange".Translate(user.LabelShort, previousType, newType), MessageTypeDefOf.TaskCompletion);
                                 
             }

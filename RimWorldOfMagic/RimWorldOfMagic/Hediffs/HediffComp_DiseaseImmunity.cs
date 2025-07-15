@@ -16,7 +16,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -24,37 +24,37 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
 
-                if(!base.Pawn.Dead && base.Pawn.Spawned)
+                if(!Pawn.Dead && Pawn.Spawned)
                 {
                     if (Find.TickManager.TicksGame % 2500 == 0)
                     {
-                        if(this.verVal >= 3)
+                        if(verVal >= 3)
                         {
-                            IEnumerable<Hediff> hdEnum = this.Pawn.health.hediffSet.hediffs;
+                            IEnumerable<Hediff> hdEnum = Pawn.health.hediffSet.hediffs;
                             foreach (Hediff hd in hdEnum)
                             {
                                 if (hd.def.defName == "BloodRot")
                                 {
                                     int pwrDef = 2;
-                                    if (this.parent.def == TorannMagicDefOf.TM_DiseaseImmunity2HD)
+                                    if (parent.def == TorannMagicDefOf.TM_DiseaseImmunity2HD)
                                     {
                                         pwrDef = 3;
                                     }

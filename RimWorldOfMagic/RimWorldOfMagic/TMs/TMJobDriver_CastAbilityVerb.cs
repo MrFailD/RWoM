@@ -32,30 +32,30 @@ namespace TorannMagic
             //yield return Toils_Misc.ThrowColonistAttackingMote(TargetIndex.A);            
             Pawn targetPawn = null;
 
-            verb = this.pawn.CurJob.verbToUse as Verb_UseAbility;            
-            if(this.verb != null)
+            verb = pawn.CurJob.verbToUse as Verb_UseAbility;            
+            if(verb != null)
             {
-                if (this.TargetA.HasThing && this.TargetA.Thing is Pawn && (!pawn.Position.InHorDistOf(this.TargetA.Cell, pawn.CurJob.verbToUse.verbProps.range) || !Verb.UseAbilityProps.canCastInMelee))
+                if (TargetA.HasThing && TargetA.Thing is Pawn && (!pawn.Position.InHorDistOf(TargetA.Cell, pawn.CurJob.verbToUse.verbProps.range) || !Verb.UseAbilityProps.canCastInMelee))
                 {
                     Toil toil = Toils_Combat.GotoCastPosition(TargetIndex.A);
                     yield return toil;
                 }                
-                if (this.Context == AbilityContext.Player)
+                if (Context == AbilityContext.Player)
                 {
-                    Find.Targeter.targetingSource = this.verb;
+                    Find.Targeter.targetingSource = verb;
                 }
                 
-                if (this.TargetThingA != null)
+                if (TargetThingA != null)
                 {
                     targetPawn = TargetThingA as Pawn;
                 }
 
-                cooldownFlag = this.verb.Ability.CooldownTicksLeft > 0;
+                cooldownFlag = verb.Ability.CooldownTicksLeft > 0;
                 
-                if (this.verb.Ability.Def is TMAbilityDef tmAbility)
+                if (verb.Ability.Def is TMAbilityDef tmAbility)
                 {
-                    CompAbilityUserMight compMight = this.pawn.GetCompAbilityUserMight();
-                    CompAbilityUserMagic compMagic = this.pawn.GetCompAbilityUserMagic();
+                    CompAbilityUserMight compMight = pawn.GetCompAbilityUserMight();
+                    CompAbilityUserMagic compMagic = pawn.GetCompAbilityUserMagic();
                     //if (compMagic != null)
                     //{
                     //    compMagic.AIAbilityJob = null;
@@ -66,7 +66,7 @@ namespace TorannMagic
                     //}
                     if (tmAbility.manaCost > 0 && pawn.story != null && pawn.story.traits != null && !pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
                     {
-                        if (this.pawn.Map.gameConditionManager.ConditionIsActive(TorannMagicDefOf.TM_ManaStorm))
+                        if (pawn.Map.gameConditionManager.ConditionIsActive(TorannMagicDefOf.TM_ManaStorm))
                         {
                             //DamageInfo dinfo2;
                             //BodyPartRecord vitalPart = null;
@@ -78,7 +78,7 @@ namespace TorannMagic
                             //pawn.TakeDamage(dinfo2);
                             if (amt > 5)
                             {
-                                this.pawn.Map.weatherManager.eventHandler.AddEvent(new TM_WeatherEvent_MeshFlash(this.Map, this.pawn.Position, TM_MatPool.blackLightning, TMDamageDefOf.DamageDefOf.TM_Arcane, this.pawn, amt, Mathf.Clamp((float)amt / 5f, 1f, 5f)));
+                                pawn.Map.weatherManager.eventHandler.AddEvent(new TM_WeatherEvent_MeshFlash(Map, pawn.Position, TM_MatPool.blackLightning, TMDamageDefOf.DamageDefOf.TM_Arcane, pawn, amt, Mathf.Clamp((float)amt / 5f, 1f, 5f)));
                             }
                         }
                         if (compMagic != null && compMagic.Mana != null)
@@ -111,7 +111,7 @@ namespace TorannMagic
             }
             validCastFlag = cooldownFlag || energyFlag;
 
-            if (targetPawn != null && (verb != null || this.pawn.CurJob.verbToUse != null))
+            if (targetPawn != null && (verb != null || pawn.CurJob.verbToUse != null))
             {
                 //yield return Toils_Combat.CastVerb(TargetIndex.A, false);
                 Toil combatToil = new Toil();
@@ -123,41 +123,41 @@ namespace TorannMagic
 
                 combatToil.initAction = delegate
                 {
-                    if (combatToil.actor.jobs.curJob.verbToUse == null) this.EndJobWith(JobCondition.Errored);
-                    this.verb = combatToil.actor.jobs.curJob.verbToUse as Verb_UseAbility;
+                    if (combatToil.actor.jobs.curJob.verbToUse == null) EndJobWith(JobCondition.Errored);
+                    verb = combatToil.actor.jobs.curJob.verbToUse as Verb_UseAbility;
 
                     if (verb != null && verb.verbProps != null)
                     {
 
                         try
                         {
-                            this.duration = (int)((this.verb.verbProps.warmupTime * 60) * this.pawn.GetStatValue(StatDefOf.AimingDelayFactor, false));
+                            duration = (int)((verb.verbProps.warmupTime * 60) * pawn.GetStatValue(StatDefOf.AimingDelayFactor, false));
                         }
                         catch
                         {
-                            this.duration = (int)(this.verb.verbProps.warmupTime * 60);
+                            duration = (int)(verb.verbProps.warmupTime * 60);
                         }
 
-                        if (this.pawn.RaceProps.Humanlike)
+                        if (pawn.RaceProps.Humanlike)
                         {
                             //if (this.pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
                             //{
                             //    RemoveMimicAbility(verb);
                             //}
 
-                            if (this.pawn.story.traits.HasTrait(TorannMagicDefOf.TM_Psionic) && !validCastFlag)
+                            if (pawn.story.traits.HasTrait(TorannMagicDefOf.TM_Psionic) && !validCastFlag)
                             {
                                 PsionicEnergyCost(verb);
                             }
 
-                            if (this.pawn.story.traits.HasTrait(TorannMagicDefOf.DeathKnight) && !validCastFlag)
+                            if (pawn.story.traits.HasTrait(TorannMagicDefOf.DeathKnight) && !validCastFlag)
                             {
                                 HateCost(verb);
                             }
                             if (validCastFlag)
                             {
-                                Messages.Message("TM_InvalidAbility".Translate(this.pawn.LabelShort, this.verb.Ability.Def.label), MessageTypeDefOf.RejectInput, false);
-                                this.EndJobWith(JobCondition.Incompletable);
+                                Messages.Message("TM_InvalidAbility".Translate(pawn.LabelShort, verb.Ability.Def.label), MessageTypeDefOf.RejectInput, false);
+                                EndJobWith(JobCondition.Incompletable);
                             }
                         }
 
@@ -166,27 +166,27 @@ namespace TorannMagic
                         {
                             verb.TryStartCastOn(target, false, true);                            
                         }
-                        using (IEnumerator<Hediff> enumerator = this.pawn.health.hediffSet.hediffs.GetEnumerator())
+                        using (IEnumerator<Hediff> enumerator = pawn.health.hediffSet.hediffs.GetEnumerator())
                         {
                             while (enumerator.MoveNext())
                             {
                                 Hediff rec = enumerator.Current;
                                 if (rec.def == TorannMagicDefOf.TM_PossessionHD || rec.def == TorannMagicDefOf.TM_DisguiseHD || rec.def == TorannMagicDefOf.TM_DisguiseHD_I || rec.def == TorannMagicDefOf.TM_DisguiseHD_II || rec.def == TorannMagicDefOf.TM_DisguiseHD_III)
                                 {
-                                    this.pawn.health.RemoveHediff(rec);
+                                    pawn.health.RemoveHediff(rec);
                                 }
                             }
                         }
                     }
                     else
                     {
-                        this.EndJobWith(JobCondition.Errored);
+                        EndJobWith(JobCondition.Errored);
                     }
                 };
                 combatToil.tickAction = delegate
                 {
-                    if(this.pawn.Downed) EndJobWith(JobCondition.InterruptForced);
-                    if (combatToil.actor.jobs.curJob.verbToUse == null) this.EndJobWith(JobCondition.Errored);
+                    if(pawn.Downed) EndJobWith(JobCondition.InterruptForced);
+                    if (combatToil.actor.jobs.curJob.verbToUse == null) EndJobWith(JobCondition.Errored);
 
                     if (Find.TickManager.TicksGame % 12 == 0)
                     {
@@ -201,14 +201,14 @@ namespace TorannMagic
                         }
                     }
                     
-                    this.duration--;
-                    if (!wildCheck && this.duration <= 6)
+                    duration--;
+                    if (!wildCheck && duration <= 6)
                     {
                         wildCheck = true;
-                        if (this.pawn.story != null && this.pawn.story.traits != null && this.pawn.story.traits.HasTrait(TorannMagicDefOf.ChaosMage) && Rand.Chance(.1f))
+                        if (pawn.story != null && pawn.story.traits != null && pawn.story.traits.HasTrait(TorannMagicDefOf.ChaosMage) && Rand.Chance(.1f))
                         {
                             verb.Ability.PostAbilityAttempt();
-                            TM_Action.DoWildSurge(this.pawn, this.pawn.GetCompAbilityUserMagic(), (MagicAbility)verb.Ability, (TMAbilityDef)verb.Ability.Def, TargetA);
+                            TM_Action.DoWildSurge(pawn, pawn.GetCompAbilityUserMagic(), (MagicAbility)verb.Ability, (TMAbilityDef)verb.Ability.Def, TargetA);
                             EndJobWith(JobCondition.InterruptForced);
                         }
                     }
@@ -216,7 +216,7 @@ namespace TorannMagic
                 combatToil.AddFinishAction(delegate
                 {
 
-                    if (this.duration <= 5 && !this.pawn.DestroyedOrNull() && !this.pawn.Dead && !this.pawn.Downed)
+                    if (duration <= 5 && !pawn.DestroyedOrNull() && !pawn.Dead && !pawn.Downed)
                     {
                         //ShootLine shootLine;
                         //bool validTarg = verb.TryFindShootLineFromTo(pawn.Position, TargetLocA, out shootLine);
@@ -226,13 +226,13 @@ namespace TorannMagic
                         if (verb != null && verb.Ability != null && verb.Ability.Def is TMAbilityDef)
                         { 
                             TMAbilityDef tmad = (TMAbilityDef)(verb.Ability.Def);
-                            if (tmad != null && tmad.relationsAdjustment != 0 && targetPawn.Faction != null && targetPawn.Faction != this.pawn.Faction && !targetPawn.Faction.HostileTo(this.pawn.Faction))
+                            if (tmad != null && tmad.relationsAdjustment != 0 && targetPawn.Faction != null && targetPawn.Faction != pawn.Faction && !targetPawn.Faction.HostileTo(pawn.Faction))
                             {
-                                targetPawn.Faction.TryAffectGoodwillWith(this.pawn.Faction, tmad.relationsAdjustment, true, false, TorannMagicDefOf.TM_OffensiveMagic, null);
+                                targetPawn.Faction.TryAffectGoodwillWith(pawn.Faction, tmad.relationsAdjustment, true, false, TorannMagicDefOf.TM_OffensiveMagic, null);
                             }
                         }
                         verb.Ability.PostAbilityAttempt();
-                        this.pawn.ClearReservationsForJob(this.job);
+                        pawn.ClearReservationsForJob(job);
                         //}
                     } 
                 });
@@ -241,7 +241,7 @@ namespace TorannMagic
                 //    curDriver.ReadyForNextToil();
                 //}
                 combatToil.defaultCompleteMode = ToilCompleteMode.FinishedBusy;
-                this.pawn.ClearReservationsForJob(this.job);
+                pawn.ClearReservationsForJob(job);
                 yield return combatToil;
                 //Toil toil2 = new Toil()
                 //{
@@ -289,35 +289,35 @@ namespace TorannMagic
                             //yield return toil2;
                             try
                             {
-                                this.duration = (int)((this.verb.verbProps.warmupTime * 60) * this.pawn.GetStatValue(StatDefOf.AimingDelayFactor, false));
+                                duration = (int)((verb.verbProps.warmupTime * 60) * pawn.GetStatValue(StatDefOf.AimingDelayFactor, false));
                             }
                             catch
                             {
-                                this.duration = (int)(this.verb.verbProps.warmupTime * 60);
+                                duration = (int)(verb.verbProps.warmupTime * 60);
                             }
-                            LocalTargetInfo target = base.TargetLocA;
+                            LocalTargetInfo target = TargetLocA;
                             Toil toil = new Toil();
                             toil.initAction = delegate
                             {
 
-                                if (toil.actor.jobs.curJob.verbToUse == null) this.EndJobWith(JobCondition.Errored);
-                                this.verb = toil.actor.jobs.curJob.verbToUse as Verb_UseAbility;
-                                if (this.pawn.RaceProps.Humanlike)
+                                if (toil.actor.jobs.curJob.verbToUse == null) EndJobWith(JobCondition.Errored);
+                                verb = toil.actor.jobs.curJob.verbToUse as Verb_UseAbility;
+                                if (pawn.RaceProps.Humanlike)
                                 {
                                     //if (this.pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
                                     //{
                                     //    RemoveMimicAbility(verb);                                        
                                     //}
 
-                                    if(this.pawn.story.traits.HasTrait(TorannMagicDefOf.TM_Psionic) && !validCastFlag)
+                                    if(pawn.story.traits.HasTrait(TorannMagicDefOf.TM_Psionic) && !validCastFlag)
                                     {
                                         PsionicEnergyCost(verb);
                                     }
 
                                     if (validCastFlag)
                                     {
-                                        Messages.Message("TM_InvalidAbility".Translate(this.pawn.LabelShort, this.verb.Ability.Def.label), MessageTypeDefOf.RejectInput, false);
-                                        this.EndJobWith(JobCondition.Incompletable);
+                                        Messages.Message("TM_InvalidAbility".Translate(pawn.LabelShort, verb.Ability.Def.label), MessageTypeDefOf.RejectInput, false);
+                                        EndJobWith(JobCondition.Incompletable);
                                     }
 
                                 }
@@ -327,14 +327,14 @@ namespace TorannMagic
                                 {
                                     verb.TryStartCastOn(target, false, canFreeIntercept2);
                                 }
-                                using (IEnumerator<Hediff> enumerator = this.pawn.health.hediffSet.hediffs.GetEnumerator())
+                                using (IEnumerator<Hediff> enumerator = pawn.health.hediffSet.hediffs.GetEnumerator())
                                 {
                                     while (enumerator.MoveNext())
                                     {
                                         Hediff rec = enumerator.Current;
                                         if (rec.def == TorannMagicDefOf.TM_PossessionHD || rec.def == TorannMagicDefOf.TM_DisguiseHD || rec.def == TorannMagicDefOf.TM_DisguiseHD_I || rec.def == TorannMagicDefOf.TM_DisguiseHD_II || rec.def == TorannMagicDefOf.TM_DisguiseHD_III)
                                         {
-                                            this.pawn.health.RemoveHediff(rec);
+                                            pawn.health.RemoveHediff(rec);
                                         }
                                     }
                                 }
@@ -342,18 +342,18 @@ namespace TorannMagic
                             toil.tickAction = delegate
                             {
 
-                                if (toil.actor.jobs.curJob.verbToUse == null) this.EndJobWith(JobCondition.Errored);
+                                if (toil.actor.jobs.curJob.verbToUse == null) EndJobWith(JobCondition.Errored);
                                 if (Find.TickManager.TicksGame % 12 == 0)
                                 {
                                     TM_MoteMaker.ThrowCastingMote(pawn.DrawPos, pawn.Map, Rand.Range(1.2f, 2f));
                                 }
-                                this.duration--;
-                                if (!wildCheck && this.duration <= 6)
+                                duration--;
+                                if (!wildCheck && duration <= 6)
                                 {
                                     wildCheck = true;
-                                    if (this.pawn.story != null && this.pawn.story.traits != null && this.pawn.story.traits.HasTrait(TorannMagicDefOf.ChaosMage) && Rand.Chance(.1f))
+                                    if (pawn.story != null && pawn.story.traits != null && pawn.story.traits.HasTrait(TorannMagicDefOf.ChaosMage) && Rand.Chance(.1f))
                                     {                                        
-                                        bool completeJob = TM_Action.DoWildSurge(this.pawn, this.pawn.GetCompAbilityUserMagic(), (MagicAbility)verb.Ability, (TMAbilityDef)verb.Ability.Def, TargetA);
+                                        bool completeJob = TM_Action.DoWildSurge(pawn, pawn.GetCompAbilityUserMagic(), (MagicAbility)verb.Ability, (TMAbilityDef)verb.Ability.Def, TargetA);
                                         if (!completeJob)
                                         {
                                             verb.Ability.PostAbilityAttempt();
@@ -364,11 +364,11 @@ namespace TorannMagic
                             };
                             toil.AddFinishAction(delegate
                             {                                
-                                if (this.duration <= 5 && !this.pawn.DestroyedOrNull() && !this.pawn.Dead && !this.pawn.Downed)
+                                if (duration <= 5 && !pawn.DestroyedOrNull() && !pawn.Dead && !pawn.Downed)
                                 {
                                     verb.Ability.PostAbilityAttempt();
                                 }
-                                this.pawn.ClearReservationsForJob(this.job);
+                                pawn.ClearReservationsForJob(job);
                             });
                             toil.defaultCompleteMode = ToilCompleteMode.FinishedBusy;
                             yield return toil;
@@ -416,40 +416,40 @@ namespace TorannMagic
         {
             if (verbCast.AbilityProjectileDef.defName == "TM_Projectile_PsionicBlast")
             {
-                HealthUtility.AdjustSeverity(this.pawn, HediffDef.Named("TM_PsionicHD"), -20f);
+                HealthUtility.AdjustSeverity(pawn, HediffDef.Named("TM_PsionicHD"), -20f);
             }
             else if (verbCast.AbilityProjectileDef.defName == "Projectile_PsionicDash")
             {
-                float sevReduct = 8f - this.pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_PsionicDash.FirstOrDefault((MightPowerSkill x) => x.label == "TM_PsionicDash_eff").level;
-                HealthUtility.AdjustSeverity(this.pawn, HediffDef.Named("TM_PsionicHD"), -sevReduct);
+                float sevReduct = 8f - pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_PsionicDash.FirstOrDefault((MightPowerSkill x) => x.label == "TM_PsionicDash_eff").level;
+                HealthUtility.AdjustSeverity(pawn, HediffDef.Named("TM_PsionicHD"), -sevReduct);
             }
             else if(verbCast.AbilityProjectileDef.defName == "Projectile_PsionicStorm")
             {
                 //float sevReduct = 65 - (5 * this.pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_PsionicStorm.FirstOrDefault((MightPowerSkill x) => x.label == "TM_PsionicStorm_eff").level);
-                HealthUtility.AdjustSeverity(this.pawn, HediffDef.Named("TM_PsionicHD"), -100);
+                HealthUtility.AdjustSeverity(pawn, HediffDef.Named("TM_PsionicHD"), -100);
             }
         }
 
         private void HateCost(Verb_UseAbility verbCast)
         {
             Hediff hediff = null;
-            for (int h = 0; h < this.pawn.health.hediffSet.hediffs.Count; h++)
+            for (int h = 0; h < pawn.health.hediffSet.hediffs.Count; h++)
             {
-                if (this.pawn.health.hediffSet.hediffs[h].def.defName.Contains("TM_HateHD"))
+                if (pawn.health.hediffSet.hediffs[h].def.defName.Contains("TM_HateHD"))
                 {
-                    hediff = this.pawn.health.hediffSet.hediffs[h];
+                    hediff = pawn.health.hediffSet.hediffs[h];
                 }
             }
             if (hediff != null && verbCast.AbilityProjectileDef.defName == "Projectile_Spite")
             {
-                HealthUtility.AdjustSeverity(this.pawn, hediff.def, -20f);
+                HealthUtility.AdjustSeverity(pawn, hediff.def, -20f);
             }            
         }
 
         private void RemoveMimicAbility(Verb_UseAbility verbCast)
         {
-            CompAbilityUserMight mightComp = this.pawn.GetCompAbilityUserMight();
-            CompAbilityUserMagic magicComp = this.pawn.GetCompAbilityUserMagic();
+            CompAbilityUserMight mightComp = pawn.GetCompAbilityUserMight();
+            CompAbilityUserMagic magicComp = pawn.GetCompAbilityUserMagic();
             if (mightComp.mimicAbility != null && mightComp.mimicAbility.MainVerb.verbClass == verbCast.verbProps.verbClass)
             {
                 mightComp.RemovePawnAbility(mightComp.mimicAbility);

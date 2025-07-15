@@ -26,41 +26,41 @@ namespace TorannMagic
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            CompAbilityUserMagic comp = this.pawn.GetCompAbilityUserMagic();
+            CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             Toil discordance = new Toil();
-            Pawn target = this.TargetThingA as Pawn;
+            Pawn target = TargetThingA as Pawn;
             discordance.initAction = delegate
             {
                 if (age > duration)
                 {
-                    this.EndJobWith(JobCondition.Succeeded);
+                    EndJobWith(JobCondition.Succeeded);
                 }    
                 if(target.DestroyedOrNull())
                 {
-                    this.EndJobWith(JobCondition.Errored);
+                    EndJobWith(JobCondition.Errored);
                 }
                 if (target.Map == null)
                 {
-                    this.EndJobWith(JobCondition.Errored);
+                    EndJobWith(JobCondition.Errored);
                 }
                 if (target.Dead)
                 {
-                    this.EndJobWith(JobCondition.Succeeded);
+                    EndJobWith(JobCondition.Succeeded);
                 }
-                Map map = this.pawn.Map;
+                Map map = pawn.Map;
                 ticksLeftThisToil = 10;
                 headDamageCount = 0;                
             };
             discordance.tickAction = delegate
             {
-                if(Find.TickManager.TicksGame % this.moteFrequency == 0)
+                if(Find.TickManager.TicksGame % moteFrequency == 0)
                 {
                     TM_MoteMaker.ThrowCastingMote(pawn.DrawPos, pawn.Map, Rand.Range(1.2f, 2f));
                     float angle = Rand.Range(0, 360);
                     ThingDef mote = TorannMagicDefOf.Mote_Psi_Grayscale;
-                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Psi_Grayscale, this.pawn.DrawPos, this.pawn.Map, Rand.Range(.25f, .6f), .1f, .05f, .05f, 0, Rand.Range(4f, 6f), angle, angle);
+                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Psi_Grayscale, pawn.DrawPos, pawn.Map, Rand.Range(.25f, .6f), .1f, .05f, .05f, 0, Rand.Range(4f, 6f), angle, angle);
                 }
-                if (Find.TickManager.TicksGame % this.discordFrequency == 0)
+                if (Find.TickManager.TicksGame % discordFrequency == 0)
                 {
                     Vector3 headPos = target.DrawPos;
                     headPos.z += .3f;
@@ -69,8 +69,8 @@ namespace TorannMagic
                     if(comp.Mana.CurLevel >= manaCost && !target.DestroyedOrNull() && !target.Dead && target.Map != null)
                     {
                         comp.Mana.CurLevel -= manaCost;
-                        float ch = TM_Calc.GetSpellSuccessChance(this.pawn, target, true);
-                        if (target.Faction == this.pawn.Faction)
+                        float ch = TM_Calc.GetSpellSuccessChance(pawn, target, true);
+                        if (target.Faction == pawn.Faction)
                         {
                             HealthUtility.AdjustSeverity(target, TorannMagicDefOf.TM_DiscordSafeHD, .4f * ch);
                             Hediff hd = target.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_DiscordHD);
@@ -78,7 +78,7 @@ namespace TorannMagic
                             {
                                 if(Rand.Chance(.2f))
                                 {
-                                    TM_Action.DamageEntities(target, null, 6, DamageDefOf.Stun, this.pawn);
+                                    TM_Action.DamageEntities(target, null, 6, DamageDefOf.Stun, pawn);
                                 }
                              }
                         }
@@ -98,7 +98,7 @@ namespace TorannMagic
                                         {
                                             TM_MoteMaker.ThrowBloodSquirt(headPos, target.Map, Rand.Range(.6f, 1f));
                                         }
-                                        TM_Action.DamageEntities(target, bpr, Rand.Range(1, 3), 2f, TMDamageDefOf.DamageDefOf.TM_DistortionDD, this.pawn);
+                                        TM_Action.DamageEntities(target, bpr, Rand.Range(1, 3), 2f, TMDamageDefOf.DamageDefOf.TM_DistortionDD, pawn);
                                         headDamageCount++;
                                     }
                                     else if(Rand.Chance((.07f * ch)+(headDamageCount *.3f)) && head != null)
@@ -119,33 +119,33 @@ namespace TorannMagic
                                                 TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_BloodSquirt, headPos, target.Map, moteSize - (.1f *j), solidTime + (.1f * j), 0f, fadeOutTime + (.05f *j), Rand.Range(-50, 50), velocity + (.5f*j), velocityAngle, Rand.Range(0, 360));
                                             }
                                         }
-                                        TM_Action.DamageEntities(target, head, Rand.Range(50, 80), 2f, TMDamageDefOf.DamageDefOf.TM_DistortionDD, this.pawn);
+                                        TM_Action.DamageEntities(target, head, Rand.Range(50, 80), 2f, TMDamageDefOf.DamageDefOf.TM_DistortionDD, pawn);
                                     }
                                 }
                             }
                         }
                         if(target.Dead)
                         {
-                            this.age = this.duration;
+                            age = duration;
                         }
                     }
                     else
                     {
-                        this.age = this.duration;
+                        age = duration;
                     }
                 }                
                 age++;               
                 ticksLeftThisToil = Mathf.RoundToInt(((float)(duration - age) / (float)duration)*100f);
                 if (age > duration)
                 {
-                    this.EndJobWith(JobCondition.Succeeded);
+                    EndJobWith(JobCondition.Succeeded);
                 }                              
             };
             discordance.defaultCompleteMode = ToilCompleteMode.Delay;
-            discordance.defaultDuration = this.duration;
+            discordance.defaultDuration = duration;
             discordance.WithProgressBar(TargetIndex.A, delegate
             {
-                if (this.pawn.DestroyedOrNull() || this.pawn.Dead || this.pawn.Downed)
+                if (pawn.DestroyedOrNull() || pawn.Dead || pawn.Downed)
                 {
                     return 1f;
                 }

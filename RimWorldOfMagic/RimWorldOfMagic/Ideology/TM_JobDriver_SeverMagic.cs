@@ -51,9 +51,9 @@ namespace TorannMagic.Ideology
             {
                 initAction = () =>
                 {
-                    if (this.age > this.durationTicks)
+                    if (age > durationTicks)
                     {
-                        this.EndJobWith(JobCondition.InterruptForced);
+                        EndJobWith(JobCondition.InterruptForced);
                     }
                 },
                 tickAction = () =>
@@ -64,7 +64,7 @@ namespace TorannMagic.Ideology
                         rndPos.x += (Rand.Range(-.2f, .2f));
                         rndPos.z += Rand.Range(-.2f, .2f);
                         rotationDegree += Rand.Range(8, 16);
-                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_BlueSwirl, rndPos, this.pawn.Map, moteSize, 0.2f, .1f, .2f, 30+rotationDegree, 0, 0, rotationDegree);                      
+                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_BlueSwirl, rndPos, pawn.Map, moteSize, 0.2f, .1f, .2f, 30+rotationDegree, 0, 0, rotationDegree);                      
                     }
                     if (Find.TickManager.TicksGame % 2 == 0)
                     {
@@ -97,26 +97,26 @@ namespace TorannMagic.Ideology
                         {
                             Vector3 drawPos = target.DrawPos;
                             drawPos.z += .001f * age;
-                            TM_MoteMaker.ThrowGenericMote(mote,drawPos, this.pawn.Map, .45f + (float)(.001f * age), 0.05f, .03f, .04f, 0, 0, 0, 0);
+                            TM_MoteMaker.ThrowGenericMote(mote,drawPos, pawn.Map, .45f + (float)(.001f * age), 0.05f, .03f, .04f, 0, 0, 0, 0);
                         }
                     }
 
                     if (age >= durationTicks)
                     {
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                     age++;
                 },
                 defaultCompleteMode = ToilCompleteMode.Never
             };
-            doFor.defaultDuration = this.durationTicks;
+            doFor.defaultDuration = durationTicks;
             doFor.WithProgressBar(TargetIndex.A, delegate
             {
-                if (this.pawn.DestroyedOrNull() || this.pawn.Dead)
+                if (pawn.DestroyedOrNull() || pawn.Dead)
                 {
                     return 1f;
                 }
-                return 1f - (float)doFor.actor.jobs.curDriver.ticksLeftThisToil / this.durationTicks;
+                return 1f - (float)doFor.actor.jobs.curDriver.ticksLeftThisToil / durationTicks;
 
             }, false, 0f);
             doFor.AddFinishAction(delegate

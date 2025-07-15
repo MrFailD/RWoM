@@ -51,7 +51,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.age > this.duration;
+                return age > duration;
             }
         }
 
@@ -59,7 +59,7 @@ namespace TorannMagic
         {
             get
             {
-                return new SkyTarget(1f, TM_WeatherEvent_BloodMoon.MeshFlashColors, 1f, 1f);
+                return new SkyTarget(1f, MeshFlashColors, 1f, 1f);
             }
         }
 
@@ -67,7 +67,7 @@ namespace TorannMagic
         {
             get
             {
-                return new Vector2?(this.shadowVector);
+                return new Vector2?(shadowVector);
             }
         }
 
@@ -75,7 +75,7 @@ namespace TorannMagic
 		{
             this.duration = duration;
             this.darkness = darkness;
-            this.shadowVector = new Vector2(Rand.Range(-5f, 5f), Rand.Range(-5f, 0f));
+            shadowVector = new Vector2(Rand.Range(-5f, 5f), Rand.Range(-5f, 0f));
         }
 
         public override void FireEvent()
@@ -85,7 +85,7 @@ namespace TorannMagic
 
         public override void WeatherEventTick()
         {
-            this.age++;
+            age++;
         }        
     }
 }

@@ -38,12 +38,12 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.isPaired, "isPaired", false, false);
-            Scribe_Values.Look<float>(ref this.arcaneEnergyCur, "arcaneEnergyCur", 0f, false);
-            Scribe_Values.Look<float>(ref this.arcaneEnergyMax, "arcaneEnergyMax", 0f, false);
-            Scribe_References.Look<Map>(ref this.portalDestinationMap, "portalDestinationMap", false);
+            Scribe_Values.Look<bool>(ref isPaired, "isPaired", false, false);
+            Scribe_Values.Look<float>(ref arcaneEnergyCur, "arcaneEnergyCur", 0f, false);
+            Scribe_Values.Look<float>(ref arcaneEnergyMax, "arcaneEnergyMax", 0f, false);
+            Scribe_References.Look<Map>(ref portalDestinationMap, "portalDestinationMap", false);
             //Scribe_Values.Look<Map>(ref this.portalDestinationMap, "portalDestinationMap", null, false);
-            Scribe_Values.Look<IntVec3>(ref this.portalDestinationPosition, "portalDestinationPosition", IntVec3.Invalid, false);
+            Scribe_Values.Look<IntVec3>(ref portalDestinationPosition, "portalDestinationPosition", IntVec3.Invalid, false);
         }
 
         //public Map Map
@@ -68,7 +68,7 @@ namespace TorannMagic
         {
             get
             {
-                return Building_TMPortal.PortableCellsAround(base.InteractionCell, base.Map);
+                return PortableCellsAround(base.InteractionCell, Map);
             }
         }
 
@@ -128,7 +128,7 @@ namespace TorannMagic
         {
             get
             {
-                return (int)(this.arcaneEnergyCur * 100 * this.arcaneEnergyMax);
+                return (int)(arcaneEnergyCur * 100 * arcaneEnergyMax);
             }
         }
 
@@ -136,7 +136,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.maxLaunchDistance;
+                return maxLaunchDistance;
             }
         }
 
@@ -144,7 +144,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.portalEnergyCost;
+                return portalEnergyCost;
             }
         }
 
@@ -165,7 +165,7 @@ namespace TorannMagic
             {
                 yield return new Command_Action
                 {
-                    action = new Action(this.MakeMatchingStockpile),
+                    action = new Action(MakeMatchingStockpile),
                     hotKey = KeyBindingDefOf.Misc3,
                     defaultDesc = "TM_CommandMakePortalStockpileDesc".Translate(),
                     icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Stockpile", true),
@@ -177,7 +177,7 @@ namespace TorannMagic
         private void MakeMatchingStockpile()
         {
             Designator des = DesignatorUtility.FindAllowedDesignator<Designator_ZoneAddStockpile_Resources>();
-            des.DesignateMultiCell(from c in this.PortableCells
+            des.DesignateMultiCell(from c in PortableCells
                                    where des.CanDesignateCell(c).Accepted
                                    select c);
         }
@@ -219,7 +219,7 @@ namespace TorannMagic
                         ), null, MenuOptionPriority.Default, null, null, 0f, null, null));
                     }
                 }
-                if (isPaired && this.arcaneEnergyCur >= .05f)
+                if (isPaired && arcaneEnergyCur >= .05f)
                 {
                     list.Add(new FloatMenuOption("TM_UsePortal".Translate(), delegate
                     {
@@ -230,14 +230,14 @@ namespace TorannMagic
                 if (isPaired && comp.IsMagicUser)
                 {
                     list.Add(new FloatMenuOption("TM_ChargePortal".Translate(
-                            Mathf.RoundToInt(this.arcaneEnergyCur * 100)
+                            Mathf.RoundToInt(arcaneEnergyCur * 100)
                         ), delegate
                     {
                         Job job = new Job(TorannMagicDefOf.ChargePortal, this);
                         myPawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
                     }, MenuOptionPriority.Default, null, null, 0f, null, null));
                 }
-                if (isPaired && this.arcaneEnergyCur >= .1f)
+                if (isPaired && arcaneEnergyCur >= .1f)
                 {
                     list.Add(new FloatMenuOption("TM_PortalStockpile".Translate(), delegate
                     {
@@ -259,16 +259,16 @@ namespace TorannMagic
 
         public static List<IntVec3> PortableCellsAround(IntVec3 pos, Map map)
         {
-            Building_TMPortal.portableCells.Clear();
+            portableCells.Clear();
             if (!pos.InBoundsWithNullCheck(map))
             {
-                return Building_TMPortal.portableCells;
+                return portableCells;
 
             }
             Region region = pos.GetRegion(map, RegionType.Set_Passable);
             if (region == null)
             {
-                return Building_TMPortal.portableCells;
+                return portableCells;
             }
             RegionTraverser.BreadthFirstTraverse(region, (Region from, Region r) => r.door == null, delegate (Region r)
             {
@@ -276,31 +276,31 @@ namespace TorannMagic
                 {
                     if (current.InHorDistOf(pos, 2.4f))
                     {
-                        Building_TMPortal.portableCells.Add(current);
+                        portableCells.Add(current);
                     }
                 }
                 return false;
             }, 13, RegionType.Set_Passable);
-            return Building_TMPortal.portableCells;
+            return portableCells;
         }
 
         protected override void Tick()
         {
             if (Find.TickManager.TicksGame % 10 == 0)
             {
-                this.matRng = Rand.RangeInclusive(0, 4);
-                this.matMagnitude = Math.Min(matMagnitude, 1f);
-                this.matMagnitude = Math.Max(matMagnitude, 0f);
-                this.matMagnitude = 3 * this.arcaneEnergyCur;
+                matRng = Rand.RangeInclusive(0, 4);
+                matMagnitude = Math.Min(matMagnitude, 1f);
+                matMagnitude = Math.Max(matMagnitude, 0f);
+                matMagnitude = 3 * arcaneEnergyCur;
 
                 IntVec3 curCell;
-                IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(this.InteractionCell, 3, true);
+                IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(InteractionCell, 3, true);
                 for (int i = 0; i < targets.Count(); i++)
                 {
                     curCell = targets.ToArray<IntVec3>()[i];
-                    if (curCell.InBoundsWithNullCheck(this.Map) && curCell.IsValid)
+                    if (curCell.InBoundsWithNullCheck(Map) && curCell.IsValid)
                     {
-                        Pawn interactingPawn = curCell.GetFirstPawn(this.Map);
+                        Pawn interactingPawn = curCell.GetFirstPawn(Map);
                         if (interactingPawn != null)
                         {
                             if (interactingPawn.jobs.curJob.def == TorannMagicDefOf.UsePortal)
@@ -308,19 +308,19 @@ namespace TorannMagic
                                 try
                                 {
                                     PortalPawn(interactingPawn);
-                                    this.arcaneEnergyCur -= .05f;
+                                    arcaneEnergyCur -= .05f;
                                 }
                                 catch
                                 {
                                     if (!interactingPawn.Spawned)
                                     {
-                                        GenSpawn.Spawn(interactingPawn, this.InteractionCell, this.Map);
+                                        GenSpawn.Spawn(interactingPawn, InteractionCell, Map);
                                         Messages.Message("TM_PortalFailed".Translate(
                                                 interactingPawn.LabelShort
                                             ), MessageTypeDefOf.RejectInput);
 
                                     }
-                                    this.IsPaired = false;                                    
+                                    IsPaired = false;                                    
                                 }
 
                             }
@@ -334,7 +334,7 @@ namespace TorannMagic
         {
             base.DrawAt(drawLoc, flip);
 
-            if (this.isPaired)
+            if (isPaired)
             {
                 Vector3 vector = base.DrawPos;
                 vector.y = Altitudes.AltitudeFor(AltitudeLayer.MoteOverhead);
@@ -344,23 +344,23 @@ namespace TorannMagic
                 matrix.SetTRS(vector, Quaternion.AngleAxis(angle, Vector3.up), s);
                 if (matRng == 0)
                 {
-                    Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMPortal.portalMat_1, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, portalMat_1, 0);
                 }
                 else if (matRng == 1)
                 {
-                    Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMPortal.portalMat_2, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, portalMat_2, 0);
                 }
                 else if (matRng == 2)
                 {
-                    Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMPortal.portalMat_3, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, portalMat_3, 0);
                 }
                 else if (matRng == 3)
                 {
-                    Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMPortal.portalMat_4, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, portalMat_4, 0);
                 }
                 else
                 {
-                    Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMPortal.portalMat_5, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, portalMat_5, 0);
                 }
             }
         }
@@ -370,7 +370,7 @@ namespace TorannMagic
             FleckMaker.ThrowLightningGlow(pawn.DrawPos, pawn.Map, 1f);
             TM_MoteMaker.ThrowCastingMote(pawn.DrawPos, pawn.Map, Rand.Range(1.2f, 2f));
             pawn.DeSpawn();
-            GenSpawn.Spawn(pawn, this.PortalDestinationPosition, this.PortalDestinationMap);
+            GenSpawn.Spawn(pawn, PortalDestinationPosition, PortalDestinationMap);
             TM_MoteMaker.ThrowCastingMote(pawn.DrawPos, pawn.Map, Rand.Range(1.2f, 2f));
             FleckMaker.ThrowHeatGlow(pawn.Position, pawn.Map, 1.6f);
         }

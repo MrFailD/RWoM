@@ -57,7 +57,7 @@ namespace TorannMagic.WorldTransport
             if (contents != null)
             {
                 contents.innerContainer.DoTick(); //todo: might be wrong
-                if (base.Spawned)
+                if (Spawned)
                 {
                     age++;
                     if (age > contents.openDelay)
@@ -70,7 +70,7 @@ namespace TorannMagic.WorldTransport
 
         private void PodOpen()
         {
-            Map map = base.Map;
+            Map map = Map;
             if (contents.despawnPodBeforeSpawningThing)
             {
                 DeSpawn();
@@ -81,16 +81,16 @@ namespace TorannMagic.WorldTransport
                 Rot4 rot = contents.setRotation.HasValue ? contents.setRotation.Value : Rot4.North;
                 if (contents.moveItemsAsideBeforeSpawning)
                 {
-                    GenSpawn.CheckMoveItemsAside(base.Position, rot, thing.def, map);
+                    GenSpawn.CheckMoveItemsAside(Position, rot, thing.def, map);
                 }
                 Thing lastResultingThing = default(Thing);
                 if (contents.spawnWipeMode.HasValue)
                 {
-                    lastResultingThing = ((!contents.setRotation.HasValue) ? GenSpawn.Spawn(thing, base.Position, map, contents.spawnWipeMode.Value) : GenSpawn.Spawn(thing, base.Position, map, contents.setRotation.Value, contents.spawnWipeMode.Value));
+                    lastResultingThing = ((!contents.setRotation.HasValue) ? GenSpawn.Spawn(thing, Position, map, contents.spawnWipeMode.Value) : GenSpawn.Spawn(thing, Position, map, contents.setRotation.Value, contents.spawnWipeMode.Value));
                 }
                 else
                 {
-                    GenPlace.TryPlaceThing(thing, base.Position, map, ThingPlaceMode.Near, out lastResultingThing, delegate (Thing placedThing, int count)
+                    GenPlace.TryPlaceThing(thing, Position, map, ThingPlaceMode.Near, out lastResultingThing, delegate (Thing placedThing, int count)
                     {
                         if (Find.TickManager.TicksGame < 1200 && TutorSystem.TutorialMode && placedThing.def.category == ThingCategory.Item)
                         {
@@ -120,10 +120,10 @@ namespace TorannMagic.WorldTransport
             {
                 for (int i = 0; i < 1; i++)
                 {
-                    GenPlace.TryPlaceThing(ThingMaker.MakeThing(ThingDefOf.ChunkSlagSteel), base.Position, map, ThingPlaceMode.Near);
+                    GenPlace.TryPlaceThing(ThingMaker.MakeThing(ThingDefOf.ChunkSlagSteel), Position, map, ThingPlaceMode.Near);
                 }
             }
-            TorannMagicDefOf.DropPod_Open.PlayOneShot(new TargetInfo(base.Position, map));
+            TorannMagicDefOf.DropPod_Open.PlayOneShot(new TargetInfo(Position, map));
             Destroy();
         }
     }

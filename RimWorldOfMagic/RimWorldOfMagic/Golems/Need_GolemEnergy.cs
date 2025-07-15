@@ -20,8 +20,8 @@ namespace TorannMagic.Golems
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<float>(ref this.maxEnergy, "maxEnergy", 1000);
-            Scribe_Values.Look<float>(ref this.energyEfficiency, "energyEfficiency", .5f);
+            Scribe_Values.Look<float>(ref maxEnergy, "maxEnergy", 1000);
+            Scribe_Values.Look<float>(ref energyEfficiency, "energyEfficiency", .5f);
         }
 
         public float NeedLoss => needLoss - energyEfficiency;
@@ -55,7 +55,7 @@ namespace TorannMagic.Golems
         {
             get
             {
-                bool flag = this.CurLevel < 100f;
+                bool flag = CurLevel < 100f;
                 GolemEnergyCategory result;
                 if (flag)
                 {
@@ -63,12 +63,12 @@ namespace TorannMagic.Golems
                 }
                 else
                 {
-                    bool flag2 = this.CurLevel < 250f;
+                    bool flag2 = CurLevel < 250f;
                     if (flag2)
                     {
                         result = GolemEnergyCategory.Low;
                     }
-                    else if(this.CurLevel < 750f)
+                    else if(CurLevel < 750f)
                     {
                         result = GolemEnergyCategory.Medium;
                     }
@@ -87,12 +87,12 @@ namespace TorannMagic.Golems
 
         public Need_GolemEnergy(Pawn pawn) : base(pawn)
 		{
-            this.lastTick = -999;
-            this.threshPercents = new List<float>();
-            this.threshPercents.Add((100f / this.MaxLevel));
-            this.threshPercents.Add((250f / this.MaxLevel));
-            this.threshPercents.Add((500f / this.MaxLevel));
-            this.threshPercents.Add((750f / this.MaxLevel));
+            lastTick = -999;
+            threshPercents = new List<float>();
+            threshPercents.Add((100f / MaxLevel));
+            threshPercents.Add((250f / MaxLevel));
+            threshPercents.Add((500f / MaxLevel));
+            threshPercents.Add((750f / MaxLevel));
         }
 
         public override void SetInitialLevel()

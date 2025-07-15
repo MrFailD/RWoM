@@ -49,7 +49,7 @@ namespace TorannMagic.WorldTransport
 
         public override void Arrived(List<ActiveTransporterInfo> pods, PlanetTile tile)
         {
-            WorldTransport.TM_TransportPodsArrivalActionUtility.DropTravelingTransportPods(pods, cell, mapParent.Map, true, draftFlag);
+            TM_TransportPodsArrivalActionUtility.DropTravelingTransportPods(pods, cell, mapParent.Map, true, draftFlag);
         }
 
         public static bool CanLandInSpecificCell(IEnumerable<IThingHolder> pods, MapParent mapParent)

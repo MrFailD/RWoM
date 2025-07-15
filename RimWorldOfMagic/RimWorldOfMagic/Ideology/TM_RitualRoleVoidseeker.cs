@@ -17,7 +17,7 @@ namespace TorannMagic.Ideology
             {
                 if (!skipReason)
                 {
-                    reason = "MessageRitualRoleMustBeColonist".Translate(base.Label);
+                    reason = "MessageRitualRoleMustBeColonist".Translate(Label);
                 }
                 return false;
             }
@@ -25,7 +25,7 @@ namespace TorannMagic.Ideology
             {
                 if (!skipReason)
                 {
-                    reason = "MessageRitualRoleMustBeHumanlike".Translate(base.LabelCap);
+                    reason = "MessageRitualRoleMustBeHumanlike".Translate(LabelCap);
                 }
                 return false;
             }
@@ -33,7 +33,7 @@ namespace TorannMagic.Ideology
             {
                 if (!skipReason)
                 {
-                    reason = "TM_MessageRitualRoleCannotBeUndead".Translate(base.LabelCap);
+                    reason = "TM_MessageRitualRoleCannotBeUndead".Translate(LabelCap);
                 }
                 return false;
             }

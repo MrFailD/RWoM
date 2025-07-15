@@ -26,7 +26,7 @@ namespace TorannMagic
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < duration;
+            bool flag = age < duration;
             if (!flag)
             {
                 base.Destroy(mode);
@@ -36,7 +36,7 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
@@ -46,7 +46,7 @@ namespace TorannMagic
 
             if (!initialized)
             {
-                pawn = this.launcher as Pawn;
+                pawn = launcher as Pawn;
                 float psychicEnergy = pawn.GetStatValue(StatDefOf.PsychicSensitivity, false);
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
                 MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_PsychicShock.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_PsychicShock_pwr");
@@ -54,17 +54,17 @@ namespace TorannMagic
                 
                 pwrVal = pwr.level;
                 verVal = ver.level;
-                this.arcaneDmg = comp.arcaneDmg * psychicEnergy;
+                arcaneDmg = comp.arcaneDmg * psychicEnergy;
                 if (ModOptions.Settings.Instance.AIHardMode && !pawn.IsColonist)
                 {
                     pwrVal = 1;
                     verVal = 1;
                 }
-                explosionCenters.Add(base.Position);
+                explosionCenters.Add(Position);
                 explosionRadii.Add(1);
                 shockedPawns.Add(pawn);
-                this.maxRadius += verVal;
-                this.initialized = true;
+                maxRadius += verVal;
+                initialized = true;
             }
 
             if (Find.TickManager.TicksGame % frequency == 0)
@@ -94,14 +94,14 @@ namespace TorannMagic
 
                             if (victim != null && !victim.Dead)
                             {
-                                if (victim.Faction != this.pawn.Faction)
+                                if (victim.Faction != pawn.Faction)
                                 {
                                     //ExplosionHelper.Explode(curCell, pawn.Map, .4f, DamageDefOf.Stun, this.launcher, Mathf.RoundToInt((4 * (2+this.def.projectile.GetDamageAmount(1, null) + pwrVal) * this.arcaneDmg)), 0, SoundDefOf.Crunch, def, this.equipmentDef, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
-                                    damageEntities(victim, null, Mathf.RoundToInt((4 * (2 + this.def.projectile.GetDamageAmount(1, null) + pwrVal) * this.arcaneDmg)), DamageDefOf.Stun);
+                                    damageEntities(victim, null, Mathf.RoundToInt((4 * (2 + this.def.projectile.GetDamageAmount(1, null) + pwrVal) * arcaneDmg)), DamageDefOf.Stun);
                                 }
                                 else
                                 {
-                                    damageEntities(victim, null, Mathf.RoundToInt(((2 + this.def.projectile.GetDamageAmount(1, null) + pwrVal) * this.arcaneDmg)), DamageDefOf.Stun);
+                                    damageEntities(victim, null, Mathf.RoundToInt(((2 + this.def.projectile.GetDamageAmount(1, null) + pwrVal) * arcaneDmg)), DamageDefOf.Stun);
                                     //ExplosionHelper.Explode(curCell, pawn.Map, .4f, DamageDefOf.Stun, this.launcher, Mathf.RoundToInt(((2+this.def.projectile.GetDamageAmount(1, null) + pwrVal) * this.arcaneDmg)), 0, SoundDefOf.Crunch, def, this.equipmentDef, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
                                 }
                             }
@@ -126,30 +126,30 @@ namespace TorannMagic
                     if(explosionCenters.Count <= 3)
                     {
                         
-                        this.maxRadius = 6 + verVal;
+                        maxRadius = 6 + verVal;
                     }
                     else if(explosionCenters.Count <= 5)
                     {
-                        this.maxRadius = 5 + verVal;
+                        maxRadius = 5 + verVal;
                     }
                     else if(explosionCenters.Count <= 7)
                     {
-                        this.maxRadius = 4 + verVal;
+                        maxRadius = 4 + verVal;
                     }
                     else
                     {
-                        this.maxRadius = 3 + verVal;
+                        maxRadius = 3 + verVal;
                     }
                     
-                    if (explosionRadii[i] > this.maxRadius)
+                    if (explosionRadii[i] > maxRadius)
                     {
                         explosionRadii.Remove(explosionRadii[i]);
                         explosionCenters.Remove(explosionCenters[i]);
                     }
                     if (explosionCenters.Count() == 0)
                     {
-                        this.age = this.duration;
-                        this.Destroy(DestroyMode.Vanish);
+                        age = duration;
+                        Destroy(DestroyMode.Vanish);
                     }
                 }
             }
@@ -203,7 +203,7 @@ namespace TorannMagic
                     {
                         rnd = 0;
                     }
-                    damageEntities(victim, vitalPart, Mathf.RoundToInt(((this.def.projectile.GetDamageAmount(1,null) + (.5f * pwrVal)) * this.arcaneDmg) * rnd), TMDamageDefOf.DamageDefOf.TM_Shadow);
+                    damageEntities(victim, vitalPart, Mathf.RoundToInt(((def.projectile.GetDamageAmount(1,null) + (.5f * pwrVal)) * arcaneDmg) * rnd), TMDamageDefOf.DamageDefOf.TM_Shadow);
                 }
             }
         }
@@ -211,7 +211,7 @@ namespace TorannMagic
         public void damageEntities(Pawn victim, BodyPartRecord hitPart, int amt, DamageDef type)
         {
             amt = (int)((float)amt * Rand.Range(.75f, 1.25f));
-            DamageInfo dinfo = new DamageInfo(type, amt, 0, (float)-1, this.pawn, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);
+            DamageInfo dinfo = new DamageInfo(type, amt, 0, (float)-1, pawn, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);
             dinfo.SetAllowDamagePropagation(false);
             victim.TakeDamage(dinfo);
             if (!victim.IsColonist && !victim.IsPrisoner && victim.Faction != null && !victim.Faction.HostileTo(pawn.Faction))

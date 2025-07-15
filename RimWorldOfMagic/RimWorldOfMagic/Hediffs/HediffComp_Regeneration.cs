@@ -20,7 +20,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -28,26 +28,26 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             
             if (spawned)
             {
-                FleckMaker.ThrowLightningGlow(base.Pawn.DrawPos, base.Pawn.Map, 1f);
-                if (this.Def == TorannMagicDefOf.TM_Regeneration_III)
+                FleckMaker.ThrowLightningGlow(Pawn.DrawPos, Pawn.Map, 1f);
+                if (Def == TorannMagicDefOf.TM_Regeneration_III)
                 {
                     hediffPwr = 3;
                 }
-                else if (this.Def == TorannMagicDefOf.TM_Regeneration_II)
+                else if (Def == TorannMagicDefOf.TM_Regeneration_II)
                 {
                     hediffPwr = 2;
                 }
-                else if (this.Def == TorannMagicDefOf.TM_Regeneration_I)
+                else if (Def == TorannMagicDefOf.TM_Regeneration_I)
                 {
                     hediffPwr = 1;
                 }
@@ -61,22 +61,22 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            if (base.Pawn != null & base.parent != null)
+            if (Pawn != null & parent != null)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
             }
-            this.age++;
-            if(!this.Pawn.DestroyedOrNull() && !this.Pawn.Dead)
+            age++;
+            if(!Pawn.DestroyedOrNull() && !Pawn.Dead)
             {
                 if (age > lastRegen + regenRate)
                 {
-                    HealthUtility.AdjustSeverity(base.Pawn, this.Def, -0.3f);
-                    this.lastRegen = this.age;
-                    Pawn pawn = this.Pawn;
+                    HealthUtility.AdjustSeverity(Pawn, Def, -0.3f);
+                    lastRegen = age;
+                    Pawn pawn = Pawn;
 
                     TM_MoteMaker.ThrowRegenMote(pawn.DrawPos, pawn.Map, 1f);
 
@@ -106,11 +106,11 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", 0, false);
-            Scribe_Values.Look<int>(ref this.regenRate, "regenRate", 300, false);
-            Scribe_Values.Look<int>(ref this.lastRegen, "lastRegen", 0, false);
-            Scribe_Values.Look<int>(ref this.hediffPwr, "hediffPwr", 0, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<int>(ref age, "age", 0, false);
+            Scribe_Values.Look<int>(ref regenRate, "regenRate", 300, false);
+            Scribe_Values.Look<int>(ref lastRegen, "lastRegen", 0, false);
+            Scribe_Values.Look<int>(ref hediffPwr, "hediffPwr", 0, false);
         }
 
     }

@@ -113,7 +113,7 @@ namespace TorannMagic.Buildings
         {
             base.DrawExtraSelectionOverlays();
             GenDraw.DrawRadiusRing(Position, MortarMinRange, Color.red);
-            GenDraw.DrawFieldEdges(Building_60mmMortar.PortableCellsAround(Position, Map, mortarMaxRange));
+            GenDraw.DrawFieldEdges(PortableCellsAround(Position, Map, mortarMaxRange));
         }
 
         private void TryFireMortar()
@@ -158,7 +158,7 @@ namespace TorannMagic.Buildings
 
         private void PlayMortarLaunchSound()
         {
-            SoundInfo info = SoundInfo.InMap(new TargetInfo(this.Position, this.Map, false), MaintenanceType.None);
+            SoundInfo info = SoundInfo.InMap(new TargetInfo(Position, Map, false), MaintenanceType.None);
             info.pitchFactor = 1.6f;
             info.volumeFactor = .7f;
             SoundDef.Named("Mortar_LaunchA").PlayOneShot(info);

@@ -14,16 +14,16 @@ namespace TorannMagic
         private int rallyBonus;
         protected override bool TryCastShot()
         {
-            Pawn caster = this.CasterPawn;
-            Map map = this.CasterPawn.Map;
+            Pawn caster = CasterPawn;
+            Map map = CasterPawn.Map;
             
             if(caster.story != null && caster.story.Adulthood != null && caster.story.Adulthood.identifier == "tm_lost_spirit")
             {
                 rallyBonus = 1;
             }
             CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
-            int pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef);
-            int verVal = TM_Calc.GetSkillVersatilityLevel(caster, this.Ability.Def as TMAbilityDef);            
+            int pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef);
+            int verVal = TM_Calc.GetSkillVersatilityLevel(caster, Ability.Def as TMAbilityDef);            
             int radius = 8 + (2 * verVal) + rallyBonus;
             int maxCount = 7 + (2 * pwrVal) + rallyBonus;
             List<IntVec3> tmpList = GenRadial.RadialCellsAround(caster.Position, radius, true).ToList();
@@ -57,7 +57,7 @@ namespace TorannMagic
                     TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Ghost, corpseList[i].DrawPos, map, Rand.Range(.6f, .8f), .1f, .05f, .05f, 0, Rand.Range(1, 2), 0, 0);
                     IntVec3 cell = corpseList[i].Position;
 
-                    AbilityUser.SpawnThings tempPod = new SpawnThings();
+                    SpawnThings tempPod = new SpawnThings();
                     tempPod.def = TorannMagicDefOf.TM_SpiritWolfR;
                     tempPod.kindDef = TorannMagicDefOf.TM_SpiritWolf;
                     tempPod.spawnCount = 1;
@@ -86,7 +86,7 @@ namespace TorannMagic
                     }
                 }
             }
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return false;
         }
     }

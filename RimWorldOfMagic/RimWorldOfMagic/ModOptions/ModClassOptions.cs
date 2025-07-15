@@ -77,7 +77,7 @@ namespace TorannMagic.ModOptions
 
         private static void InitializeFactionSettings()
         {
-            ModOptions.FactionDictionary.InitializeFactionSettings();
+            FactionDictionary.InitializeFactionSettings();
         }
 
         private static void CheckForDisabledCustomClass()

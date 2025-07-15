@@ -20,13 +20,13 @@ namespace TorannMagic
         {
             get
             {
-                return (Pawn)this.job.targetA.Thing;
+                return (Pawn)job.targetA.Thing;
             }
         }
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
+            return pawn.Reserve(job.targetA, job, 1, -1, null);
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
@@ -48,9 +48,9 @@ namespace TorannMagic
                 {
                     if (age > duration)
                     {
-                        this.pawn.interactions.TryInteractWith(entertaineePawn, TorannMagicDefOf.TM_EntertainID);
-                        FleckMaker.ThrowMicroSparks(this.pawn.DrawPos, this.pawn.Map);
-                        this.EndJobWith(JobCondition.Succeeded);
+                        pawn.interactions.TryInteractWith(entertaineePawn, TorannMagicDefOf.TM_EntertainID);
+                        FleckMaker.ThrowMicroSparks(pawn.DrawPos, pawn.Map);
+                        EndJobWith(JobCondition.Succeeded);
                         comp.nextEntertainTick = Find.TickManager.TicksGame + 2000;
                         age = 0;
                     }

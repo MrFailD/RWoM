@@ -206,24 +206,24 @@ namespace TorannMagic.TMDefs
 
         public void ExposeData()
         {
-            Scribe_Values.Look<bool>(ref this.mightUser, "mightUser", false);
-            Scribe_Values.Look<bool>(ref this.magicUser, "magicUser", false);
-            Scribe_Values.Look<bool>(ref this.drafted, "drafted", false);
-            Scribe_Values.Look<bool>(ref this.undrafted, "undrafted", false);
-            Scribe_Values.Look<float>(ref this.minRange, "minRange", 0f);
-            Scribe_Values.Look<float>(ref this.maxRange, "maxRange", 0f);
+            Scribe_Values.Look<bool>(ref mightUser, "mightUser", false);
+            Scribe_Values.Look<bool>(ref magicUser, "magicUser", false);
+            Scribe_Values.Look<bool>(ref drafted, "drafted", false);
+            Scribe_Values.Look<bool>(ref undrafted, "undrafted", false);
+            Scribe_Values.Look<float>(ref minRange, "minRange", 0f);
+            Scribe_Values.Look<float>(ref maxRange, "maxRange", 0f);
 
-            Scribe_Values.Look<bool>(ref this.targetFriendly, "targetFriendly", false);
-            Scribe_Values.Look<bool>(ref this.targetNeutral, "targetNeutral", false);
-            Scribe_Values.Look<bool>(ref this.targetEnemy, "targetEnemy", false);
-            Scribe_Values.Look<bool>(ref this.includeSelf, "includeSelf", false);
-            Scribe_Values.Look<bool>(ref this.requiresLoS, "requiresLoS", false);
-            Scribe_Values.Look<bool>(ref this.AIUsable, "AIUsable", false);
-            Scribe_Values.Look<bool>(ref this.hostileCasterOnly, "hostileCasterOnly", false);
+            Scribe_Values.Look<bool>(ref targetFriendly, "targetFriendly", false);
+            Scribe_Values.Look<bool>(ref targetNeutral, "targetNeutral", false);
+            Scribe_Values.Look<bool>(ref targetEnemy, "targetEnemy", false);
+            Scribe_Values.Look<bool>(ref includeSelf, "includeSelf", false);
+            Scribe_Values.Look<bool>(ref requiresLoS, "requiresLoS", false);
+            Scribe_Values.Look<bool>(ref AIUsable, "AIUsable", false);
+            Scribe_Values.Look<bool>(ref hostileCasterOnly, "hostileCasterOnly", false);
 
-            Scribe_Values.Look<AutocastType>(ref this.type, "type", AutocastType.Null);
-            Scribe_Values.Look<string>(ref this.targetType, "targetType", "");
-            Scribe_Collections.Look<string>(ref this.advancedConditionDefs, "advancedConditionDefs", LookMode.Value);
+            Scribe_Values.Look<AutocastType>(ref type, "type", AutocastType.Null);
+            Scribe_Values.Look<string>(ref targetType, "targetType", "");
+            Scribe_Collections.Look<string>(ref advancedConditionDefs, "advancedConditionDefs", LookMode.Value);
         }
 
         //Advanced condition cases

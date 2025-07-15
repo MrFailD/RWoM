@@ -16,15 +16,15 @@ namespace TorannMagic
         {
             if(parent.Severity >= .1f)
             {
-                float healAmt = .8f * this.parent.Severity;
+                float healAmt = .8f * parent.Severity;
                 int healCount = surging ? 2 : 1;
 
-                TM_Action.DoAction_HealPawn(this.Pawn, this.Pawn, healCount, healAmt);
+                TM_Action.DoAction_HealPawn(Pawn, Pawn, healCount, healAmt);
 
-                float restAmt = this.parent.Severity * .01f * healCount;
-                if(this.Pawn.needs != null && this.Pawn.needs.rest != null)
+                float restAmt = parent.Severity * .01f * healCount;
+                if(Pawn.needs != null && Pawn.needs.rest != null)
                 {
-                    this.Pawn.needs.rest.CurLevel += restAmt;
+                    Pawn.needs.rest.CurLevel += restAmt;
                 }
             }
         }

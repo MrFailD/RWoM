@@ -21,7 +21,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -29,40 +29,40 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             
             if (spawned)
             {
-                this.hediffPwr = Mathf.RoundToInt(this.parent.Severity);
-                this.duration = 1500 + (60 * this.hediffPwr);
+                hediffPwr = Mathf.RoundToInt(parent.Severity);
+                duration = 1500 + (60 * hediffPwr);
             }
         }
 
-        public override bool CompShouldRemove => base.CompShouldRemove || this.age > this.duration;
+        public override bool CompShouldRemove => base.CompShouldRemove || age > duration;
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            if (base.Pawn != null & base.parent != null)
+            if (Pawn != null & parent != null)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
             }
-            this.age++;
+            age++;
             
             if (age == duration)
             {
-                HealthUtility.AdjustSeverity(base.Pawn, HediffDef.Named("TM_NanoStimulantWithdrawalHD"), 1 - (.03f * this.hediffPwr));
-                Pawn pawn = base.Pawn as Pawn;
+                HealthUtility.AdjustSeverity(Pawn, HediffDef.Named("TM_NanoStimulantWithdrawalHD"), 1 - (.03f * hediffPwr));
+                Pawn pawn = Pawn as Pawn;
 
                 if (pawn == null) return;
                 TM_MoteMaker.ThrowRegenMote(pawn.DrawPos, pawn.Map, 1f);
@@ -101,10 +101,10 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", 0, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 1500, false);
-            Scribe_Values.Look<int>(ref this.hediffPwr, "hediffPwr", 0, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<int>(ref age, "age", 0, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 1500, false);
+            Scribe_Values.Look<int>(ref hediffPwr, "hediffPwr", 0, false);
         }
 
     }

@@ -32,7 +32,7 @@ namespace TorannMagic
                                     HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                                 }
                                 ApplyAdvancedTrait(user, cc);
-                                this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                                parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                             }
                             break;
                         }
@@ -53,7 +53,7 @@ namespace TorannMagic
                             //Unique actions hook
                             ApplyTraitAdjustments(user, TM_ClassUtility.CustomClasses[i].classTrait);
                             //
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                             if (comp != null)
                             {
                                 comp.customIndex = i;
@@ -84,7 +84,7 @@ namespace TorannMagic
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
                         //this.parent.Destroy(DestroyMode.Vanish);
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfHeartOfFrost" || parent.def.defName == "Torn_BookOfHeartOfFrost")
                     {
@@ -94,7 +94,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfStormBorn" || parent.def.defName == "Torn_BookOfStormBorn")
                     {
@@ -104,7 +104,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfArcanist" || parent.def.defName == "Torn_BookOfArcanist")
                     {
@@ -114,7 +114,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfValiant" || parent.def.defName == "Torn_BookOfValiant")
                     {
@@ -124,7 +124,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfSummoner" || parent.def.defName == "Torn_BookOfSummoner")
                     {
@@ -134,7 +134,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfDruid" || parent.def.defName == "Torn_BookOfNature")
                     {
@@ -144,7 +144,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfNecromancer" || parent.def.defName == "Torn_BookOfUndead")
                     {
@@ -154,7 +154,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfPriest" || parent.def.defName == "Torn_BookOfPriest")
                     {
@@ -165,7 +165,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfBard" || parent.def.defName == "Torn_BookOfBard")
                     {
@@ -178,7 +178,7 @@ namespace TorannMagic
                             {
                                 HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                             }
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else
                         {
@@ -215,7 +215,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfEarth" || parent.def.defName == "Torn_BookOfEarth")
                     {
@@ -225,7 +225,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfMagitech" || parent.def.defName == "Torn_BookOfMagitech")
                     {
@@ -235,7 +235,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfHemomancy" || parent.def.defName == "Torn_BookOfHemomancy")
                     {
@@ -245,7 +245,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfEnchanter" || parent.def.defName == "Torn_BookOfEnchanter")
                     {
@@ -255,7 +255,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfChronomancer" || parent.def.defName == "Torn_BookOfChronomancer")
                     {
@@ -265,7 +265,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def == TorannMagicDefOf.BookOfChaos || parent.def == TorannMagicDefOf.Torn_BookOfChaos)
                     {
@@ -275,7 +275,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_Uncertainty, 0.2f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfQuestion")
                     {
@@ -517,7 +517,7 @@ namespace TorannMagic
                                     break;
 
                             }
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else
                         {
@@ -536,7 +536,7 @@ namespace TorannMagic
                     {
                         Messages.Message("TM_UnableToLearnAdvancedClass".Translate(
                                 user.LabelShort,
-                                this.parent.def.label,
+                                parent.def.label,
                                 failMessage
                             ), MessageTypeDefOf.RejectInput);
                     }

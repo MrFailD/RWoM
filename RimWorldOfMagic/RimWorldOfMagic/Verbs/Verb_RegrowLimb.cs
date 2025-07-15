@@ -16,16 +16,16 @@ namespace TorannMagic
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
             bool validTarg = false;
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -42,18 +42,18 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
 
-            CellRect cellRect = CellRect.CenteredOn(this.currentTarget.Cell, 1);
-            cellRect.ClipInsideMap(this.CasterPawn.Map);
+            CellRect cellRect = CellRect.CenteredOn(currentTarget.Cell, 1);
+            cellRect.ClipInsideMap(CasterPawn.Map);
             IntVec3 centerCell = cellRect.CenterCell;
-            Map map = this.CasterPawn.Map;
+            Map map = CasterPawn.Map;
 
             Pawn caster = base.CasterPawn;
 
             if ((centerCell.IsValid && centerCell.Standable(map)))
             {
-                AbilityUser.SpawnThings tempThing = new SpawnThings();
+                SpawnThings tempThing = new SpawnThings();
                 tempThing.def = ThingDef.Named("SeedofRegrowth");
-                Verb_RegrowLimb.SingleSpawnLoop(tempThing, centerCell, map);
+                SingleSpawnLoop(tempThing, centerCell, map);
             }
             else
             {

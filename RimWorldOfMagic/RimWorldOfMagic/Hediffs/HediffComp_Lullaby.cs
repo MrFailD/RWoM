@@ -14,7 +14,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -22,13 +22,13 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
                 
@@ -38,34 +38,34 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
             }
 
-            if (Find.TickManager.TicksGame % 20 == 0 && this.Pawn.Map != null)
+            if (Find.TickManager.TicksGame % 20 == 0 && Pawn.Map != null)
             {
-                CellRect cellRect = CellRect.CenteredOn(this.Pawn.Position, 2);
-                cellRect.ClipInsideMap(this.Pawn.Map);
+                CellRect cellRect = CellRect.CenteredOn(Pawn.Position, 2);
+                cellRect.ClipInsideMap(Pawn.Map);
                 using (IEnumerator<IntVec3> enumerator = cellRect.Cells.GetEnumerator())
                 {
                     while (enumerator.MoveNext())
                     {
-                        Pawn approachingPawn = enumerator.Current.GetFirstPawn(this.Pawn.Map);
-                        if (approachingPawn != null && this.Pawn.Faction != null & approachingPawn.HostileTo(this.Pawn.Faction))
+                        Pawn approachingPawn = enumerator.Current.GetFirstPawn(Pawn.Map);
+                        if (approachingPawn != null && Pawn.Faction != null & approachingPawn.HostileTo(Pawn.Faction))
                         {
                             //wake up!
-                            if (this.Pawn.CurJob.def.defName == "JobDriver_SleepNow")
+                            if (Pawn.CurJob.def.defName == "JobDriver_SleepNow")
                             {
-                                this.Pawn.jobs.EndCurrentJob(Verse.AI.JobCondition.InterruptForced, true);
-                                this.Pawn.mindState.priorityWork.Clear();
-                                this.Pawn.TryStartAttack(approachingPawn);
-                                MoteMaker.ThrowText(this.Pawn.DrawPos, this.Pawn.Map, "Disturbed!", -1);
+                                Pawn.jobs.EndCurrentJob(Verse.AI.JobCondition.InterruptForced, true);
+                                Pawn.mindState.priorityWork.Clear();
+                                Pawn.TryStartAttack(approachingPawn);
+                                MoteMaker.ThrowText(Pawn.DrawPos, Pawn.Map, "Disturbed!", -1);
                             }
                         }
                     }
@@ -77,7 +77,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.parent.Severity < .1f;
+                return base.CompShouldRemove || parent.Severity < .1f;
             }
         }
 

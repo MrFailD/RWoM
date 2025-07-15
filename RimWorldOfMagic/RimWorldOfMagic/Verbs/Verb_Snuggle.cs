@@ -17,9 +17,9 @@ namespace TorannMagic
             HediffDef hediffDef = null;
             float num = verbProps.AdjustedMeleeDamageAmount(this, CasterPawn);
             float armorPenetration = verbProps.AdjustedArmorPenetration(this, CasterPawn);
-            ThingDef source = (base.EquipmentSource == null) ? CasterPawn.def : base.EquipmentSource.def;
+            ThingDef source = (EquipmentSource == null) ? CasterPawn.def : EquipmentSource.def;
             bodyPartGroupDef = verbProps.AdjustedLinkedBodyPartsGroup(tool);
-            DamageInfo dinfo = new DamageInfo(DamageDefOf.Scratch, num, armorPenetration, -1f, this.CasterPawn, null, source);
+            DamageInfo dinfo = new DamageInfo(DamageDefOf.Scratch, num, armorPenetration, -1f, CasterPawn, null, source);
             damageResult.totalDamageDealt = Mathf.Min((float)target.Thing.HitPoints, dinfo.Amount);
             for (int i = 0; i < 8; i++)
             {

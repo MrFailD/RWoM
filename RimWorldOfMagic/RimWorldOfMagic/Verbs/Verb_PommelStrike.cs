@@ -18,14 +18,14 @@ namespace TorannMagic
         {
 
             BodyPartRecord hitPart = null;
-            DamageInfo dinfo = new DamageInfo(DamageDefOf.Stun, (int)(10), 0, (float)-1, this.CasterPawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
-            if (this.currentTarget != null && this.currentTarget.Thing != null)
+            DamageInfo dinfo = new DamageInfo(DamageDefOf.Stun, (int)(10), 0, (float)-1, CasterPawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
+            if (currentTarget != null && currentTarget.Thing != null)
             {
-                Pawn targetPawn = this.currentTarget.Thing as Pawn;
+                Pawn targetPawn = currentTarget.Thing as Pawn;
                 if(targetPawn != null)
                 {
                     float rnd = 2f;
-                    CompAbilityUserMight comp = this.CasterPawn.GetCompAbilityUserMight();
+                    CompAbilityUserMight comp = CasterPawn.GetCompAbilityUserMight();
                     if(comp != null)
                     {
                         if(comp.MightData.MightPowerSkill_FieldTraining.FirstOrDefault((MightPowerSkill x) => x.label == "TM_FieldTraining_pwr").level >= 2)
@@ -37,22 +37,22 @@ namespace TorannMagic
                     {
                         //Log.Message("target pawn in " + targetPawn.health.hediffSet.PainTotal + " pain");
                         hitPart = targetPawn.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.Spine).RandomElement();
-                        if (hitPart != null && this.CasterPawn.equipment != null && this.CasterPawn.equipment.Primary != null)
+                        if (hitPart != null && CasterPawn.equipment != null && CasterPawn.equipment.Primary != null)
                         {
-                            dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_DisablingBlow, 3 * rnd, 6 * rnd, (float)-1, this.CasterPawn, hitPart, this.CasterPawn.equipment.Primary.def, DamageInfo.SourceCategory.ThingOrUnknown, targetPawn);
+                            dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_DisablingBlow, 3 * rnd, 6 * rnd, (float)-1, CasterPawn, hitPart, CasterPawn.equipment.Primary.def, DamageInfo.SourceCategory.ThingOrUnknown, targetPawn);
                         }
                         else if (hitPart != null)
                         {
-                            dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_DisablingBlow, 4, 12, (float)-1, this.CasterPawn, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, targetPawn);
+                            dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_DisablingBlow, 4, 12, (float)-1, CasterPawn, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown, targetPawn);
                         }
                         else
                         {
-                            dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_DisablingBlow, 4, 2, (float)-1, this.CasterPawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown, targetPawn);
+                            dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_DisablingBlow, 4, 2, (float)-1, CasterPawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown, targetPawn);
                         }
-                        Vector3 strikeStartVec = this.CasterPawn.DrawPos;
+                        Vector3 strikeStartVec = CasterPawn.DrawPos;
                         strikeStartVec.z += .7f;
                         Vector3 angle = TM_Calc.GetVector(strikeStartVec, targetPawn.DrawPos);
-                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Strike, strikeStartVec, this.CasterPawn.Map, .5f, .1f, .05f, .1f, 0, 10f, (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat(), (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat());
+                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Strike, strikeStartVec, CasterPawn.Map, .5f, .1f, .05f, .1f, 0, 10f, (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat(), (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat());
                     }
                     targetPawn.TakeDamage(dinfo);
                 }

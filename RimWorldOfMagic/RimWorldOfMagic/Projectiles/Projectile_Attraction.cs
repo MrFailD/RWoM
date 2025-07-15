@@ -24,20 +24,20 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", true, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 1800, false);
-            Scribe_Values.Look<int>(ref this.strikeDelay, "strikeDelay", 0, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_References.Look<Pawn>(ref this.pawn, "pawn", false);
-            Scribe_Collections.Look<IntVec3>(ref this.cellList, "cellList", LookMode.Value);
-            Scribe_Collections.Look<IntVec3>(ref this.hediffCellList, "hediffCellList", LookMode.Value);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", true, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 1800, false);
+            Scribe_Values.Look<int>(ref strikeDelay, "strikeDelay", 0, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_References.Look<Pawn>(ref pawn, "pawn", false);
+            Scribe_Collections.Look<IntVec3>(ref cellList, "cellList", LookMode.Value);
+            Scribe_Collections.Look<IntVec3>(ref hediffCellList, "hediffCellList", LookMode.Value);
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < duration;
+            bool flag = age < duration;
             if (!flag)
             {
                 base.Destroy(mode);
@@ -47,7 +47,7 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
@@ -57,9 +57,9 @@ namespace TorannMagic
             ThingDef def = this.def;
             Pawn victim = null;
 
-            if (!this.initialized)
+            if (!initialized)
             {
-                pawn = this.launcher as Pawn;
+                pawn = launcher as Pawn;
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
                 MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Attraction.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Attraction_pwr");
                 MagicPowerSkill ver = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Attraction.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Attraction_ver");
@@ -73,21 +73,21 @@ namespace TorannMagic
                     pwrVal = mpwr.level;
                     verVal = mver.level;
                 }
-                this.arcaneDmg = comp.arcaneDmg;
+                arcaneDmg = comp.arcaneDmg;
                 if (ModOptions.Settings.Instance.AIHardMode && !pawn.IsColonist)
                 {
                     pwrVal = 3;
                     verVal = 3;
                 }
-                this.duration = this.duration + (120 * verVal);
-                this.strikeDelay = this.strikeDelay - verVal;
-                this.radius = this.def.projectile.explosionRadius + (1.5f * pwrVal);
+                duration = duration + (120 * verVal);
+                strikeDelay = strikeDelay - verVal;
+                radius = this.def.projectile.explosionRadius + (1.5f * pwrVal);
                 //ExplosionHelper.Explode(base.Position, this.Map, this.radius, TMDamageDefOf.DamageDefOf.TM_Shadow, this.pawn, (int)((this.def.projectile.GetDamageAmount(1, null) * (1 + .15 * pwrVal)) * this.arcaneDmg * Rand.Range(.75f, 1.25f)), 0, TorannMagicDefOf.TM_SoftExplosion, def, null, null, null, 0f, 1, false, null, 0f, 1, 0f, false);
 
-                this.initialized = true;
-                IEnumerable<IntVec3> hediffCells = GenRadial.RadialCellsAround(base.Position, 2, true);
+                initialized = true;
+                IEnumerable<IntVec3> hediffCells = GenRadial.RadialCellsAround(Position, 2, true);
                 hediffCellList = hediffCells.ToList<IntVec3>();
-                IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(base.Position, this.radius, false).Except(hediffCells);
+                IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(Position, radius, false).Except(hediffCells);
                 cellList = targets.ToList<IntVec3>();
                 for(int i = 0; i < cellList.Count(); i ++)
                 {
@@ -105,43 +105,43 @@ namespace TorannMagic
             //Vector3 angle = GetVector(base.Position, curCell);
             //TM_MoteMaker.ThrowArcaneWaveMote(curCell.ToVector3(), base.Map, .4f * (curCell - base.Position).LengthHorizontal, .1f, .05f, .5f, 0, Rand.Range(1, 2), (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat(), (Quaternion.AngleAxis(-90, Vector3.up) * angle).ToAngleFlat());
 
-            if (Find.TickManager.TicksGame % this.strikeDelay == 0 && this.Map != null)
+            if (Find.TickManager.TicksGame % strikeDelay == 0 && Map != null)
             {
-                if (this.pwrVal == 0)
+                if (pwrVal == 0)
                 {
                     Effecter AttractionEffect = TorannMagicDefOf.TM_AttractionEffecter.Spawn();
-                    AttractionEffect.Trigger(new TargetInfo(base.Position, this.Map, false), new TargetInfo(base.Position, this.Map, false));
+                    AttractionEffect.Trigger(new TargetInfo(Position, Map, false), new TargetInfo(Position, Map, false));
                     AttractionEffect.Cleanup();
                 }
-                else if(this.pwrVal ==1)
+                else if(pwrVal ==1)
                 {
                     Effecter AttractionEffect = TorannMagicDefOf.TM_AttractionEffecter_I.Spawn();
-                    AttractionEffect.Trigger(new TargetInfo(base.Position, this.Map, false), new TargetInfo(base.Position, this.Map, false));
+                    AttractionEffect.Trigger(new TargetInfo(Position, Map, false), new TargetInfo(Position, Map, false));
                     AttractionEffect.Cleanup();
                 }
-                else if(this.pwrVal == 2)
+                else if(pwrVal == 2)
                 {
                     Effecter AttractionEffect = TorannMagicDefOf.TM_AttractionEffecter_II.Spawn();
-                    AttractionEffect.Trigger(new TargetInfo(base.Position, this.Map, false), new TargetInfo(base.Position, this.Map, false));
+                    AttractionEffect.Trigger(new TargetInfo(Position, Map, false), new TargetInfo(Position, Map, false));
                     AttractionEffect.Cleanup();
                 }
                 else
                 {
                     Effecter AttractionEffect = TorannMagicDefOf.TM_AttractionEffecter_III.Spawn();
-                    AttractionEffect.Trigger(new TargetInfo(base.Position, this.Map, false), new TargetInfo(base.Position, this.Map, false));
+                    AttractionEffect.Trigger(new TargetInfo(Position, Map, false), new TargetInfo(Position, Map, false));
                     AttractionEffect.Cleanup();
                 }
                 for (int i = 0; i < 3; i++)
                 {
                     curCell = cellList.RandomElement();
-                    if (curCell.IsValid && curCell.InBoundsWithNullCheck(base.Map))
+                    if (curCell.IsValid && curCell.InBoundsWithNullCheck(Map))
                     {
-                        victim = curCell.GetFirstPawn(base.Map);
-                        if (victim != null && !victim.Dead && victim.RaceProps.IsFlesh && victim != this.pawn)
+                        victim = curCell.GetFirstPawn(Map);
+                        if (victim != null && !victim.Dead && victim.RaceProps.IsFlesh && victim != pawn)
                         {                            
-                            if (Rand.Chance(TM_Calc.GetSpellSuccessChance(this.pawn, victim) - .4f))
+                            if (Rand.Chance(TM_Calc.GetSpellSuccessChance(pawn, victim) - .4f))
                             {
-                                Vector3 launchVector = GetVector(base.Position, victim.Position);
+                                Vector3 launchVector = GetVector(Position, victim.Position);
                                 HealthUtility.AdjustSeverity(victim, TorannMagicDefOf.TM_GravitySlowHD, (.4f + (.1f * verVal)));
                                 LaunchFlyingObect(victim.Position + (2f * (1 + (.4f * pwrVal)) * launchVector).ToIntVec3(), victim);
                             }
@@ -155,12 +155,12 @@ namespace TorannMagic
                 for(int i =0; i < hediffCellList.Count(); i++)
                 {
                     curCell = hediffCellList[i];
-                    if (curCell.IsValid && curCell.InBoundsWithNullCheck(base.Map))
+                    if (curCell.IsValid && curCell.InBoundsWithNullCheck(Map))
                     {
-                        victim = curCell.GetFirstPawn(base.Map);
-                        if (victim != null && !victim.Dead && victim != this.pawn)
+                        victim = curCell.GetFirstPawn(Map);
+                        if (victim != null && !victim.Dead && victim != pawn)
                         {
-                            if (Rand.Chance(TM_Calc.GetSpellSuccessChance(this.pawn, victim) - .4f))
+                            if (Rand.Chance(TM_Calc.GetSpellSuccessChance(pawn, victim) - .4f))
                             {
                                 HealthUtility.AdjustSeverity(victim, TorannMagicDefOf.TM_GravitySlowHD, .3f + (.1f * verVal));
                             }

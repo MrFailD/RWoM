@@ -13,16 +13,16 @@ namespace TorannMagic.Enchantment
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -40,14 +40,14 @@ namespace TorannMagic.Enchantment
         {
             bool result = false;
             
-            if (this.currentTarget != null && base.CasterPawn != null)
+            if (currentTarget != null && base.CasterPawn != null)
             {
-                if(this.currentTarget.Thing != null && this.currentTarget.Thing is Pawn victim)
+                if(currentTarget.Thing != null && currentTarget.Thing is Pawn victim)
                 {
                     if(victim.Faction != null && victim.RaceProps.Humanlike && victim.story != null && victim.story.traits != null && !TM_Calc.IsUndeadNotVamp(victim))
                     {
                         int traitsApplied = 0;
-                        List<Apparel> apparel = this.CasterPawn.apparel.WornApparel;
+                        List<Apparel> apparel = CasterPawn.apparel.WornApparel;
                         List<Trait> orbTraits = new List<Trait>();
                         orbTraits.Clear();
                         CompEnchantedItem itemComp = null;
@@ -107,8 +107,8 @@ namespace TorannMagic.Enchantment
                     {
                         //invalid target
                         Messages.Message("TM_InvalidTarget".Translate(
-                                this.CasterPawn.LabelShort,
-                                this.verbProps.label
+                                CasterPawn.LabelShort,
+                                verbProps.label
                             ), MessageTypeDefOf.RejectInput);
                     }
                 }
@@ -116,8 +116,8 @@ namespace TorannMagic.Enchantment
                 {
                     //invalid target
                     Messages.Message("TM_InvalidTarget".Translate(
-                            this.CasterPawn.LabelShort,
-                            this.verbProps.label
+                            CasterPawn.LabelShort,
+                            verbProps.label
                         ), MessageTypeDefOf.RejectInput);
                 }
             }
@@ -125,7 +125,7 @@ namespace TorannMagic.Enchantment
             {
                 Log.Warning("failed to TryCastShot");
             }
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             //this.ability.TicksUntilCasting = (int)base.UseAbilityProps.SecondsToRecharge * 60;
             PostCastShot(result);
             return false;
@@ -165,14 +165,14 @@ namespace TorannMagic.Enchantment
         public void Effects(IntVec3 position)
         {
             Vector3 rndPos = position.ToVector3Shifted();
-            FleckMaker.ThrowHeatGlow(position, this.CasterPawn.Map, 1f);
+            FleckMaker.ThrowHeatGlow(position, CasterPawn.Map, 1f);
             for (int i = 0; i < 3; i++)
             {
                 rndPos.x += Rand.Range(-.5f, .5f);
                 rndPos.z += Rand.Range(-.5f, .5f);
                 rndPos.y += Rand.Range(.3f, 1.3f);
-                FleckMaker.ThrowSmoke(rndPos, this.CasterPawn.Map, Rand.Range(.7f, 1.1f));
-                FleckMaker.ThrowLightningGlow(position.ToVector3Shifted(), this.CasterPawn.Map, 1.4f);
+                FleckMaker.ThrowSmoke(rndPos, CasterPawn.Map, Rand.Range(.7f, 1.1f));
+                FleckMaker.ThrowLightningGlow(position.ToVector3Shifted(), CasterPawn.Map, 1.4f);
             }
         }
 
@@ -180,7 +180,7 @@ namespace TorannMagic.Enchantment
         {
             if(inResult)
             {
-                List<Apparel> apparel = this.CasterPawn.apparel.WornApparel;
+                List<Apparel> apparel = CasterPawn.apparel.WornApparel;
                 if (apparel != null)
                 {
                     for (int i = 0; i < apparel.Count; i++)
@@ -192,7 +192,7 @@ namespace TorannMagic.Enchantment
                         }
                     }
                 }
-                CompAbilityUser comp = this.CasterPawn.GetComp<CompAbilityUser>();
+                CompAbilityUser comp = CasterPawn.GetComp<CompAbilityUser>();
                 if(comp != null)
                 {
                     comp.RemoveApparelAbility(TorannMagicDefOf.TM_Artifact_TraitInfuse);

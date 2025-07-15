@@ -44,28 +44,28 @@ namespace TorannMagic.WorldTransport
             }
             else
             {
-                Lord lord = TransporterUtility.FindLord(groupID, base.Map);
+                Lord lord = TransporterUtility.FindLord(groupID, Map);
                 if (lord != null)
                 {
-                    base.Map.lordManager.RemoveLord(lord);
+                    Map.lordManager.RemoveLord(lord);
                 }
-                WorldTransport.TM_TravelingTransportPods travelingTransportPods = (WorldTransport.TM_TravelingTransportPods)WorldObjectMaker.MakeWorldObject(TorannMagicDefOf.TM_TravelingTransportLightBeam);
-                travelingTransportPods.Tile = base.Map.Tile;
+                TM_TravelingTransportPods travelingTransportPods = (TM_TravelingTransportPods)WorldObjectMaker.MakeWorldObject(TorannMagicDefOf.TM_TravelingTransportLightBeam);
+                travelingTransportPods.Tile = Map.Tile;
                 travelingTransportPods.SetFaction(Faction.OfPlayer);
                 travelingTransportPods.destinationTile = destinationTile;
                 travelingTransportPods.arrivalAction = arrivalAction;
                 travelingTransportPods.destinationCell = arrivalCell;
-                if (this.def == TorannMagicDefOf.TM_LightPodLeaving)
+                if (def == TorannMagicDefOf.TM_LightPodLeaving)
                 {
                     travelingTransportPods.TravelSpeed = .025f;
-                    travelingTransportPods.draftFlag = this.draftFlag;
+                    travelingTransportPods.draftFlag = draftFlag;
                 }
                 Find.WorldObjects.Add(travelingTransportPods);
                 tmpActiveDropPods.Clear();
-                tmpActiveDropPods.AddRange(base.Map.listerThings.ThingsInGroup(ThingRequestGroup.ActiveTransporter));
+                tmpActiveDropPods.AddRange(Map.listerThings.ThingsInGroup(ThingRequestGroup.ActiveTransporter));
                 for (int i = 0; i < tmpActiveDropPods.Count; i++)
                 {
-                    WorldTransport.TM_DropPodLeaving dropPodLeaving = tmpActiveDropPods[i] as WorldTransport.TM_DropPodLeaving;
+                    TM_DropPodLeaving dropPodLeaving = tmpActiveDropPods[i] as TM_DropPodLeaving;
                     if (dropPodLeaving != null && dropPodLeaving.groupID == groupID)
                     {
                         dropPodLeaving.alreadyLeft = true;
@@ -79,7 +79,7 @@ namespace TorannMagic.WorldTransport
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            startingPos = this.DrawPos;
+            startingPos = DrawPos;
             base.SpawnSetup(map, respawningAfterLoad);
         }
 
@@ -101,23 +101,23 @@ namespace TorannMagic.WorldTransport
         public void DrawLightBeam()
         {
             float lanceWidth = 4f;
-            if (this.ticksToImpact < (this.maxTicks * .5f))
+            if (ticksToImpact < (maxTicks * .5f))
             {
-                lanceWidth *= (float)this.ticksToImpact / this.maxTicks;
+                lanceWidth *= (float)ticksToImpact / maxTicks;
             }
-            if (this.ticksToImpact > (this.maxTicks * .5f))
+            if (ticksToImpact > (maxTicks * .5f))
             {
-                lanceWidth *= (float)(this.maxTicks - this.ticksToImpact) / this.maxTicks;
+                lanceWidth *= (float)(maxTicks - ticksToImpact) / maxTicks;
             }
             lanceWidth *= Rand.Range(.9f, 1.1f);
-            Vector3 angleVector = Vector3Utility.FromAngleFlat(this.angle - 90) * .5f * beamLength;
-            Vector3 drawPos = this.startingPos + angleVector;
+            Vector3 angleVector = Vector3Utility.FromAngleFlat(angle - 90) * .5f * beamLength;
+            Vector3 drawPos = startingPos + angleVector;
             Matrix4x4 matrix = default(Matrix4x4);
-            matrix.SetTRS(drawPos, Quaternion.Euler(0f, this.angle, 0f), new Vector3(lanceWidth, 1f, beamLength));   //drawer for beam
-            Graphics.DrawMesh(MeshPool.plane10, matrix, TM_DropPodLeaving.BeamMat, 0, null, 0, TM_DropPodLeaving.MatPropertyBlock);
+            matrix.SetTRS(drawPos, Quaternion.Euler(0f, angle, 0f), new Vector3(lanceWidth, 1f, beamLength));   //drawer for beam
+            Graphics.DrawMesh(MeshPool.plane10, matrix, BeamMat, 0, null, 0, MatPropertyBlock);
             Matrix4x4 matrix2 = default(Matrix4x4);
-            matrix2.SetTRS(this.startingPos + Vector3Utility.FromAngleFlat(this.angle + 90) * .5f * lanceWidth, Quaternion.Euler(0f, this.angle, 0f), new Vector3(lanceWidth, 1f, lanceWidth));                 //drawer for beam start
-            Graphics.DrawMesh(MeshPool.plane10, matrix2, TM_DropPodLeaving.BeamEndMat, 0, null, 0, TM_DropPodLeaving.MatPropertyBlock);
+            matrix2.SetTRS(startingPos + Vector3Utility.FromAngleFlat(angle + 90) * .5f * lanceWidth, Quaternion.Euler(0f, angle, 0f), new Vector3(lanceWidth, 1f, lanceWidth));                 //drawer for beam start
+            Graphics.DrawMesh(MeshPool.plane10, matrix2, BeamEndMat, 0, null, 0, MatPropertyBlock);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class HediffComp_SeverityPercent : HediffComp
     {
-        public override string CompLabelInBracketsExtra => this.parent.Severity.ToString("P0");
+        public override string CompLabelInBracketsExtra => parent.Severity.ToString("P0");
      
     }
 }

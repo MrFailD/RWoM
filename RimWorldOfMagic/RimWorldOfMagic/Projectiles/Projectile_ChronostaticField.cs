@@ -26,20 +26,20 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", true, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 1800, false);
-            Scribe_Values.Look<int>(ref this.strikeDelay, "strikeDelay", 0, false);
-            Scribe_Values.Look<int>(ref this.strikeNum, "strikeNum", 0, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_References.Look<Pawn>(ref this.casterPawn, "casterPawn", false);
-            Scribe_Collections.Look<IntVec3>(ref this.cellList, "cellList", LookMode.Value);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", true, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 1800, false);
+            Scribe_Values.Look<int>(ref strikeDelay, "strikeDelay", 0, false);
+            Scribe_Values.Look<int>(ref strikeNum, "strikeNum", 0, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_References.Look<Pawn>(ref casterPawn, "casterPawn", false);
+            Scribe_Collections.Look<IntVec3>(ref cellList, "cellList", LookMode.Value);
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < duration;
+            bool flag = age < duration;
             if (!flag)
             {
                 base.Destroy(mode);
@@ -49,51 +49,51 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {            
             base.Impact(hitThing);           
             ThingDef def = this.def;
-            if (!this.initialized)
+            if (!initialized)
             {
-                this.casterPawn = this.launcher as Pawn;
+                casterPawn = launcher as Pawn;
                 CompAbilityUserMagic comp = casterPawn.GetCompAbilityUserMagic();
                 MagicPowerSkill pwr = comp.MagicData.MagicPowerSkill_ChronostaticField.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_ChronostaticField_pwr");
                 MagicPowerSkill ver = comp.MagicData.MagicPowerSkill_ChronostaticField.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_ChronostaticField_ver");
                 
                 pwrVal = pwr.level;
                 verVal = ver.level;
-                if (this.casterPawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
+                if (casterPawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
                 {
                     MightPowerSkill mpwr = casterPawn.GetCompAbilityUserMight().MightData.MightPowerSkill_Mimic.FirstOrDefault((MightPowerSkill x) => x.label == "TM_Mimic_pwr");
                     MightPowerSkill mver = casterPawn.GetCompAbilityUserMight().MightData.MightPowerSkill_Mimic.FirstOrDefault((MightPowerSkill x) => x.label == "TM_Mimic_ver");
                     pwrVal = mpwr.level;
                     verVal = mver.level;
                 }
-                this.arcaneDmg = comp.arcaneDmg;
+                arcaneDmg = comp.arcaneDmg;
                 if (ModOptions.Settings.Instance.AIHardMode && !casterPawn.IsColonist)
                 {
                     pwrVal = 3;
                     verVal = 3;
                 }
-                this.strikeDelay = this.strikeDelay - verVal;
-                this.radius = this.def.projectile.explosionRadius;
-                this.duration = Mathf.RoundToInt(this.radius * this.strikeDelay);
-                this.initialized = true;
+                strikeDelay = strikeDelay - verVal;
+                radius = this.def.projectile.explosionRadius;
+                duration = Mathf.RoundToInt(radius * strikeDelay);
+                initialized = true;
                 //this.targets = GenRadial.RadialCellsAround(base.Position, this.radius, true);
                 //cellList = targets.ToList<IntVec3>();
             }
 
             cellList = new List<IntVec3>();
             cellList.Clear();
-            cellList = GenRadial.RadialCellsAround(base.Position, this.radius, true).ToList(); //this.radius instead of 2
+            cellList = GenRadial.RadialCellsAround(Position, radius, true).ToList(); //this.radius instead of 2
             for (int i = 0; i < cellList.Count; i++)
             {
-                if (cellList[i].IsValid && cellList[i].InBoundsWithNullCheck(this.Map))
+                if (cellList[i].IsValid && cellList[i].InBoundsWithNullCheck(Map))
                 {
-                    List<Thing> thingList = cellList[i].GetThingList(this.Map);
+                    List<Thing> thingList = cellList[i].GetThingList(Map);
                     if (thingList != null && thingList.Count > 0)
                     {
                         for (int j = 0; j < thingList.Count; j++)
@@ -102,11 +102,11 @@ namespace TorannMagic
                             if (pawn != null)
                             {
                                 RemoveFireAt(thingList[j].Position);
-                                if (Rand.Chance(TM_Calc.GetSpellSuccessChance(this.casterPawn, pawn, false) * (.6f + (.1f * verVal))))
+                                if (Rand.Chance(TM_Calc.GetSpellSuccessChance(casterPawn, pawn, false) * (.6f + (.1f * verVal))))
                                 {
                                     IntVec3 targetCell = pawn.Position;
                                     targetCell.z++;
-                                    LaunchFlyingObect(targetCell, pawn, 1, Mathf.RoundToInt(Rand.Range(1400, 1800) * (1f + (.2f * pwrVal)) * this.arcaneDmg));
+                                    LaunchFlyingObect(targetCell, pawn, 1, Mathf.RoundToInt(Rand.Range(1400, 1800) * (1f + (.2f * pwrVal)) * arcaneDmg));
                                 }
                                 else
                                 {
@@ -117,8 +117,8 @@ namespace TorannMagic
                     }
                 }
             }
-            this.age = this.duration;
-            this.Destroy(DestroyMode.Vanish);
+            age = duration;
+            Destroy(DestroyMode.Vanish);
         }
 
         public void LaunchFlyingObect(IntVec3 targetCell, Pawn pawn, int force, int duration)
@@ -135,14 +135,14 @@ namespace TorannMagic
                     FlyingObject_TimeDelay flyingObject = (FlyingObject_TimeDelay)GenSpawn.Spawn(ThingDef.Named("FlyingObject_TimeDelay"), pawn.Position, pawn.Map);
                     flyingObject.speed = .01f;
                     flyingObject.duration = duration;
-                    flyingObject.Launch(this.casterPawn, targetCell, pawn);
+                    flyingObject.Launch(casterPawn, targetCell, pawn);
                 }
             }
         }
         
         private void RemoveFireAt(IntVec3 position)
         {            
-            List<Thing> thingList = position.GetThingList(this.Map);
+            List<Thing> thingList = position.GetThingList(Map);
             if (thingList != null && thingList.Count > 0)
             {
                 for (int i = 0; i < thingList.Count; i++)
@@ -150,7 +150,7 @@ namespace TorannMagic
                     if(thingList[i].def == ThingDefOf.Fire)
                     {
                         //Log.Message("removing fire at " + position);
-                        FleckMaker.ThrowHeatGlow(position, this.Map, .6f);
+                        FleckMaker.ThrowHeatGlow(position, Map, .6f);
                         thingList[i].Destroy(DestroyMode.Vanish);
                         i--;
                     }

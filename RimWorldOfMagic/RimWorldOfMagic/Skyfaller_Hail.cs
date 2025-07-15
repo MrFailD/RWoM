@@ -17,19 +17,19 @@ namespace TorannMagic
             if (def.skyfaller.hitRoof)
             {
                 CellRect cr = this.OccupiedRect();
-                if (cr.Cells.Any((IntVec3 x) => x.Roofed(base.Map)))
+                if (cr.Cells.Any((IntVec3 x) => x.Roofed(Map)))
                 {
-                    RoofDef roof = cr.Cells.First((IntVec3 x) => x.Roofed(base.Map)).GetRoof(base.Map);
+                    RoofDef roof = cr.Cells.First((IntVec3 x) => x.Roofed(Map)).GetRoof(Map);
                     if (!roof.soundPunchThrough.NullOrUndefined())
                     {
-                        roof.soundPunchThrough.PlayOneShot(new TargetInfo(base.Position, base.Map));
+                        roof.soundPunchThrough.PlayOneShot(new TargetInfo(Position, Map));
                     }
                     CellRect cellRect = this.OccupiedRect();
                     for (int i = 0; i < cellRect.Area * def.skyfaller.motesPerCell; i++)
                     {
-                        FleckMaker.ThrowDustPuff(cellRect.RandomVector3, base.Map, 2f);
+                        FleckMaker.ThrowDustPuff(cellRect.RandomVector3, Map, 2f);
                     }
-                    this.Destroy();
+                    Destroy();
                 }
             }
         }

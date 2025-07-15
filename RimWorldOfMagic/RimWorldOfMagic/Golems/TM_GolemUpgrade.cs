@@ -40,9 +40,9 @@ namespace TorannMagic.Golems
 
         public void ExposeData()
         {
-            Scribe_Values.Look<int>(ref this.currentLevel, "currentLevel", 0);
-            Scribe_Values.Look<bool>(ref this.enabled, "enabled", true);
-            Scribe_Defs.Look<TM_GolemUpgradeDef>(ref this.golemUpgradeDef, "golemUpgradeDef");
+            Scribe_Values.Look<int>(ref currentLevel, "currentLevel", 0);
+            Scribe_Values.Look<bool>(ref enabled, "enabled", true);
+            Scribe_Defs.Look<TM_GolemUpgradeDef>(ref golemUpgradeDef, "golemUpgradeDef");
         }
     }
 }

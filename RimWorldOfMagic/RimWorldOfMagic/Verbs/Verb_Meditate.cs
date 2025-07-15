@@ -15,12 +15,12 @@ namespace TorannMagic
             Pawn pawn = base.CasterPawn;
 
             pawn.jobs.EndCurrentJob(JobCondition.InterruptForced);
-            Job job = new Job(TorannMagicDefOf.JobDriver_TM_Meditate, this.CasterPawn.Position);
+            Job job = new Job(TorannMagicDefOf.JobDriver_TM_Meditate, CasterPawn.Position);
             pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
             
-            this.Ability.PostAbilityAttempt();
+            Ability.PostAbilityAttempt();
 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return false;
         }
     }

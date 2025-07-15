@@ -19,7 +19,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -27,16 +27,16 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
-                CompAbilityUserMagic comp = this.Pawn.GetCompAbilityUserMagic();
+                CompAbilityUserMagic comp = Pawn.GetCompAbilityUserMagic();
                 pwrVal = TM_Calc.GetSkillPowerLevel(Pawn, TorannMagicDefOf.TM_BattleHymn);
                 verVal = TM_Calc.GetSkillVersatilityLevel(Pawn, TorannMagicDefOf.TM_BattleHymn);
                 effVal = TM_Calc.GetSkillEfficiencyLevel(Pawn, TorannMagicDefOf.TM_BattleHymn);
@@ -53,37 +53,37 @@ namespace TorannMagic
                 //    verVal = 1;
                 //    effVal = 1;
                 //}
-                this.chantRange = this.chantRange + (this.verVal * 3f);
-                this.chantFrequency = 300 - (30 * verVal);
+                chantRange = chantRange + (verVal * 3f);
+                chantFrequency = 300 - (30 * verVal);
             }
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
             }
-            Map map = base.Pawn.Map;
+            Map map = Pawn.Map;
 
             bool flag4 = Find.TickManager.TicksGame % chantFrequency == 0;
             if (flag4 && map != null)
             {
-                CompAbilityUserMagic comp = this.Pawn.GetCompAbilityUserMagic();
+                CompAbilityUserMagic comp = Pawn.GetCompAbilityUserMagic();
                 if (comp.Mana.CurLevel > (.09f - (.009f * effVal)))
                 {
-                    List<Pawn> pawns = this.Pawn.Map.mapPawns.AllPawnsSpawned.ToList();
+                    List<Pawn> pawns = Pawn.Map.mapPawns.AllPawnsSpawned.ToList();
                     for (int i = 0; i < pawns.Count; i++)
                     {
-                        if (pawns[i].RaceProps.Humanlike && pawns[i].Faction != null && pawns[i].Faction == this.Pawn.Faction)
+                        if (pawns[i].RaceProps.Humanlike && pawns[i].Faction != null && pawns[i].Faction == Pawn.Faction)
                         {
-                            if ((pawns[i].Position - this.Pawn.Position).LengthHorizontal <= this.chantRange)
+                            if ((pawns[i].Position - Pawn.Position).LengthHorizontal <= chantRange)
                             {
                                 HealthUtility.AdjustSeverity(pawns[i], HediffDef.Named("TM_BattleHymnHD"), Rand.Range(.4f, .7f) + (.15f * pwrVal));
                                 TM_MoteMaker.ThrowNoteMote(pawns[i].DrawPos, pawns[i].Map, .3f);
@@ -98,12 +98,12 @@ namespace TorannMagic
                         }
                     }
                     comp.Mana.CurLevel -= (.09f - (.009f * effVal));
-                    TM_MoteMaker.ThrowSiphonMote(this.Pawn.DrawPos, this.Pawn.Map, .5f);
+                    TM_MoteMaker.ThrowSiphonMote(Pawn.DrawPos, Pawn.Map, .5f);
                 }
                 else
                 {
-                    Hediff hediff = this.Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("TM_SingBattleHymnHD"), false);
-                    this.Pawn.health.RemoveHediff(hediff);
+                    Hediff hediff = Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("TM_SingBattleHymnHD"), false);
+                    Pawn.health.RemoveHediff(hediff);
                 }
             }
         }
@@ -111,11 +111,11 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_Values.Look<int>(ref this.effVal, "effVal", 0, false);
-            Scribe_Values.Look<int>(ref this.chantFrequency, "chantFrequency", 300, false);
-            Scribe_Values.Look<float>(ref this.chantRange, "chantRange", 11f, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<int>(ref effVal, "effVal", 0, false);
+            Scribe_Values.Look<int>(ref chantFrequency, "chantFrequency", 300, false);
+            Scribe_Values.Look<float>(ref chantRange, "chantRange", 11f, false);
         }
     }
 }

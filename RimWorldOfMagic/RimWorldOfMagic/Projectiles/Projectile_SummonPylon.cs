@@ -18,12 +18,12 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            if (this.age >= duration)
+            if (age >= duration)
             {
                 //try
                 //{
@@ -50,7 +50,7 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             GenClamor.DoClamor(this, 2.1f, ClamorDefOf.Impact);
             Destroy();
             //base.Impact(hitThing);
@@ -59,7 +59,7 @@ namespace TorannMagic
             Thing item = hitThing as Thing;
             IntVec3 arg_pos_1;
 
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_SummonPylon.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SummonPylon_pwr");
             MagicPowerSkill ver = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_SummonPylon.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SummonPylon_ver");
@@ -72,11 +72,11 @@ namespace TorannMagic
                 pwrVal = mpwr.level;
                 verVal = mver.level;
             }
-            CellRect cellRect = CellRect.CenteredOn(base.Position, 1);
+            CellRect cellRect = CellRect.CenteredOn(Position, 1);
             cellRect.ClipInsideMap(map);
             IntVec3 centerCell = cellRect.CenterCell;
 
-            if (!this.primed)
+            if (!primed)
             {
                 duration += (verVal * 7200);
                 duration = (int)(duration * comp.arcaneDmg);
@@ -84,7 +84,7 @@ namespace TorannMagic
 
                 if ((arg_pos_1.IsValid && arg_pos_1.Standable(map)))
                 {
-                    AbilityUser.SpawnThings tempPod = new SpawnThings();
+                    SpawnThings tempPod = new SpawnThings();
                     IntVec3 shiftPos = centerCell;
                     centerCell.x++;
 
@@ -108,28 +108,28 @@ namespace TorannMagic
                     tempPod.spawnCount = 1;
                     try
                     {
-                        this.SingleSpawnLoop(tempPod, shiftPos, map);
+                        SingleSpawnLoop(tempPod, shiftPos, map);
                     }
                     catch
                     {
                         comp.Mana.CurLevel += comp.ActualManaCost(TorannMagicDefOf.TM_SummonPylon);
-                        this.age = this.duration;
+                        age = duration;
                         Log.Message("TM_Exception".Translate(
                                 pawn.LabelShort,
                                 this.def.defName
                             ));
                     }                 
 
-                    this.primed = true;
+                    primed = true;
                 }
                 else
                 {
                     Messages.Message("InvalidSummon".Translate(), MessageTypeDefOf.RejectInput);
                     comp.Mana.GainNeed(comp.ActualManaCost(TorannMagicDefOf.TM_SummonExplosive));
-                    this.duration = 0;
+                    duration = 0;
                 }
             }
-            this.age = this.duration;            
+            age = duration;            
         }
 
         public void SingleSpawnLoop(SpawnThings spawnables, IntVec3 position, Map map)
@@ -137,7 +137,7 @@ namespace TorannMagic
             bool flag = spawnables.def != null;
             if (flag)
             {
-                Faction faction = TM_Action.ResolveFaction(this.launcher as Pawn, spawnables, this.launcher.Faction);
+                Faction faction = TM_Action.ResolveFaction(launcher as Pawn, spawnables, launcher.Faction);
                 bool flag2 = spawnables.def.race != null;
                 if (flag2)
                 {
@@ -148,7 +148,7 @@ namespace TorannMagic
                     }
                     else
                     {
-                        TM_Action.SpawnPawn(this.launcher as Pawn, spawnables, faction, position, 0, map);
+                        TM_Action.SpawnPawn(launcher as Pawn, spawnables, faction, position, 0, map);
                     }
                 }
                 else
@@ -167,7 +167,7 @@ namespace TorannMagic
                     }
                     placedThing = thing;
                     CompSummoned bldgComp = thing.TryGetComp<CompSummoned>();
-                    bldgComp.TicksToDestroy = this.duration;
+                    bldgComp.TicksToDestroy = duration;
                     bldgComp.Temporary = true;
                     GenSpawn.Spawn(thing, position, map, Rot4.North, WipeMode.Vanish, false);
                 }
@@ -177,10 +177,10 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_References.Look<Thing>(ref this.placedThing, "placedThing");
-            Scribe_Values.Look<bool>(ref this.primed, "primed", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 7200, false);
+            Scribe_References.Look<Thing>(ref placedThing, "placedThing");
+            Scribe_Values.Look<bool>(ref primed, "primed", false, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 7200, false);
         }
     }
 }

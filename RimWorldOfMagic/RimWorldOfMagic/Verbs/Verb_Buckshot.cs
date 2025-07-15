@@ -14,19 +14,19 @@ namespace TorannMagic
 
         protected override bool TryCastShot()
         {
-            Pawn pawn = this.CasterPawn;
+            Pawn pawn = CasterPawn;
             shotcount = GetShotCount(pawn);
 
-            Vector3 drawPos = pawn.DrawPos + (TM_Calc.GetVector(pawn.Position, this.currentTarget.Cell) * .5f);
+            Vector3 drawPos = pawn.DrawPos + (TM_Calc.GetVector(pawn.Position, currentTarget.Cell) * .5f);
             FleckMaker.ThrowSmoke(drawPos, pawn.Map, Rand.Range(.6f, .8f));
             for (int i = 0; i < shotcount; i++)
             {
-                IntVec3 targetVariation = this.currentTarget.Cell;
-                targetVariation.x += Mathf.RoundToInt(Rand.Range(-.1f, .1f) * Vector3.Distance(pawn.DrawPos, this.currentTarget.CenterVector3));
-                targetVariation.z += Mathf.RoundToInt(Rand.Range(-.1f, .1f) * Vector3.Distance(pawn.DrawPos, this.currentTarget.CenterVector3));
-                TM_CopyAndLaunchProjectile.CopyAndLaunchThing(this.verbProps.defaultProjectile, pawn, targetVariation, targetVariation, ProjectileHitFlags.All, pawn.equipment.Primary);
+                IntVec3 targetVariation = currentTarget.Cell;
+                targetVariation.x += Mathf.RoundToInt(Rand.Range(-.1f, .1f) * Vector3.Distance(pawn.DrawPos, currentTarget.CenterVector3));
+                targetVariation.z += Mathf.RoundToInt(Rand.Range(-.1f, .1f) * Vector3.Distance(pawn.DrawPos, currentTarget.CenterVector3));
+                TM_CopyAndLaunchProjectile.CopyAndLaunchThing(verbProps.defaultProjectile, pawn, targetVariation, targetVariation, ProjectileHitFlags.All, pawn.equipment.Primary);
             }
-            return this.burstShotsLeft >= 0;
+            return burstShotsLeft >= 0;
         }
 
         public static int GetShotCount(Pawn pawn)

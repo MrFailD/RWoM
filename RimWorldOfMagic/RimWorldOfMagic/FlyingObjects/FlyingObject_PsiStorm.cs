@@ -69,7 +69,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.orbPosition;
+                return orbPosition;
             }
         }
 
@@ -77,26 +77,26 @@ namespace TorannMagic
         {
             get
             {
-                return Quaternion.LookRotation(this.orbPosition - this.centerLoc.ToVector3Shifted());
+                return Quaternion.LookRotation(orbPosition - centerLoc.ToVector3Shifted());
             }
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<float>(ref this.directionAngle, "directionAngle", 0, false);
-            Scribe_Values.Look<int>(ref this.ticksToImpact, "ticksToImpact", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<float>(ref this.radius, "radius", 1.4f, false);
-            Scribe_Values.Look<int>(ref this.proximityFrequency, "proximityFrequency", 6, false);
-            Scribe_Values.Look<float>(ref this.proximityRadius, "proximityRadius", .4f, false);
-            Scribe_Values.Look<bool>(ref this.damageLaunched, "damageLaunched", true, false);
-            Scribe_Values.Look<bool>(ref this.explosion, "explosion", false, false);
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_References.Look<Thing>(ref this.assignedTarget, "assignedTarget", false);
-            Scribe_References.Look<Pawn>(ref this.pawn, "pawn", false);
-            Scribe_Deep.Look<Thing>(ref this.flyingThing, "flyingThing", new object[0]);
+            Scribe_Values.Look<float>(ref directionAngle, "directionAngle", 0, false);
+            Scribe_Values.Look<int>(ref ticksToImpact, "ticksToImpact", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<float>(ref radius, "radius", 1.4f, false);
+            Scribe_Values.Look<int>(ref proximityFrequency, "proximityFrequency", 6, false);
+            Scribe_Values.Look<float>(ref proximityRadius, "proximityRadius", .4f, false);
+            Scribe_Values.Look<bool>(ref damageLaunched, "damageLaunched", true, false);
+            Scribe_Values.Look<bool>(ref explosion, "explosion", false, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_References.Look<Thing>(ref assignedTarget, "assignedTarget", false);
+            Scribe_References.Look<Pawn>(ref pawn, "pawn", false);
+            Scribe_Deep.Look<Thing>(ref flyingThing, "flyingThing", new object[0]);
         }
 
         private void Initialize()
@@ -106,20 +106,20 @@ namespace TorannMagic
                 FleckMaker.Static(pawn.DrawPos, pawn.Map, FleckDefOf.ExplosionFlash, 12f);
                 FleckMaker.ThrowDustPuff(pawn.Position, pawn.Map, Rand.Range(1.2f, 1.8f));
             }
-            this.boltOrigin = new List<IntVec3>();
-            this.boltPosition = new List<Vector3>();
-            this.boltDestination = new List<IntVec3>();
-            this.boltVector = new List<Vector3>();
-            this.strikeCells = new List<IntVec3>();
-            this.boltTick = new List<int>();
-            this.boltMagnitude = new List<float>();
-            this.strikeCells.Clear();
-            this.strikeCells = GenRadial.RadialCellsAround(this.centerLoc, 7, true).ToList();
-            for(int i =0; i < this.strikeCells.Count(); i++)
+            boltOrigin = new List<IntVec3>();
+            boltPosition = new List<Vector3>();
+            boltDestination = new List<IntVec3>();
+            boltVector = new List<Vector3>();
+            strikeCells = new List<IntVec3>();
+            boltTick = new List<int>();
+            boltMagnitude = new List<float>();
+            strikeCells.Clear();
+            strikeCells = GenRadial.RadialCellsAround(centerLoc, 7, true).ToList();
+            for(int i =0; i < strikeCells.Count(); i++)
             {
-                if(!this.strikeCells[i].InBoundsWithNullCheck(this.pawn.Map) || !this.strikeCells[i].IsValid)
+                if(!strikeCells[i].InBoundsWithNullCheck(pawn.Map) || !strikeCells[i].IsValid)
                 {
-                    this.strikeCells.Remove(this.strikeCells[i]);
+                    strikeCells.Remove(strikeCells[i]);
                 }
             }
             flyingThing.ThingID += Rand.Range(0, 214).ToString();
@@ -127,12 +127,12 @@ namespace TorannMagic
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing, DamageInfo? impactDamage)
         {
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, impactDamage);
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, impactDamage);
         }
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing)
         {
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, null);
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, null);
         }
 
         public void Launch(Thing launcher, Vector3 origin, LocalTargetInfo targ, Thing flyingThing, DamageInfo? newDamageInfo = null)
@@ -142,7 +142,7 @@ namespace TorannMagic
             
             CompAbilityUserMight comp = pawn.GetCompAbilityUserMight();
             
-            this.arcaneDmg = comp.mightPwr;
+            arcaneDmg = comp.mightPwr;
             //MightPowerSkill pwr = pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_PsionicStorm.FirstOrDefault((MightPowerSkill x) => x.label == "TM_PsionicStorm_pwr");
             //MightPowerSkill ver = pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_PsionicStorm.FirstOrDefault((MightPowerSkill x) => x.label == "TM_PsionicStorm_ver");
             //verVal = ver.level;
@@ -171,23 +171,23 @@ namespace TorannMagic
             //might use tm_thunderstrike sound to reduce volume of the strike, play thunder offmap each iteration, generate a "cloud" of motes around the orb
             //might need to pull the mesh maker functionality from wizardry
 
-            this.centerLoc = targ.Cell;
-            this.impactDamage = newDamageInfo;
-            this.speed = 0f;
+            centerLoc = targ.Cell;
+            impactDamage = newDamageInfo;
+            speed = 0f;
             this.flyingThing = flyingThing;
             bool flag = targ.Thing != null;
             if (flag)
             {
-                this.assignedTarget = targ.Thing;
+                assignedTarget = targ.Thing;
             }
-            this.Initialize();
+            Initialize();
             GetOrbOffset();
         }
 
         private void GetOrbOffset()
         {
             Vector3 offsetVec = default(Vector3);
-            if (this.centerLoc.x < this.pawn.Position.x)
+            if (centerLoc.x < pawn.Position.x)
             {
                 offsetVec.x = .4f;                
             }
@@ -196,23 +196,23 @@ namespace TorannMagic
                 offsetVec.x = -.4f;
             }
             offsetVec.z = .866f;
-            this.orbPosition = (this.centerLoc.ToVector3Shifted() + (this.initialOffsetMagnitude * offsetVec));
-            if(!this.orbPosition.InBoundsWithNullCheck(this.pawn.Map) || !this.orbPosition.ToIntVec3().IsValid)
+            orbPosition = (centerLoc.ToVector3Shifted() + (initialOffsetMagnitude * offsetVec));
+            if(!orbPosition.InBoundsWithNullCheck(pawn.Map) || !orbPosition.ToIntVec3().IsValid)
             {
                 offsetVec.x *= -1f;
-                this.orbPosition = (this.centerLoc.ToVector3Shifted() + (this.initialOffsetMagnitude * offsetVec));
-                if (!this.orbPosition.InBoundsWithNullCheck(this.pawn.Map) || !this.orbPosition.ToIntVec3().IsValid)
+                orbPosition = (centerLoc.ToVector3Shifted() + (initialOffsetMagnitude * offsetVec));
+                if (!orbPosition.InBoundsWithNullCheck(pawn.Map) || !orbPosition.ToIntVec3().IsValid)
                 {
                     offsetVec.z *= -1f;
-                    this.orbPosition = (this.centerLoc.ToVector3Shifted() + (this.initialOffsetMagnitude * offsetVec));
-                    if (!this.orbPosition.InBoundsWithNullCheck(this.pawn.Map) || !this.orbPosition.ToIntVec3().IsValid)
+                    orbPosition = (centerLoc.ToVector3Shifted() + (initialOffsetMagnitude * offsetVec));
+                    if (!orbPosition.InBoundsWithNullCheck(pawn.Map) || !orbPosition.ToIntVec3().IsValid)
                     {
                         offsetVec.x *= -1f;
-                        this.orbPosition = (this.centerLoc.ToVector3Shifted() + (this.initialOffsetMagnitude * offsetVec));
-                        if (!this.orbPosition.InBoundsWithNullCheck(this.pawn.Map) || !this.orbPosition.ToIntVec3().IsValid)
+                        orbPosition = (centerLoc.ToVector3Shifted() + (initialOffsetMagnitude * offsetVec));
+                        if (!orbPosition.InBoundsWithNullCheck(pawn.Map) || !orbPosition.ToIntVec3().IsValid)
                         {
                             Log.Message("No valid cell found to begin psionic storm.");
-                            this.Destroy(DestroyMode.Vanish);
+                            Destroy(DestroyMode.Vanish);
                         }
                     }
                 }
@@ -224,23 +224,23 @@ namespace TorannMagic
         {
             //base.Tick();
             age++;
-            if (!pawn.DestroyedOrNull() && !pawn.Dead && !pawn.Downed && this.age > 0)
+            if (!pawn.DestroyedOrNull() && !pawn.Dead && !pawn.Downed && age > 0)
             { 
                 //if job def is on pawn...
                 if (Find.TickManager.TicksGame % 3 == 0)
                 {
-                    DrawEffects(this.orbPosition, this.pawn.Map);
+                    DrawEffects(orbPosition, pawn.Map);
                 }
 
-                if(this.nextStrikeGenTick < Find.TickManager.TicksGame)
+                if(nextStrikeGenTick < Find.TickManager.TicksGame)
                 {
-                    this.nextStrikeGenTick = Find.TickManager.TicksGame + 360;
+                    nextStrikeGenTick = Find.TickManager.TicksGame + 360;
                     GenerateNewBolt();                    
                 }
 
                 DrawBoltMeshes();
             }
-            else if(this.age > this.duration)
+            else if(age > duration)
             {
                 Destroy(DestroyMode.Vanish);
             }
@@ -252,20 +252,20 @@ namespace TorannMagic
 
         private void DrawBoltMeshes()
         {
-            for (int i = 0; i < this.boltPosition.Count(); i++)
+            for (int i = 0; i < boltPosition.Count(); i++)
             {
-                if(this.boltTick[i] < 0)
+                if(boltTick[i] < 0)
                 {
-                    this.boltTick[i] = this.boltDelayTicks;
-                    if(this.boltPosition[i].ToIntVec3() == this.boltDestination[i] || ((this.boltDestination[i] - this.boltOrigin[i]).LengthHorizontal <= (this.boltPosition[i].ToIntVec3() - this.boltOrigin[i]).LengthHorizontal))
+                    boltTick[i] = boltDelayTicks;
+                    if(boltPosition[i].ToIntVec3() == boltDestination[i] || ((boltDestination[i] - boltOrigin[i]).LengthHorizontal <= (boltPosition[i].ToIntVec3() - boltOrigin[i]).LengthHorizontal))
                     {
                         //clears this instance of a bolt
-                        this.boltOrigin.Remove(this.boltOrigin[i]);
-                        this.boltDestination.Remove(this.boltDestination[i]);
-                        this.boltPosition.Remove(this.boltPosition[i]);
-                        this.boltTick.Remove(this.boltTick[i]);
-                        this.boltVector.Remove(this.boltVector[i]);
-                        this.boltMagnitude.Remove(this.boltMagnitude[i]);
+                        boltOrigin.Remove(boltOrigin[i]);
+                        boltDestination.Remove(boltDestination[i]);
+                        boltPosition.Remove(boltPosition[i]);
+                        boltTick.Remove(boltTick[i]);
+                        boltVector.Remove(boltVector[i]);
+                        boltMagnitude.Remove(boltMagnitude[i]);
                     }
                     else
                     {
@@ -282,7 +282,7 @@ namespace TorannMagic
                         //{
                         //    this.pawn.Map.weatherManager.eventHandler.AddEvent(new TM_MapMesh(this.pawn.Map, TM_MatPool.multiForkLightning, this.orbPosition.ToIntVec3(), this.boltPosition[i].ToIntVec3(), 1f, AltitudeLayer.MoteOverhead, 6, 25, 10));
                         //}
-                        FleckMaker.ThrowHeatGlow(this.boltPosition[i].ToIntVec3(), this.pawn.Map, 1f);
+                        FleckMaker.ThrowHeatGlow(boltPosition[i].ToIntVec3(), pawn.Map, 1f);
                         //else if (rnd == 3)
                         //{
                         //    this.pawn.Map.weatherManager.eventHandler.AddEvent(new TM_MapMesh(this.pawn.Map, TM_MatPool.doubleForkLightning, this.orbPosition.ToIntVec3(), this.boltPosition[i].ToIntVec3(), 2f, AltitudeLayer.MoteOverhead, 6, 25, 10));
@@ -295,33 +295,33 @@ namespace TorannMagic
                         //{
                         //    this.pawn.Map.weatherManager.eventHandler.AddEvent(new TM_MapMesh(this.pawn.Map, TM_MatPool.psiMote, this.orbPosition.ToIntVec3(), this.boltPosition[i].ToIntVec3(), 2f, AltitudeLayer.MoteOverhead, 6, 25, 10));
                         //}
-                        this.pawn.Map.weatherManager.eventHandler.AddEvent(new TM_MapMesh(this.pawn.Map, TM_MatPool.standardLightning, this.orbPosition.ToIntVec3(), this.boltPosition[i].ToIntVec3(), 2f, AltitudeLayer.MoteOverhead, 6, 25, 10));
+                        pawn.Map.weatherManager.eventHandler.AddEvent(new TM_MapMesh(pawn.Map, TM_MatPool.standardLightning, orbPosition.ToIntVec3(), boltPosition[i].ToIntVec3(), 2f, AltitudeLayer.MoteOverhead, 6, 25, 10));
                         MoveBoltPos(i);
                     }
                 }
                 else
                 {
-                    this.boltTick[i]--;
+                    boltTick[i]--;
                 }
             }
         }
 
         private void MoveBoltPos(int i)
         {
-            this.boltPosition[i] = this.boltOrigin[i].ToVector3Shifted() + (this.boltVector[i] * this.boltMagnitude[i]);
-            this.boltMagnitude[i] += this.magnitudeAdjuster;
+            boltPosition[i] = boltOrigin[i].ToVector3Shifted() + (boltVector[i] * boltMagnitude[i]);
+            boltMagnitude[i] += magnitudeAdjuster;
         }
 
         private void GenerateNewBolt()
         {
-            IntVec3 origin = this.strikeCells.RandomElement();
-            IntVec3 destination = this.strikeCells.RandomElement();
-            this.boltOrigin.Add(origin);
-            this.boltDestination.Add(destination);
-            this.boltVector.Add(TM_Calc.GetVector(origin, destination));
-            this.boltPosition.Add(origin.ToVector3Shifted());
-            this.boltTick.Add(0);
-            this.boltMagnitude.Add(this.magnitudeAdjuster);
+            IntVec3 origin = strikeCells.RandomElement();
+            IntVec3 destination = strikeCells.RandomElement();
+            boltOrigin.Add(origin);
+            boltDestination.Add(destination);
+            boltVector.Add(TM_Calc.GetVector(origin, destination));
+            boltPosition.Add(origin.ToVector3Shifted());
+            boltTick.Add(0);
+            boltMagnitude.Add(magnitudeAdjuster);
         }
 
         public void DrawEffects(Vector3 effectVec, Map map)
@@ -333,11 +333,11 @@ namespace TorannMagic
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            bool flag = this.flyingThing != null;
+            bool flag = flyingThing != null;
             if (flag)
             {
-                Graphics.DrawMesh(MeshPool.plane10, this.DrawPos, this.ExactRotation, this.flyingThing.def.DrawMatSingle, 0);
-                base.Comps_PostDraw();
+                Graphics.DrawMesh(MeshPool.plane10, DrawPos, ExactRotation, flyingThing.def.DrawMatSingle, 0);
+                Comps_PostDraw();
             }
         }
 
@@ -463,7 +463,7 @@ namespace TorannMagic
 
         public void damageEntities(Thing e, int amt)
         {
-            DamageInfo dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_Shadow, amt, 2, (float)(1f - this.directionAngle / 360f), null, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
+            DamageInfo dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_Shadow, amt, 2, (float)(1f - directionAngle / 360f), null, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
             bool flag = e != null;
             if (flag)
             {

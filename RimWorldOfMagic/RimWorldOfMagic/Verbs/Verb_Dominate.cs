@@ -20,7 +20,7 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     //out of range
                     validTarg = true;
@@ -40,12 +40,12 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool result = false;
-            Pawn p = this.CasterPawn;
-            Pawn hitPawn = this.currentTarget.Thing as Pawn;
-            CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
-            verVal = TM_Calc.GetSkillVersatilityLevel(p, this.Ability.Def as TMAbilityDef, true);
-            pwrVal = TM_Calc.GetSkillPowerLevel(p, this.Ability.Def as TMAbilityDef);
-            effVal = TM_Calc.GetSkillEfficiencyLevel(p, this.Ability.Def as TMAbilityDef);
+            Pawn p = CasterPawn;
+            Pawn hitPawn = currentTarget.Thing as Pawn;
+            CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
+            verVal = TM_Calc.GetSkillVersatilityLevel(p, Ability.Def as TMAbilityDef, true);
+            pwrVal = TM_Calc.GetSkillPowerLevel(p, Ability.Def as TMAbilityDef);
+            effVal = TM_Calc.GetSkillEfficiencyLevel(p, Ability.Def as TMAbilityDef);
             //MagicPowerSkill pwr = comp.MagicData.MagicPowerSkill_Dominate.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Dominate_pwr");
             //MagicPowerSkill ver = comp.MagicData.MagicPowerSkill_Dominate.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Dominate_ver");
             //MagicPowerSkill eff = comp.MagicData.MagicPowerSkill_Dominate.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Dominate_eff");
@@ -69,9 +69,9 @@ namespace TorannMagic
             //    effVal = meff.level;
             //}
 
-            if (this.currentTarget != null && p != null)
+            if (currentTarget != null && p != null)
             {                
-                Map map = this.CasterPawn.Map;
+                Map map = CasterPawn.Map;
                 
                 if (hitPawn != null && hitPawn is Pawn && !hitPawn.Dead)
                 {
@@ -148,7 +148,7 @@ namespace TorannMagic
                 result = true;
             }
 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return result;
         }        
     }

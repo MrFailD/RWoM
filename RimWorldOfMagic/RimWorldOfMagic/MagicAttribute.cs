@@ -18,22 +18,22 @@ namespace TorannMagic
             get
             {
                 AbilityDef result = null;
-                bool flag = this.TMattributeDefs != null && this.TMattributeDefs.Count > 0;
+                bool flag = TMattributeDefs != null && TMattributeDefs.Count > 0;
                 if (flag)
                 {
-                    result = this.TMattributeDefs[0];
-                    int num = this.level;
-                    bool flag2 = num > -1 && num < this.TMattributeDefs.Count;
+                    result = TMattributeDefs[0];
+                    int num = level;
+                    bool flag2 = num > -1 && num < TMattributeDefs.Count;
                     if (flag2)
                     {
-                        result = this.TMattributeDefs[num];
+                        result = TMattributeDefs[num];
                     }
                     else
                     {
-                        bool flag3 = num >= this.TMattributeDefs.Count;
+                        bool flag3 = num >= TMattributeDefs.Count;
                         if (flag3)
                         {
-                            result = this.TMattributeDefs[this.TMattributeDefs.Count - 1];
+                            result = TMattributeDefs[TMattributeDefs.Count - 1];
                         }
                     }
                 }
@@ -46,22 +46,22 @@ namespace TorannMagic
             get
             {
                 AbilityDef result = null;
-                bool flag = this.attributeDef != null && this.TMattributeDefs.Count > 0;
+                bool flag = attributeDef != null && TMattributeDefs.Count > 0;
                 if (flag)
                 {
-                    result = this.TMattributeDefs[0];
-                    int num = this.level;
-                    bool flag2 = num > -1 && num <= this.TMattributeDefs.Count;
+                    result = TMattributeDefs[0];
+                    int num = level;
+                    bool flag2 = num > -1 && num <= TMattributeDefs.Count;
                     if (flag2)
                     {
-                        result = this.TMattributeDefs[num];
+                        result = TMattributeDefs[num];
                     }
                     else
                     {
-                        bool flag3 = num >= this.TMattributeDefs.Count;
+                        bool flag3 = num >= TMattributeDefs.Count;
                         if (flag3)
                         {
-                            result = this.TMattributeDefs[this.TMattributeDefs.Count - 1];
+                            result = TMattributeDefs[TMattributeDefs.Count - 1];
                         }
                     }
                 }
@@ -72,21 +72,21 @@ namespace TorannMagic
         public AbilityDef GetAttributeDef(int index)
         {
             AbilityDef result = null;
-            bool flag = this.TMattributeDefs != null && this.TMattributeDefs.Count > 0;
+            bool flag = TMattributeDefs != null && TMattributeDefs.Count > 0;
             if (flag)
             {
-                result = this.TMattributeDefs[0];
-                bool flag2 = index > -1 && index < this.TMattributeDefs.Count;
+                result = TMattributeDefs[0];
+                bool flag2 = index > -1 && index < TMattributeDefs.Count;
                 if (flag2)
                 {
-                    result = this.TMattributeDefs[index];
+                    result = TMattributeDefs[index];
                 }
                 else
                 {
-                    bool flag3 = index >= this.TMattributeDefs.Count;
+                    bool flag3 = index >= TMattributeDefs.Count;
                     if (flag3)
                     {
-                        result = this.TMattributeDefs[this.TMattributeDefs.Count - 1];
+                        result = TMattributeDefs[TMattributeDefs.Count - 1];
                     }
                 }
             }
@@ -99,13 +99,13 @@ namespace TorannMagic
 
         public MagicAttribute(List<AbilityDef> newAttributeDefs)
         {
-            this.TMattributeDefs = newAttributeDefs;
+            TMattributeDefs = newAttributeDefs;
         }
 
         public void ExposeData()
         {
-            Scribe_Values.Look<int>(ref this.level, "level", 0, false);
-            Scribe_Collections.Look<AbilityDef>(ref this.TMattributeDefs, "TMattributeDefs", LookMode.Def, null);
+            Scribe_Values.Look<int>(ref level, "level", 0, false);
+            Scribe_Collections.Look<AbilityDef>(ref TMattributeDefs, "TMattributeDefs", LookMode.Def, null);
         }
     }
 }

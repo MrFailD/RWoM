@@ -26,7 +26,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -34,62 +34,62 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            CompAbilityUserMagic comp = this.Pawn.GetCompAbilityUserMagic();
+            bool spawned = Pawn.Spawned;
+            CompAbilityUserMagic comp = Pawn.GetCompAbilityUserMagic();
             if (spawned && comp != null && comp.IsMagicUser)
             {
                 DetermineHediff();
             }
             else
             {
-                this.Pawn.health.RemoveHediff(this.parent);
+                Pawn.health.RemoveHediff(parent);
             }
         }        
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null && base.Pawn.Map != null;
+            bool flag = Pawn != null && Pawn.Map != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
 
-                if (Find.TickManager.TicksGame > this.nextApplyTick && this.hediffDef != null)
+                if (Find.TickManager.TicksGame > nextApplyTick && hediffDef != null)
                 {
-                    Pawn pawn = TM_Calc.FindNearbyFactionPawn(this.Pawn, this.Pawn.Faction, 100);
+                    Pawn pawn = TM_Calc.FindNearbyFactionPawn(Pawn, Pawn.Faction, 100);
                     if (pawn != null && pawn.health != null)
                     {
-                        if (pawn.health.hediffSet.HasHediff(this.hediffDef, false) || pawn.Faction != this.Pawn.Faction || pawn.RaceProps.Animal)
+                        if (pawn.health.hediffSet.HasHediff(hediffDef, false) || pawn.Faction != Pawn.Faction || pawn.RaceProps.Animal)
                         {
-                            this.nextApplyTick = Find.TickManager.TicksGame + Rand.Range(80, 150);
+                            nextApplyTick = Find.TickManager.TicksGame + Rand.Range(80, 150);
                         }
                         else
                         {
-                            HealthUtility.AdjustSeverity(pawn, this.hediffDef, 1f);
-                            this.nextApplyTick = Find.TickManager.TicksGame + Rand.Range(4800, 5600);
+                            HealthUtility.AdjustSeverity(pawn, hediffDef, 1f);
+                            nextApplyTick = Find.TickManager.TicksGame + Rand.Range(4800, 5600);
                             FleckMaker.ThrowSmoke(pawn.DrawPos, pawn.Map, 1f);
                             FleckMaker.ThrowLightningGlow(pawn.DrawPos, pawn.Map, .8f);
-                            if (this.Pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
+                            if (Pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
                             {
-                                CompAbilityUserMight comp = this.Pawn.GetCompAbilityUserMight();
+                                CompAbilityUserMight comp = Pawn.GetCompAbilityUserMight();
                                 comp.MightUserXP += Rand.Range(10, 15);
                             }
                             else
                             {
-                                CompAbilityUserMagic comp = this.Pawn.GetCompAbilityUserMagic();
+                                CompAbilityUserMagic comp = Pawn.GetCompAbilityUserMagic();
                                 comp.MagicUserXP += Rand.Range(10, 15);
                             }
-                            Find.HistoryEventsManager.RecordEvent(new HistoryEvent(TorannMagicDefOf.TM_UsedMagic, this.Pawn.Named(HistoryEventArgsNames.Doer), this.Pawn.Named(HistoryEventArgsNames.Subject), this.Pawn.Named(HistoryEventArgsNames.AffectedFaction), this.Pawn.Named(HistoryEventArgsNames.Victim)), true);
+                            Find.HistoryEventsManager.RecordEvent(new HistoryEvent(TorannMagicDefOf.TM_UsedMagic, Pawn.Named(HistoryEventArgsNames.Doer), Pawn.Named(HistoryEventArgsNames.Subject), Pawn.Named(HistoryEventArgsNames.AffectedFaction), Pawn.Named(HistoryEventArgsNames.Victim)), true);
                         }
                     }
                 }
@@ -104,7 +104,7 @@ namespace TorannMagic
         public void DetermineHediff()
         {
             MagicPower abilityPower = null;            
-            CompAbilityUserMagic comp = this.Pawn.GetCompAbilityUserMagic();
+            CompAbilityUserMagic comp = Pawn.GetCompAbilityUserMagic();
             if (parent.def == TorannMagicDefOf.TM_Shadow_AuraHD && comp != null)
             {
                 abilityPower = comp.MagicData.MagicPowersA.FirstOrDefault((MagicPower x) => x.abilityDef == TorannMagicDefOf.TM_Shadow);                
@@ -122,19 +122,19 @@ namespace TorannMagic
                 }
                 if (abilityPower.level == 0)
                 {
-                    this.hediffDef = TorannMagicDefOf.Shadow;
+                    hediffDef = TorannMagicDefOf.Shadow;
                 }
                 else if (abilityPower.level == 1)
                 {
-                    this.hediffDef = TorannMagicDefOf.Shadow_I;
+                    hediffDef = TorannMagicDefOf.Shadow_I;
                 }
                 else if (abilityPower.level == 2)
                 {
-                    this.hediffDef = TorannMagicDefOf.Shadow_II;
+                    hediffDef = TorannMagicDefOf.Shadow_II;
                 }
                 else
                 {
-                    this.hediffDef = TorannMagicDefOf.Shadow_III;
+                    hediffDef = TorannMagicDefOf.Shadow_III;
                 }
             }
             if (parent.def == TorannMagicDefOf.TM_RayOfHope_AuraHD && comp != null)
@@ -154,19 +154,19 @@ namespace TorannMagic
                 }
                 if (abilityPower.level == 0)
                 {
-                    this.hediffDef = TorannMagicDefOf.RayofHope;
+                    hediffDef = TorannMagicDefOf.RayofHope;
                 }
                 else if (abilityPower.level == 1)
                 {
-                    this.hediffDef = TorannMagicDefOf.RayofHope_I;
+                    hediffDef = TorannMagicDefOf.RayofHope_I;
                 }
                 else if (abilityPower.level == 2)
                 {
-                    this.hediffDef = TorannMagicDefOf.RayofHope_II;
+                    hediffDef = TorannMagicDefOf.RayofHope_II;
                 }
                 else
                 {
-                    this.hediffDef = TorannMagicDefOf.RayofHope_III;
+                    hediffDef = TorannMagicDefOf.RayofHope_III;
                 }
             }
             if (parent.def == TorannMagicDefOf.TM_SoothingBreeze_AuraHD && comp != null)
@@ -186,19 +186,19 @@ namespace TorannMagic
                 }
                 if (abilityPower.level == 0)
                 {
-                    this.hediffDef = TorannMagicDefOf.SoothingBreeze;
+                    hediffDef = TorannMagicDefOf.SoothingBreeze;
                 }
                 else if (abilityPower.level == 1)
                 {
-                    this.hediffDef = TorannMagicDefOf.SoothingBreeze_I;
+                    hediffDef = TorannMagicDefOf.SoothingBreeze_I;
                 }
                 else if (abilityPower.level == 2)
                 {
-                    this.hediffDef = TorannMagicDefOf.SoothingBreeze_II;
+                    hediffDef = TorannMagicDefOf.SoothingBreeze_II;
                 }
                 else
                 {
-                    this.hediffDef = TorannMagicDefOf.SoothingBreeze_III;
+                    hediffDef = TorannMagicDefOf.SoothingBreeze_III;
                 }
             }
             if (parent.def == TorannMagicDefOf.TM_InnerFire_AuraHD && comp != null)
@@ -218,28 +218,28 @@ namespace TorannMagic
                 }
                 if (abilityPower.level == 0)
                 {
-                    this.hediffDef = TorannMagicDefOf.InnerFireHD;
+                    hediffDef = TorannMagicDefOf.InnerFireHD;
                 }
                 else if (abilityPower.level == 1)
                 {
-                    this.hediffDef = TorannMagicDefOf.InnerFire_IHD;
+                    hediffDef = TorannMagicDefOf.InnerFire_IHD;
                 }
                 else if (abilityPower.level == 2)
                 {
-                    this.hediffDef = TorannMagicDefOf.InnerFire_IIHD;
+                    hediffDef = TorannMagicDefOf.InnerFire_IIHD;
                 }
                 else
                 {
-                    this.hediffDef = TorannMagicDefOf.InnerFire_IIIHD;
+                    hediffDef = TorannMagicDefOf.InnerFire_IIIHD;
                 }
             }
             if (abilityPower != null)
             {
-                this.parent.Severity = .5f + abilityPower.level;
+                parent.Severity = .5f + abilityPower.level;
             }
             else
             {
-                this.Pawn.health.RemoveHediff(this.parent);
+                Pawn.health.RemoveHediff(parent);
             }
         }
     }

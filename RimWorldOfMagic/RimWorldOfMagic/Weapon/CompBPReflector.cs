@@ -9,11 +9,11 @@ namespace TorannMagic.Weapon
         public override Verb ReflectionHandler(Verb newVerb)
         {
             CompAbilityUserMagic holder = GetPawn.GetCompAbilityUserMagic();
-            bool canReflect = this.Props.canReflect && holder.IsMagicUser;
+            bool canReflect = Props.canReflect && holder.IsMagicUser;
             Verb result;
             if (canReflect)
             {
-                this.lastAccuracyRoll = this.ReflectionAccuracy();
+                lastAccuracyRoll = ReflectionAccuracy();
                 VerbProperties verbProperties = new VerbProperties
                 {
                     hasStandardCommand = newVerb.verbProps.hasStandardCommand,
@@ -22,36 +22,36 @@ namespace TorannMagic.Weapon
                     muzzleFlashScale = newVerb.verbProps.muzzleFlashScale,
                     warmupTime = 0f,
                     defaultCooldownTime = 0f,
-                    soundCast = this.Props.deflectSound
+                    soundCast = Props.deflectSound
                 };
-                switch (this.lastAccuracyRoll)
+                switch (lastAccuracyRoll)
                 {
-                    case CompDeflector.CompDeflector.AccuracyRoll.CritialFailure:
+                    case AccuracyRoll.CritialFailure:
                         {
                             verbProperties.accuracyLong = 999f;
                             verbProperties.accuracyMedium = 999f;
                             verbProperties.accuracyShort = 999f;
-                            this.lastShotReflected = true;
+                            lastShotReflected = true;
                             break;
                         }
-                    case CompDeflector.CompDeflector.AccuracyRoll.Failure:
+                    case AccuracyRoll.Failure:
                         verbProperties.accuracyLong = 0f;
                         verbProperties.accuracyMedium = 0f;
                         verbProperties.accuracyShort = 0f;
-                        this.lastShotReflected = false;
+                        lastShotReflected = false;
                         break;
-                    case CompDeflector.CompDeflector.AccuracyRoll.Success:
+                    case AccuracyRoll.Success:
                         verbProperties.accuracyLong = 999f;
                         verbProperties.accuracyMedium = 999f;
                         verbProperties.accuracyShort = 999f;
-                        this.lastShotReflected = true;
+                        lastShotReflected = true;
                         break;
-                    case CompDeflector.CompDeflector.AccuracyRoll.CriticalSuccess:
+                    case AccuracyRoll.CriticalSuccess:
                         {
                             verbProperties.accuracyLong = 999f;
                             verbProperties.accuracyMedium = 999f;
                             verbProperties.accuracyShort = 999f;
-                            this.lastShotReflected = true;
+                            lastShotReflected = true;
                             break;
                         }
                 }
@@ -74,10 +74,10 @@ namespace TorannMagic.Weapon
                 bool flag2 = !dinfo.Weapon.IsMeleeWeapon && dinfo.WeaponBodyPartGroup == null && GetPawn != null;
                 if (flag2)
                 {
-                    bool hasCompActivatableEffect = this.HasCompActivatableEffect;
+                    bool hasCompActivatableEffect = HasCompActivatableEffect;
                     if (hasCompActivatableEffect)
                     {
-                        bool? flag3 = new bool?((bool)AccessTools.Method(this.GetActivatableEffect.GetType(), "IsActive", null, null).Invoke(this.GetActivatableEffect, null));
+                        bool? flag3 = new bool?((bool)AccessTools.Method(GetActivatableEffect.GetType(), "IsActive", null, null).Invoke(GetActivatableEffect, null));
                         bool flag4 = flag3 == false;
                         if (flag4)
                         {
@@ -85,11 +85,11 @@ namespace TorannMagic.Weapon
                             return;
                         }
                     }
-                    float deflectionChance = this.DeflectionChance;
-                    float meleeSkill = GetPawn.skills != null ? GetPawn.skills.GetSkill(this.Props.deflectSkill).Level : 0;
+                    float deflectionChance = DeflectionChance;
+                    float meleeSkill = GetPawn.skills != null ? GetPawn.skills.GetSkill(Props.deflectSkill).Level : 0;
                     CompAbilityUserMagic holder = GetPawn.GetCompAbilityUserMagic();
-                    deflectionChance += (meleeSkill * this.Props.deflectRatePerSkillPoint);
-                    if (holder != null && !holder.IsMagicUser && (this.parent.def.defName == "TM_DefenderStaff" || this.parent.def.defName == "TM_BlazingPowerStaff"))
+                    deflectionChance += (meleeSkill * Props.deflectRatePerSkillPoint);
+                    if (holder != null && !holder.IsMagicUser && (parent.def.defName == "TM_DefenderStaff" || parent.def.defName == "TM_BlazingPowerStaff"))
                     {
                         deflectionChance = 0;
                     }
@@ -98,24 +98,24 @@ namespace TorannMagic.Weapon
                     if (flag5)
                     {
                         absorbed = false;
-                        this.lastShotReflected = false;
+                        lastShotReflected = false;
                         return;
                     }
                     //splicing in TM handling of reflection
                     Thing instigator = dinfo.Instigator;
                     if (instigator != null && instigator.Map != null && GetPawn.Map != null)
                     {
-                        Vector3 drawPos = this.GetPawn.DrawPos;
+                        Vector3 drawPos = GetPawn.DrawPos;
                         drawPos.x += ((instigator.DrawPos.x - drawPos.x) / 20f) + Rand.Range(-.2f, .2f);
                         drawPos.z += ((instigator.DrawPos.z - drawPos.z) / 20f) + Rand.Range(-.2f, .2f);
-                        TM_MoteMaker.ThrowSparkFlashMote(drawPos, this.GetPawn.Map, 2f);
+                        TM_MoteMaker.ThrowSparkFlashMote(drawPos, GetPawn.Map, 2f);
                         Thing thing = new Thing();
                         thing.def = dinfo.Weapon;
                         if (instigator is Pawn shooterPawn)
                         {
                             if (!dinfo.Weapon.IsMeleeWeapon && dinfo.WeaponBodyPartGroup == null)
                             {
-                                TM_CopyAndLaunchProjectile.CopyAndLaunchThing(shooterPawn.equipment.PrimaryEq.PrimaryVerb.verbProps.defaultProjectile, this.GetPawn, instigator, shooterPawn, ProjectileHitFlags.IntendedTarget, null);
+                                TM_CopyAndLaunchProjectile.CopyAndLaunchThing(shooterPawn.equipment.PrimaryEq.PrimaryVerb.verbProps.defaultProjectile, GetPawn, instigator, shooterPawn, ProjectileHitFlags.IntendedTarget, null);
                             }
                         }
                     }

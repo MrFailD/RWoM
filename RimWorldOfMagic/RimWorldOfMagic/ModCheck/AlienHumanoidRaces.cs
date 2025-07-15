@@ -26,7 +26,7 @@ namespace TorannMagic.ModCheck
 
                     if (pawn.story != null && pawn.story.AllBackstories != null)
                     {
-                        foreach (RimWorld.BackstoryDef bs in pawn.story.AllBackstories)
+                        foreach (BackstoryDef bs in pawn.story.AllBackstories)
                         {
                             foreach(BackstoryTrait bt in bs.disallowedTraits)
                             {

@@ -41,7 +41,7 @@ namespace TorannMagic.Weapon
             {
                 actionTick = age + Rand.Range(15, 25);                
                 DamageThingsAtPosition();
-                WeatherBuildupUtility.AddSnowRadial(this.ExactPosition.ToIntVec3(), this.Map, .4f, .2f);                
+                WeatherBuildupUtility.AddSnowRadial(ExactPosition.ToIntVec3(), Map, .4f, .2f);                
             }           
         }
 
@@ -49,22 +49,22 @@ namespace TorannMagic.Weapon
         {
             if (hitThing != null)
             {
-                this.Impact(hitThing);
+                Impact(hitThing);
             }
         }
 
         public void DamageThingsAtPosition()
         {
-            IntVec3 curCell = this.ExactPosition.ToIntVec3();
+            IntVec3 curCell = ExactPosition.ToIntVec3();
             List<Thing> hitList = new List<Thing>();
-            hitList = curCell.GetThingList(base.Map);
+            hitList = curCell.GetThingList(Map);
             List<Fire> destroyFires = new List<Fire>();
             destroyFires.Clear();            
             for (int j = 0; j < hitList.Count; j++)
             {
-                if (hitList[j] is Pawn && hitList[j] != this.launcher)
+                if (hitList[j] is Pawn && hitList[j] != launcher)
                 {
-                    DamageInfo dinfo = new DamageInfo(this.def.projectile.damageDef, this.def.projectile.GetDamageAmount(this), 1, -1, this.launcher);                    
+                    DamageInfo dinfo = new DamageInfo(def.projectile.damageDef, def.projectile.GetDamageAmount(this), 1, -1, launcher);                    
                     hitList[j].TakeDamage(dinfo);
                     hitThing = hitList[j];
                 }
@@ -88,28 +88,28 @@ namespace TorannMagic.Weapon
         {
             effectVec.x += Rand.Range(-0.4f, 0.4f);
             effectVec.z += Rand.Range(-0.4f, 0.4f);            
-            TM_MoteMaker.ThrowGenericMote(this.moteDef, effectVec, this.Map, Rand.Range(.15f, .45f), Rand.Range(.05f, .1f), .03f, Rand.Range(.2f, .3f), Rand.Range(-200, 200), Rand.Range(1f, 6f), moteAngle + Rand.Range(-20,20), Rand.Range(0, 360));
+            TM_MoteMaker.ThrowGenericMote(moteDef, effectVec, Map, Rand.Range(.15f, .45f), Rand.Range(.05f, .1f), .03f, Rand.Range(.2f, .3f), Rand.Range(-200, 200), Rand.Range(1f, 6f), moteAngle + Rand.Range(-20,20), Rand.Range(0, 360));
         }
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            bool flag = this.flyingThing != null;
+            bool flag = flyingThing != null;
             if (flag)
             {                
-                Graphics.DrawMesh(MeshPool.plane10, this.DrawPos, DrawRotation, this.flyingThing.def.DrawMatSingle, 0);                
+                Graphics.DrawMesh(MeshPool.plane10, DrawPos, DrawRotation, flyingThing.def.DrawMatSingle, 0);                
             }
             else
             {                
-                Graphics.DrawMesh(MeshPool.plane10, this.DrawPos, DrawRotation, this.def.DrawMatSingle, 0);
+                Graphics.DrawMesh(MeshPool.plane10, DrawPos, DrawRotation, def.DrawMatSingle, 0);
             }
-            base.Comps_PostDraw();
+            Comps_PostDraw();
         }
 
         public Quaternion DrawRotation
         {
             get
             {                
-                return Quaternion.LookRotation(Quaternion.AngleAxis((age * rotationRate) + rotationOffset, Vector3.up) * this.travelVector);
+                return Quaternion.LookRotation(Quaternion.AngleAxis((age * rotationRate) + rotationOffset, Vector3.up) * travelVector);
             }
         }
     }

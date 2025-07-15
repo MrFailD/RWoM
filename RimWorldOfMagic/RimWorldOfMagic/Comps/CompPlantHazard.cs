@@ -16,7 +16,7 @@ namespace TorannMagic
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look<int>(ref this.lifeSpan, "lifeSpan", 150, false);
+            Scribe_Values.Look<int>(ref lifeSpan, "lifeSpan", 150, false);
         }
 
         public override void CompTick()
@@ -25,10 +25,10 @@ namespace TorannMagic
             
             if(Find.TickManager.TicksGame % growthTick == 0)
             {
-                Plant plant = this.parent as Plant;
+                Plant plant = parent as Plant;
                 if (plant != null && plant.Growth < 1f)
                 {
-                    this.growthTick = Rand.Range(30, 60);
+                    growthTick = Rand.Range(30, 60);
                     plant.Growth += .0735f;
                     parent.Map.mapDrawer.MapMeshDirty(parent.Position, MapMeshFlagDefOf.Things);
                 }
@@ -36,23 +36,23 @@ namespace TorannMagic
             
             if (Find.TickManager.TicksGame % searchTick == 0)
             {
-                Pawn touchingPawn = this.parent.Position.GetFirstPawn(this.parent.Map);
+                Pawn touchingPawn = parent.Position.GetFirstPawn(parent.Map);
                 
-                this.searchTick = Rand.Range(200, 300);
+                searchTick = Rand.Range(200, 300);
                 if (touchingPawn != null)
                 {
-                    if (touchingPawn.jobs != null && touchingPawn.CurJob.targetA != null && touchingPawn.CurJob.targetA.Cell != this.parent.Position)
+                    if (touchingPawn.jobs != null && touchingPawn.CurJob.targetA != null && touchingPawn.CurJob.targetA.Cell != parent.Position)
                     {
                         List<BodyPartRecord> bpr = touchingPawn.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.MovingLimbCore).ToList();
                         bpr.AddRange(touchingPawn.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.MovingLimbDigit).ToList());
                         bpr.AddRange(touchingPawn.RaceProps.body.GetPartsWithTag(BodyPartTagDefOf.MovingLimbSegment).ToList());
                         if (bpr != null && bpr.Count > 0)
                         {
-                            TM_Action.DamageEntities(touchingPawn, bpr.RandomElement(), Rand.Range(2, 3), DamageDefOf.Scratch, this.parent);
+                            TM_Action.DamageEntities(touchingPawn, bpr.RandomElement(), Rand.Range(2, 3), DamageDefOf.Scratch, parent);
                         }
                         else
                         {
-                            TM_Action.DamageEntities(touchingPawn, null, Rand.Range(2, 3), DamageDefOf.Scratch, this.parent);
+                            TM_Action.DamageEntities(touchingPawn, null, Rand.Range(2, 3), DamageDefOf.Scratch, parent);
                         }
                     }
                 }
@@ -60,7 +60,7 @@ namespace TorannMagic
             }
             if(lifeSpan <= 0)
             {
-                this.parent.Destroy(DestroyMode.Vanish);
+                parent.Destroy(DestroyMode.Vanish);
             }
         }
     }

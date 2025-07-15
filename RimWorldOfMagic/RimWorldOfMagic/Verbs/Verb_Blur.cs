@@ -14,8 +14,8 @@ namespace TorannMagic
         {
             bool result = false;
 
-            Pawn pawn = this.CasterPawn;
-            Map map = this.CasterPawn.Map;
+            Pawn pawn = CasterPawn;
+            Map map = CasterPawn.Map;
 
             if (pawn != null && !pawn.Downed)
             {
@@ -51,7 +51,7 @@ namespace TorannMagic
                 }
             }
 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return result;
         }
     }

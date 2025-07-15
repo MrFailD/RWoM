@@ -43,7 +43,7 @@ namespace TorannMagic
                 }
             }
             
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return false;
         }
 

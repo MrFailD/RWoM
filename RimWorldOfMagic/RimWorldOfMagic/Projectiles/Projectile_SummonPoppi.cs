@@ -26,7 +26,7 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             GenClamor.DoClamor(this, 5.1f, ClamorDefOf.Impact);
             if (initialized)
             {
@@ -35,21 +35,21 @@ namespace TorannMagic
 
             if (!initialized)
             {
-                this.initialized = true;
+                initialized = true;
                 SpawnThings spawnThing = new SpawnThings();
-                pawn = this.launcher as Pawn;
+                pawn = launcher as Pawn;
                 MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_SummonPoppi.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SummonPoppi_pwr");
                 MagicPowerSkill ver = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_SummonPoppi.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SummonPoppi_ver");
                 
                 pwrVal = pwr.level;
                 verVal = ver.level;
-                this.arcaneDmg = pawn.GetCompAbilityUserMagic().arcaneDmg;
+                arcaneDmg = pawn.GetCompAbilityUserMagic().arcaneDmg;
                 if (ModOptions.Settings.Instance.AIHardMode && !pawn.IsColonist)
                 {
                     pwrVal = 1;
                     verVal = 1;
                 }
-                CellRect cellRect = CellRect.CenteredOn(this.Position, 4);
+                CellRect cellRect = CellRect.CenteredOn(Position, 4);
                 cellRect.ClipInsideMap(map);
 
                 IntVec3 centerCell = cellRect.CenterCell;
@@ -98,9 +98,9 @@ namespace TorannMagic
                     {
                         newPawn = (TMPawnSummoned)PawnGenerator.GeneratePawn(spawnables.kindDef, faction);
                         newPawn.validSummoning = true;
-                        newPawn.Spawner = this.Caster;
+                        newPawn.Spawner = Caster;
                         newPawn.Temporary = true;
-                        newPawn.TicksToDestroy = Mathf.RoundToInt(1800 * this.arcaneDmg);
+                        newPawn.TicksToDestroy = Mathf.RoundToInt(1800 * arcaneDmg);
                         if (newPawn.playerSettings != null)
                         {
                             newPawn.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
@@ -110,7 +110,7 @@ namespace TorannMagic
                         {
                             Pawn p = (Pawn)GenSpawn.Spawn(newPawn, position, map);
                             CompLeaper comp = newPawn.GetComp<CompLeaper>();
-                            comp.explosionRadius += ((verVal * .2f) * this.arcaneDmg);
+                            comp.explosionRadius += ((verVal * .2f) * arcaneDmg);
                             if (p.playerSettings != null)
                             {
                                 p.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
@@ -121,9 +121,9 @@ namespace TorannMagic
                         {
                             Log.Message("TM_Exception".Translate(
                                 pawn.LabelShort,
-                                this.def.defName
+                                def.defName
                                 ));
-                            this.Destroy(DestroyMode.Vanish);
+                            Destroy(DestroyMode.Vanish);
                         }
                         if (newPawn.Faction != null && newPawn.Faction != Faction.OfPlayer)
                         {

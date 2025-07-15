@@ -27,7 +27,7 @@ namespace TorannMagic.Golems
         {
             get
             {
-                if (this.Stuff != null)
+                if (Stuff != null)
                 {
                     if (Stuff.defName == "BlocksSandstone")
                     {
@@ -63,7 +63,7 @@ namespace TorannMagic.Golems
         {
             get
             {
-                if (this.Stuff != null)
+                if (Stuff != null)
                 {
                     if (Stuff.defName == "BlocksSandstone")
                     {
@@ -94,10 +94,10 @@ namespace TorannMagic.Golems
         {
             if (Find.TickManager.TicksGame % 41 == 0)
             {
-                Vector3 effectPos = this.DrawPos;
+                Vector3 effectPos = DrawPos;
                 effectPos.x += Rand.Range(-.3f, .3f);
                 effectPos.z += .6f;
-                TM_MoteMaker.ThrowGenericFleck(FleckDefOf.DustPuffThick, effectPos, this.Map, Rand.Range(.5f, .8f), .4f, Rand.Range(0, .1f), Rand.Range(.4f, .6f), Rand.Range(10, 30), Rand.Range(.1f, .2f), Rand.Range(-10, 10), Rand.Range(0, 360));
+                TM_MoteMaker.ThrowGenericFleck(FleckDefOf.DustPuffThick, effectPos, Map, Rand.Range(.5f, .8f), .4f, Rand.Range(0, .1f), Rand.Range(.4f, .6f), Rand.Range(10, 30), Rand.Range(.1f, .2f), Rand.Range(-10, 10), Rand.Range(0, 360));
             }
         }
 

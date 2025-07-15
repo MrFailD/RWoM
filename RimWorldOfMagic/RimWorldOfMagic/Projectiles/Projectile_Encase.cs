@@ -34,26 +34,26 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<bool>(ref this.wallActive, "wallActive", false, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 1800, false);
-            Scribe_References.Look<Pawn>(ref this.caster, "caster", false);
-            Scribe_Collections.Look<IntVec3>(ref this.wallPositions, "wallPositions", LookMode.Value);
-            Scribe_Collections.Look<Thing>(ref this.despawnedThingList, "despawnedThingList", LookMode.Deep);
-            Scribe_Collections.Look<TMDefs.Encase>(ref this.wall, "wall", LookMode.Deep);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<bool>(ref wallActive, "wallActive", false, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 1800, false);
+            Scribe_References.Look<Pawn>(ref caster, "caster", false);
+            Scribe_Collections.Look<IntVec3>(ref wallPositions, "wallPositions", LookMode.Value);
+            Scribe_Collections.Look<Thing>(ref despawnedThingList, "despawnedThingList", LookMode.Deep);
+            Scribe_Collections.Look<TMDefs.Encase>(ref wall, "wall", LookMode.Deep);
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
-            if (!this.initialized)
+            if (!initialized)
             {
-                caster = this.launcher as Pawn;
+                caster = launcher as Pawn;
                 CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
                 pwrVal = caster.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Encase.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Encase_pwr").level;
                 verVal = caster.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Encase.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Encase_ver").level;
@@ -85,20 +85,20 @@ namespace TorannMagic
                 {
                     spawnDef = ThingDef.Named("Sandstone"); //400
                 }
-                List<IntVec3> outerCells = GenRadial.RadialCellsAround(base.Position, this.def.projectile.explosionRadius + 1f, true).ToList();
-                List<IntVec3> innerCells = GenRadial.RadialCellsAround(base.Position, this.def.projectile.explosionRadius - 1f, true).ToList();
-                this.wallPositions = new List<IntVec3>();
-                this.wallPositions.Clear();
-                this.terrainList = new List<TerrainDef>();
-                this.terrainList.Clear();
-                this.wallPositions = outerCells.Except(innerCells).ToList();
+                List<IntVec3> outerCells = GenRadial.RadialCellsAround(Position, this.def.projectile.explosionRadius + 1f, true).ToList();
+                List<IntVec3> innerCells = GenRadial.RadialCellsAround(Position, this.def.projectile.explosionRadius - 1f, true).ToList();
+                wallPositions = new List<IntVec3>();
+                wallPositions.Clear();
+                terrainList = new List<TerrainDef>();
+                terrainList.Clear();
+                wallPositions = outerCells.Except(innerCells).ToList();
                 for (int t = 0; t < wallPositions.Count(); t++)
                 {
                     TMDefs.Encase temp = new TMDefs.Encase(wallPositions[t], wallPositions[t].GetTerrain(caster.Map));
                     wall.Add(temp);
-                    this.terrainList.Add(wallPositions[t].GetTerrain(caster.Map));
+                    terrainList.Add(wallPositions[t].GetTerrain(caster.Map));
                 }
-                float magnitude = (base.Position.ToVector3Shifted() - Find.Camera.transform.position).magnitude;
+                float magnitude = (Position.ToVector3Shifted() - Find.Camera.transform.position).magnitude;
                 Find.CameraDriver.shaker.DoShake(10 / magnitude);
                 //for (int k = 0; k < wallPositions.Count(); k++)
                 //{
@@ -162,14 +162,14 @@ namespace TorannMagic
                                     }
                                     else
                                     {
-                                        this.despawnedThingList.Add(cellList[i]);
+                                        despawnedThingList.Add(cellList[i]);
                                         cellList[i].DeSpawn();
                                     }
                                 }
                             }
                             if (spawnWall)
                             {
-                                AbilityUser.SpawnThings tempSpawn = new SpawnThings()
+                                SpawnThings tempSpawn = new SpawnThings()
                                 {
                                     def = spawnDef,
                                     spawnCount = 1
@@ -191,33 +191,33 @@ namespace TorannMagic
                         }
                     }
                 }
-                this.duration = Mathf.RoundToInt(1800 + (240 * verVal) * comp.arcaneDmg);
-                this.initialized = true;
-                this.wallActive = true;
+                duration = Mathf.RoundToInt(1800 + (240 * verVal) * comp.arcaneDmg);
+                initialized = true;
+                wallActive = true;
             }
-            else if(this.initialized && this.wallActive && !(this.age < this.duration))
+            else if(initialized && wallActive && !(age < duration))
             {                
                 for (int j = 0; j < wall.Count(); j++)
                 {
                     Building structure = null;
-                    structure = this.wall[j].position.GetFirstBuilding(this.Map);
+                    structure = wall[j].position.GetFirstBuilding(Map);
                     if (structure != null)
                     {
                         structure.Destroy();
                         for (int m = 0; m < 4; m++)
                         {
-                            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_ThickDust, wall[j].position.ToVector3Shifted(), this.Map, Rand.Range(.4f, .8f), Rand.Range(.2f, .3f), .05f, Rand.Range(.4f, .6f), Rand.Range(-20, 20), Rand.Range(1f, 2f), Rand.Range(0, 360), Rand.Range(0, 360));
+                            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_ThickDust, wall[j].position.ToVector3Shifted(), Map, Rand.Range(.4f, .8f), Rand.Range(.2f, .3f), .05f, Rand.Range(.4f, .6f), Rand.Range(-20, 20), Rand.Range(1f, 2f), Rand.Range(0, 360), Rand.Range(0, 360));
                         }
                     }
                     structure = null;
-                    this.Map.terrainGrid.SetTerrain(wall[j].position, wall[j].terrain);
+                    Map.terrainGrid.SetTerrain(wall[j].position, wall[j].terrain);
                 }
 
-                for (int i = 0; i < this.despawnedThingList.Count(); i++)
+                for (int i = 0; i < despawnedThingList.Count(); i++)
                 {
-                    GenSpawn.Spawn(this.despawnedThingList[i], this.despawnedThingList[i].Position, this.Map);
+                    GenSpawn.Spawn(despawnedThingList[i], despawnedThingList[i].Position, Map);
                 }
-                this.wallActive = false;
+                wallActive = false;
             }
         }
 
@@ -226,7 +226,7 @@ namespace TorannMagic
             bool flag = targetCell != IntVec3.Invalid && targetCell != default(IntVec3);
             if (flag)
             {
-                if (thing != null && thing.Position.IsValid && !this.Destroyed && thing.Spawned && thing.Map != null)
+                if (thing != null && thing.Position.IsValid && !Destroyed && thing.Spawned && thing.Map != null)
                 {
                     FlyingObject_Spinning flyingObject = (FlyingObject_Spinning)GenSpawn.Spawn(ThingDef.Named("FlyingObject_Spinning"), thing.Position, thing.Map);
                     flyingObject.speed = 22;
@@ -241,7 +241,7 @@ namespace TorannMagic
             //bool flag2 = position.InBoundsWithNullCheck(map) && position.IsValid && !position.InNoZoneEdgeArea(map);
             if (flag)
             {
-                Faction faction = this.caster.Faction;
+                Faction faction = caster.Faction;
                 ThingDef def = spawnables.def;
                 ThingDef stuff = null;
                 bool madeFromStuff = def.MadeFromStuff;
@@ -266,12 +266,12 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age <= this.duration;
+            bool flag = age <= duration;
             if (!flag)
             {                
                 base.Destroy(mode);

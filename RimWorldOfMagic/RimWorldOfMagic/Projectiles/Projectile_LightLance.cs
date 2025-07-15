@@ -44,45 +44,45 @@ namespace TorannMagic
         {
             base.ExposeData();
             //Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_Values.Look<int>(ref this.burnTime, "burntime", 200, false);
-            Scribe_Values.Look<float>(ref this.arcaneDmg, "arcaneDmg", 1, false);
-            Scribe_Values.Look<float>(ref this.lightPotency, "lightPotency", .5f, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<int>(ref burnTime, "burntime", 200, false);
+            Scribe_Values.Look<float>(ref arcaneDmg, "arcaneDmg", 1, false);
+            Scribe_Values.Look<float>(ref lightPotency, "lightPotency", .5f, false);
         }
 
         private int TicksLeft
         {
             get
             {
-                return this.burnTime - this.age;
+                return burnTime - age;
             }
         }
 
         private void Initialize()
         {
-            caster = this.launcher as Pawn;
-            this.launchPosition = caster.Position;
+            caster = launcher as Pawn;
+            launchPosition = caster.Position;
             CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
             //pwrVal = TM_Calc.GetMagicSkillLevel(caster, comp.MagicData.MagicPowerSkill_LightLance, "TM_LightLance", "_pwr", true);
             //verVal = TM_Calc.GetMagicSkillLevel(caster, comp.MagicData.MagicPowerSkill_LightLance, "TM_LightLance", "_ver", true);
             pwrVal = TM_Calc.GetSkillPowerLevel(caster, TorannMagicDefOf.TM_LightLance);
             verVal = TM_Calc.GetSkillVersatilityLevel(caster, TorannMagicDefOf.TM_LightLance);
-            this.arcaneDmg = comp.arcaneDmg;
+            arcaneDmg = comp.arcaneDmg;
             if (caster.health.hediffSet.HasHediff(TorannMagicDefOf.TM_LightCapacitanceHD))
             {
                 HediffComp_LightCapacitance hd = caster.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_LightCapacitanceHD).TryGetComp<HediffComp_LightCapacitance>();
-                this.lightPotency = hd.LightPotency;
+                lightPotency = hd.LightPotency;
             }
-            this.radius = Mathf.Clamp(1.8f + (.25f * verVal) * lightPotency, 1f, 3f);
-            this.angle = (Quaternion.AngleAxis(90, Vector3.up) * TM_Calc.GetVector(caster.Position, base.Position)).ToAngleFlat();
-            this.CheckSpawnSustainer();
-            this.burnTime += (pwrVal * 22);
-            lanceAngle = Vector3Utility.FromAngleFlat(this.angle - 90);                 //angle of beam
-            lanceAngleInv = Vector3Utility.FromAngleFlat(this.angle + 90);              //opposite angle of beam
-            drawPosStart = this.launchPosition.ToVector3Shifted() + lanceAngle;         //this.parent.DrawPos;
-            drawPosEnd = base.Position.ToVector3Shifted() + lanceAngleInv;
+            radius = Mathf.Clamp(1.8f + (.25f * verVal) * lightPotency, 1f, 3f);
+            angle = (Quaternion.AngleAxis(90, Vector3.up) * TM_Calc.GetVector(caster.Position, Position)).ToAngleFlat();
+            CheckSpawnSustainer();
+            burnTime += (pwrVal * 22);
+            lanceAngle = Vector3Utility.FromAngleFlat(angle - 90);                 //angle of beam
+            lanceAngleInv = Vector3Utility.FromAngleFlat(angle + 90);              //opposite angle of beam
+            drawPosStart = launchPosition.ToVector3Shifted() + lanceAngle;         //this.parent.DrawPos;
+            drawPosEnd = Position.ToVector3Shifted() + lanceAngleInv;
             lanceLength = (drawPosEnd - drawPosStart).magnitude;
             lanceVector = drawPosStart + (lanceAngle * lanceLength * 0.5f);
             lanceVectorInv = drawPosEnd + (lanceAngleInv * lanceLength * .5f);          //draw for double beam
@@ -91,33 +91,33 @@ namespace TorannMagic
 
         private void CheckSpawnSustainer()
         {
-            if (this.TicksLeft >= 0)
+            if (TicksLeft >= 0)
             {
                 LongEventHandler.ExecuteWhenFinished(delegate
                 {
-                    this.sustainer = SoundDef.Named("OrbitalBeam").TrySpawnSustainer(SoundInfo.InMap(this.selectedTarget, MaintenanceType.PerTick));
+                    sustainer = SoundDef.Named("OrbitalBeam").TrySpawnSustainer(SoundInfo.InMap(selectedTarget, MaintenanceType.PerTick));
                 });
             }
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            this.Destroy(DestroyMode.Vanish);
+            Destroy(DestroyMode.Vanish);
 
-            if (!this.initialized)
+            if (!initialized)
             {
                 Initialize();
-                this.initialized = true;
+                initialized = true;
             }
 
-            if (this.sustainer != null)
+            if (sustainer != null)
             {
-                this.sustainer.info.volumeFactor = 1;
-                this.sustainer.Maintain();
-                if (this.TicksLeft <= 0)
+                sustainer.info.volumeFactor = 1;
+                sustainer.Maintain();
+                if (TicksLeft <= 0)
                 {
-                    this.sustainer.End();
-                    this.sustainer = null;
+                    sustainer.End();
+                    sustainer = null;
                 }
             }
         }
@@ -129,45 +129,45 @@ namespace TorannMagic
 
         public void DrawLance(IntVec3 launcherPos)
         {           
-            float lanceWidth = this.radius;                                                              //
-            if(this.age < (this.burnTime * .165f))
+            float lanceWidth = radius;                                                              //
+            if(age < (burnTime * .165f))
             {
-                lanceWidth *= (float)this.age / 40f;
+                lanceWidth *= (float)age / 40f;
             }
-            if(this.age > (this.burnTime * .835f))
+            if(age > (burnTime * .835f))
             {
-                lanceWidth *= (float)(this.burnTime - this.age) / 40f;
+                lanceWidth *= (float)(burnTime - age) / 40f;
             }
             lanceWidth *= Rand.Range(.9f, 1.1f);
             Matrix4x4 matrix = default(Matrix4x4);
-            matrix.SetTRS(lanceVector, Quaternion.Euler(0f, this.angle, 0f), new Vector3(lanceWidth, 1f, lanceLength));   //drawer for beam
-            Graphics.DrawMesh(MeshPool.plane10, matrix, Projectile_LightLance.BeamMat, 0, null, 0, Projectile_LightLance.MatPropertyBlock);
+            matrix.SetTRS(lanceVector, Quaternion.Euler(0f, angle, 0f), new Vector3(lanceWidth, 1f, lanceLength));   //drawer for beam
+            Graphics.DrawMesh(MeshPool.plane10, matrix, BeamMat, 0, null, 0, MatPropertyBlock);
 
             Matrix4x4 matrix2 = default(Matrix4x4);
-            matrix2.SetTRS(drawPosStart - (.5f*lanceAngle*lanceWidth), Quaternion.Euler(0f, this.angle, 0f), new Vector3(lanceWidth, 1f, lanceWidth));                 //drawer for beam start
-            Graphics.DrawMesh(MeshPool.plane10, matrix2, Projectile_LightLance.BeamEndMat, 0, null, 0, Projectile_LightLance.MatPropertyBlock);
+            matrix2.SetTRS(drawPosStart - (.5f*lanceAngle*lanceWidth), Quaternion.Euler(0f, angle, 0f), new Vector3(lanceWidth, 1f, lanceWidth));                 //drawer for beam start
+            Graphics.DrawMesh(MeshPool.plane10, matrix2, BeamEndMat, 0, null, 0, MatPropertyBlock);
             drawPosEnd.y = Altitudes.AltitudeFor(AltitudeLayer.MetaOverlays);
             Matrix4x4 matrix4 = default(Matrix4x4);
-            matrix4.SetTRS(drawPosEnd - (.5f*lanceAngleInv*lanceWidth), Quaternion.Euler(0f, this.angle - 180, 0f), new Vector3(lanceWidth, 1f, lanceWidth));                 //drawer for beam end
-            Graphics.DrawMesh(MeshPool.plane10, matrix4, Projectile_LightLance.BeamEndMat, 0, null, 0, Projectile_LightLance.MatPropertyBlock);            
+            matrix4.SetTRS(drawPosEnd - (.5f*lanceAngleInv*lanceWidth), Quaternion.Euler(0f, angle - 180, 0f), new Vector3(lanceWidth, 1f, lanceWidth));                 //drawer for beam end
+            Graphics.DrawMesh(MeshPool.plane10, matrix4, BeamEndMat, 0, null, 0, MatPropertyBlock);            
         }
 
         public override void Tick()
         {
             base.Tick();
-            this.age++;
-            if (this.age < (this.burnTime * .9f))
+            age++;
+            if (age < (burnTime * .9f))
             {
                 if (Find.TickManager.TicksGame % 5 == 0)
                 {
-                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Heat, this.launchPosition.ToVector3Shifted(), this.Map, Rand.Range(.6f, 1.1f), .4f, .1f, .3f, Rand.Range(-200, 200), Rand.Range(5f, 9f), this.angle + Rand.Range(-15f, 15f), Rand.Range(0, 360));
+                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Heat, launchPosition.ToVector3Shifted(), Map, Rand.Range(.6f, 1.1f), .4f, .1f, .3f, Rand.Range(-200, 200), Rand.Range(5f, 9f), angle + Rand.Range(-15f, 15f), Rand.Range(0, 360));
                 }
             }
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age <= this.burnTime;
+            bool flag = age <= burnTime;
             if (!flag)
             {
                 base.Destroy(mode);

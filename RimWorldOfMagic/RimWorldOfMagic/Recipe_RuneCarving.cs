@@ -71,7 +71,7 @@ namespace TorannMagic
 		{
 			if (billDoer != null)
 			{
-				if (this.CheckRuneCarvingFail(billDoer, pawn, ingredients, part, bill))
+				if (CheckRuneCarvingFail(billDoer, pawn, ingredients, part, bill))
 				{
 					return;
 				}
@@ -123,7 +123,7 @@ namespace TorannMagic
 						);
 						Find.LetterStack.ReceiveLetter("LetterLabelRuneCarvingFail".Translate(), "LetterRuneCarvingFail".Translate(
 							surgeon.LabelCap,
-							this.recipe.defName,
+							recipe.defName,
 							patient.Label,
 							reason,
 							surgeon.LabelShort
@@ -171,7 +171,7 @@ namespace TorannMagic
 					reason = "TM_NoRuneCarvingSpell".Translate();
 					Find.LetterStack.ReceiveLetter("LetterLabelRuneCarvingFail".Translate(), "LetterRuneCarvingFail".Translate(
 						surgeon.LabelCap,
-						this.recipe.label,
+						recipe.label,
 						patient.Label,
 						reason,
 						surgeon.LabelShort,
@@ -183,7 +183,7 @@ namespace TorannMagic
 			reason = "TM_NotMagicUser".Translate();
 			Find.LetterStack.ReceiveLetter("LetterLabelRuneCarvingFail".Translate(), "LetterRuneCarvingFail".Translate(
 						surgeon.LabelCap,
-						this.recipe.defName,
+						recipe.defName,
 						patient.Label,
 						reason,
 						surgeon.LabelShort,

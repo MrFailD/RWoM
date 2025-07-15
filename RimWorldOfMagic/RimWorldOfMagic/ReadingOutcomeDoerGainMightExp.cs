@@ -48,9 +48,9 @@ namespace TorannMagic
             if (Find.TickManager.TicksGame % tickRate == 0)
             {
                 CompAbilityUserMight comp = reader.GetCompAbilityUserMight();
-                if (comp?.MightData != null && CanProgress(reader, comp, base.Quality))
+                if (comp?.MightData != null && CanProgress(reader, comp, Quality))
                 {
-                    comp.MightData.MightUserXP += Mathf.RoundToInt(10f * (float)comp.xpGain * factor * QualityLearnRate.Evaluate((float)(int)base.Quality));
+                    comp.MightData.MightUserXP += Mathf.RoundToInt(10f * (float)comp.xpGain * factor * QualityLearnRate.Evaluate((float)(int)Quality));
                 }
             }
         }
@@ -69,7 +69,7 @@ namespace TorannMagic
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            float num = ((xpRate * 2500f) / tickRate) * QualityLearnRate.Evaluate((float)(int)base.Quality);
+            float num = ((xpRate * 2500f) / tickRate) * QualityLearnRate.Evaluate((float)(int)Quality);
 
             string text = string.Format("{0}: {1}", "TM_BookExperienceCombat".Translate(), "PerHour".Translate(num.ToStringDecimalIfSmall()));
             stringBuilder.AppendLine(" - " + text);

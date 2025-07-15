@@ -14,11 +14,11 @@ namespace TorannMagic
         {
             if(parent.Severity >= .1f)
             {
-                CompAbilityUserMagic comp = this.Pawn.GetCompAbilityUserMagic();
+                CompAbilityUserMagic comp = Pawn.GetCompAbilityUserMagic();
                 CompAbilityUserMagic branderComp = BranderPawn.GetCompAbilityUserMagic();
                 if(comp != null && comp.Mana != null && branderComp != null && branderComp.Mana != null)
                 {
-                    float pwrAmt = .005f * this.parent.Severity;
+                    float pwrAmt = .005f * parent.Severity;
                     float transferredMana = comp.Mana.CurLevel > pwrAmt ? pwrAmt : comp.Mana.CurLevel;
                     comp.Mana.CurLevel -= transferredMana;
                     branderComp.Mana.CurLevel += transferredMana;

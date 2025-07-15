@@ -25,7 +25,7 @@ namespace TorannMagic.Enchantment
         public override void Initialize(CompProperties props)
         {
             base.Initialize(props);
-            Pawn pawn = this.parent as Pawn;
+            Pawn pawn = parent as Pawn;
             CompEnchant comp = pawn.TryGetComp<CompEnchant>();
             //try
             //{
@@ -37,8 +37,8 @@ namespace TorannMagic.Enchantment
             //}
             if (initialize && comp.enchantingContainer == null)
             {
-                this.enchantingContainer = new ThingOwner<Thing>();
-                this.initialize = false;
+                enchantingContainer = new ThingOwner<Thing>();
+                initialize = false;
             }
 
         }
@@ -59,8 +59,8 @@ namespace TorannMagic.Enchantment
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Deep.Look<ThingOwner<Thing>>(ref this.enchantingContainer, "enchantingContainer", new object[0]);
-            Scribe_Values.Look<bool>(ref this.initialize, "initialize", true, false);
+            Scribe_Deep.Look<ThingOwner<Thing>>(ref enchantingContainer, "enchantingContainer", new object[0]);
+            Scribe_Values.Look<bool>(ref initialize, "initialize", true, false);
         }
 
         //public override void PostExposeData()

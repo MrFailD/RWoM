@@ -9,7 +9,7 @@ namespace TorannMagic
     {
         public static bool IsCleanAndDroppable(Pawn pawn, BodyPartRecord part)
         {
-            return !pawn.Dead && !pawn.RaceProps.Animal && part.def.spawnThingOnRemoved != null && TM_MedicalRecipesUtility.IsClean(pawn, part);
+            return !pawn.Dead && !pawn.RaceProps.Animal && part.def.spawnThingOnRemoved != null && IsClean(pawn, part);
         }
 
         public static bool IsClean(Pawn pawn, BodyPartRecord part)
@@ -21,8 +21,8 @@ namespace TorannMagic
 
         public static void RestorePartAndSpawnAllPreviousParts(Pawn pawn, BodyPartRecord part, IntVec3 pos, Map map)
         {
-            TM_MedicalRecipesUtility.SpawnNaturalPartIfClean(pawn, part, pos, map);
-            TM_MedicalRecipesUtility.SpawnThingsFromHediffs(pawn, part, pos, map);
+            SpawnNaturalPartIfClean(pawn, part, pos, map);
+            SpawnThingsFromHediffs(pawn, part, pos, map);
             if (part.def.defName == "Rib")
             {
                 for (int i = 0; i < part.parent.parts.Count; i++)
@@ -41,7 +41,7 @@ namespace TorannMagic
 
         public static Thing SpawnNaturalPartIfClean(Pawn pawn, BodyPartRecord part, IntVec3 pos, Map map)
         {
-            if (TM_MedicalRecipesUtility.IsCleanAndDroppable(pawn, part))
+            if (IsCleanAndDroppable(pawn, part))
             {
                 return GenSpawn.Spawn(part.def.spawnThingOnRemoved, pos, map);
             }
@@ -66,7 +66,7 @@ namespace TorannMagic
             }
             for (int i = 0; i < part.parts.Count; i++)
             {
-                TM_MedicalRecipesUtility.SpawnThingsFromHediffs(pawn, part.parts[i], pos, map);
+                SpawnThingsFromHediffs(pawn, part.parts[i], pos, map);
             }
         }
 

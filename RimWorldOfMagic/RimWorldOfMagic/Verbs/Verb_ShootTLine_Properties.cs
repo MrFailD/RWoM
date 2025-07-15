@@ -12,7 +12,7 @@ namespace TorannMagic
         public int distBetweenShots = 1;
         public Verb_ShootTLine_Properties() : base()
         {
-            this.verbClass = verbClass ?? typeof(Verb_ShootTLine);
+            verbClass = verbClass ?? typeof(Verb_ShootTLine);
         }
     }
 
@@ -22,16 +22,16 @@ namespace TorannMagic
         private bool validTarg;
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -46,17 +46,17 @@ namespace TorannMagic
         }
         protected override bool TryCastShot()
         {
-            Verb_ShootTLine_Properties Properties = this.verbProps as Verb_ShootTLine_Properties;
-            IntVec3 angleVec = (this.currentTarget.Cell - this.CasterPawn.Position).RotatedBy(Rot4.FromAngleFlat(90));
-            double distanceToTarget = Math.Pow(Math.Pow((this.currentTarget.Cell.x - this.CasterPawn.Position.x), 2) + (Math.Pow((this.currentTarget.Cell.z - this.CasterPawn.Position.z), 2)), 0.5);
+            Verb_ShootTLine_Properties Properties = verbProps as Verb_ShootTLine_Properties;
+            IntVec3 angleVec = (currentTarget.Cell - CasterPawn.Position).RotatedBy(Rot4.FromAngleFlat(90));
+            double distanceToTarget = Math.Pow(Math.Pow((currentTarget.Cell.x - CasterPawn.Position.x), 2) + (Math.Pow((currentTarget.Cell.z - CasterPawn.Position.z), 2)), 0.5);
             float directionX = angleVec.x / (float)distanceToTarget;
             float directionZ = angleVec.z / (float)distanceToTarget;
-            float cellOffset = ((this.ShotsPerBurst - 1) / 2 - this.ShotsSoFar) * Properties.distBetweenShots;
-            IntVec3 offsetTarget = this.currentTarget.Cell;
+            float cellOffset = ((ShotsPerBurst - 1) / 2 - ShotsSoFar) * Properties.distBetweenShots;
+            IntVec3 offsetTarget = currentTarget.Cell;
             offsetTarget.x += (int)(directionX * cellOffset);
             offsetTarget.z += (int)(directionZ * cellOffset);
-            this.TryLaunchProjectile(this.Projectile, offsetTarget);
-            this.ShotsSoFar++;
+            TryLaunchProjectile(Projectile, offsetTarget);
+            ShotsSoFar++;
             return true;
         }
 
@@ -70,10 +70,10 @@ namespace TorannMagic
 
         public override void WarmupComplete()
         {
-            this.ShotsSoFar = 0;
-            this.burstShotsLeft = this.ShotsPerBurst;
-            this.state = VerbState.Bursting;
-            this.TryCastNextBurstShot();
+            ShotsSoFar = 0;
+            burstShotsLeft = ShotsPerBurst;
+            state = VerbState.Bursting;
+            TryCastNextBurstShot();
         }
     }
 }

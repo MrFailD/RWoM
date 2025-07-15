@@ -16,11 +16,11 @@ namespace TorannMagic.Golems
             Pawn p = currentTarget.Pawn;
             Thing launchedThing = new Thing()
             {
-                def = this.verbProps.defaultProjectile
+                def = verbProps.defaultProjectile
             };
-            if (this.verbProps.minRange != 0 && p != null)
+            if (verbProps.minRange != 0 && p != null)
             {
-                List<Pawn> tmpPawns = TM_Calc.FindPawnsNearTarget(p, Mathf.RoundToInt(this.verbProps.minRange), this.currentTarget.Cell, true);
+                List<Pawn> tmpPawns = TM_Calc.FindPawnsNearTarget(p, Mathf.RoundToInt(verbProps.minRange), currentTarget.Cell, true);
                 if (tmpPawns != null)
                 {
                     tmpTarget = new LocalTargetInfo(tmpPawns.RandomElement());
@@ -29,14 +29,14 @@ namespace TorannMagic.Golems
             for (int i = 0; i < 4; i++)
             {
                 tmpTarget = currentTarget;
-                if (!Rand.Chance(this.verbProps.accuracyLong))
+                if (!Rand.Chance(verbProps.accuracyLong))
                 {
                     tmpTarget = TM_Calc.FindValidCellWithinRange(currentTarget.Cell, CasterPawn.Map, 2);
                 }
-                FlyingObject_Advanced flyingObject = (FlyingObject_Advanced)GenSpawn.Spawn(this.verbProps.defaultProjectile, CasterPawn.Position, CasterPawn.Map);
+                FlyingObject_Advanced flyingObject = (FlyingObject_Advanced)GenSpawn.Spawn(verbProps.defaultProjectile, CasterPawn.Position, CasterPawn.Map);
                 flyingObject.AdvancedLaunch(CasterPawn, TorannMagicDefOf.Mote_Ice, 3, Mathf.Clamp(Rand.Range(1, 60),
-                    0, tmpTarget.Cell.DistanceToEdge(CasterPawn.Map)), false, CasterPawn.DrawPos, tmpTarget, launchedThing, Mathf.RoundToInt((Rand.Range(.8f, 1.2f) *this.verbProps.defaultProjectile.projectile.speed)), this.verbProps.defaultProjectile.projectile.explosionRadius > 0, Rand.Range(18, 22),
-                    this.verbProps.defaultProjectile.projectile.explosionRadius, this.verbProps.defaultProjectile.projectile.damageDef, null, 0, this.verbProps.defaultProjectile.projectile.flyOverhead, .4f);
+                    0, tmpTarget.Cell.DistanceToEdge(CasterPawn.Map)), false, CasterPawn.DrawPos, tmpTarget, launchedThing, Mathf.RoundToInt((Rand.Range(.8f, 1.2f) *verbProps.defaultProjectile.projectile.speed)), verbProps.defaultProjectile.projectile.explosionRadius > 0, Rand.Range(18, 22),
+                    verbProps.defaultProjectile.projectile.explosionRadius, verbProps.defaultProjectile.projectile.damageDef, null, 0, verbProps.defaultProjectile.projectile.flyOverhead, .4f);
             }
             return base.TryCastShot();
         }

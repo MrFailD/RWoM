@@ -42,7 +42,7 @@ namespace TorannMagic
             CompAbilityUserMight comp = pawn.GetCompAbilityUserMight();
             MightPowerSkill pwr = pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_BladeFocus.FirstOrDefault((MightPowerSkill x) => x.label == "TM_BladeFocus_pwr");
 
-            List<Trait> traits = this.CasterPawn.story.traits.allTraits;
+            List<Trait> traits = CasterPawn.story.traits.allTraits;
             for (int i = 0; i < traits.Count; i++)
             {
                 if (traits[i].def.defName == "Bladedancer")
@@ -51,13 +51,13 @@ namespace TorannMagic
                     if ( traits[i].Degree < pwr.level)
                     {
                         traits.Remove(traits[i]);
-                        this.CasterPawn.story.traits.GainTrait(new Trait(TraitDef.Named("Bladedancer"), pwr.level, false));
+                        CasterPawn.story.traits.GainTrait(new Trait(TraitDef.Named("Bladedancer"), pwr.level, false));
                         FleckMaker.ThrowHeatGlow(base.CasterPawn.Position, map, 2);
                     }
                 }
             }
             
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return false;
         }
     }

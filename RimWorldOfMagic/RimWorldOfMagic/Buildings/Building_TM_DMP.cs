@@ -40,7 +40,7 @@ namespace TorannMagic
         {
             get
             {
-                return Building_TM_DMP.PortableCellsAround(base.InteractionCell, base.Map);
+                return PortableCellsAround(base.InteractionCell, Map);
             }
         }
 
@@ -87,10 +87,10 @@ namespace TorannMagic
             }
             else
             {                
-                if (comp.IsMagicUser && this.IsOn)
+                if (comp.IsMagicUser && IsOn)
                 {
                     list.Add(new FloatMenuOption("TM_ChargeManaStorage".Translate(
-                            Mathf.RoundToInt(this.arcaneEnergyCur * 100)
+                            Mathf.RoundToInt(arcaneEnergyCur * 100)
                         ), delegate
                     {
                         Job job = new Job(TorannMagicDefOf.ChargePortal, this);
@@ -103,72 +103,72 @@ namespace TorannMagic
 
         public static List<IntVec3> PortableCellsAround(IntVec3 pos, Map map)
         {
-            Building_TM_DMP.portableCells.Clear();
+            portableCells.Clear();
             if (!pos.InBoundsWithNullCheck(map))
             {
-                return Building_TM_DMP.portableCells;
+                return portableCells;
 
             }
             Region region = pos.GetRegion(map, RegionType.Set_All);
             if (region == null)
             {
-                return Building_TM_DMP.portableCells;
+                return portableCells;
             }
             RegionTraverser.BreadthFirstTraverse(region, (Region from, Region r) => r.door == null, delegate (Region r)
             {
                 foreach (IntVec3 current in r.Cells)
                 {
-                    if (current.InHorDistOf(pos, Building_TM_DMP.effectRadius))
+                    if (current.InHorDistOf(pos, effectRadius))
                     {
-                        Building_TM_DMP.portableCells.Add(current);
+                        portableCells.Add(current);
                     }
                 }
                 return false;
             }, 54, RegionType.Set_Passable);
-            return Building_TM_DMP.portableCells;
+            return portableCells;
         }
 
         protected override void Tick()
         {
             base.Tick();
-            if(Find.TickManager.TicksGame % this.rotationRate == 0)
+            if(Find.TickManager.TicksGame % rotationRate == 0)
             {
-                this.matRot++;
-                if(this.matRot >= 8)
+                matRot++;
+                if(matRot >= 8)
                 {
-                    this.matRot = 0;
+                    matRot = 0;
                 }
-                this.matMagnitude += this.matMagnitudeValue;
-                if(this.matMagnitude >= .5f)
+                matMagnitude += matMagnitudeValue;
+                if(matMagnitude >= .5f)
                 {
-                    this.matMagnitudeValue = -.005f;
+                    matMagnitudeValue = -.005f;
                 }
-                if(this.matMagnitude <= .2f)
+                if(matMagnitude <= .2f)
                 {
-                    this.matMagnitudeValue = .005f;
+                    matMagnitudeValue = .005f;
                 }
             }
 
-            if (Find.TickManager.TicksGame % 240 == 0 && this.IsOn)
+            if (Find.TickManager.TicksGame % 240 == 0 && IsOn)
             {
-                List<Pawn> mapPawns = this.Map.mapPawns.AllPawnsSpawned.ToList();
+                List<Pawn> mapPawns = Map.mapPawns.AllPawnsSpawned.ToList();
                 Pawn pawn = null;
                 for(int i = 0; i < mapPawns.Count; i++)
                 {
                     pawn = mapPawns[i];
-                    if(!pawn.DestroyedOrNull() && pawn.Spawned && !pawn.Dead && !pawn.Downed && pawn.RaceProps != null && !pawn.AnimalOrWildMan() && pawn.RaceProps.Humanlike && pawn.Faction != null && pawn.Faction == this.Faction)
+                    if(!pawn.DestroyedOrNull() && pawn.Spawned && !pawn.Dead && !pawn.Downed && pawn.RaceProps != null && !pawn.AnimalOrWildMan() && pawn.RaceProps.Humanlike && pawn.Faction != null && pawn.Faction == Faction)
                     {
                         CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
-                        float rangeToTarget = (pawn.Position - this.Position).LengthHorizontal;
+                        float rangeToTarget = (pawn.Position - Position).LengthHorizontal;
                         if (pawn.drafter != null && TM_Calc.IsMagicUser(pawn) && rangeToTarget <= effectRadius && comp != null && comp.Mana != null)
                         {
-                            if(pawn.Drafted && comp.Mana.CurLevelPercentage <= .9f && this.ArcaneEnergyCur >= .01f)
+                            if(pawn.Drafted && comp.Mana.CurLevelPercentage <= .9f && ArcaneEnergyCur >= .01f)
                             {
                                 TransferMana(comp);
                                 break;
                             }
 
-                            if (!pawn.Drafted && comp.Mana.CurInstantLevelPercentage < .4f && this.ArcaneEnergyCur >= .01f)
+                            if (!pawn.Drafted && comp.Mana.CurInstantLevelPercentage < .4f && ArcaneEnergyCur >= .01f)
                             {
                                 TransferMana(comp);
                                 break;
@@ -181,15 +181,15 @@ namespace TorannMagic
 
         private void TransferMana(CompAbilityUserMagic comp)
         {
-            this.ArcaneEnergyCur -= 20;
+            ArcaneEnergyCur -= 20;
             comp.Mana.CurLevel += .16f;
             for (int i = 0; i < 4; i++)
             {
-                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Casting, this.DrawPos, this.Map,  .4f + .5f * i, 0.2f, .02f + (.15f * i), .4f - (.06f * i), Rand.Range(-300, 300), 0, 0, Rand.Range(0, 360));                           
+                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Casting, DrawPos, Map,  .4f + .5f * i, 0.2f, .02f + (.15f * i), .4f - (.06f * i), Rand.Range(-300, 300), 0, 0, Rand.Range(0, 360));                           
             }
             for (int i = 0; i < 4; i++)
             {
-                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Casting, comp.Pawn.DrawPos, this.Map, 1.5f - (.4f * i), 0.2f, .02f + (.15f * i), .4f + (.06f * i), Rand.Range(-300, 300), 0, 0, Rand.Range(0, 360)); ;
+                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Casting, comp.Pawn.DrawPos, Map, 1.5f - (.4f * i), 0.2f, .02f + (.15f * i), .4f + (.06f * i), Rand.Range(-300, 300), 0, 0, Rand.Range(0, 360)); ;
             }
             TM_MoteMaker.ThrowManaPuff(comp.Pawn.DrawPos, comp.Pawn.Map, 1f);
         }
@@ -207,35 +207,35 @@ namespace TorannMagic
             matrix.SetTRS(vector, Quaternion.AngleAxis(angle, Vector3.up), s);
             if (matRot == 0)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TM_DMP.dmpMat_0, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, dmpMat_0, 0);
             }
             else if (matRot == 1)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TM_DMP.dmpMat_1, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, dmpMat_1, 0);
             }
             else if (matRot == 2)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TM_DMP.dmpMat_2, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, dmpMat_2, 0);
             }
             else if (matRot == 3)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TM_DMP.dmpMat_3, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, dmpMat_3, 0);
             }
             else if (matRot == 4)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TM_DMP.dmpMat_4, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, dmpMat_4, 0);
             }
             else if (matRot == 5)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TM_DMP.dmpMat_5, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, dmpMat_5, 0);
             }
             else if (matRot == 6)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TM_DMP.dmpMat_6, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, dmpMat_6, 0);
             }
             else
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TM_DMP.dmpMat_7, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, dmpMat_7, 0);
             }
             
         }

@@ -48,17 +48,17 @@ namespace TorannMagic
         {
             get
             {
-                switch (this.def.skyfaller.movementType)
+                switch (def.skyfaller.movementType)
                 {
                     case SkyfallerMovementType.Accelerate:
-                        return SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
+                        return SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, ticksToImpact, angle, def.skyfaller.speed);
                     case SkyfallerMovementType.ConstantSpeed:
-                        return SkyfallerDrawPosUtility.DrawPos_ConstantSpeed(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
+                        return SkyfallerDrawPosUtility.DrawPos_ConstantSpeed(base.DrawPos, ticksToImpact, angle, def.skyfaller.speed);
                     case SkyfallerMovementType.Decelerate:
-                        return SkyfallerDrawPosUtility.DrawPos_Decelerate(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
+                        return SkyfallerDrawPosUtility.DrawPos_Decelerate(base.DrawPos, ticksToImpact, angle, def.skyfaller.speed);
                     default:
-                        Log.ErrorOnce("SkyfallerMovementType not handled: " + this.def.skyfaller.movementType, this.thingIDNumber ^ 1948576711);
-                        return SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, this.ticksToImpact, this.angle, this.def.skyfaller.speed);
+                        Log.ErrorOnce("SkyfallerMovementType not handled: " + def.skyfaller.movementType, thingIDNumber ^ 1948576711);
+                        return SkyfallerDrawPosUtility.DrawPos_Accelerate(base.DrawPos, ticksToImpact, angle, def.skyfaller.speed);
                 }
             }
         }
@@ -67,11 +67,11 @@ namespace TorannMagic
         {
             get
             {
-                if (this.cachedShadowMaterial == null && !this.def.skyfaller.shadow.NullOrEmpty())
+                if (cachedShadowMaterial == null && !def.skyfaller.shadow.NullOrEmpty())
                 {
-                    this.cachedShadowMaterial = MaterialPool.MatFrom(this.def.skyfaller.shadow, ShaderDatabase.Transparent);
+                    cachedShadowMaterial = MaterialPool.MatFrom(def.skyfaller.shadow, ShaderDatabase.Transparent);
                 }
-                return this.cachedShadowMaterial;
+                return cachedShadowMaterial;
             }
         }
 
@@ -106,26 +106,26 @@ namespace TorannMagic
             base.SpawnSetup(map, respawningAfterLoad);
             if (!respawningAfterLoad)
             {
-                this.ticksToImpact = this.def.skyfaller.ticksToImpactRange.RandomInRange;
-                if (this.def.skyfaller.MakesShrapnel)
+                ticksToImpact = def.skyfaller.ticksToImpactRange.RandomInRange;
+                if (def.skyfaller.MakesShrapnel)
                 {
-                    float num = GenMath.PositiveMod(this.shrapnelDirection, 360f);
+                    float num = GenMath.PositiveMod(shrapnelDirection, 360f);
                     if (num < 270f && num >= 90f)
                     {
-                        this.angle = Rand.Range(0f, 33f);
+                        angle = Rand.Range(0f, 33f);
                     }
                     else
                     {
-                        this.angle = Rand.Range(-33f, 0f);
+                        angle = Rand.Range(-33f, 0f);
                     }
                 }
                 else
                 {
-                    this.angle = -80f;
+                    angle = -80f;
                 }
-                if (this.def.rotatable && this.innerContainer.Any)
+                if (def.rotatable && innerContainer.Any)
                 {
-                    base.Rotation = Rot4.FromAngleFlat(this.angle - 90f);//this.innerContainer[0].Rotation;
+                    Rotation = Rot4.FromAngleFlat(angle - 90f);//this.innerContainer[0].Rotation;
                 }
             }
         }
@@ -138,10 +138,10 @@ namespace TorannMagic
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            Thing thingForGraphic = this.GetThingForGraphic();
-            float extraRotation = (!this.def.skyfaller.rotateGraphicTowardsDirection) ? 0f : this.angle - 180f;
-            this.Graphic.Draw(drawLoc, (!flip) ? thingForGraphic.Rotation : thingForGraphic.Rotation.Opposite, thingForGraphic, extraRotation);
-            this.DrawDropSpotShadow();
+            Thing thingForGraphic = GetThingForGraphic();
+            float extraRotation = (!def.skyfaller.rotateGraphicTowardsDirection) ? 0f : angle - 180f;
+            Graphic.Draw(drawLoc, (!flip) ? thingForGraphic.Rotation : thingForGraphic.Rotation.Opposite, thingForGraphic, extraRotation);
+            DrawDropSpotShadow();
         }
 
         //public override void Tick()
@@ -275,21 +275,21 @@ namespace TorannMagic
 
         private Thing GetThingForGraphic()
         {
-            if (this.def.graphicData != null || !this.innerContainer.Any)
+            if (def.graphicData != null || !innerContainer.Any)
             {
                 return this;
             }
-            return this.innerContainer[0];
+            return innerContainer[0];
         }
 
         private void DrawDropSpotShadow()
         {
-            Material shadowMaterial = this.ShadowMaterial;
+            Material shadowMaterial = ShadowMaterial;
             if (shadowMaterial == null)
             {
                 return;
             }
-            TM_Skyfaller.DrawDropSpotShadow(base.DrawPos, base.Rotation, shadowMaterial, this.def.skyfaller.shadowSize, this.ticksToImpact);
+            DrawDropSpotShadow(base.DrawPos, Rotation, shadowMaterial, def.skyfaller.shadowSize, ticksToImpact);
         }
 
         new public static void DrawDropSpotShadow(Vector3 center, Rot4 rot, Material material, Vector2 shadowSize, int ticksToImpact)
@@ -308,10 +308,10 @@ namespace TorannMagic
             {
                 white.a = Mathf.InverseLerp(200f, 150f, (float)ticksToImpact);
             }
-            TM_Skyfaller.shadowPropertyBlock.SetColor(ShaderPropertyIDs.Color, white);
+            shadowPropertyBlock.SetColor(ShaderPropertyIDs.Color, white);
             Matrix4x4 matrix = default(Matrix4x4);
             matrix.SetTRS(pos, rot.AsQuat, s);
-            Graphics.DrawMesh(MeshPool.plane10Back, matrix, material, 0, null, 0, TM_Skyfaller.shadowPropertyBlock);
+            Graphics.DrawMesh(MeshPool.plane10Back, matrix, material, 0, null, 0, shadowPropertyBlock);
         }
 
     }

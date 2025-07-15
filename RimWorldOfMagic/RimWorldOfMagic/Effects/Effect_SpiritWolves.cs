@@ -11,16 +11,16 @@ namespace TorannMagic
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -36,7 +36,7 @@ namespace TorannMagic
 
         public virtual void Effect()
         {
-            LocalTargetInfo t = this.TargetsAoE[0];
+            LocalTargetInfo t = TargetsAoE[0];
             bool flag = t.Cell != default(IntVec3);
             if (flag)
             {
@@ -45,8 +45,8 @@ namespace TorannMagic
                     def = TorannMagicDefOf.FlyingObject_SpiritWolves
                 };
                 Pawn casterPawn = base.CasterPawn;
-                FlyingObject_SpiritWolves flyingObject = (FlyingObject_SpiritWolves)GenSpawn.Spawn(ThingDef.Named("FlyingObject_SpiritWolves"), this.CasterPawn.Position, this.CasterPawn.Map);
-                flyingObject.Launch(this.CasterPawn, t.Cell, launchedThing);
+                FlyingObject_SpiritWolves flyingObject = (FlyingObject_SpiritWolves)GenSpawn.Spawn(ThingDef.Named("FlyingObject_SpiritWolves"), CasterPawn.Position, CasterPawn.Map);
+                flyingObject.Launch(CasterPawn, t.Cell, launchedThing);
             }
         }
 
@@ -54,7 +54,7 @@ namespace TorannMagic
         {
             if (inResult)
             {
-                this.Effect();
+                Effect();
                 outResult = true;
             }
             outResult = inResult;

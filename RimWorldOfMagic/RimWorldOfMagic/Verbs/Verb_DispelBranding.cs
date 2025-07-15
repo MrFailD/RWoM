@@ -44,7 +44,7 @@ namespace TorannMagic
                 }
             }
 
-            this.PostCastShot(flag, out flag);
+            PostCastShot(flag, out flag);
             return flag;
         }
 

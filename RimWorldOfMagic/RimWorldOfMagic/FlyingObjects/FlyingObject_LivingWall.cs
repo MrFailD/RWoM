@@ -77,7 +77,7 @@ namespace TorannMagic
         {
             get
             {
-                List<Thing> tmpList = this.Position.GetThingList(this.Map);
+                List<Thing> tmpList = Position.GetThingList(Map);
                 foreach(Thing t in tmpList)
                 {
                     if(TM_Calc.IsWall(t))
@@ -94,9 +94,9 @@ namespace TorannMagic
             get
             {
                 Building fromWall = null;
-                if (this.curvePoints.Count > 0)
+                if (curvePoints.Count > 0)
                 {
-                    List<Thing> destList = this.curvePoints[this.curvePoints.Count - 1].ToIntVec3().GetThingList(this.Map);
+                    List<Thing> destList = curvePoints[curvePoints.Count - 1].ToIntVec3().GetThingList(Map);
 
                     foreach (Thing w in destList)
                     {
@@ -108,7 +108,7 @@ namespace TorannMagic
                 }
                 if (fromWall == null)
                 {
-                    fromWall = this.OccupiedWall;
+                    fromWall = OccupiedWall;
                 }
                 return fromWall;
             }
@@ -118,7 +118,7 @@ namespace TorannMagic
         {
             get
             {
-                int num = Mathf.RoundToInt((this.origin - this.destination).magnitude / (this.speed / 100f));
+                int num = Mathf.RoundToInt((origin - destination).magnitude / (speed / 100f));
                 bool flag = num < 1;
                 if (flag)
                 {
@@ -132,7 +132,7 @@ namespace TorannMagic
         {
             get
             {
-                return new IntVec3(this.destination);
+                return new IntVec3(destination);
             }
         }
 
@@ -140,8 +140,8 @@ namespace TorannMagic
         {
             get
             {
-                Vector3 b = (this.destination - this.origin) * (1f - (float)this.ticksToImpact / (float)this.StartingTicksToImpact);
-                return this.origin + b + Vector3.up * this.def.Altitude;
+                Vector3 b = (destination - origin) * (1f - (float)ticksToImpact / (float)StartingTicksToImpact);
+                return origin + b + Vector3.up * def.Altitude;
             }
         }
 
@@ -149,7 +149,7 @@ namespace TorannMagic
         {
             get
             {
-                return Quaternion.LookRotation(this.destination - this.origin);
+                return Quaternion.LookRotation(destination - origin);
             }
         }
 
@@ -157,107 +157,107 @@ namespace TorannMagic
         {
             get
             {
-                return this.ExactPosition;
+                return ExactPosition;
             }
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<Vector3>(ref this.origin, "origin", default(Vector3), false);
-            Scribe_Values.Look<Vector3>(ref this.destination, "destination", default(Vector3), false);
-            Scribe_Values.Look<int>(ref this.ticksToImpact, "ticksToImpact", 0, false);
-            Scribe_Values.Look<bool>(ref this.damageLaunched, "damageLaunched", true, false);
-            Scribe_Values.Look<bool>(ref this.explosion, "explosion", false, false);
-            Scribe_References.Look<Thing>(ref this.assignedTarget, "assignedTarget", false);
-            Scribe_Values.Look<float>(ref this.curveVariance, "curveVariance", 1f, false);
-            Scribe_Values.Look<float>(ref this.speed, "speed", 15f, false);
-            Scribe_Collections.Look<Building>(ref this.connectedWalls, "connectedWalls", LookMode.Reference);
-            Scribe_Deep.Look<Thing>(ref this.flyingThing, "flyingThing", new object[0]);
-            Scribe_References.Look<Pawn>(ref this.pawn, "pawn", false);
+            Scribe_Values.Look<Vector3>(ref origin, "origin", default(Vector3), false);
+            Scribe_Values.Look<Vector3>(ref destination, "destination", default(Vector3), false);
+            Scribe_Values.Look<int>(ref ticksToImpact, "ticksToImpact", 0, false);
+            Scribe_Values.Look<bool>(ref damageLaunched, "damageLaunched", true, false);
+            Scribe_Values.Look<bool>(ref explosion, "explosion", false, false);
+            Scribe_References.Look<Thing>(ref assignedTarget, "assignedTarget", false);
+            Scribe_Values.Look<float>(ref curveVariance, "curveVariance", 1f, false);
+            Scribe_Values.Look<float>(ref speed, "speed", 15f, false);
+            Scribe_Collections.Look<Building>(ref connectedWalls, "connectedWalls", LookMode.Reference);
+            Scribe_Deep.Look<Thing>(ref flyingThing, "flyingThing", new object[0]);
+            Scribe_References.Look<Pawn>(ref pawn, "pawn", false);
         }
 
         private void Initialize()
         {
             if (pawn != null)
             {
-                FleckMaker.ThrowDustPuff(this.origin, this.Map, Rand.Range(1.2f, 1.8f));
+                FleckMaker.ThrowDustPuff(origin, Map, Rand.Range(1.2f, 1.8f));
             }
             flyingThing.ThingID += Rand.Range(0, 214).ToString();
         }
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing, DamageInfo? impactDamage)
         {
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, impactDamage);
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, impactDamage);
         }
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing)
         {
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, null);
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, null);
         }
 
         public void ExactLaunch(ThingDef effectMote, int moteFrequencyTicks, bool shouldSpin, List<Vector3> travelPath, Thing launcher, Vector3 origin, LocalTargetInfo targ, Thing flyingThing, int flyingSpeed, float _impactRadius)
         {
-            this.moteFrequency = moteFrequencyTicks;
-            this.moteDef = effectMote;
-            this.impactRadius = _impactRadius;
-            this.spinning = shouldSpin;
-            this.speed = flyingSpeed;
-            this.curvePoints = travelPath;
-            this.curveVariance = 1;
-            this.Launch(launcher, origin, targ, flyingThing, null);
+            moteFrequency = moteFrequencyTicks;
+            moteDef = effectMote;
+            impactRadius = _impactRadius;
+            spinning = shouldSpin;
+            speed = flyingSpeed;
+            curvePoints = travelPath;
+            curveVariance = 1;
+            Launch(launcher, origin, targ, flyingThing, null);
         }
 
         public void AdvancedLaunch(Thing launcher, ThingDef effectMote, int moteFrequencyTicks, float curveAmount, bool shouldSpin, Vector3 origin, LocalTargetInfo targ, Thing flyingThing, int flyingSpeed, bool isExplosion, int _impactDamage, float _impactRadius, DamageDef damageType, DamageInfo? newDamageInfo = null, int doubleVariance = 0, bool flyOverhead = false)
         {
-            this.fliesOverhead = flyOverhead;
-            this.explosionDamage = _impactDamage;
-            this.isExplosive = isExplosion;
-            this.impactRadius = _impactRadius;
-            this.impactDamageType = damageType;
-            this.moteFrequency = moteFrequencyTicks;
-            this.moteDef = effectMote;
-            this.curveVariance = curveAmount;
-            this.spinning = shouldSpin;
-            this.speed = flyingSpeed;
-            this.doublesidedVariance = doubleVariance;
-            this.curvePoints = new List<Vector3>();
-            this.curvePoints.Clear();
-            this.Launch(launcher, origin, targ, flyingThing, newDamageInfo);
+            fliesOverhead = flyOverhead;
+            explosionDamage = _impactDamage;
+            isExplosive = isExplosion;
+            impactRadius = _impactRadius;
+            impactDamageType = damageType;
+            moteFrequency = moteFrequencyTicks;
+            moteDef = effectMote;
+            curveVariance = curveAmount;
+            spinning = shouldSpin;
+            speed = flyingSpeed;
+            doublesidedVariance = doubleVariance;
+            curvePoints = new List<Vector3>();
+            curvePoints.Clear();
+            Launch(launcher, origin, targ, flyingThing, newDamageInfo);
         }
 
         public void Launch(Thing launcher, Vector3 origin, LocalTargetInfo targ, Thing flyingThing, DamageInfo? newDamageInfo = null)
         {
             bool spawned = flyingThing.Spawned;            
-            this.pawn = launcher as Pawn;
+            pawn = launcher as Pawn;
             if (spawned)
             {               
                 flyingThing.DeSpawn();
             }
             this.launcher = launcher;
-            this.trueOrigin = origin;
-            this.trueDestination = targ.Cell.ToVector3();
-            this.impactDamage = newDamageInfo;
+            trueOrigin = origin;
+            trueDestination = targ.Cell.ToVector3();
+            impactDamage = newDamageInfo;
             this.flyingThing = flyingThing;
             bool flag = targ.Thing != null;
             if (flag)
             {
-                this.assignedTarget = targ.Thing;
+                assignedTarget = targ.Thing;
             }
-            this.speed = this.speed * this.force;
+            speed = speed * force;
             this.origin = origin;
-            if(this.curveVariance > 0)
+            if(curveVariance > 0)
             {
-                CalculateCurvePoints(this.trueOrigin, this.trueDestination, this.curveVariance);
-                this.destinationCurvePoint++;
-                this.destination = this.curvePoints[this.destinationCurvePoint];
+                CalculateCurvePoints(trueOrigin, trueDestination, curveVariance);
+                destinationCurvePoint++;
+                destination = curvePoints[destinationCurvePoint];
             }
             else
             {
-                this.destination = this.trueDestination;
+                destination = trueDestination;
             }            
-            this.ticksToImpact = this.StartingTicksToImpact;
-            this.Initialize();
+            ticksToImpact = StartingTicksToImpact;
+            Initialize();
         }        
 
         public void CalculateCurvePoints(Vector3 start, Vector3 end, float variance)
@@ -283,10 +283,10 @@ namespace TorannMagic
                     
             float incrementalDistance = p / variancePoints; 
             float incrementalAngle = (curveAngle / variancePoints) * 2f;
-            this.curvePoints.Add(this.trueOrigin);
+            curvePoints.Add(trueOrigin);
             for(int i = 1; i <= (variancePoints + 1); i++)
             {
-                this.curvePoints.Add(this.curvePoints[i - 1] + ((Quaternion.AngleAxis(curveAngle, Vector3.up) * initialVector) * incrementalDistance));
+                curvePoints.Add(curvePoints[i - 1] + ((Quaternion.AngleAxis(curveAngle, Vector3.up) * initialVector) * incrementalDistance));
                 curveAngle -= incrementalAngle;
             }
         }
@@ -304,9 +304,9 @@ namespace TorannMagic
         {            
             closestThreat = null;
             float closest = 999f;
-            foreach(Pawn p in this.Map.mapPawns.AllPawnsSpawned)
+            foreach(Pawn p in Map.mapPawns.AllPawnsSpawned)
             {
-                float pDistance = (p.Position - this.Position).LengthHorizontal;
+                float pDistance = (p.Position - Position).LengthHorizontal;
                 if (!p.Dead && !p.Downed && CasterPawn != null && p.HostileTo(CasterPawn) &&  pDistance < closest)
                 {
                     closest = pDistance;
@@ -324,7 +324,7 @@ namespace TorannMagic
             }
             if(closestThreat != null && connectedWalls != null && connectedWalls.Count > 0)
             {
-                float closest = (this.Position - closestThreat.Position).LengthHorizontal;
+                float closest = (Position - closestThreat.Position).LengthHorizontal;
                 Thing closestWall = null;
                 foreach(Thing t in connectedWalls)
                 {
@@ -335,7 +335,7 @@ namespace TorannMagic
                         closestWall = t;
                     }
                 }
-                this.targetWall = closestWall;
+                targetWall = closestWall;
             }
             
         }
@@ -344,7 +344,7 @@ namespace TorannMagic
         {
             Thing tmp = null;
             float closest = 999;
-            IEnumerable<Building> allThings = from def in this.Map.listerThings.AllThings
+            IEnumerable<Building> allThings = from def in Map.listerThings.AllThings
                                               where (def is Building && TM_Calc.IsWall(def))
                                               select def as Building;
             foreach(Building b in allThings)
@@ -363,10 +363,10 @@ namespace TorannMagic
         {
             if (curvePoints.Count > 1 && destinationCurvePoint > 0)
             {
-                this.origin = curvePoints[destinationCurvePoint];
-                this.destination = curvePoints[destinationCurvePoint - 1];
-                this.ticksToImpact = this.StartingTicksToImpact;
-                this.curvePoints.Clear();
+                origin = curvePoints[destinationCurvePoint];
+                destination = curvePoints[destinationCurvePoint - 1];
+                ticksToImpact = StartingTicksToImpact;
+                curvePoints.Clear();
                 updatedPath.Clear();
                 targetWall = null;
                 return false;
@@ -375,14 +375,14 @@ namespace TorannMagic
             {
                 if (OccupiedWall == null && CasterPawn != null)
                 {
-                    Building nearestWall = TM_Calc.FindNearestWall(this.Map, this.ExactPosition.ToIntVec3(), CasterPawn.Faction);
+                    Building nearestWall = TM_Calc.FindNearestWall(Map, ExactPosition.ToIntVec3(), CasterPawn.Faction);
                     if(nearestWall != null)
                     {
-                        this.Position = nearestWall.Position;
-                        this.origin = nearestWall.DrawPos;
-                        this.destination = nearestWall.DrawPos;
-                        this.ticksToImpact = this.StartingTicksToImpact;
-                        this.curvePoints.Clear();
+                        Position = nearestWall.Position;
+                        origin = nearestWall.DrawPos;
+                        destination = nearestWall.DrawPos;
+                        ticksToImpact = StartingTicksToImpact;
+                        curvePoints.Clear();
                         updatedPath.Clear();
                         targetWall = null;
                         return false;
@@ -456,13 +456,13 @@ namespace TorannMagic
 
         public void DoThreadedActions()
         {
-            if (Find.TickManager.TicksGame > this.nextWallUpdate && OccupiedWall != null)
+            if (Find.TickManager.TicksGame > nextWallUpdate && OccupiedWall != null)
             {
-                this.nextWallUpdate = Find.TickManager.TicksGame + Rand.Range(10, 20);
+                nextWallUpdate = Find.TickManager.TicksGame + Rand.Range(10, 20);
                 DoConnectedWallUpdate();
             }
 
-            if (Find.TickManager.TicksGame > this.nextThreatUpdate)
+            if (Find.TickManager.TicksGame > nextThreatUpdate)
             {
                 if (closestThreat != null)
                 {
@@ -474,12 +474,12 @@ namespace TorannMagic
                 }
                 FindClosestThreat();
             }
-            if (Find.TickManager.TicksGame >= this.nextWallSelectUpdate && closestThreat != null)
+            if (Find.TickManager.TicksGame >= nextWallSelectUpdate && closestThreat != null)
             {
                 nextWallSelectUpdate = Find.TickManager.TicksGame + Rand.Range(10, 20);
                 FindClosestWallToTarget();
             }
-            if (targetWall != null && targetWall.Position != this.Position && !pathLocked && updatedPath.Count <= 0)
+            if (targetWall != null && targetWall.Position != Position && !pathLocked && updatedPath.Count <= 0)
             {
                 pathLocked = true;
                 DoPathUpdate();
@@ -498,14 +498,14 @@ namespace TorannMagic
 
         public void ChangePath()
         {            
-            this.curvePoints.Clear();
+            curvePoints.Clear();
             //Log.Message("adding new path");
-            foreach (Vector3 v in this.updatedPath)
+            foreach (Vector3 v in updatedPath)
             {
-                this.curvePoints.Add(v);
+                curvePoints.Add(v);
             }
             updatedPath.Clear();
-            this.destinationCurvePoint = 0;
+            destinationCurvePoint = 0;
             pathLocked = false;            
         }
 
@@ -518,10 +518,10 @@ namespace TorannMagic
                 //int pwrVal = TM_Calc.GetMagicSkillLevel(CasterPawn, comp.MagicData.MagicPowerSkill_LivingWall, "TM_LivingWall", "_pwr", true);
                 int verVal = TM_Calc.GetSkillVersatilityLevel(CasterPawn, TorannMagicDefOf.TM_LivingWall, true);
                 int pwrVal = TM_Calc.GetSkillPowerLevel(CasterPawn, TorannMagicDefOf.TM_LivingWall, true);
-                this.speed = 15 + (3 * verVal);
-                this.searchEnemySpeed = 200 - (20 * verVal);
-                this.enemyDamage = 12 + pwrVal;
-                this.searchEnemyRange = 2.5f + (.2f * pwrVal);
+                speed = 15 + (3 * verVal);
+                searchEnemySpeed = 200 - (20 * verVal);
+                enemyDamage = 12 + pwrVal;
+                searchEnemyRange = 2.5f + (.2f * pwrVal);
             }
             else
             {
@@ -535,23 +535,23 @@ namespace TorannMagic
         private static List<Thread> activeThreads = new List<Thread>();
         protected override void Tick()
         {
-            Vector3 exactPosition = this.ExactPosition;
+            Vector3 exactPosition = ExactPosition;
             if (shouldDestroy)
             {
                 Destroy(DestroyMode.Vanish);
             }
             else
             {
-                if (this.ticksToImpact >= 0 && this.moteDef != null && Find.TickManager.TicksGame % this.moteFrequency == 0)
+                if (ticksToImpact >= 0 && moteDef != null && Find.TickManager.TicksGame % moteFrequency == 0)
                 {
                     DrawEffects(exactPosition);
                 }
-                if (Find.TickManager.TicksGame > this.searchEnemyTick)
+                if (Find.TickManager.TicksGame > searchEnemyTick)
                 {
-                    this.searchEnemyTick = Mathf.RoundToInt(Rand.Range(.4f, .6f) * this.searchEnemySpeed) + Find.TickManager.TicksGame;
+                    searchEnemyTick = Mathf.RoundToInt(Rand.Range(.4f, .6f) * searchEnemySpeed) + Find.TickManager.TicksGame;
                     AttackNearby();
                     RepairOccupiedWall();
-                    if(this.pawn.DestroyedOrNull() || this.pawn.Dead || this.pawn.Map != this.Map)
+                    if(pawn.DestroyedOrNull() || pawn.Dead || pawn.Map != Map)
                     {
                         shouldDestroy = true;
                     }
@@ -569,7 +569,7 @@ namespace TorannMagic
                 }
                 else
                 {
-                    this.ticksToImpact--;
+                    ticksToImpact--;
                     //updates list of connected wall segments
                     if (!threadLocked)
                     {
@@ -591,55 +591,55 @@ namespace TorannMagic
                     DoDirectActions();
                     if (!shouldDestroy)
                     {
-                        bool flag = !this.ExactPosition.InBoundsWithNullCheck(base.Map);
+                        bool flag = !ExactPosition.InBoundsWithNullCheck(Map);
                         if (flag)
                         {
-                            this.ticksToImpact++;
-                            base.Position = this.ExactPosition.ToIntVec3();
-                            this.Destroy(DestroyMode.Vanish);
+                            ticksToImpact++;
+                            Position = ExactPosition.ToIntVec3();
+                            Destroy(DestroyMode.Vanish);
                         }
                         else
                         {
-                            base.Position = this.ExactPosition.ToIntVec3();
-                            if (Find.TickManager.TicksGame % 3 == 0 && this.destination.ToIntVec3() != this.Position)
+                            Position = ExactPosition.ToIntVec3();
+                            if (Find.TickManager.TicksGame % 3 == 0 && destination.ToIntVec3() != Position)
                             {
-                                FleckMaker.ThrowDustPuff(base.Position, base.Map, Rand.Range(0.4f, .6f));
-                                float angle = (Quaternion.AngleAxis(90, Vector3.up) * TM_Calc.GetVector(this.origin, this.destination)).ToAngleFlat();
-                                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_DirectionalDirtOverhead, this.DrawPos, this.Map, 1.2f, .05f, .15f, .38f, 0, 3f, angle, angle);
+                                FleckMaker.ThrowDustPuff(Position, Map, Rand.Range(0.4f, .6f));
+                                float angle = (Quaternion.AngleAxis(90, Vector3.up) * TM_Calc.GetVector(origin, destination)).ToAngleFlat();
+                                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_DirectionalDirtOverhead, DrawPos, Map, 1.2f, .05f, .15f, .38f, 0, 3f, angle, angle);
                             }
 
-                            bool flag2 = this.ticksToImpact <= 0;
+                            bool flag2 = ticksToImpact <= 0;
                             if (flag2)
                             {
-                                if (this.curveVariance > 0)
+                                if (curveVariance > 0)
                                 {
-                                    if ((this.curvePoints.Count() - 1) > this.destinationCurvePoint)
+                                    if ((curvePoints.Count() - 1) > destinationCurvePoint)
                                     {
-                                        this.origin = curvePoints[destinationCurvePoint];
-                                        this.destinationCurvePoint++;
-                                        this.destination = this.curvePoints[this.destinationCurvePoint];
-                                        this.ticksToImpact = this.StartingTicksToImpact;
+                                        origin = curvePoints[destinationCurvePoint];
+                                        destinationCurvePoint++;
+                                        destination = curvePoints[destinationCurvePoint];
+                                        ticksToImpact = StartingTicksToImpact;
                                         canAddNewPath = false;
                                     }
                                     else
                                     {
-                                        bool flag3 = this.DestinationCell.InBoundsWithNullCheck(base.Map);
+                                        bool flag3 = DestinationCell.InBoundsWithNullCheck(Map);
                                         if (flag3)
                                         {
-                                            base.Position = this.DestinationCell;
+                                            Position = DestinationCell;
                                         }
                                         canAddNewPath = true;
-                                        this.IdleFlight();
+                                        IdleFlight();
                                     }
                                 }
                                 else
                                 {
-                                    bool flag3 = this.DestinationCell.InBoundsWithNullCheck(base.Map);
+                                    bool flag3 = DestinationCell.InBoundsWithNullCheck(Map);
                                     if (flag3)
                                     {
-                                        base.Position = this.DestinationCell;
+                                        Position = DestinationCell;
                                     }
-                                    this.ImpactSomething();
+                                    ImpactSomething();
                                 }
                             }
                         }
@@ -652,23 +652,23 @@ namespace TorannMagic
         {
             if (updatedPath != null && updatedPath.Count > 0 && !pathLocked)
             {
-                this.idleFor = 5;
+                idleFor = 5;
                 pathLocked = true;
                 ChangePath();
             }
             else
             {
-                this.idleFor = 60;
-                this.origin = this.ExactPosition;
-                this.destination = this.ExactPosition;
-                this.ticksToImpact = this.StartingTicksToImpact;
+                idleFor = 60;
+                origin = ExactPosition;
+                destination = ExactPosition;
+                ticksToImpact = StartingTicksToImpact;
             }
         }
 
         public void DirectPath()
         {
             Thing cwftWall = FindClosestWallFromTarget();
-            if (cwftWall != null && (cwftWall.Position - closestThreat.Position).LengthHorizontal < (this.Position - closestThreat.Position).LengthHorizontal)
+            if (cwftWall != null && (cwftWall.Position - closestThreat.Position).LengthHorizontal < (Position - closestThreat.Position).LengthHorizontal)
             {
                 List<IntVec3> tmpList = TM_Calc.FindTPath(OccupiedWall, cwftWall, OccupiedWall.Faction);
                 if (tmpList.Count > 0)
@@ -687,18 +687,18 @@ namespace TorannMagic
         {
             List<Pawn> hitList = new List<Pawn>();
             hitList.Clear();
-            List<Pawn> atkPawns = this.Map.mapPawns.AllPawnsSpawned.Where((Pawn x) => (x.Position - this.Position).LengthHorizontal <= this.searchEnemyRange).ToList();
+            List<Pawn> atkPawns = Map.mapPawns.AllPawnsSpawned.Where((Pawn x) => (x.Position - Position).LengthHorizontal <= searchEnemyRange).ToList();
             foreach(Pawn p in atkPawns)
             {
                 if(p.HostileTo(CasterPawn) && !p.Dead && !p.Downed)
                 {                    
-                    float angle = (Quaternion.AngleAxis(90, Vector3.up) * TM_Calc.GetVector(this.DrawPos, p.DrawPos)).ToAngleFlat();
-                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_WallSpike, TM_Calc.GetVectorBetween(this.DrawPos, p.DrawPos), this.Map, Rand.Range(1f, 1.2f), Rand.Range(.3f, .4f), 0f, Rand.Range(.1f, .2f), 0, Rand.Range(.1f, .3f), angle, angle); 
+                    float angle = (Quaternion.AngleAxis(90, Vector3.up) * TM_Calc.GetVector(DrawPos, p.DrawPos)).ToAngleFlat();
+                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_WallSpike, TM_Calc.GetVectorBetween(DrawPos, p.DrawPos), Map, Rand.Range(1f, 1.2f), Rand.Range(.3f, .4f), 0f, Rand.Range(.1f, .2f), 0, Rand.Range(.1f, .3f), angle, angle); 
                     for(int i = 0; i < 5; i++)
                     {
-                        TM_MoteMaker.ThrowGenericFleck(FleckDefOf.DustPuff, this.DrawPos, this.Map, Rand.Range(.8f, 1.2f), .3f, .1f, .2f, Rand.Range(-200, 200), Rand.Range(1f, 3f), angle + Rand.Range(-15, 15), Rand.Range(0, 360));
+                        TM_MoteMaker.ThrowGenericFleck(FleckDefOf.DustPuff, DrawPos, Map, Rand.Range(.8f, 1.2f), .3f, .1f, .2f, Rand.Range(-200, 200), Rand.Range(1f, 3f), angle + Rand.Range(-15, 15), Rand.Range(0, 360));
                     }
-                    FleckMaker.ThrowDustPuff(base.Position, base.Map, Rand.Range(0.4f, .6f));
+                    FleckMaker.ThrowDustPuff(Position, Map, Rand.Range(0.4f, .6f));
                     TM_Action.DamageEntities(p, null, enemyDamage, 0f, DamageDefOf.Stab, CasterPawn);
                 }
             }
@@ -706,77 +706,77 @@ namespace TorannMagic
 
         public void RepairOccupiedWall()
         {
-            if(this.OccupiedWall != null && this.OccupiedWall.HitPoints < this.OccupiedWall.MaxHitPoints)
+            if(OccupiedWall != null && OccupiedWall.HitPoints < OccupiedWall.MaxHitPoints)
             {
-                this.OccupiedWall.HitPoints = Mathf.Clamp(this.OccupiedWall.HitPoints + 10, 0, OccupiedWall.MaxHitPoints);
-                FleckMaker.ThrowDustPuff(this.OccupiedWall.Position, this.Map, Rand.Range(.6f, 1f));
+                OccupiedWall.HitPoints = Mathf.Clamp(OccupiedWall.HitPoints + 10, 0, OccupiedWall.MaxHitPoints);
+                FleckMaker.ThrowDustPuff(OccupiedWall.Position, Map, Rand.Range(.6f, 1f));
             }
         }
 
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            bool flag = this.flyingThing != null;
+            bool flag = flyingThing != null;
             if (flag)
             {
-                bool flag2 = this.flyingThing is Pawn;
+                bool flag2 = flyingThing is Pawn;
                 if (flag2)
                 {
-                    Vector3 arg_2B_0 = this.DrawPos;
-                    bool flag4 = !this.DrawPos.ToIntVec3().IsValid;
+                    Vector3 arg_2B_0 = DrawPos;
+                    bool flag4 = !DrawPos.ToIntVec3().IsValid;
                     if (flag4)
                     {
                         return;
                     }
-                    Pawn pawn = this.flyingThing as Pawn;
-                    pawn.Drawer.renderer.RenderPawnAt(this.DrawPos);                      
+                    Pawn pawn = flyingThing as Pawn;
+                    pawn.Drawer.renderer.RenderPawnAt(DrawPos);                      
                 }
                 else
                 {
-                    Vector3 drawP = this.DrawPos;
+                    Vector3 drawP = DrawPos;
                     drawP.y = 8.1f;
-                    Graphics.DrawMesh(MeshPool.plane10, drawP, Quaternion.identity, this.flyingThing.def.DrawMatSingle, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, drawP, Quaternion.identity, flyingThing.def.DrawMatSingle, 0);
                 }
             }
             else
             {
-                Graphics.DrawMesh(MeshPool.plane10, this.DrawPos, Quaternion.identity, this.flyingThing.def.DrawMatSingle, 0);
+                Graphics.DrawMesh(MeshPool.plane10, DrawPos, Quaternion.identity, flyingThing.def.DrawMatSingle, 0);
             }
-            base.Comps_PostDraw();
+            Comps_PostDraw();
         }
 
         private void DrawEffects(Vector3 effectVec)
         {
             effectVec.x += Rand.Range(-0.4f, 0.4f);
             effectVec.z += Rand.Range(-0.4f, 0.4f);
-            TM_MoteMaker.ThrowGenericMote(this.moteDef, effectVec, this.Map, Rand.Range(.4f, .6f), Rand.Range(.05f, .1f), .03f, Rand.Range(.2f, .3f), Rand.Range(-200, 200), Rand.Range(.5f, 2f), Rand.Range(0, 360), Rand.Range(0, 360));
+            TM_MoteMaker.ThrowGenericMote(moteDef, effectVec, Map, Rand.Range(.4f, .6f), Rand.Range(.05f, .1f), .03f, Rand.Range(.2f, .3f), Rand.Range(-200, 200), Rand.Range(.5f, 2f), Rand.Range(0, 360), Rand.Range(0, 360));
         }
 
         private void ImpactSomething()
         {
-            bool flag = this.assignedTarget != null;
+            bool flag = assignedTarget != null;
             if (flag)
             {
-                Pawn pawn = this.assignedTarget as Pawn;
-                bool flag2 = pawn != null && pawn.GetPosture() != PawnPosture.Standing && (this.origin - this.destination).MagnitudeHorizontalSquared() >= 20.25f && Rand.Value > 0.2f;
+                Pawn pawn = assignedTarget as Pawn;
+                bool flag2 = pawn != null && pawn.GetPosture() != PawnPosture.Standing && (origin - destination).MagnitudeHorizontalSquared() >= 20.25f && Rand.Value > 0.2f;
                 if (flag2)
                 {
-                    this.Impact(null);
+                    Impact(null);
                 }
                 else
                 {
-                    this.Impact(this.assignedTarget);
+                    Impact(assignedTarget);
                 }
             }
             else
             {
-                this.Impact(null);
+                Impact(null);
             }
         }
 
         protected new void Impact(Thing hitThing)
         {           
-            this.Destroy(DestroyMode.Vanish);            
+            Destroy(DestroyMode.Vanish);            
         }
     }
 }

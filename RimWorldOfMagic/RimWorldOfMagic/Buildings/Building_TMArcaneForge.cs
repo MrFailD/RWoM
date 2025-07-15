@@ -25,11 +25,11 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.hasSavedRecipe, "hasSavedRecipe", false, false);
-            Scribe_Defs.Look<ThingDef>(ref this.copiedThingDef, "copiedThingDef");
-            Scribe_Defs.Look<ThingDef>(ref this.copiedStuffDef, "copiedStuffDef");
+            Scribe_Values.Look<bool>(ref hasSavedRecipe, "hasSavedRecipe", false, false);
+            Scribe_Defs.Look<ThingDef>(ref copiedThingDef, "copiedThingDef");
+            Scribe_Defs.Look<ThingDef>(ref copiedStuffDef, "copiedStuffDef");
             bool flag = Scribe.mode == LoadSaveMode.PostLoadInit;
-            if (flag && this.hasSavedRecipe)
+            if (flag && hasSavedRecipe)
             {
                 RestoreForgeRecipeAfterLoad();
             }
@@ -50,9 +50,9 @@ namespace TorannMagic
             if (ResearchProjectDef.Named("TM_ForgeReplication").IsFinished)
             {
                 bool canScan = true;
-                for(int i =0; i < this.BillStack.Count; i++)
+                for(int i =0; i < BillStack.Count; i++)
                 {
-                    if(this.BillStack[i].recipe.defName == "ArcaneForge_Replication")
+                    if(BillStack[i].recipe.defName == "ArcaneForge_Replication")
                     {
                         canScan = false;
                     }
@@ -78,14 +78,14 @@ namespace TorannMagic
                     };
                     item.action = delegate (LocalTargetInfo thing)
                     {
-                        this.infoTarget = thing;
+                        infoTarget = thing;
                         IntVec3 localCell = thing.Cell;
-                        this.targetThing = thing.Cell.GetFirstItem(this.Map);
-                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Scan, localCell.ToVector3ShiftedWithAltitude(AltitudeLayer.Weather), this.Map, 1.2f, .8f, 0f, .5f, -400, 0, 0, Rand.Range(0, 360));
-                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Scan, localCell.ToVector3ShiftedWithAltitude(AltitudeLayer.Weather), this.Map, 1.2f, .8f, 0f, .5f, 400, 0, 0, Rand.Range(0, 360));
-                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Scan, this.DrawPos, this.Map, 1.2f, .8f, 0f, .5f, 400, 0, 0, Rand.Range(0, 360));
-                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Scan, this.DrawPos, this.Map, 1.2f, .8f, 0f, .5f, -400, 0, 0, Rand.Range(0, 360));
-                        SoundInfo info = SoundInfo.InMap(new TargetInfo(thing.Cell, this.Map, false), MaintenanceType.None);
+                        targetThing = thing.Cell.GetFirstItem(Map);
+                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Scan, localCell.ToVector3ShiftedWithAltitude(AltitudeLayer.Weather), Map, 1.2f, .8f, 0f, .5f, -400, 0, 0, Rand.Range(0, 360));
+                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Scan, localCell.ToVector3ShiftedWithAltitude(AltitudeLayer.Weather), Map, 1.2f, .8f, 0f, .5f, 400, 0, 0, Rand.Range(0, 360));
+                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Scan, DrawPos, Map, 1.2f, .8f, 0f, .5f, 400, 0, 0, Rand.Range(0, 360));
+                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Scan, DrawPos, Map, 1.2f, .8f, 0f, .5f, -400, 0, 0, Rand.Range(0, 360));
+                        SoundInfo info = SoundInfo.InMap(new TargetInfo(thing.Cell, Map, false), MaintenanceType.None);
                         info.pitchFactor = 1.3f;
                         info.volumeFactor = 1.3f;
                         SoundDefOf.TurretAcquireTarget.PlayOneShot(info);
@@ -126,23 +126,23 @@ namespace TorannMagic
 
         private void ClearReplication()
         {
-            for (int i = 0; i < this.BillStack.Count; i++)
+            for (int i = 0; i < BillStack.Count; i++)
             {
-                if (this.BillStack[i].recipe.defName == "ArcaneForge_Replication")
+                if (BillStack[i].recipe.defName == "ArcaneForge_Replication")
                 {
-                    List<Pawn> mapPawns = this.Map.mapPawns.AllPawnsSpawned.ToList();
+                    List<Pawn> mapPawns = Map.mapPawns.AllPawnsSpawned.ToList();
                     for(int j =0; j < mapPawns.Count; j++)
                     {
                         if(mapPawns[j].IsColonist && mapPawns[j].RaceProps.Humanlike && mapPawns[j].CurJob != null && mapPawns[j].CurJob.bill != null)
                         {
-                            if (mapPawns[j].CurJob.bill.recipe.defName == this.BillStack[i].recipe.defName)
+                            if (mapPawns[j].CurJob.bill.recipe.defName == BillStack[i].recipe.defName)
                             {
                                 mapPawns[j].jobs.EndCurrentJob(Verse.AI.JobCondition.Incompletable, false);
                             }
                         }
                     }
                     
-                    this.BillStack.Bills.Remove(this.BillStack[i]);
+                    BillStack.Bills.Remove(BillStack[i]);
                 }
             }
             
@@ -156,7 +156,7 @@ namespace TorannMagic
             if (repThingDef == null)
             {
                 CheckForUnfinishedThing();
-                replicatedThingDef = this.targetThing.def;
+                replicatedThingDef = targetThing.def;
                 replicatedStuffDef = targetThing.Stuff;
             }
             else
@@ -228,9 +228,9 @@ namespace TorannMagic
                 forgeRecipe.label = "Replicate " + replicant.label;
                 forgeRecipe.unfinishedThingDef = replicant.unfinishedThingDef;
                 forgeRecipe.products = replicant.products;
-                this.copiedThingDef = replicatedThingDef;
-                this.copiedStuffDef = replicatedStuffDef;
-                this.hasSavedRecipe = true;                
+                copiedThingDef = replicatedThingDef;
+                copiedStuffDef = replicatedStuffDef;
+                hasSavedRecipe = true;                
 
                 EndReplicate:;
 
@@ -255,19 +255,19 @@ namespace TorannMagic
                         forgeRecipe.unfinishedThingDef = replicant.unfinishedThingDef;
                         forgeRecipe.products = replicant.products;
                     }
-                    this.hasSavedRecipe = false;
+                    hasSavedRecipe = false;
                 }
             }
             else
             {
-                Messages.Message("TM_FoundNoReplicateRecipe".Translate(this.targetThing.def.defName), MessageTypeDefOf.CautionInput);
+                Messages.Message("TM_FoundNoReplicateRecipe".Translate(targetThing.def.defName), MessageTypeDefOf.CautionInput);
             }
       
         }
 
         private void CheckForUnfinishedThing()
         {
-            Thing unfinishedThing = this.Position.GetFirstItem(this.Map);
+            Thing unfinishedThing = Position.GetFirstItem(Map);
             if(unfinishedThing != null && unfinishedThing.def.isUnfinishedThing)
             {
                 unfinishedThing.Destroy(DestroyMode.Cancel);
@@ -340,9 +340,9 @@ namespace TorannMagic
         private void RestoreForgeRecipeAfterLoad()
         {
             RecipeDef forgeRecipe = TorannMagicDefOf.ArcaneForge_Replication;            
-            if(this.hasSavedRecipe)
+            if(hasSavedRecipe)
             {
-                Replicate(this.copiedThingDef, this.copiedStuffDef);
+                Replicate(copiedThingDef, copiedStuffDef);
             }
             else
             {

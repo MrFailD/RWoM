@@ -20,10 +20,10 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -42,12 +42,12 @@ namespace TorannMagic
         {
             // power affects enumerator
             //DamageWorker.DamageResult result = DamageWorker.DamageResult.MakeNew();
-            Pawn caster = this.CasterPawn;
+            Pawn caster = CasterPawn;
             CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
             //pwrVal = caster.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Heal.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Heal_pwr").level;
             //verVal = caster.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Heal.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Heal_ver").level;
-            pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef);
-            verVal = TM_Calc.GetSkillVersatilityLevel(caster, this.Ability.Def as TMAbilityDef);
+            pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef);
+            verVal = TM_Calc.GetSkillVersatilityLevel(caster, Ability.Def as TMAbilityDef);
             if(caster.story.traits.HasTrait(TorannMagicDefOf.Priest))
             {
                 pwrVal = caster.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_AdvancedHeal.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_AdvancedHeal_pwr").level;
@@ -94,7 +94,7 @@ namespace TorannMagic
             {
                 for(int i = 0; i < 2+verVal; i++)
                 {
-                    TM_Action.DamageUndead(pawn, (5f + (3f * pwrVal)) * comp.arcaneDmg, this.CasterPawn);
+                    TM_Action.DamageUndead(pawn, (5f + (3f * pwrVal)) * comp.arcaneDmg, CasterPawn);
                 }
             }
             return true;

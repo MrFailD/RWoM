@@ -33,9 +33,9 @@ namespace TorannMagic
 
         public override void ExposeData()
         {
-            Scribe_Values.Look<bool>(ref this.defensive, "defensive", false, false);
-            Scribe_Values.Look<bool>(ref this.buffCool, "buffCool", false, false);
-            Scribe_Values.Look<bool>(ref this.buffFresh, "buffFresh", false, false);
+            Scribe_Values.Look<bool>(ref defensive, "defensive", false, false);
+            Scribe_Values.Look<bool>(ref buffCool, "buffCool", false, false);
+            Scribe_Values.Look<bool>(ref buffFresh, "buffFresh", false, false);
             base.ExposeData();
         }
 
@@ -44,37 +44,37 @@ namespace TorannMagic
             if(!initialized)
             {
                 initialized = true;
-                this.nextSearch = Find.TickManager.TicksGame + Rand.Range(400, 500);
+                nextSearch = Find.TickManager.TicksGame + Rand.Range(400, 500);
             }
             if(Find.TickManager.TicksGame % 8 == 0)
             {
-                this.matRng++;
-                if(this.matRng >= 3)
+                matRng++;
+                if(matRng >= 3)
                 {
                     matRng = 0;
                 }
             }
-            if (Find.TickManager.TicksGame >= this.nextSearch)
+            if (Find.TickManager.TicksGame >= nextSearch)
             {
-                this.nextSearch = Find.TickManager.TicksGame + Rand.Range(400, 500);
+                nextSearch = Find.TickManager.TicksGame + Rand.Range(400, 500);
                 if (defensive)
                 {
-                    List<Pawn> ePawns = TM_Calc.FindAllPawnsAround(this.Map, this.Position, 10, this.factionInt, false);
+                    List<Pawn> ePawns = TM_Calc.FindAllPawnsAround(Map, Position, 10, factionInt, false);
                     if (ePawns != null && ePawns.Count > 0)
                     {
                         for (int i = 0; i < ePawns.Count; i++)
                         {
-                            if (ePawns[i].Faction.HostileTo(this.Faction))
+                            if (ePawns[i].Faction.HostileTo(Faction))
                             {
                                 HealthUtility.AdjustSeverity(ePawns[i], TorannMagicDefOf.TM_FrostSlowHD, .4f);
-                                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Ice, ePawns[i].DrawPos, this.Map, 1f, .3f, .1f, .8f, Rand.Range(-100, 100), .4f, Rand.Range(0, 35), Rand.Range(0, 360));
+                                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Ice, ePawns[i].DrawPos, Map, 1f, .3f, .1f, .8f, Rand.Range(-100, 100), .4f, Rand.Range(0, 35), Rand.Range(0, 360));
                             }
                         }
                     }
                 }
                 if(buffCool)
                 {
-                    List<Pawn> pList = TM_Calc.FindAllPawnsAround(this.Map, this.Position, 7, this.Faction, true);
+                    List<Pawn> pList = TM_Calc.FindAllPawnsAround(Map, Position, 7, Faction, true);
                     if(pList != null && pList.Count > 0)
                     {
                         for(int i =0; i < pList.Count; i++)
@@ -89,7 +89,7 @@ namespace TorannMagic
                 }
                 if(buffFresh)
                 {
-                    List<Pawn> pList = TM_Calc.FindAllPawnsAround(this.Map, this.Position, 7, this.Faction, true);
+                    List<Pawn> pList = TM_Calc.FindAllPawnsAround(Map, Position, 7, Faction, true);
                     if (pList != null && pList.Count > 0)
                     {
                         for (int i = 0; i < pList.Count; i++)
@@ -119,15 +119,15 @@ namespace TorannMagic
             matrix.SetTRS(vector, Quaternion.AngleAxis(angle, Vector3.up), s);
             if (matRng == 0)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMCooler.coolerMat_1, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, coolerMat_1, 0);
             }
             else if (matRng == 1)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMCooler.coolerMat_2, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, coolerMat_2, 0);
             }
             else 
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMCooler.coolerMat_3, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, coolerMat_3, 0);
             }            
         }
     }

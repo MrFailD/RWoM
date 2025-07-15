@@ -58,8 +58,8 @@ namespace TorannMagic.Golems
 
         public ITab_GolemWorkstation()
         {
-            this.size = ITab_GolemWorkstation.WinSize;
-            this.labelKey = "TabGolem";
+            size = WinSize;
+            labelKey = "TabGolem";
         }
 
         protected override void FillTab()
@@ -77,8 +77,8 @@ namespace TorannMagic.Golems
                 }
                 int num = 2;
                 float scrollHeight = ActiveUpgradeCount > 3 ? 470 + ActiveUpgradeCount * 20 : 550;
-                Rect canvas = new Rect(17f, 17f, ITab_GolemWorkstation.WinSize.x, ITab_GolemWorkstation.WinSize.y);
-                Rect rect = new Rect(canvas.x, canvas.y, ITab_GolemWorkstation.WinSize.x -34f, ITab_GolemWorkstation.WinSize.y - 34f);
+                Rect canvas = new Rect(17f, 17f, WinSize.x, WinSize.y);
+                Rect rect = new Rect(canvas.x, canvas.y, WinSize.x -34f, WinSize.y - 34f);
                 Rect sRect = new Rect(rect.x, rect.y, rect.width-34, scrollHeight);
                 scrollPosition = GUI.BeginScrollView(rect, scrollPosition, sRect, false, true);
 

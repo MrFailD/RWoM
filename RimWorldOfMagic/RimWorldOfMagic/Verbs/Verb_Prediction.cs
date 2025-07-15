@@ -16,17 +16,17 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             Pawn caster = base.CasterPawn;
-            Pawn pawn = this.currentTarget.Thing as Pawn;
+            Pawn pawn = currentTarget.Thing as Pawn;
             MagicPower magicPower = caster.GetCompAbilityUserMagic().MagicData.MagicPowersC.FirstOrDefault<MagicPower>((MagicPower x) => x.abilityDef == TorannMagicDefOf.TM_Prediction);
             MagicPowerSkill pwr = base.CasterPawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Prediction.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Prediction_pwr");
             pwrVal = pwr.level;
             CompAbilityUserMagic comp = base.CasterPawn.GetCompAbilityUserMagic();
             
-            if (ModOptions.Settings.Instance.AIHardMode && !this.CasterPawn.IsColonist)
+            if (ModOptions.Settings.Instance.AIHardMode && !CasterPawn.IsColonist)
             {
                 pwrVal = 4;
             }
-            else if(!this.CasterPawn.IsColonist && this.CasterPawn.Faction != null && this.CasterPawn.Faction.HostileTo(Faction.OfPlayerSilentFail))
+            else if(!CasterPawn.IsColonist && CasterPawn.Faction != null && CasterPawn.Faction.HostileTo(Faction.OfPlayerSilentFail))
             {
                 pwrVal = 5;
             }

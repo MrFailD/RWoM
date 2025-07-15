@@ -20,7 +20,7 @@ namespace TorannMagic
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age > 0;
+            bool flag = age > 0;
             if (!flag)
             {
                 base.Destroy(mode);
@@ -30,29 +30,29 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age--;
+            age--;
         }
 
         public void Initialize()
         {
             radius = 3f + (.3f * (verVal+pwrVal));
             age = age - (60 * verVal);
-            this.initialized = true;
+            initialized = true;
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
 
-            if (!this.initialized)
+            if (!initialized)
             {
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
                 MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_CorpseExplosion.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_CorpseExplosion_pwr");
                 MagicPowerSkill ver = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_CorpseExplosion.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_CorpseExplosion_ver");
-                this.arcaneDmg = comp.arcaneDmg;
+                arcaneDmg = comp.arcaneDmg;
                 pwrVal = pwr.level;
                 verVal = ver.level;
                 if (pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
@@ -64,7 +64,7 @@ namespace TorannMagic
                 }
                 Initialize();
 
-                CellRect cellRect = CellRect.CenteredOn(base.Position, 1);
+                CellRect cellRect = CellRect.CenteredOn(Position, 1);
                 cellRect.ClipInsideMap(map);
                 IntVec3 curCell = cellRect.CenterCell;
                 if (curCell.InBoundsWithNullCheck(map) && curCell.IsValid)
@@ -75,7 +75,7 @@ namespace TorannMagic
                     {
                         if(TM_Calc.IsUndead(undead))
                         {
-                            this.targetPawn = undead;
+                            targetPawn = undead;
                         }
                         //if (undead.health.hediffSet.HasHediff(TorannMagicDefOf.TM_UndeadHD))
                         //{
@@ -100,7 +100,7 @@ namespace TorannMagic
                             {
                                 if (corpsePawn.RaceProps.Humanlike || corpsePawn.RaceProps.Animal || TM_Calc.IsUndead(corpsePawn))
                                 {
-                                    this.targetCorpse = corpse;
+                                    targetCorpse = corpse;
                                 }
                             }
                         }
@@ -108,99 +108,99 @@ namespace TorannMagic
                 }
             }     
             
-            if(this.targetPawn != null && !this.targetPawn.Destroyed)
+            if(targetPawn != null && !targetPawn.Destroyed)
             {
-                if (this.age == 360)
+                if (age == 360)
                 {
-                    MoteMaker.ThrowText(this.targetPawn.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "6", -.5f);
+                    MoteMaker.ThrowText(targetPawn.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "6", -.5f);
                 }
-                if (this.age == 300)
+                if (age == 300)
                 {
-                    MoteMaker.ThrowText(this.targetPawn.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "5", -.5f);
+                    MoteMaker.ThrowText(targetPawn.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "5", -.5f);
                 }
-                if (this.age == 240)
+                if (age == 240)
                 {
-                    MoteMaker.ThrowText(this.targetPawn.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "4", -.5f);
+                    MoteMaker.ThrowText(targetPawn.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "4", -.5f);
                 }
-                if (this.age == 180)
+                if (age == 180)
                 {
-                    MoteMaker.ThrowText(this.targetPawn.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "3", -.5f);
+                    MoteMaker.ThrowText(targetPawn.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "3", -.5f);
                 }
-                if (this.age == 120)
+                if (age == 120)
                 {
-                    MoteMaker.ThrowText(this.targetPawn.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "2", -.5f);
+                    MoteMaker.ThrowText(targetPawn.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "2", -.5f);
                 }
-                if (this.age == 60)
+                if (age == 60)
                 {
-                    MoteMaker.ThrowText(this.targetPawn.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "1", -.5f);
+                    MoteMaker.ThrowText(targetPawn.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "1", -.5f);
                 }
-                if(this.age == 1)
+                if(age == 1)
                 {
                     //explode
-                    TM_MoteMaker.ThrowBloodSquirt(this.targetPawn.Position.ToVector3Shifted(), map, 1.2f);
-                    TM_MoteMaker.ThrowBloodSquirt(this.targetPawn.Position.ToVector3Shifted(), map, .6f);
-                    TM_MoteMaker.ThrowBloodSquirt(this.targetPawn.Position.ToVector3Shifted(), map, .8f);
+                    TM_MoteMaker.ThrowBloodSquirt(targetPawn.Position.ToVector3Shifted(), map, 1.2f);
+                    TM_MoteMaker.ThrowBloodSquirt(targetPawn.Position.ToVector3Shifted(), map, .6f);
+                    TM_MoteMaker.ThrowBloodSquirt(targetPawn.Position.ToVector3Shifted(), map, .8f);
                     if (targetPawn.def != TorannMagicDefOf.TM_SkeletonLichR && targetPawn.def != TorannMagicDefOf.TM_GiantSkeletonR)
                     {
-                        if (this.targetPawn.RaceProps.Humanlike)
+                        if (targetPawn.RaceProps.Humanlike)
                         {
-                            this.targetPawn.inventory.DropAllNearPawn(this.targetPawn.Position, false, true);
-                            this.targetPawn.equipment.DropAllEquipment(this.targetPawn.Position, false);
-                            this.targetPawn.apparel.DropAll(this.targetPawn.Position, false);
+                            targetPawn.inventory.DropAllNearPawn(targetPawn.Position, false, true);
+                            targetPawn.equipment.DropAllEquipment(targetPawn.Position, false);
+                            targetPawn.apparel.DropAll(targetPawn.Position, false);
                         }
-                        if (!this.targetPawn.Destroyed)
+                        if (!targetPawn.Destroyed)
                         {
-                            this.targetPawn.Destroy();
+                            targetPawn.Destroy();
                         }
                     }
-                    ExplosionHelper.Explode(this.targetPawn.Position, map, this.radius, TMDamageDefOf.DamageDefOf.TM_CorpseExplosion, this.launcher, Mathf.RoundToInt((Rand.Range(22f, 36f) + (5f * pwrVal)) * this.arcaneDmg), 0, this.def.projectile.soundExplode, def, this.equipmentDef, null, null, 0f, 01, null, false, null, 0f, 0, 0.0f, true);
+                    ExplosionHelper.Explode(targetPawn.Position, map, radius, TMDamageDefOf.DamageDefOf.TM_CorpseExplosion, launcher, Mathf.RoundToInt((Rand.Range(22f, 36f) + (5f * pwrVal)) * arcaneDmg), 0, this.def.projectile.soundExplode, def, equipmentDef, null, null, 0f, 01, null, false, null, 0f, 0, 0.0f, true);
 
                 }
             }
 
-            if (this.targetCorpse != null && !this.targetCorpse.Destroyed)
+            if (targetCorpse != null && !targetCorpse.Destroyed)
             {
-                if (this.age == 360)
+                if (age == 360)
                 {
-                    MoteMaker.ThrowText(this.targetCorpse.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "6", -.5f);
+                    MoteMaker.ThrowText(targetCorpse.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "6", -.5f);
                 }
-                if (this.age == 300)
+                if (age == 300)
                 {
-                    MoteMaker.ThrowText(this.targetCorpse.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "5", -.5f);
+                    MoteMaker.ThrowText(targetCorpse.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "5", -.5f);
                 }
-                if (this.age == 240)
+                if (age == 240)
                 {
-                    MoteMaker.ThrowText(this.targetCorpse.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "4", -.5f);
+                    MoteMaker.ThrowText(targetCorpse.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "4", -.5f);
                 }
-                if (this.age == 180)
+                if (age == 180)
                 {
-                    MoteMaker.ThrowText(this.targetCorpse.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "3", -.5f);
+                    MoteMaker.ThrowText(targetCorpse.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "3", -.5f);
                 }
-                if (this.age == 120)
+                if (age == 120)
                 {
-                    MoteMaker.ThrowText(this.targetCorpse.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "2", -.5f);
+                    MoteMaker.ThrowText(targetCorpse.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "2", -.5f);
                 }
-                if (this.age == 60)
+                if (age == 60)
                 {
-                    MoteMaker.ThrowText(this.targetCorpse.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "1", -.5f);
+                    MoteMaker.ThrowText(targetCorpse.Position.ToVector3ShiftedWithAltitude(AltitudeLayer.MoteOverhead), map, "1", -.5f);
                 }
-                if (this.age == 1)
+                if (age == 1)
                 {
                     //explode
-                    TM_MoteMaker.ThrowBloodSquirt(this.targetCorpse.Position.ToVector3Shifted(), map, 1.2f);
-                    TM_MoteMaker.ThrowBloodSquirt(this.targetCorpse.Position.ToVector3Shifted(), map, .6f);
-                    TM_MoteMaker.ThrowBloodSquirt(this.targetCorpse.Position.ToVector3Shifted(), map, .8f);
-                    Pawn corpsePawn = this.targetCorpse.InnerPawn;
+                    TM_MoteMaker.ThrowBloodSquirt(targetCorpse.Position.ToVector3Shifted(), map, 1.2f);
+                    TM_MoteMaker.ThrowBloodSquirt(targetCorpse.Position.ToVector3Shifted(), map, .6f);
+                    TM_MoteMaker.ThrowBloodSquirt(targetCorpse.Position.ToVector3Shifted(), map, .8f);
+                    Pawn corpsePawn = targetCorpse.InnerPawn;
                     if (corpsePawn.RaceProps.Humanlike)
                     {
-                        corpsePawn.inventory.DropAllNearPawn(this.targetCorpse.Position, false, true);
-                        corpsePawn.equipment.DropAllEquipment(this.targetCorpse.Position, false);
-                        corpsePawn.apparel.DropAll(this.targetCorpse.Position, false);
+                        corpsePawn.inventory.DropAllNearPawn(targetCorpse.Position, false, true);
+                        corpsePawn.equipment.DropAllEquipment(targetCorpse.Position, false);
+                        corpsePawn.apparel.DropAll(targetCorpse.Position, false);
                     }
-                    ExplosionHelper.Explode(this.targetCorpse.Position, map, this.radius, TMDamageDefOf.DamageDefOf.TM_CorpseExplosion, this.launcher, Mathf.RoundToInt((Rand.Range(18f, 30f) + (5f * pwrVal))*this.arcaneDmg), 0, this.def.projectile.soundExplode, def, this.equipmentDef, null, null, 0f, 01, null, false, null, 0f, 0, 0.0f, true);
-                    if (!this.targetCorpse.Destroyed)
+                    ExplosionHelper.Explode(targetCorpse.Position, map, radius, TMDamageDefOf.DamageDefOf.TM_CorpseExplosion, launcher, Mathf.RoundToInt((Rand.Range(18f, 30f) + (5f * pwrVal))*arcaneDmg), 0, this.def.projectile.soundExplode, def, equipmentDef, null, null, 0f, 01, null, false, null, 0f, 0, 0.0f, true);
+                    if (!targetCorpse.Destroyed)
                     {
-                        this.targetCorpse.Destroy();
+                        targetCorpse.Destroy();
                     }
                 }
             }
@@ -210,11 +210,11 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", true, false);
-            Scribe_Values.Look<int>(ref this.age, "age", 360, false);
-            Scribe_Values.Look<float>(ref this.radius, "radius", 2.4f, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", true, false);
+            Scribe_Values.Look<int>(ref age, "age", 360, false);
+            Scribe_Values.Look<float>(ref radius, "radius", 2.4f, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
         }
 
     }    

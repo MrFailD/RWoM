@@ -17,14 +17,14 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look<int>(ref this.maxSev, "maxSev", 4, false);
+            Scribe_Values.Look<int>(ref maxSev, "maxSev", 4, false);
         }
 
         public string labelCap
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -32,16 +32,16 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
-                this.maxSev = Mathf.RoundToInt(this.parent.Severity);
+                maxSev = Mathf.RoundToInt(parent.Severity);
                 //FleckMaker.ThrowHeatGlow(base.Pawn.DrawPos.ToIntVec3(), base.Pawn.Map, 2f);
             }            
         }
@@ -49,27 +49,27 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);            
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
             }
 
-            if (Find.Selector.FirstSelectedObject == this.Pawn)
+            if (Find.Selector.FirstSelectedObject == Pawn)
             {
-                HediffStage hediffStage = this.Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("TM_StoneskinHD"), false).CurStage;
-                hediffStage.label = this.parent.Severity.ToString("0") + " charges";               
+                HediffStage hediffStage = Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("TM_StoneskinHD"), false).CurStage;
+                hediffStage.label = parent.Severity.ToString("0") + " charges";               
             }
             
             if(Find.TickManager.TicksGame % 1800 == 0)
             {
-                if(this.parent.Severity < this.maxSev)
+                if(parent.Severity < maxSev)
                 {
-                    this.parent.Severity++;
+                    parent.Severity++;
                 }
             }
         }
@@ -78,16 +78,16 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.parent.Severity < 1;
+                return base.CompShouldRemove || parent.Severity < 1;
             }
         }
 
         public override void CompPostPostRemoved()
         {
-            SoundInfo info = SoundInfo.InMap(new TargetInfo(this.Pawn.Position, this.Pawn.Map, false), MaintenanceType.None);
+            SoundInfo info = SoundInfo.InMap(new TargetInfo(Pawn.Position, Pawn.Map, false), MaintenanceType.None);
             info.pitchFactor = .7f;
             TorannMagicDefOf.EnergyShield_Broken.PlayOneShot(info);
-            FleckMaker.ThrowLightningGlow(this.Pawn.DrawPos, this.Pawn.Map, 1.5f);
+            FleckMaker.ThrowLightningGlow(Pawn.DrawPos, Pawn.Map, 1.5f);
             base.CompPostPostRemoved();
         }
     }

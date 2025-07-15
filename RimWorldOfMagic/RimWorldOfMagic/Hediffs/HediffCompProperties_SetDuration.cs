@@ -15,7 +15,7 @@ namespace TorannMagic
 
         public HediffCompProperties_SetDuration()
         {
-            base.compClass = typeof(HediffComp_SetDuration);
+            compClass = typeof(HediffComp_SetDuration);
         }
     }
 }

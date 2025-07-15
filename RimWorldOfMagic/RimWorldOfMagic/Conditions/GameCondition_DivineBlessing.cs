@@ -20,10 +20,10 @@ namespace TorannMagic.Conditions
         public override void Init()
         {
             base.Init();
-            if(this.SingleMap != null)
+            if(SingleMap != null)
             {
                 
-                List<Thing> allThings = (from x in this.SingleMap.listerThings.AllThings
+                List<Thing> allThings = (from x in SingleMap.listerThings.AllThings
                                                 where true
                                                 select x).ToList<Thing>();
 
@@ -45,17 +45,17 @@ namespace TorannMagic.Conditions
                 
                 if(Rand.Chance(.15f))
                 {
-                    Corpse c = this.potentialResurrection.RandomElement();
+                    Corpse c = potentialResurrection.RandomElement();
                     LocalTargetInfo targ = c;
                     TM_CopyAndLaunchProjectile.CopyAndLaunchThing(ThingDef.Named("Projectile_Resurrection"), c, targ, targ, ProjectileHitFlags.All);
                 }
 
-                for(int i = 0; i < this.SingleMap.mapPawns.FreeColonistsSpawned.Count; i++)
+                for(int i = 0; i < SingleMap.mapPawns.FreeColonistsSpawned.Count; i++)
                 {
-                    Pawn p = this.SingleMap.mapPawns.FreeColonistsSpawned[i];
+                    Pawn p = SingleMap.mapPawns.FreeColonistsSpawned[i];
                     if(TM_Calc.IsPawnInjured(p, 0))
                     {
-                        this.injuredPawns.AddDistinct(p);
+                        injuredPawns.AddDistinct(p);
                     }
                     List<Hediff> healthConditions = null;
                     healthConditions = TM_Calc.GetPawnAfflictions(p);

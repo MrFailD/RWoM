@@ -43,7 +43,7 @@ namespace TorannMagic.Golems
 
         public void InitializeGlower(ColorInt glowColor, float glowRadius)
         {
-            this.glower = new CompGlower();          
+            glower = new CompGlower();          
             glowerProps.glowColor = glowColor;
             glowerProps.glowRadius = glowRadius;
             glower.parent = this;
@@ -52,7 +52,7 @@ namespace TorannMagic.Golems
 
         public void ToggleGlowing()
         {
-            if (this.Map != null && glower != null)
+            if (Map != null && glower != null)
             {
                 if (!glowingInt)
                 {
@@ -67,29 +67,29 @@ namespace TorannMagic.Golems
 
         public void GlowOff()
         {
-            this.Map.mapDrawer.MapMeshDirty(this.Position, MapMeshFlagDefOf.Things);
-            this.Map.glowGrid.DeRegisterGlower(glower);
+            Map.mapDrawer.MapMeshDirty(Position, MapMeshFlagDefOf.Things);
+            Map.glowGrid.DeRegisterGlower(glower);
         }
 
         public void GlowOn()
         {
-            this.Map.mapDrawer.MapMeshDirty(this.Position, MapMeshFlagDefOf.Things);
-            this.Map.glowGrid.RegisterGlower(glower);
+            Map.mapDrawer.MapMeshDirty(Position, MapMeshFlagDefOf.Things);
+            Map.glowGrid.RegisterGlower(glower);
         }
         
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false);
-            Scribe_Values.Look<bool>(ref this.holdFire, "holdFire", false);
-            Scribe_Values.Look<bool>(ref this.activating, "activating");
-            Scribe_Values.Look<int>(ref this.activationAge, "activationAge", 0);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false);
+            Scribe_Values.Look<bool>(ref holdFire, "holdFire", false);
+            Scribe_Values.Look<bool>(ref activating, "activating");
+            Scribe_Values.Look<int>(ref activationAge, "activationAge", 0);
             Scribe_Deep.Look(ref innerContainer, "innerContainer", this);
-            Scribe_Values.Look<bool>(ref this.glowingInt, "glowingInt", false);
-            Scribe_Values.Look<float>(ref this.tempGoal, "tempGoal", 21f);
-            Scribe_Values.Look<int>(ref this.abilityCharges, "abilityCharges", 0);
-            Scribe_Collections.Look<TM_GolemItemRecipeDef>(ref this.creationRecipes, "creationRecipes", LookMode.Def);
+            Scribe_Values.Look<bool>(ref glowingInt, "glowingInt", false);
+            Scribe_Values.Look<float>(ref tempGoal, "tempGoal", 21f);
+            Scribe_Values.Look<int>(ref abilityCharges, "abilityCharges", 0);
+            Scribe_Collections.Look<TM_GolemItemRecipeDef>(ref creationRecipes, "creationRecipes", LookMode.Def);
         }
 
         Thing IAttackTarget.Thing
@@ -237,27 +237,27 @@ namespace TorannMagic.Golems
         public bool CanActivate(out String reason)
         {
             reason = "";
-            if(!this.Spawned || this.Map == null || this.Position == IntVec3.Invalid || this.GolemComp == null)
+            if(!Spawned || Map == null || Position == IntVec3.Invalid || GolemComp == null)
             {
                 reason = "invalid conditions";
                 return false;
             }
-            List<Thing> tmpList = this.Position.GetThingList(this.Map);
+            List<Thing> tmpList = Position.GetThingList(Map);
             if(tmpList != null && tmpList.Count > 0)
             {
                 int num = tmpList.Count;
                 for(int i =0; i < num; i++)
                 {
-                    if(tmpList[i] is TorannMagic.Golems.UnfinishedNoProductThing)
+                    if(tmpList[i] is UnfinishedNoProductThing)
                     {
                         reason = "under construction";
                         return false;
                     }
                 }
             }
-            if(GolemComp.remainDormantWhenUpgrading && this.BillStack != null && this.BillStack.Bills != null && this.BillStack.Bills.Count > 0)
+            if(GolemComp.remainDormantWhenUpgrading && BillStack != null && BillStack.Bills != null && BillStack.Bills.Count > 0)
             {
-                foreach(Bill b in this.BillStack)
+                foreach(Bill b in BillStack)
                 {
                     if (b.ShouldDoNow())
                     {
@@ -354,7 +354,7 @@ namespace TorannMagic.Golems
                                     {
                                         Thing t = ThingMaker.MakeThing(ing.def, null);
                                         t.stackCount = ing.stackCount;
-                                        GenPlace.TryPlaceThing(t, this.InteractionCell, this.Map, ThingPlaceMode.Near);
+                                        GenPlace.TryPlaceThing(t, InteractionCell, Map, ThingPlaceMode.Near);
                                     }
                                 }
                             }
@@ -374,8 +374,8 @@ namespace TorannMagic.Golems
                                     TM_GolemItemRecipeDef gird = effect.recipes.FirstOrDefault((TM_GolemItemRecipeDef g) => g.inputThing != null && g.inputThing == t.def);
                                     if (gird != null)
                                     {
-                                        this.abilityCharges += gird.inputCharges;
-                                        this.creationRecipes.Add(gird);
+                                        abilityCharges += gird.inputCharges;
+                                        creationRecipes.Add(gird);
                                         break;
                                     }
                                 }
@@ -387,7 +387,7 @@ namespace TorannMagic.Golems
                                 {
                                     Thing t = ThingMaker.MakeThing(ing.def, null);
                                     t.stackCount = ing.stackCount;
-                                    GenPlace.TryPlaceThing(t, this.InteractionCell, this.Map, ThingPlaceMode.Near);
+                                    GenPlace.TryPlaceThing(t, InteractionCell, Map, ThingPlaceMode.Near);
                                 }
                             }
                         }
@@ -416,7 +416,7 @@ namespace TorannMagic.Golems
 		protected override void Tick()
 		{
 			base.Tick();
-            if(!initialized && this.Map != null)
+            if(!initialized && Map != null)
             {
                 Initialize();
                 initialized = true;
@@ -450,17 +450,17 @@ namespace TorannMagic.Golems
                     }
                 }
                 pauseFor--;
-                if (this.GetComp<CompFlickable>().SwitchIsOn && pauseFor <=0)
+                if (GetComp<CompFlickable>().SwitchIsOn && pauseFor <=0)
                 {                    
                     if (activating)
                     {
                         if (Find.TickManager.TicksGame % Mathf.RoundToInt(GolemDef.activationTicks * .05f) == 0)
                         {
                             String failString = "";
-                            Vector3 rndPos = this.DrawPos;
+                            Vector3 rndPos = DrawPos;
                             rndPos.x += Rand.Range(-.6f, .6f);
                             rndPos.z += Rand.Range(-.6f, .6f);
-                            FleckMaker.ThrowSmoke(rndPos, this.Map, Rand.Range(.6f, 1.1f));
+                            FleckMaker.ThrowSmoke(rndPos, Map, Rand.Range(.6f, 1.1f));
                             if (!CanActivate(out failString))
                             {
                                 activationAge = 0;
@@ -486,11 +486,11 @@ namespace TorannMagic.Golems
                     else
                     {
                         String failString = "";
-                        if (this.abilityCharges > 0 && this.creationRecipes.Count > 0)
+                        if (abilityCharges > 0 && creationRecipes.Count > 0)
                         {
                             DoGolemWorkingEffect();
                         }                        
-                        if (Find.TickManager.TicksGame > this.nextEvaluationTick)
+                        if (Find.TickManager.TicksGame > nextEvaluationTick)
                         {                            
                             nextEvaluationTick = Mathf.RoundToInt(Find.TickManager.TicksGame + (Rand.Range(.8f, 1.2f) * GolemDef.processorEvaluationTicks * GolemComp.ProcessingModifier));
                             if (!GolemComp.TargetIsValid(this, threatTarget))
@@ -533,25 +533,25 @@ namespace TorannMagic.Golems
                                             }
                                         }
                                     }
-                                    else if(this.abilityCharges > 0 && gu.golemUpgradeDef.maxLevel == 0 && this.creationRecipes != null && this.creationRecipes.Count > 0)
+                                    else if(abilityCharges > 0 && gu.golemUpgradeDef.maxLevel == 0 && creationRecipes != null && creationRecipes.Count > 0)
                                     {
                                         foreach(GolemWorkstationEffect gwe in gu.golemUpgradeDef.workstationEffects)
                                         {
-                                            if(gwe.chargesRequired > 0 && gwe.chargesRequired <= this.abilityCharges && Find.TickManager.TicksGame > this.nextEffectTick)
+                                            if(gwe.chargesRequired > 0 && gwe.chargesRequired <= abilityCharges && Find.TickManager.TicksGame > nextEffectTick)
                                             {
-                                                this.nextEffectTick = Find.TickManager.TicksGame + gwe.effectFrequency;
-                                                this.abilityCharges -= gwe.chargesRequired;                                                
+                                                nextEffectTick = Find.TickManager.TicksGame + gwe.effectFrequency;
+                                                abilityCharges -= gwe.chargesRequired;                                                
                                                 gwe.ContinueEffect(this);
                                             }
                                         }
                                     }
                                 }
                             }
-                            if (this.Energy.StoredEnergyPct >= GolemComp.energyPctShouldAwaken && GolemComp.energyPctShouldAwaken > .1f && CanActivate(out failString))
+                            if (Energy.StoredEnergyPct >= GolemComp.energyPctShouldAwaken && GolemComp.energyPctShouldAwaken > .1f && CanActivate(out failString))
                             {
-                                this.activating = true;
+                                activating = true;
                             }
-                            if (ThreatTarget != null && CanActivate(out failString) && GolemComp.threatRange > 0 && (ThreatTarget.Position - this.Position).LengthHorizontal <= GolemComp.threatRange)
+                            if (ThreatTarget != null && CanActivate(out failString) && GolemComp.threatRange > 0 && (ThreatTarget.Position - Position).LengthHorizontal <= GolemComp.threatRange)
                             {
                                 activating = true;
                             }
@@ -592,7 +592,7 @@ namespace TorannMagic.Golems
 
         public virtual TMPawnSummoned SpawnGolem()
         {
-            if (this.glower != null)
+            if (glower != null)
             {
                 GlowOff();
             }
@@ -645,12 +645,12 @@ namespace TorannMagic.Golems
             if (innerContainer != null && innerContainer.Any) // && lsDef == null)
             {
                 Pawn p = innerContainer.FirstOrDefault() as Pawn;
-                GenPlace.TryPlaceThing(p.SplitOff(1), this.Position, this.Map, ThingPlaceMode.Near, null, null, this.Rotation);
+                GenPlace.TryPlaceThing(p.SplitOff(1), Position, Map, ThingPlaceMode.Near, null, null, Rotation);
                 spawnedThing = p as TMPawnSummoned;                
             }
             else
             {
-                AbilityUser.SpawnThings spawnables = new SpawnThings();
+                SpawnThings spawnables = new SpawnThings();
                 spawnables.def = GetGolemThingDef;
                 spawnables.kindDef = GetGolemKindDef;
                 //if (lsDef != null)
@@ -662,7 +662,7 @@ namespace TorannMagic.Golems
                 bool flag = spawnables.def != null;
                 if (flag)
                 {                    
-                    spawnedThing = TM_Action.SingleSpawnLoop(null, spawnables, this.Position, this.Map, 0, false, false, this.Faction) as TMPawnSummoned;
+                    spawnedThing = TM_Action.SingleSpawnLoop(null, spawnables, Position, Map, 0, false, false, Faction) as TMPawnSummoned;
                     spawnedThing.validSummoning = true;
                     spawnedThing.ageTracker.AgeBiologicalTicks = 0;                    
                     Projectile_RaiseUndead.RemoveHediffsAddictionsAndPermanentInjuries(spawnedThing);
@@ -676,12 +676,12 @@ namespace TorannMagic.Golems
                     cg.dormantThing = this;
                     if (cg.dormantPosition == IntVec3.Zero)
                     {
-                        cg.dormantPosition = this.Position;
+                        cg.dormantPosition = Position;
                     }
-                    cg.dormantRotation = this.Rotation;
+                    cg.dormantRotation = Rotation;
                     if (cg.dormantMap == null)
                     {
-                        cg.dormantMap = this.Map;
+                        cg.dormantMap = Map;
                     }
                     if (!cg.GolemName.ToString().Contains("Blank"))
                     {
@@ -735,21 +735,21 @@ namespace TorannMagic.Golems
                             {
                                 gu.PopulateAnimationMaterial();
                             }
-                            Vector3 vector = this.DrawPos;
-                            vector.y = this.DrawPos.y;
-                            if (this.Rotation == Rot4.North)
+                            Vector3 vector = DrawPos;
+                            vector.y = DrawPos.y;
+                            if (Rotation == Rot4.North)
                             {
                                 vector.y += gu.golemUpgradeDef.drawOffsetNorth.y;
                                 vector.x += gu.golemUpgradeDef.drawOffsetNorth.x;
                                 vector.z += gu.golemUpgradeDef.drawOffsetNorth.z;
                             }
-                            else if (this.Rotation == Rot4.East)
+                            else if (Rotation == Rot4.East)
                             {
                                 vector.y += gu.golemUpgradeDef.drawOffsetEast.y;
                                 vector.x += gu.golemUpgradeDef.drawOffsetEast.x;
                                 vector.z += gu.golemUpgradeDef.drawOffsetEast.z;
                             }
-                            else if (this.Rotation == Rot4.West)
+                            else if (Rotation == Rot4.West)
                             {
                                 vector.y += gu.golemUpgradeDef.drawOffsetWest.y;
                                 vector.x += gu.golemUpgradeDef.drawOffsetWest.x;
@@ -780,7 +780,7 @@ namespace TorannMagic.Golems
 
                             Material mat = gu.animationMats[drawIteration];
 
-                            Vector3 s = new Vector3(gu.golemUpgradeDef.drawSize, this.DrawPos.y, gu.golemUpgradeDef.drawSize);
+                            Vector3 s = new Vector3(gu.golemUpgradeDef.drawSize, DrawPos.y, gu.golemUpgradeDef.drawSize);
                             Matrix4x4 matrix = default(Matrix4x4);
                             matrix.SetTRS(vector, Quaternion.identity, s);
                             Graphics.DrawMesh(MeshPool.plane10, matrix, mat, 0);
@@ -793,15 +793,15 @@ namespace TorannMagic.Golems
                                 {
                                     Material mat = gu.golemUpgradeDef.drawThing.DrawMatSingle;
                                     float rotation = lastDrawRotation;
-                                    if (this.threatTarget != null && this.threatTarget.Thing != null)
+                                    if (threatTarget != null && threatTarget.Thing != null)
                                     {
-                                        rotation = TM_Calc.GetVector(this.DrawPos, this.threatTarget.Thing.DrawPos).ToAngleFlat();
+                                        rotation = TM_Calc.GetVector(DrawPos, threatTarget.Thing.DrawPos).ToAngleFlat();
                                     }
-                                    Vector3 vector = this.DrawPos;
+                                    Vector3 vector = DrawPos;
                                     vector.y = Altitudes.AltitudeFor(AltitudeLayer.BuildingOnTop);
                                     vector += gwe.drawOffset;
 
-                                    Vector3 s = new Vector3(gu.golemUpgradeDef.drawSize, this.DrawPos.y, gu.golemUpgradeDef.drawSize);
+                                    Vector3 s = new Vector3(gu.golemUpgradeDef.drawSize, DrawPos.y, gu.golemUpgradeDef.drawSize);
                                     Matrix4x4 matrix = default(Matrix4x4);
                                     Quaternion q = Quaternion.AngleAxis(rotation, Vector3.up);
                                     matrix.SetTRS(vector, q, s);
@@ -820,7 +820,7 @@ namespace TorannMagic.Golems
             {
                 yield return gizmo;
             }
-            if (GolemDef != null && this.GetComp<CompFlickable>().SwitchIsOn)
+            if (GolemDef != null && GetComp<CompFlickable>().SwitchIsOn)
             {
                 String failString = "";
                 bool activationFlag = CanActivate(out failString);
@@ -844,9 +844,9 @@ namespace TorannMagic.Golems
                     }
                     else
                     {
-                        Vector3 pos = this.DrawPos;
+                        Vector3 pos = DrawPos;
                         pos.z += .2f;
-                        MoteMaker.ThrowText(pos, this.Map, "TM_GolemMinimumToActivate".Translate(Energy.StoredEnergyPct.ToString("P"), GolemDef.minimumEnergyPctToActivate.ToString("P1")), -1);                        
+                        MoteMaker.ThrowText(pos, Map, "TM_GolemMinimumToActivate".Translate(Energy.StoredEnergyPct.ToString("P"), GolemDef.minimumEnergyPctToActivate.ToString("P1")), -1);                        
                     }
                 };
                 command_Action.Disabled = (Energy.StoredEnergyPct < GolemDef.minimumEnergyPctToActivate) || pauseFor > 0 || !activationFlag;
@@ -867,7 +867,7 @@ namespace TorannMagic.Golems
                 TM_Command_Target command_Target = new TM_Command_Target();
                 command_Target.defaultLabel = "CommandSetForceAttackTarget".Translate();
                 command_Target.defaultDesc = "CommandSetForceAttackTargetDesc".Translate();
-                command_Target.targetingParams = this.targetingParameters;
+                command_Target.targetingParams = targetingParameters;
                 command_Target.hotKey = KeyBindingDefOf.Misc4;
                 command_Target.icon = TexCommand.Attack;
                 command_Target.action = delegate (LocalTargetInfo target)
@@ -971,7 +971,7 @@ namespace TorannMagic.Golems
 
         private void ThrowCurrentTemperatureText()
         {
-            MoteMaker.ThrowText(this.TrueCenter() + new Vector3(0.5f, 0f, 0.5f), this.Map, tempGoal.ToStringTemperature("F0"), Color.white);
+            MoteMaker.ThrowText(this.TrueCenter() + new Vector3(0.5f, 0f, 0.5f), Map, tempGoal.ToStringTemperature("F0"), Color.white);
         }
 
         public override string GetInspectString()
@@ -986,7 +986,7 @@ namespace TorannMagic.Golems
                 //string tempString = "\n" + "TargetTemperature".Translate() + ": " + "\n" + tempGoal.ToStringTemperature("F0");
                 //baseStr += tempString;
             }
-            if(this.abilityCharges > 0 && this.creationRecipes != null && this.creationRecipes.Count > 0)
+            if(abilityCharges > 0 && creationRecipes != null && creationRecipes.Count > 0)
             {
                 foreach(TM_GolemUpgrade gu in Upgrades)
                 {
@@ -996,14 +996,14 @@ namespace TorannMagic.Golems
                         {
                             if(gwe.chargesRequired > 0)
                             {
-                                sb.AppendLine(gu.golemUpgradeDef.label + " " + this.creationRecipes[0].outputThing.label);
+                                sb.AppendLine(gu.golemUpgradeDef.label + " " + creationRecipes[0].outputThing.label);
                                 //string tempString = "\n" + gu.golemUpgradeDef.label + " " + this.creationRecipes[0].outputThing.label;
                                 //baseStr += tempString;
                             }
                         }
                     }
                 }
-                sb.AppendLine("TM_GolemChargesRemaining".Translate(this.abilityCharges));
+                sb.AppendLine("TM_GolemChargesRemaining".Translate(abilityCharges));
                 //string chargeString = "\n" + "TM_GolemChargesRemaining".Translate(this.abilityCharges);
                 //baseStr += chargeString;
             }
@@ -1016,15 +1016,15 @@ namespace TorannMagic.Golems
 
         private void DetermineThreats()
         {
-            this.threatTarget = null;
+            threatTarget = null;
             try
             {
-                List<Pawn> allPawns = this.Map.mapPawns.AllPawnsSpawned.InRandomOrder().ToList();                
+                List<Pawn> allPawns = Map.mapPawns.AllPawnsSpawned.InRandomOrder().ToList();                
                 for (int i = 0; i < allPawns.Count(); i++)
                 {
                     if (GolemComp.TargetIsValid(this, allPawns[i]))
                     {
-                        this.threatTarget = allPawns[i];
+                        threatTarget = allPawns[i];
                         break;                                              
                     }
                 }

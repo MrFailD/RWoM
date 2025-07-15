@@ -59,7 +59,7 @@ namespace TorannMagic
             {
                 try
                 {
-                    StackFrame sf = (new System.Diagnostics.StackTrace()).GetFrame(2);
+                    StackFrame sf = (new StackTrace()).GetFrame(2);
                     if (sf != null && sf.ToString().StartsWith("<AddPawnsSections>"))
                     {
                         __result = true;

@@ -19,27 +19,27 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool result = false;
-            map = this.CasterPawn.Map;
-            comp = this.CasterPawn.GetCompAbilityUserMagic();
+            map = CasterPawn.Map;
+            comp = CasterPawn.GetCompAbilityUserMagic();
             MagicPowerSkill pwr = comp.MagicData.MagicPowerSkill_Recall.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Recall_pwr");
             pwrVal = pwr.level;
 
-            if (this.CasterPawn != null && !this.CasterPawn.Downed && comp != null)
+            if (CasterPawn != null && !CasterPawn.Downed && comp != null)
             {
                 SetRecallHediffs();
                 SetRecallNeeds();
                 SetRecallPosition();
                 comp.recallSet = true;
                 comp.recallExpiration = Mathf.RoundToInt(Find.TickManager.TicksGame + (20 * 2500 * (1 + (.2f * pwrVal))));
-                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_AlterFate, CasterPawn.DrawPos, this.CasterPawn.Map, 1f, .2f, 0, 1f, Rand.Range(-500, 500), 0, 0, Rand.Range(0, 360));
-                FleckMaker.ThrowHeatGlow(this.CasterPawn.Position, this.CasterPawn.Map, 1.4f);
+                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_AlterFate, CasterPawn.DrawPos, CasterPawn.Map, 1f, .2f, 0, 1f, Rand.Range(-500, 500), 0, 0, Rand.Range(0, 360));
+                FleckMaker.ThrowHeatGlow(CasterPawn.Position, CasterPawn.Map, 1.4f);
             }
             else
             {
                 Log.Warning("failed to TryCastShot");
             }
 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return result;
         }
 
@@ -53,17 +53,17 @@ namespace TorannMagic
             comp.recallHediffDefTicksRemainingList.Clear();
             comp.recallInjuriesList = new List<Hediff_Injury>();
             comp.recallInjuriesList.Clear();
-            for (int i = 0; i < this.CasterPawn.health.hediffSet.hediffs.Count; i++)
+            for (int i = 0; i < CasterPawn.health.hediffSet.hediffs.Count; i++)
             {
-                if (!this.CasterPawn.health.hediffSet.hediffs[i].IsPermanent() && this.CasterPawn.health.hediffSet.hediffs[i].def != TorannMagicDefOf.TM_MagicUserHD && 
-                    !this.CasterPawn.health.hediffSet.hediffs[i].def.defName.Contains("TM_HediffEnchantment") && !this.CasterPawn.health.hediffSet.hediffs[i].def.defName.Contains("TM_Artifact") &&
-                    this.CasterPawn.health.hediffSet.hediffs[i].def != TorannMagicDefOf.TM_MightUserHD && this.CasterPawn.health.hediffSet.hediffs[i].def != TorannMagicDefOf.TM_BloodHD && 
-                    this.CasterPawn.health.hediffSet.hediffs[i].def != TorannMagicDefOf.TM_ChiHD && this.CasterPawn.health.hediffSet.hediffs[i].def != TorannMagicDefOf.TM_PsionicHD &&
-                    this.CasterPawn.health.hediffSet.hediffs[i].def != TorannMagicDefOf.TM_SpiritPossessionHD)
+                if (!CasterPawn.health.hediffSet.hediffs[i].IsPermanent() && CasterPawn.health.hediffSet.hediffs[i].def != TorannMagicDefOf.TM_MagicUserHD && 
+                    !CasterPawn.health.hediffSet.hediffs[i].def.defName.Contains("TM_HediffEnchantment") && !CasterPawn.health.hediffSet.hediffs[i].def.defName.Contains("TM_Artifact") &&
+                    CasterPawn.health.hediffSet.hediffs[i].def != TorannMagicDefOf.TM_MightUserHD && CasterPawn.health.hediffSet.hediffs[i].def != TorannMagicDefOf.TM_BloodHD && 
+                    CasterPawn.health.hediffSet.hediffs[i].def != TorannMagicDefOf.TM_ChiHD && CasterPawn.health.hediffSet.hediffs[i].def != TorannMagicDefOf.TM_PsionicHD &&
+                    CasterPawn.health.hediffSet.hediffs[i].def != TorannMagicDefOf.TM_SpiritPossessionHD)
                 {
-                    if (this.CasterPawn.health.hediffSet.hediffs[i] is Hediff_Injury)
+                    if (CasterPawn.health.hediffSet.hediffs[i] is Hediff_Injury)
                     {                        
-                        Hediff_Injury rhd = this.CasterPawn.health.hediffSet.hediffs[i] as Hediff_Injury;
+                        Hediff_Injury rhd = CasterPawn.health.hediffSet.hediffs[i] as Hediff_Injury;
                         Hediff_Injury hediff = new Hediff_Injury();
                         //hediff = TM_Calc.Clone<Hediff>(this.CasterPawn.health.hediffSet.hediffs[i]);
                         hediff.def = rhd.def;
@@ -74,21 +74,21 @@ namespace TorannMagic
                         hediff.ageTicks = rhd.ageTicks;
                         comp.recallInjuriesList.Add(hediff);
                     }
-                    else if(this.CasterPawn.health.hediffSet.hediffs[i] is Hediff_MissingPart || this.CasterPawn.health.hediffSet.hediffs[i] is Hediff_AddedPart || this.CasterPawn.health.hediffSet.hediffs[i].def.defName == "PsychicAmplifier")
+                    else if(CasterPawn.health.hediffSet.hediffs[i] is Hediff_MissingPart || CasterPawn.health.hediffSet.hediffs[i] is Hediff_AddedPart || CasterPawn.health.hediffSet.hediffs[i].def.defName == "PsychicAmplifier")
                     {
                         //do nothing
                     }
-                    else if(this.CasterPawn.health.hediffSet.hediffs[i] is Hediff_Addiction)
+                    else if(CasterPawn.health.hediffSet.hediffs[i] is Hediff_Addiction)
                     {
                         //Hediff_Addiction rhd = this.CasterPawn.health.hediffSet.hediffs[i] as Hediff_Addiction;                        
                     }
-                    else if(this.CasterPawn.health.hediffSet.hediffs[i].def.defName == "LuciferiumHigh")
+                    else if(CasterPawn.health.hediffSet.hediffs[i].def.defName == "LuciferiumHigh")
                     {
                         //do nothing
                     }
                     else
                     {
-                        Hediff rhd = this.CasterPawn.health.hediffSet.hediffs[i] as Hediff;
+                        Hediff rhd = CasterPawn.health.hediffSet.hediffs[i] as Hediff;
                         //Log.Message("sev def is " + rhd.def.defName);
                         if (rhd != null)
                         {
@@ -159,13 +159,13 @@ namespace TorannMagic
             comp.recallNeedValues.Clear();
             //comp.recallNeedValues = new List<Need>();
             //comp.recallNeedValues.Clear();
-            for (int i = 0; i < this.CasterPawn.needs.AllNeeds.Count; i++)
+            for (int i = 0; i < CasterPawn.needs.AllNeeds.Count; i++)
             {
                 //Log.Message("" + this.CasterPawn.needs.AllNeeds[i].def.defName);
-                if (this.CasterPawn.needs.AllNeeds[i].def.defName != "Chemical_Luciferium")
+                if (CasterPawn.needs.AllNeeds[i].def.defName != "Chemical_Luciferium")
                 {                    
-                    comp.recallNeedDefnames.Add(this.CasterPawn.needs.AllNeeds[i].def.defName);
-                    comp.recallNeedValues.Add(this.CasterPawn.needs.AllNeeds[i].CurLevel);
+                    comp.recallNeedDefnames.Add(CasterPawn.needs.AllNeeds[i].def.defName);
+                    comp.recallNeedValues.Add(CasterPawn.needs.AllNeeds[i].CurLevel);
                 }
                 //comp.recallNeedValues.Add(TM_Calc.Clone<Need>(this.CasterPawn.needs.AllNeeds[i]));
             }
@@ -174,8 +174,8 @@ namespace TorannMagic
 
         private void SetRecallPosition()
         {
-            comp.recallPosition = this.CasterPawn.Position;
-            comp.recallMap = this.CasterPawn.Map;
+            comp.recallPosition = CasterPawn.Position;
+            comp.recallMap = CasterPawn.Map;
             //Log.Message("position set");
         }
     }

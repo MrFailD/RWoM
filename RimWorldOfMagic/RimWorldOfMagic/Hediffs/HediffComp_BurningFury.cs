@@ -24,7 +24,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -32,118 +32,118 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            if (spawned && base.Pawn.Map != null)
+            bool spawned = Pawn.Spawned;
+            if (spawned && Pawn.Map != null)
             {
-                FleckMaker.ThrowLightningGlow(base.Pawn.TrueCenter(), base.Pawn.Map, 3f);
+                FleckMaker.ThrowLightningGlow(Pawn.TrueCenter(), Pawn.Map, 3f);
             }
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
             }
-            if (!this.Pawn.DestroyedOrNull() && this.Pawn.Spawned && !this.Pawn.Downed)
+            if (!Pawn.DestroyedOrNull() && Pawn.Spawned && !Pawn.Downed)
             {
-                if(comp == null && TM_Calc.IsMightUser(this.Pawn))
+                if(comp == null && TM_Calc.IsMightUser(Pawn))
                 {
-                    comp = this.Pawn.GetCompAbilityUserMight();
+                    comp = Pawn.GetCompAbilityUserMight();
                     int pwrVal = comp.MightData.MightPowerSkill_FieldTraining.FirstOrDefault((MightPowerSkill x) => x.label == "TM_FieldTraining_pwr").level;
                     if (pwrVal >= 4)
                     {
-                        this.intensity = 1.5f;
+                        intensity = 1.5f;
                         if(pwrVal >= 14)
                         {
-                            this.intensity = 2f;
+                            intensity = 2f;
                         }
                     }
                     int verVal = comp.MightData.MightPowerSkill_FieldTraining.FirstOrDefault((MightPowerSkill x) => x.label == "TM_FieldTraining_ver").level;
                     if (pwrVal >= 14)
                     {
-                        this.drain = .65f;
+                        drain = .65f;
                     }
                 }
                 if (Find.TickManager.TicksGame % 30 == 0)
                 {                    
                     if (comp != null && comp.Stamina != null)
                     {
-                        comp.Stamina.CurLevel -= (.02f * this.drain);
+                        comp.Stamina.CurLevel -= (.02f * drain);
                         if (comp.Stamina.CurLevel <= .001f)
                         {
-                            this.removeNow = true;
+                            removeNow = true;
                         }
                     }
                     else if(Pawn is TMPawnGolem || Pawn is TMHollowGolem)
                     {
                         severityAdjustment -= .01f;
-                        if(this.parent.Severity <= .01f)
+                        if(parent.Severity <= .01f)
                         {
-                            this.removeNow = true;
+                            removeNow = true;
                         }
                     }
                     else
                     {
-                        this.removeNow = true;
+                        removeNow = true;
                     }
                 }
-                if (!removeNow && Find.TickManager.TicksGame >= this.nextAction)
+                if (!removeNow && Find.TickManager.TicksGame >= nextAction)
                 {
-                    this.nextAction = Find.TickManager.TicksGame + Mathf.RoundToInt(Rand.Range(50f/this.intensity, 80f/this.intensity));
+                    nextAction = Find.TickManager.TicksGame + Mathf.RoundToInt(Rand.Range(50f/intensity, 80f/intensity));
                     TickAction();
                 }
                 if (!removeNow && Find.TickManager.TicksGame % nextSlowAction == 0)
                 {
-                    this.nextSlowAction = Rand.Range(200, 500);
+                    nextSlowAction = Rand.Range(200, 500);
                     SlowTickAction();
                 }
             }
             else
             {
-                this.removeNow = true;
+                removeNow = true;
             }
         }
 
         public void TickAction()
         {
-            Pawn victim = TM_Calc.FindNearbyEnemy(this.Pawn, 2);
+            Pawn victim = TM_Calc.FindNearbyEnemy(Pawn, 2);
             if (victim != null)
             {
-                TM_Action.DamageEntities(victim, null, Rand.Range(4, 6), DamageDefOf.Burn, this.Pawn);
+                TM_Action.DamageEntities(victim, null, Rand.Range(4, 6), DamageDefOf.Burn, Pawn);
                 TM_MoteMaker.ThrowFlames(victim.DrawPos, victim.Map, Rand.Range(.1f, .4f));
             }
 
             if(Rand.Chance(.2f))
             {
-                TM_Action.DamageEntities(this.Pawn, null, Rand.Range(3, 5), 5f, DamageDefOf.Burn, this.Pawn);
-                TM_MoteMaker.ThrowFlames(this.Pawn.DrawPos, this.Pawn.Map, Rand.Range(.1f, .2f));
+                TM_Action.DamageEntities(Pawn, null, Rand.Range(3, 5), 5f, DamageDefOf.Burn, Pawn);
+                TM_MoteMaker.ThrowFlames(Pawn.DrawPos, Pawn.Map, Rand.Range(.1f, .2f));
             }
 
         }
 
         public void SlowTickAction()
         {
-            using (IEnumerator<BodyPartRecord> enumerator = this.Pawn.health.hediffSet.GetInjuredParts().GetEnumerator())
+            using (IEnumerator<BodyPartRecord> enumerator = Pawn.health.hediffSet.GetInjuredParts().GetEnumerator())
             {
                 while (enumerator.MoveNext())
                 {
                     BodyPartRecord rec = enumerator.Current;
 
-                    IEnumerable<Hediff_Injury> arg_BB_0 = this.Pawn.health.hediffSet.hediffs.OfType<Hediff_Injury>();
+                    IEnumerable<Hediff_Injury> arg_BB_0 = Pawn.health.hediffSet.hediffs.OfType<Hediff_Injury>();
                     Func<Hediff_Injury, bool> arg_BB_1;
 
                     arg_BB_1 = ((Hediff_Injury injury) => injury.Part == rec);
@@ -156,17 +156,17 @@ namespace TorannMagic
                             if (Rand.Chance(.15f))
                             {
                                 DamageInfo dinfo;
-                                dinfo = new DamageInfo(DamageDefOf.Burn, Mathf.RoundToInt(current.Severity / 2), 0, (float)-1, this.Pawn, rec, null, DamageInfo.SourceCategory.ThingOrUnknown);
+                                dinfo = new DamageInfo(DamageDefOf.Burn, Mathf.RoundToInt(current.Severity / 2), 0, (float)-1, Pawn, rec, null, DamageInfo.SourceCategory.ThingOrUnknown);
                                 dinfo.SetAllowDamagePropagation(false);
                                 dinfo.SetInstantPermanentInjury(true);
                                 current.Heal(100);
-                                TM_MoteMaker.ThrowFlames(this.Pawn.DrawPos, this.Pawn.Map, Rand.Range(.1f, .2f));
-                                this.Pawn.TakeDamage(dinfo);
+                                TM_MoteMaker.ThrowFlames(Pawn.DrawPos, Pawn.Map, Rand.Range(.1f, .2f));
+                                Pawn.TakeDamage(dinfo);
                             }
                             else
                             {
                                 current.Tended(1, 1);
-                                TM_MoteMaker.ThrowFlames(this.Pawn.DrawPos, this.Pawn.Map, Rand.Range(.1f, .2f));
+                                TM_MoteMaker.ThrowFlames(Pawn.DrawPos, Pawn.Map, Rand.Range(.1f, .2f));
                             }
                             goto ExitEnum;
                         }
@@ -180,7 +180,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.removeNow || !this.Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_BurningFuryHD, false) || base.CompShouldRemove;
+                return removeNow || !Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_BurningFuryHD, false) || base.CompShouldRemove;
             }
         }
     }

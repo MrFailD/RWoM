@@ -23,32 +23,32 @@ namespace TorannMagic
         {
             this.hitThing = hitThing;
             this.origin = origin;
-            this.mat = _mat;
+            mat = _mat;
         }
 
         public void CreateBolt()
         {
             Vector3 vector;
-            vector.x = (float)this.hitThing.x;
-            vector.y = (float)this.hitThing.y;
-            vector.z = (float)this.hitThing.z;
-            this.direction = Quaternion.LookRotation((vector - this.origin).normalized);
-            float distance = Vector3.Distance(this.origin, vector);
-            this.boltMesh = TM_MeshMaker.NewBoltMesh(distance, 6f);
-            Graphics.DrawMesh(this.boltMesh, this.origin, this.direction, this.mat, 0);
+            vector.x = (float)hitThing.x;
+            vector.y = (float)hitThing.y;
+            vector.z = (float)hitThing.z;
+            direction = Quaternion.LookRotation((vector - origin).normalized);
+            float distance = Vector3.Distance(origin, vector);
+            boltMesh = TM_MeshMaker.NewBoltMesh(distance, 6f);
+            Graphics.DrawMesh(boltMesh, origin, direction, mat, 0);
         }
 
         public void CreateFadedBolt(int magnitude)
         {
             Vector3 vector;
-            vector.x = (float)this.hitThing.x;
-            vector.y = (float)this.hitThing.y;
-            vector.z = (float)this.hitThing.z;
-            this.direction = Quaternion.LookRotation((vector - this.origin).normalized);
-            float distance = Vector3.Distance(this.origin, vector);
-            this.boltMesh = TM_MeshMaker.NewBoltMesh(distance, 6f);
+            vector.x = (float)hitThing.x;
+            vector.y = (float)hitThing.y;
+            vector.z = (float)hitThing.z;
+            direction = Quaternion.LookRotation((vector - origin).normalized);
+            float distance = Vector3.Distance(origin, vector);
+            boltMesh = TM_MeshMaker.NewBoltMesh(distance, 6f);
             //Graphics.DrawMesh(this.boltMesh, this.origin, this.direction, this.mat, 0);
-            Graphics.DrawMesh(this.boltMesh, this.origin, this.direction, FadedMaterialPool.FadedVersionOf(this.mat, (float)magnitude), 0);
+            Graphics.DrawMesh(boltMesh, origin, direction, FadedMaterialPool.FadedVersionOf(mat, (float)magnitude), 0);
         }
     }
 }

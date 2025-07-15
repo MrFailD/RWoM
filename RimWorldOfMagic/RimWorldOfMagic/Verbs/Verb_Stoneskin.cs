@@ -20,16 +20,16 @@ namespace TorannMagic
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -46,7 +46,7 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             Pawn caster = base.CasterPawn;
-            Pawn pawn = this.currentTarget.Thing as Pawn;
+            Pawn pawn = currentTarget.Thing as Pawn;
 
             comp = caster.GetCompAbilityUserMagic();
             //MagicPowerSkill pwr = comp.MagicData.MagicPowerSkill_Stoneskin.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Stoneskin_pwr");
@@ -64,8 +64,8 @@ namespace TorannMagic
             //    pwrVal = 3;
             //    verVal = 3;
             //}
-            pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef);
-            verVal = TM_Calc.GetSkillVersatilityLevel(caster, this.Ability.Def as TMAbilityDef);
+            pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef);
+            verVal = TM_Calc.GetSkillVersatilityLevel(caster, Ability.Def as TMAbilityDef);
 
             if (pawn != null && pawn.health != null && pawn.health.hediffSet != null)
             {

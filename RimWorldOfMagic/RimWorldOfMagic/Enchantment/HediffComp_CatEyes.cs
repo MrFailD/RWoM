@@ -18,11 +18,11 @@ namespace TorannMagic.Enchantment
 
         public override void CompExposeData()
         {
-            if (Scribe.mode == LoadSaveMode.Saving && this.oldPos != default(IntVec3))
+            if (Scribe.mode == LoadSaveMode.Saving && oldPos != default(IntVec3))
             {
-                this.Pawn.Map.mapDrawer.MapMeshDirty(oldPos, MapMeshFlagDefOf.Things);
-                this.Pawn.Map.glowGrid.DeRegisterGlower(glower);
-                this.glower = null;
+                Pawn.Map.mapDrawer.MapMeshDirty(oldPos, MapMeshFlagDefOf.Things);
+                Pawn.Map.glowGrid.DeRegisterGlower(glower);
+                glower = null;
             }
             base.CompExposeData();
             
@@ -30,30 +30,30 @@ namespace TorannMagic.Enchantment
 
         public override void PostInitialize()
         {
-            this.glower = new CompGlower();
-            this.hediffActionRate = 10;
+            glower = new CompGlower();
+            hediffActionRate = 10;
             gProps.glowColor = glowColor;
             gProps.glowRadius = 1.4f;
-            glower.parent = this.Pawn;
+            glower.parent = Pawn;
             glower.Initialize(gProps);
         }
 
         public override void HediffActionTick()
         {
-            if (this.glower != null && glower.parent != null)
+            if (glower != null && glower.parent != null)
             {
-                if (this.Pawn != null && this.Pawn.Map != null && this.Pawn.Position != oldPos)
+                if (Pawn != null && Pawn.Map != null && Pawn.Position != oldPos)
                 {
                     if (oldPos != default(IntVec3))
                     {
-                        this.Pawn.Map.mapDrawer.MapMeshDirty(oldPos, MapMeshFlagDefOf.Things);
-                        this.Pawn.Map.glowGrid.DeRegisterGlower(glower);
+                        Pawn.Map.mapDrawer.MapMeshDirty(oldPos, MapMeshFlagDefOf.Things);
+                        Pawn.Map.glowGrid.DeRegisterGlower(glower);
                     }
-                    if (this.Pawn.Map.skyManager.CurSkyGlow < 0.4f)
+                    if (Pawn.Map.skyManager.CurSkyGlow < 0.4f)
                     {
-                        this.Pawn.Map.mapDrawer.MapMeshDirty(this.Pawn.Position, MapMeshFlagDefOf.Things);
-                        this.Pawn.Map.glowGrid.RegisterGlower(glower);
-                        oldPos = this.Pawn.Position;
+                        Pawn.Map.mapDrawer.MapMeshDirty(Pawn.Position, MapMeshFlagDefOf.Things);
+                        Pawn.Map.glowGrid.RegisterGlower(glower);
+                        oldPos = Pawn.Position;
                     }
                 }
             }
@@ -68,8 +68,8 @@ namespace TorannMagic.Enchantment
         {
             if (oldPos != default(IntVec3))
             {
-                this.Pawn.Map.mapDrawer.MapMeshDirty(oldPos, MapMeshFlagDefOf.Things);
-                this.Pawn.Map.glowGrid.DeRegisterGlower(glower);
+                Pawn.Map.mapDrawer.MapMeshDirty(oldPos, MapMeshFlagDefOf.Things);
+                Pawn.Map.glowGrid.DeRegisterGlower(glower);
             }
             base.CompPostPostRemoved();
         }

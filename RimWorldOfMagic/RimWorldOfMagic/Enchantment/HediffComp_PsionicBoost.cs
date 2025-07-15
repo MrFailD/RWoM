@@ -14,20 +14,20 @@ namespace TorannMagic.Enchantment
 
         public override void CompExposeData()
         {
-            Scribe_Values.Look<float>(ref this.maxSeverity, "maxSeverity", 0, false);
+            Scribe_Values.Look<float>(ref maxSeverity, "maxSeverity", 0, false);
             base.CompExposeData();            
         }
 
         public override void PostInitialize()
         {
-            this.hediffActionRate = 300;            
+            hediffActionRate = 300;            
         }
 
         public override void HediffActionTick()
         {
-            float sensitivity = this.Pawn.GetStatValue(StatDefOf.PsychicSensitivity);
-            this.maxSeverity = Mathf.Clamp((sensitivity - 1) * 100, 0, 100);
-            this.parent.Severity = this.maxSeverity;
+            float sensitivity = Pawn.GetStatValue(StatDefOf.PsychicSensitivity);
+            maxSeverity = Mathf.Clamp((sensitivity - 1) * 100, 0, 100);
+            parent.Severity = maxSeverity;
         }
 
     }

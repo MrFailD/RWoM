@@ -28,25 +28,25 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<int>(ref this.ticksTillEffect, "ticksTillEffect", 0, false);
-            Scribe_Values.Look<float>(ref this.severityReduction, "severityReduction", .1f, false);
-            Scribe_Defs.Look<ThingDef>(ref this.moteDef, "moteDef");
-            Scribe_Values.Look<float>(ref this.scaleAvg, "scaleAvg", 1f, false);
-            Scribe_Values.Look<float>(ref this.fadeIn, "fadeIn", .5f, false);
-            Scribe_Values.Look<float>(ref this.fadeOut, "fadeOut", .5f, false);
-            Scribe_Values.Look<float>(ref this.solidTime, "solidTime", 0f, false);
-            Scribe_Values.Look<float>(ref this.velocity, "velocity", 0f, false);
-            Scribe_Values.Look<float>(ref this.velocityAngle, "velocityAngle", 0f, false);
-            Scribe_Values.Look<float>(ref this.lookAngle, "lookAngle", 0f, false);
-            Scribe_Values.Look<int>(ref this.rotationRate, "rotationRate", 0, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<int>(ref ticksTillEffect, "ticksTillEffect", 0, false);
+            Scribe_Values.Look<float>(ref severityReduction, "severityReduction", .1f, false);
+            Scribe_Defs.Look<ThingDef>(ref moteDef, "moteDef");
+            Scribe_Values.Look<float>(ref scaleAvg, "scaleAvg", 1f, false);
+            Scribe_Values.Look<float>(ref fadeIn, "fadeIn", .5f, false);
+            Scribe_Values.Look<float>(ref fadeOut, "fadeOut", .5f, false);
+            Scribe_Values.Look<float>(ref solidTime, "solidTime", 0f, false);
+            Scribe_Values.Look<float>(ref velocity, "velocity", 0f, false);
+            Scribe_Values.Look<float>(ref velocityAngle, "velocityAngle", 0f, false);
+            Scribe_Values.Look<float>(ref lookAngle, "lookAngle", 0f, false);
+            Scribe_Values.Look<int>(ref rotationRate, "rotationRate", 0, false);
         }
 
         public string labelCap
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -54,28 +54,28 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
-                if(this.parent.def == TorannMagicDefOf.TM_GravitySlowHD)
+                if(parent.def == TorannMagicDefOf.TM_GravitySlowHD)
                 {
-                    this.effectFrequency = 120;
-                    this.severityReduction = .2f;
-                    this.moteDef = TorannMagicDefOf.Mote_ArcaneWaves;
-                    this.scaleAvg = .25f;
-                    this.solidTime = 1f;
-                    this.fadeIn = .1f;
-                    this.fadeOut = .75f;
-                    this.rotationRate = 500;
-                    this.velocity = 0;
-                    this.velocityAngle = 0;
-                    this.lookAngle = Rand.Range(0, 360);
+                    effectFrequency = 120;
+                    severityReduction = .2f;
+                    moteDef = TorannMagicDefOf.Mote_ArcaneWaves;
+                    scaleAvg = .25f;
+                    solidTime = 1f;
+                    fadeIn = .1f;
+                    fadeOut = .75f;
+                    rotationRate = 500;
+                    velocity = 0;
+                    velocityAngle = 0;
+                    lookAngle = Rand.Range(0, 360);
                 }
             }
         }
@@ -83,21 +83,21 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null && base.Pawn.Map != null;
+            bool flag = Pawn != null && Pawn.Map != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
-                if(this.ticksTillEffect <=0)
+                if(ticksTillEffect <=0)
                 {
-                    severityAdjustment -= this.severityReduction;
-                    this.ticksTillEffect = this.effectFrequency;
-                    TM_MoteMaker.ThrowGenericMote(this.moteDef, this.Pawn.DrawPos, this.Pawn.Map, Rand.Range(.75f*this.scaleAvg, 1.25f*this.scaleAvg), this.solidTime, this.fadeIn, this.fadeOut, this.rotationRate, this.velocity, this.velocityAngle, this.lookAngle);
+                    severityAdjustment -= severityReduction;
+                    ticksTillEffect = effectFrequency;
+                    TM_MoteMaker.ThrowGenericMote(moteDef, Pawn.DrawPos, Pawn.Map, Rand.Range(.75f*scaleAvg, 1.25f*scaleAvg), solidTime, fadeIn, fadeOut, rotationRate, velocity, velocityAngle, lookAngle);
                 }
-                this.ticksTillEffect--;
+                ticksTillEffect--;
             }
             else
             {
@@ -109,7 +109,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.parent.Severity < .01f;
+                return base.CompShouldRemove || parent.Severity < .01f;
             }
         }
     }

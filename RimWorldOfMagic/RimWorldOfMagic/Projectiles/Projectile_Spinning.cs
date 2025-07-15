@@ -18,7 +18,7 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            if(Find.TickManager.TicksGame % 2 == 0 && daggerCount > 0 && this.launcher != null && this.launcher is Pawn caster)
+            if(Find.TickManager.TicksGame % 2 == 0 && daggerCount > 0 && launcher != null && launcher is Pawn caster)
             {
                 CompAbilityUserMight comp = caster.GetCompAbilityUserMight();
                 if(comp != null)
@@ -26,10 +26,10 @@ namespace TorannMagic
                     
                     if((comp.MightData.MightPowerSkill_FieldTraining.FirstOrDefault((MightPowerSkill x) => x.label == "TM_FieldTraining_pwr").level >= 12) || (!caster.IsColonist && ModOptions.Settings.Instance.AIHardMode))
                     {
-                        Projectile_Spinning newProjectile = (Projectile_Spinning)ThingMaker.MakeThing(this.def, null);
+                        Projectile_Spinning newProjectile = (Projectile_Spinning)ThingMaker.MakeThing(def, null);
                         newProjectile.daggerCount = 0;
-                        TM_CopyAndLaunchProjectile.CopyAndLaunchProjectile(newProjectile, caster, this.intendedTarget, this.intendedTarget, ProjectileHitFlags.All, null);
-                        this.daggerCount--;
+                        TM_CopyAndLaunchProjectile.CopyAndLaunchProjectile(newProjectile, caster, intendedTarget, intendedTarget, ProjectileHitFlags.All, null);
+                        daggerCount--;
                     }
                     else
                     {
@@ -45,8 +45,8 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
-            Pawn pawn = this.launcher as Pawn;
+            Map map = Map;
+            Pawn pawn = launcher as Pawn;
             base.Impact(hitThing);
             ThingDef def = this.def;
             try
@@ -84,12 +84,12 @@ namespace TorannMagic
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
             base.DrawAt(drawLoc, flip);
-            this.rotationOffset += Rand.Range(20, 36);
-            if(this.rotationOffset > 360)
+            rotationOffset += Rand.Range(20, 36);
+            if(rotationOffset > 360)
             {
-                this.rotationOffset = 0;
+                rotationOffset = 0;
             }
-            Mesh mesh = MeshPool.GridPlane(this.def.graphicData.drawSize);
+            Mesh mesh = MeshPool.GridPlane(def.graphicData.drawSize);
             Graphics.DrawMesh(mesh, DrawPos, (Quaternion.AngleAxis(rotationOffset, Vector3.up) * ExactRotation), def.DrawMatSingle, 0);
             Comps_PostDraw();
         }
@@ -105,14 +105,14 @@ namespace TorannMagic
 
                 if (vitalPart != null)
                 {
-                    TM_Action.DamageEntities(victim, vitalPart, dmg, dmgType, this.launcher);
+                    TM_Action.DamageEntities(victim, vitalPart, dmg, dmgType, launcher);
                 }
                 else
                 {
                     vitalPart = partSearch.FirstOrDefault<BodyPartRecord>((BodyPartRecord x) => x.def.tags.Contains(BodyPartTagDefOf.MovingLimbSegment));
                     if (vitalPart != null)
                     {
-                        TM_Action.DamageEntities(victim, vitalPart, dmg, dmgType, this.launcher);
+                        TM_Action.DamageEntities(victim, vitalPart, dmg, dmgType, launcher);
                     }
                     else
                     {

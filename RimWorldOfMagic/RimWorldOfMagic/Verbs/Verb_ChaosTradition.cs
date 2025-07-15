@@ -22,10 +22,10 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool result = false;
-            Map map = this.CasterPawn.Map;
-            CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();            
+            Map map = CasterPawn.Map;
+            CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();            
 
-            if (this.CasterPawn != null && !this.CasterPawn.Downed && comp != null && comp.MagicData != null)
+            if (CasterPawn != null && !CasterPawn.Downed && comp != null && comp.MagicData != null)
             {                
                 pwrVal = comp.MagicData.MagicPowerSkill_ChaosTradition.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_ChaosTradition_pwr").level;
                 verVal = comp.MagicData.MagicPowerSkill_ChaosTradition.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_ChaosTradition_ver").level;
@@ -40,7 +40,7 @@ namespace TorannMagic
 
                 if(effVal >= 3)
                 {
-                    HealthUtility.AdjustSeverity(this.CasterPawn, TorannMagicDefOf.TM_ChaosTraditionHD, 8f);
+                    HealthUtility.AdjustSeverity(CasterPawn, TorannMagicDefOf.TM_ChaosTraditionHD, 8f);
                 }
                 if(effVal >= 2)
                 {
@@ -53,7 +53,7 @@ namespace TorannMagic
                 }
                 if(effVal >= 1)
                 { 
-                    HealthUtility.AdjustSeverity(this.CasterPawn, TorannMagicDefOf.TM_ChaoticMindHD, 24f);
+                    HealthUtility.AdjustSeverity(CasterPawn, TorannMagicDefOf.TM_ChaoticMindHD, 24f);
                 }
 
                 comp.MagicData.MagicAbilityPoints -= ((2*(pwrVal + verVal + effVal)) + gSpirit + gRegen + gEff);
@@ -78,7 +78,7 @@ namespace TorannMagic
                 Log.Warning("failed to TryCastShot");
             }
 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return result;
         }  
         

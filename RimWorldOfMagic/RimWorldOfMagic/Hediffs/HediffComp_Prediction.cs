@@ -21,7 +21,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -29,42 +29,42 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            if (spawned && base.Pawn.Map != null && this.Pawn.story != null)
+            bool spawned = Pawn.Spawned;
+            if (spawned && Pawn.Map != null && Pawn.story != null)
             {
                 //FleckMaker.ThrowLightningGlow(base.Pawn.TrueCenter(), base.Pawn.Map, 3f);
-                Pawn caster = this.Pawn;
+                Pawn caster = Pawn;
                 CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
                 if (comp != null)
                 {
                     pwrVal = caster.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Prediction.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Prediction_pwr").level;
-                    this.parent.Severity = .5f + pwrVal;
+                    parent.Severity = .5f + pwrVal;
                 }
             }
             else
             {
-                this.removeNow = true;
+                removeNow = true;
             }
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
-                else if(initialized && !base.Pawn.Dead && !base.Pawn.Downed && base.Pawn.Spawned)
+                else if(initialized && !Pawn.Dead && !Pawn.Downed && Pawn.Spawned)
                 {
                     //if(Find.TickManager.TicksGame % this.predictionFrequency == 0)
                     //{
@@ -85,14 +85,14 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.removeNow;
+                return base.CompShouldRemove || removeNow;
             }
         }
 
         public void UpdateSeverity()
         {
-            float sev = this.parent.Severity;
-            Pawn caster = this.Pawn;
+            float sev = parent.Severity;
+            Pawn caster = Pawn;
             CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
             
 
@@ -101,20 +101,20 @@ namespace TorannMagic
                 pwrVal = caster.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Prediction.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Prediction_pwr").level;
                 if (sev <= 0)
                 {
-                    this.removeNow = true;
+                    removeNow = true;
                 }
-                else if(!this.Pawn.IsColonist && ModOptions.Settings.Instance.AIHardMode)
+                else if(!Pawn.IsColonist && ModOptions.Settings.Instance.AIHardMode)
                 {
-                    this.parent.Severity = 5;
+                    parent.Severity = 5;
                 }
                 else if(sev != pwrVal + .5f)
                 {
-                    this.parent.Severity = pwrVal + .5f;
+                    parent.Severity = pwrVal + .5f;
                 }
             }
             else
             {
-                this.removeNow = true;
+                removeNow = true;
             }
         }
     }

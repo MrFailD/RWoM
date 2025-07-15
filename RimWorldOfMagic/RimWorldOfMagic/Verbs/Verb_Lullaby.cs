@@ -19,7 +19,7 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     validTarg = true;
                 }
@@ -39,8 +39,8 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool flag = false;
-            this.TargetsAoE.Clear();
-            this.UpdateTargets();
+            TargetsAoE.Clear();
+            UpdateTargets();
             //MagicPowerSkill pwr = base.CasterPawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Lullaby.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Lullaby_pwr");
             //MagicPowerSkill ver = base.CasterPawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Lullaby.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Lullaby_ver");
             //verVal = ver.level;
@@ -52,19 +52,19 @@ namespace TorannMagic
             //    pwrVal = mpwr.level;
             //    verVal = mver.level;
             //}
-            verVal = TM_Calc.GetSkillVersatilityLevel(CasterPawn, this.Ability.Def as TMAbilityDef);
-            pwrVal = TM_Calc.GetSkillPowerLevel(CasterPawn, this.Ability.Def as TMAbilityDef);
-            bool flag2 = this.UseAbilityProps.AbilityTargetCategory != AbilityTargetCategory.TargetAoE && this.TargetsAoE.Count > 1;
+            verVal = TM_Calc.GetSkillVersatilityLevel(CasterPawn, Ability.Def as TMAbilityDef);
+            pwrVal = TM_Calc.GetSkillPowerLevel(CasterPawn, Ability.Def as TMAbilityDef);
+            bool flag2 = UseAbilityProps.AbilityTargetCategory != AbilityTargetCategory.TargetAoE && TargetsAoE.Count > 1;
             if (flag2)
             {
-                this.TargetsAoE.RemoveRange(0, this.TargetsAoE.Count - 1);
+                TargetsAoE.RemoveRange(0, TargetsAoE.Count - 1);
             }
-            for (int i = 0; i < this.TargetsAoE.Count; i++)
+            for (int i = 0; i < TargetsAoE.Count; i++)
             {
-                Pawn newPawn = this.TargetsAoE[i].Thing as Pawn;
+                Pawn newPawn = TargetsAoE[i].Thing as Pawn;
                 if(newPawn != null && newPawn.RaceProps.IsFlesh)
                 {
-                    if (Rand.Chance(.4f + (.1f * pwrVal) * TM_Calc.GetSpellSuccessChance(this.CasterPawn, newPawn, true)))
+                    if (Rand.Chance(.4f + (.1f * pwrVal) * TM_Calc.GetSpellSuccessChance(CasterPawn, newPawn, true)))
                     {
                         if(newPawn.InMentalState)
                         {
@@ -87,7 +87,7 @@ namespace TorannMagic
                     HealthUtility.AdjustSeverity(newPawn, HediffDef.Named("TM_LullabyHD"), .95f + verVal);
                 }
             }
-            this.PostCastShot(flag, out flag);
+            PostCastShot(flag, out flag);
             return flag;
         }
         

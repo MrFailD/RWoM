@@ -14,11 +14,11 @@ namespace TorannMagic
             if (parent.def != null && (TM_Calc.IsMightUser(user) || TM_Calc.IsWayfarer(user)))
             {
                 List<TraitDef> restrictedTraits = null;
-                if (this.parent.def.HasModExtension<DefModExtension_LearnAbilityRequiredTraits>())
+                if (parent.def.HasModExtension<DefModExtension_LearnAbilityRequiredTraits>())
                 {
                     restrictedTraits = new List<TraitDef>();
                     restrictedTraits.Clear();
-                    restrictedTraits = this.parent.def.GetModExtension<DefModExtension_LearnAbilityRequiredTraits>().traits;
+                    restrictedTraits = parent.def.GetModExtension<DefModExtension_LearnAbilityRequiredTraits>().traits;
                 }
                 bool hasRequiredTrait = true;
                 if(comp.customClass != null && !comp.customClass.canLearnKnacks)
@@ -49,7 +49,7 @@ namespace TorannMagic
                                 itemUsed = true;
                                 comp.MightData.AllMightPowers[i].learned = true;
                                 comp.InitializeSkill();
-                                this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                                parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                             }
                             else if((TM_Data.RestrictedAbilities.Contains(parent.def) || hasRequiredTrait) && !comp.MightData.AllMightPowers[i].learned)
                             {
@@ -58,7 +58,7 @@ namespace TorannMagic
                                     itemUsed = true;
                                     comp.MightData.AllMightPowers[i].learned = true;
                                     comp.InitializeSkill();
-                                    this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                                    parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                                 }
                                 else
                                 {
@@ -110,7 +110,7 @@ namespace TorannMagic
                             comp.MightData.ReturnMatchingMightPower(TorannMagicDefOf.TM_Sprint).learned = true;
                             comp.AddPawnAbility(TorannMagicDefOf.TM_Sprint);
                             comp.InitializeSkill();
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else if (parent.def.defName == "SkillOf_GearRepair" && comp.skill_GearRepair == false)
                         {
@@ -118,7 +118,7 @@ namespace TorannMagic
                             comp.MightData.ReturnMatchingMightPower(TorannMagicDefOf.TM_GearRepair).learned = true;
                             comp.AddPawnAbility(TorannMagicDefOf.TM_GearRepair);
                             comp.InitializeSkill();
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else if (parent.def.defName == "SkillOf_InnerHealing" && comp.skill_InnerHealing == false)
                         {
@@ -126,7 +126,7 @@ namespace TorannMagic
                             comp.MightData.ReturnMatchingMightPower(TorannMagicDefOf.TM_InnerHealing).learned = true;
                             comp.AddPawnAbility(TorannMagicDefOf.TM_InnerHealing);
                             comp.InitializeSkill();
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else if (parent.def.defName == "SkillOf_StrongBack" && comp.skill_StrongBack == false)
                         {
@@ -134,7 +134,7 @@ namespace TorannMagic
                             comp.MightData.ReturnMatchingMightPower(TorannMagicDefOf.TM_StrongBack).learned = true;
                             comp.AddPawnAbility(TorannMagicDefOf.TM_StrongBack);
                             comp.InitializeSkill();
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else if (parent.def.defName == "SkillOf_HeavyBlow" && comp.skill_HeavyBlow == false)
                         {
@@ -142,7 +142,7 @@ namespace TorannMagic
                             comp.MightData.ReturnMatchingMightPower(TorannMagicDefOf.TM_HeavyBlow).learned = true;
                             comp.AddPawnAbility(TorannMagicDefOf.TM_HeavyBlow);
                             comp.InitializeSkill();
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else if (parent.def.defName == "SkillOf_ThickSkin" && comp.skill_ThickSkin == false)
                         {
@@ -150,7 +150,7 @@ namespace TorannMagic
                             comp.MightData.ReturnMatchingMightPower(TorannMagicDefOf.TM_ThickSkin).learned = true;
                             comp.AddPawnAbility(TorannMagicDefOf.TM_ThickSkin);
                             comp.InitializeSkill();
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else if (parent.def.defName == "SkillOf_FightersFocus" && comp.skill_FightersFocus == false)
                         {
@@ -158,49 +158,49 @@ namespace TorannMagic
                             comp.MightData.ReturnMatchingMightPower(TorannMagicDefOf.TM_FightersFocus).learned = true;
                             comp.AddPawnAbility(TorannMagicDefOf.TM_FightersFocus);
                             comp.InitializeSkill();
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else if (parent.def == TorannMagicDefOf.SkillOf_ThrowingKnife && comp.skill_ThrowingKnife == false && comp.Pawn.story.DisabledWorkTagsBackstoryAndTraits != WorkTags.Violent)
                         {
                             comp.skill_ThrowingKnife = true;
                             comp.MightData.ReturnMatchingMightPower(TorannMagicDefOf.TM_ThrowingKnife).learned = true;
                             comp.InitializeSkill();
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else if (parent.def == TorannMagicDefOf.SkillOf_BurningFury && comp.skill_BurningFury == false && comp.Pawn.story.DisabledWorkTagsBackstoryAndTraits != WorkTags.Violent)
                         {
                             comp.skill_BurningFury = true;
                             comp.MightData.ReturnMatchingMightPower(TorannMagicDefOf.TM_BurningFury).learned = true;
                             comp.InitializeSkill();
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else if (parent.def == TorannMagicDefOf.SkillOf_PommelStrike && comp.skill_PommelStrike == false && comp.Pawn.story.DisabledWorkTagsBackstoryAndTraits != WorkTags.Violent)
                         {
                             comp.skill_PommelStrike = true;
                             comp.MightData.ReturnMatchingMightPower(TorannMagicDefOf.TM_PommelStrike).learned = true;
                             comp.InitializeSkill();
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else if (parent.def == TorannMagicDefOf.SkillOf_Legion && comp.skill_Legion == false && !user.story.traits.HasTrait(TorannMagicDefOf.Faceless) && comp.Pawn.story.DisabledWorkTagsBackstoryAndTraits != WorkTags.Violent)
                         {
                             comp.skill_Legion = true;
                             comp.MightData.ReturnMatchingMightPower(TorannMagicDefOf.TM_Legion).learned = true;
                             comp.InitializeSkill();
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else if (parent.def == TorannMagicDefOf.SkillOf_TempestStrike && comp.skill_TempestStrike == false && comp.Pawn.story.DisabledWorkTagsBackstoryAndTraits != WorkTags.Violent)
                         {
                             comp.skill_TempestStrike = true;
                             comp.MightData.ReturnMatchingMightPower(TorannMagicDefOf.TM_TempestStrike).learned = true;
                             comp.InitializeSkill();
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else if (customSkill != null)
                         {
                             comp.MightData.ReturnMatchingMightPower(customSkill).learned = true;
                             comp.AddPawnAbility(customSkill);
                             comp.InitializeSkill();
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else
                         {

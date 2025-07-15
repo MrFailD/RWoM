@@ -14,7 +14,7 @@ namespace TorannMagic
 
         public override void Init()
         {
-            Map map = base.SingleMap;
+            Map map = SingleMap;
             victims = new List<Pawn>();
             victims.Clear();
             
@@ -24,7 +24,7 @@ namespace TorannMagic
             }
             else
             {
-                List<Map> allMaps = base.AffectedMaps;
+                List<Map> allMaps = AffectedMaps;
                 for(int i = 0; i < allMaps.Count; i++)
                 {
                     victims.AddRange(allMaps[i].mapPawns.AllPawnsSpawned);

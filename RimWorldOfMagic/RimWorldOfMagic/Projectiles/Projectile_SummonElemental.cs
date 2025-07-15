@@ -25,21 +25,21 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 3600, false);
-            Scribe_Values.Look<bool>(ref this.destroyed, "destroyed", false, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 3600, false);
+            Scribe_Values.Look<bool>(ref destroyed, "destroyed", false, false);
         }        
 
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < duration;
+            bool flag = age < duration;
             if (!flag)
             {
                 base.Destroy(mode);
@@ -48,13 +48,13 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             //base.Impact(hitThing);
             GenClamor.DoClamor(this, 2.1f, ClamorDefOf.Impact);
             if (!initialized)
             {
                 SpawnThings spawnThing = new SpawnThings();
-                pawn = this.launcher as Pawn;
+                pawn = launcher as Pawn;
                 MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_SummonElemental.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SummonElemental_pwr");
                 MagicPowerSkill ver = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_SummonElemental.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SummonElemental_ver");
                 
@@ -72,7 +72,7 @@ namespace TorannMagic
                     pwrVal = 3;
                     verVal = 3;
                 }
-                CellRect cellRect = CellRect.CenteredOn(this.Position, 1);
+                CellRect cellRect = CellRect.CenteredOn(Position, 1);
                 cellRect.ClipInsideMap(map);
 
                 IntVec3 centerCell = cellRect.CenterCell;
@@ -305,8 +305,8 @@ namespace TorannMagic
 
                 SingleSpawnLoop(spawnThing, centerCell, map);
 
-                this.age = this.duration;                
-                this.initialized = true;
+                age = duration;                
+                initialized = true;
             }
             Destroy();
         }
@@ -328,9 +328,9 @@ namespace TorannMagic
                     {
                         newPawn = (TMPawnSummoned)PawnGenerator.GeneratePawn(spawnables.kindDef, faction);
                         newPawn.validSummoning = true;
-                        newPawn.Spawner = this.Caster;
+                        newPawn.Spawner = Caster;
                         newPawn.Temporary = true;
-                        newPawn.TicksToDestroy = this.duration;
+                        newPawn.TicksToDestroy = duration;
                         if (newPawn.playerSettings != null)
                         {
                             newPawn.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
@@ -354,9 +354,9 @@ namespace TorannMagic
                             pawn.GetCompAbilityUserMagic().Mana.CurLevel += pawn.GetCompAbilityUserMagic().ActualManaCost(TorannMagicDefOf.TM_SummonElemental);
                             Log.Message("TM_Exception".Translate(
                                 pawn.LabelShort,
-                                this.def.defName
+                                def.defName
                                 ));
-                            this.Destroy(DestroyMode.Vanish);
+                            Destroy(DestroyMode.Vanish);
                         }
                         if (newPawn.Faction != null && newPawn.Faction != Faction.OfPlayer)
                         {

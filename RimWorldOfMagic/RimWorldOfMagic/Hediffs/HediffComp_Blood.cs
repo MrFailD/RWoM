@@ -30,7 +30,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -38,14 +38,14 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            CompAbilityUserMagic comp = this.Pawn.GetCompAbilityUserMagic();
+            bool spawned = Pawn.Spawned;
+            CompAbilityUserMagic comp = Pawn.GetCompAbilityUserMagic();
             if (spawned && comp != null && comp.IsMagicUser)
             {
                 //bloodPwr = comp.MagicData.MagicPowerSkill_BloodGift.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_BloodGift_pwr").level;
@@ -54,36 +54,36 @@ namespace TorannMagic
                 bloodPwr = TM_Calc.GetSkillPowerLevel(Pawn, TorannMagicDefOf.TM_BloodGift, false);
                 bloodVer = TM_Calc.GetSkillVersatilityLevel(Pawn, TorannMagicDefOf.TM_BloodGift, false);
                 bloodEff = TM_Calc.GetSkillEfficiencyLevel(Pawn, TorannMagicDefOf.TM_BloodGift, false);
-                this.arcaneDmg = comp.arcaneDmg;
+                arcaneDmg = comp.arcaneDmg;
             }
             else
             {
-                this.removeNow = true;
+                removeNow = true;
             }
         }        
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null && base.Pawn.Map != null;
+            bool flag = Pawn != null && Pawn.Map != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
 
-                if (Find.TickManager.TicksGame % this.eventFrequency == 0)
+                if (Find.TickManager.TicksGame % eventFrequency == 0)
                 {
-                    if(this.Pawn.health.hediffSet.BleedRateTotal != 0)
+                    if(Pawn.health.hediffSet.BleedRateTotal != 0)
                     {
                         //.06 bleed rate per 1 dmg "cut"
                         //.1 bleed rate per 1 dmg sacrificial cut
                         //Log.Message("current bleed rate is " + this.Pawn.health.hediffSet.BleedRateTotal);
-                        severityAdjustment += (this.Pawn.health.hediffSet.BleedRateTotal * (1.25f + (.125f *this.bloodVer))) * this.arcaneDmg;
+                        severityAdjustment += (Pawn.health.hediffSet.BleedRateTotal * (1.25f + (.125f *bloodVer))) * arcaneDmg;
                     }
-                    else if(!this.Pawn.IsColonist)
+                    else if(!Pawn.IsColonist)
                     {
                         severityAdjustment += 5;
                     }
@@ -92,13 +92,13 @@ namespace TorannMagic
                         severityAdjustment -= Rand.Range(.04f, .1f);
                     }
 
-                    Hediff hediff = this.Pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_Artifact_BloodBoostHD);
+                    Hediff hediff = Pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_Artifact_BloodBoostHD);
                     float maxSev = 100;
                     if(hediff != null)
                     {
                         maxSev += hediff.Severity;
                     }
-                    this.parent.Severity = Mathf.Clamp(this.parent.Severity, 0, maxSev);
+                    parent.Severity = Mathf.Clamp(parent.Severity, 0, maxSev);
                 }
 
                
@@ -110,7 +110,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.removeNow || base.CompShouldRemove;
+                return removeNow || base.CompShouldRemove;
             }
         }        
     }

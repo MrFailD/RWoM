@@ -13,20 +13,20 @@ namespace TorannMagic
 
         protected override bool TryExecuteWorker(IncidentParms parms)
         {
-            int num = this.PotentialVictimCandidates(parms.target).Count<Pawn>();
-            IntRange intRange = new IntRange(Mathf.RoundToInt((float)num * this.def.diseaseVictimFractionRange.min), Mathf.RoundToInt((float)num * this.def.diseaseVictimFractionRange.max));
+            int num = PotentialVictimCandidates(parms.target).Count<Pawn>();
+            IntRange intRange = new IntRange(Mathf.RoundToInt((float)num * def.diseaseVictimFractionRange.min), Mathf.RoundToInt((float)num * def.diseaseVictimFractionRange.max));
             int num2 = intRange.RandomInRange;
-            num2 = Mathf.Clamp(num2, 1, this.def.diseaseMaxVictims);
+            num2 = Mathf.Clamp(num2, 1, def.diseaseMaxVictims);
             for (int i = 0; i < num2; i++)
             {
-                if (!this.PotentialVictims(parms.target).TryRandomElementByWeight((Pawn x) => x.health.immunity.DiseaseContractChanceFactor(this.def.diseaseIncident, null), out Pawn pawn))
+                if (!PotentialVictims(parms.target).TryRandomElementByWeight((Pawn x) => x.health.immunity.DiseaseContractChanceFactor(def.diseaseIncident, null), out Pawn pawn))
                 {
                     break;
                 }
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
                 if (comp.IsMagicUser)
                 {
-                    HediffGiverUtility.TryApply(pawn, this.def.diseaseIncident, this.def.diseasePartsToAffect, false, 1, null);
+                    HediffGiverUtility.TryApply(pawn, def.diseaseIncident, def.diseasePartsToAffect, false, 1, null);
                 }                
             }
             return true;
@@ -45,7 +45,7 @@ namespace TorannMagic
 
         private IEnumerable<Pawn> PotentialVictims(IIncidentTarget target)
         {
-            return this.PotentialVictimCandidates(target).Where(delegate (Pawn p)
+            return PotentialVictimCandidates(target).Where(delegate (Pawn p)
             {
                 if (p.ParentHolder is Building_CryptosleepCasket)
                 {
@@ -56,12 +56,12 @@ namespace TorannMagic
                 {
                     return false;
                 }
-                if (!this.def.diseasePartsToAffect.NullOrEmpty<BodyPartDef>())
+                if (!def.diseasePartsToAffect.NullOrEmpty<BodyPartDef>())
                 {
                     bool flag = false;
-                    for (int i = 0; i < this.def.diseasePartsToAffect.Count; i++)
+                    for (int i = 0; i < def.diseasePartsToAffect.Count; i++)
                     {
-                        if (IncidentWorker_ArcaneSickness.CanAddHediffToAnyPartOfDef(p, this.def.diseaseIncident, this.def.diseasePartsToAffect[i]))
+                        if (CanAddHediffToAnyPartOfDef(p, def.diseaseIncident, def.diseasePartsToAffect[i]))
                         {
                             flag = true;
                             break;                                                              
@@ -73,13 +73,13 @@ namespace TorannMagic
                         return false;
                     }
                 }
-                return p.health.immunity.DiseaseContractChanceFactor(this.def.diseaseIncident, null) > 0f;
+                return p.health.immunity.DiseaseContractChanceFactor(def.diseaseIncident, null) > 0f;
             });
         }
 
         protected override bool CanFireNowSub(IncidentParms parms)
         {
-            return this.PotentialVictims(parms.target).Any<Pawn>();
+            return PotentialVictims(parms.target).Any<Pawn>();
         }
 
 

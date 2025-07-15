@@ -20,16 +20,16 @@ namespace TorannMagic
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -46,7 +46,7 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             Pawn caster = base.CasterPawn;
-            Pawn pawn = this.currentTarget.Thing as Pawn;
+            Pawn pawn = currentTarget.Thing as Pawn;
 
             comp = caster.GetCompAbilityUserMagic();
             MagicPowerSkill bpwr = comp.MagicData.MagicPowerSkill_BloodGift.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_BloodGift_pwr");
@@ -61,16 +61,16 @@ namespace TorannMagic
             {
                 pwrVal = 3;
             }
-            this.arcaneDmg = comp.arcaneDmg;
-            this.arcaneDmg *= (1f + .1f * bpwr.level);
+            arcaneDmg = comp.arcaneDmg;
+            arcaneDmg *= (1f + .1f * bpwr.level);
 
-            if (pawn != null && pawn != this.CasterPawn)
+            if (pawn != null && pawn != CasterPawn)
             {
                 ApplyBloodShield(pawn);
             }
             else
             {
-                Messages.Message("TM_InvalidTarget".Translate(this.CasterPawn.LabelShort, TorannMagicDefOf.TM_BloodShield.label), MessageTypeDefOf.RejectInput);
+                Messages.Message("TM_InvalidTarget".Translate(CasterPawn.LabelShort, TorannMagicDefOf.TM_BloodShield.label), MessageTypeDefOf.RejectInput);
             }
             
             return true;
@@ -80,7 +80,7 @@ namespace TorannMagic
         {
             HealthUtility.AdjustSeverity(pawn, HediffDef.Named("TM_BloodShieldHD"), (100f + (10f * pwrVal))*arcaneDmg);
             HediffComp_BloodShield comp = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("TM_BloodShieldHD"), false).TryGetComp<HediffComp_BloodShield>();
-            comp.linkedPawn = this.CasterPawn;
+            comp.linkedPawn = CasterPawn;
             SoundInfo info = SoundInfo.InMap(new TargetInfo(pawn.Position, pawn.Map, false), MaintenanceType.None);
             info.pitchFactor = .75f;
             SoundDefOf.EnergyShield_Reset.PlayOneShot(info);

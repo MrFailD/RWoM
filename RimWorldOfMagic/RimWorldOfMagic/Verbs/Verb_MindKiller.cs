@@ -30,8 +30,8 @@ namespace TorannMagic
                 int verVal = 0;
                 if (comp != null && comp.MagicData != null)
                 {
-                    pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef, false);
-                    verVal = TM_Calc.GetSkillVersatilityLevel(caster, this.Ability.Def as TMAbilityDef, false);
+                    pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef, false);
+                    verVal = TM_Calc.GetSkillVersatilityLevel(caster, Ability.Def as TMAbilityDef, false);
                 }
                 radius += (verVal * 2);
                 penetrationChance += (verVal * .1f);
@@ -40,7 +40,7 @@ namespace TorannMagic
 
                 SoundInfo info = SoundInfo.InMap(new TargetInfo(caster.Position, caster.Map, false), MaintenanceType.None);
                 info.volumeFactor = .8f;
-                if(this.CasterPawn.gender == Gender.Female)
+                if(CasterPawn.gender == Gender.Female)
                 {
                     info.pitchFactor = Rand.Range(1.2f, 1.5f); 
                 }

@@ -27,15 +27,15 @@ namespace TorannMagic.Golems
 
         public virtual void ExposeData()
         {
-            Scribe_Values.Look<int>(ref this.goodwillImpact, "goodwillImpact");
-            Scribe_Values.Look<int>(ref this.clamorRadius, "clamorRadius");
-            Scribe_Defs.Look<ClamorDef>(ref this.clamorType, "clamortype");
-            Scribe_Values.Look<int>(ref this.goodwillImpact, "goodwillImpact");
-            Scribe_Defs.Look<SoundDef>(ref this.sound, "sound");
-            Scribe_Defs.Look<EffecterDef>(ref this.effecter, "effecter");
-            Scribe_Defs.Look<ThingDef>(ref this.mote, "mote");
-            Scribe_Values.Look<float>(ref this.moteSize, "moteSize");
-            Scribe_Values.Look<EffecterTargets>(ref this.effectTarget, "effectTarget", EffecterTargets.OnTarget);
+            Scribe_Values.Look<int>(ref goodwillImpact, "goodwillImpact");
+            Scribe_Values.Look<int>(ref clamorRadius, "clamorRadius");
+            Scribe_Defs.Look<ClamorDef>(ref clamorType, "clamortype");
+            Scribe_Values.Look<int>(ref goodwillImpact, "goodwillImpact");
+            Scribe_Defs.Look<SoundDef>(ref sound, "sound");
+            Scribe_Defs.Look<EffecterDef>(ref effecter, "effecter");
+            Scribe_Defs.Look<ThingDef>(ref mote, "mote");
+            Scribe_Values.Look<float>(ref moteSize, "moteSize");
+            Scribe_Values.Look<EffecterTargets>(ref effectTarget, "effectTarget", EffecterTargets.OnTarget);
         }
 
         public float currentLevel = 1f;

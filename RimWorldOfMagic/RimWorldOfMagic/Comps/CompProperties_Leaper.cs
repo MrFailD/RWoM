@@ -24,7 +24,7 @@ namespace TorannMagic
         {
             get
             {
-                return Mathf.Clamp01(this.leapChance);
+                return Mathf.Clamp01(leapChance);
             }
         }
 
@@ -32,13 +32,13 @@ namespace TorannMagic
         {
             get
             {
-                return Mathf.Clamp01(this.explodingLeaperChance);
+                return Mathf.Clamp01(explodingLeaperChance);
             }
         }
 
         public CompProperties_Leaper()
         {
-            this.compClass = typeof(CompLeaper);
+            compClass = typeof(CompLeaper);
         }
     }
     

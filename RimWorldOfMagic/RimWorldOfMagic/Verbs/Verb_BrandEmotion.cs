@@ -20,7 +20,7 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     validTarg = true;
                 }
@@ -40,11 +40,11 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool flag = false;
-            Pawn caster = this.CasterPawn;           
+            Pawn caster = CasterPawn;           
 
-            if(caster != null && this.CurrentTarget.HasThing && this.CurrentTarget.Thing is Pawn)
+            if(caster != null && CurrentTarget.HasThing && CurrentTarget.Thing is Pawn)
             {
-                Pawn hitPawn = this.currentTarget.Thing as Pawn;                
+                Pawn hitPawn = currentTarget.Thing as Pawn;                
                 CompAbilityUserMagic casterComp = caster.GetCompAbilityUserMagic();
 
                 if (casterComp != null && hitPawn.health != null && hitPawn.health.hediffSet != null && hitPawn != caster)
@@ -70,15 +70,15 @@ namespace TorannMagic
                 }
                 else
                 {
-                    Messages.Message("TM_InvalidTarget".Translate(CasterPawn.LabelShort, this.Ability.Def.label), MessageTypeDefOf.RejectInput);
+                    Messages.Message("TM_InvalidTarget".Translate(CasterPawn.LabelShort, Ability.Def.label), MessageTypeDefOf.RejectInput);
                 }
             }
             else
             {
-                Messages.Message("TM_InvalidTarget".Translate(CasterPawn.LabelShort, this.Ability.Def.label), MessageTypeDefOf.RejectInput);
+                Messages.Message("TM_InvalidTarget".Translate(CasterPawn.LabelShort, Ability.Def.label), MessageTypeDefOf.RejectInput);
             }
 
-            this.PostCastShot(flag, out flag);
+            PostCastShot(flag, out flag);
             return flag;
         }        
 
@@ -90,7 +90,7 @@ namespace TorannMagic
                 HediffComp_BrandingBase hdc = hd.TryGetComp<HediffComp_BrandingBase>();
                 if (hdc != null)
                 {
-                    hdc.BranderPawn = this.CasterPawn;
+                    hdc.BranderPawn = CasterPawn;
                 }
             }
         }

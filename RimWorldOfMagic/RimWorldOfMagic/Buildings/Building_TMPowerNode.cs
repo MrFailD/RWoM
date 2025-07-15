@@ -35,9 +35,9 @@ namespace TorannMagic
 
         public override void ExposeData()
         {
-            Scribe_Values.Look<bool>(ref this.defensive, "defensive", false, false);
-            Scribe_Values.Look<bool>(ref this.buffShock, "buffShock", false, false);
-            Scribe_Values.Look<bool>(ref this.buffJolt, "buffJolt", false, false);
+            Scribe_Values.Look<bool>(ref defensive, "defensive", false, false);
+            Scribe_Values.Look<bool>(ref buffShock, "buffShock", false, false);
+            Scribe_Values.Look<bool>(ref buffJolt, "buffJolt", false, false);
             base.ExposeData();
         }
 
@@ -46,34 +46,34 @@ namespace TorannMagic
             if(!initialized)
             {
                 initialized = true;
-                this.nextSearch = Find.TickManager.TicksGame + Rand.Range(180, 220);
+                nextSearch = Find.TickManager.TicksGame + Rand.Range(180, 220);
             }
             if(Find.TickManager.TicksGame % 8 == 0)
             {
-                this.matRng++;
-                if(this.matRng >= 4)
+                matRng++;
+                if(matRng >= 4)
                 {
                     matRng = 0;
                 }
             }
-            if (Find.TickManager.TicksGame >= this.nextSearch)
+            if (Find.TickManager.TicksGame >= nextSearch)
             {
-                this.nextSearch = Find.TickManager.TicksGame + Rand.Range(180, 220);
+                nextSearch = Find.TickManager.TicksGame + Rand.Range(180, 220);
                 if (defensive)
                 {
-                    Pawn e = TM_Calc.FindNearbyEnemy(this.Position, this.Map, this.factionInt, 20, 0);
-                    if (e != null && TM_Calc.HasLoSFromTo(this.Position, e, this, 0, 20))
+                    Pawn e = TM_Calc.FindNearbyEnemy(Position, Map, factionInt, 20, 0);
+                    if (e != null && TM_Calc.HasLoSFromTo(Position, e, this, 0, 20))
                     {
-                        ExplosionHelper.Explode(e.Position, this.Map, .4f, DamageDefOf.Stun, this, 4, 1f);
+                        ExplosionHelper.Explode(e.Position, Map, .4f, DamageDefOf.Stun, this, 4, 1f);
                         if (e.RaceProps.IsMechanoid || TM_Calc.IsRobotPawn(e))
                         {
-                            ExplosionHelper.Explode(e.Position, this.Map, .4f, TMDamageDefOf.DamageDefOf.TM_ElectricalBurn, this, 8, 1f);
+                            ExplosionHelper.Explode(e.Position, Map, .4f, TMDamageDefOf.DamageDefOf.TM_ElectricalBurn, this, 8, 1f);
                         }
                     }
                 }
                 if (buffShock)
                 {
-                    List<Pawn> pList = TM_Calc.FindAllPawnsAround(this.Map, this.Position, 6, this.Faction, true);
+                    List<Pawn> pList = TM_Calc.FindAllPawnsAround(Map, Position, 6, Faction, true);
                     if (pList != null && pList.Count > 0)
                     {
                         for (int i = 0; i < pList.Count; i++)
@@ -88,7 +88,7 @@ namespace TorannMagic
                 }
                 if (buffJolt)
                 {
-                    List<Pawn> pList = TM_Calc.FindAllPawnsAround(this.Map, this.Position, 6, this.Faction, true);
+                    List<Pawn> pList = TM_Calc.FindAllPawnsAround(Map, Position, 6, Faction, true);
                     if (pList != null && pList.Count > 0)
                     {
                         for (int i = 0; i < pList.Count; i++)
@@ -116,19 +116,19 @@ namespace TorannMagic
             matrix.SetTRS(vector, Quaternion.AngleAxis(angle, Vector3.up), s);
             if (matRng == 0)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMPowerNode.powernodeMat_1, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, powernodeMat_1, 0);
             }
             else if (matRng == 1)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMPowerNode.powernodeMat_2, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, powernodeMat_2, 0);
             }
             else if (matRng == 2)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMPowerNode.powernodeMat_3, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, powernodeMat_3, 0);
             }
             else 
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMPowerNode.powernodeMat_4, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, powernodeMat_4, 0);
             }            
         }
     }

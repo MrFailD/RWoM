@@ -33,7 +33,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -41,44 +41,44 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            CompAbilityUserMagic comp = this.Pawn.GetCompAbilityUserMagic();
+            bool spawned = Pawn.Spawned;
+            CompAbilityUserMagic comp = Pawn.GetCompAbilityUserMagic();
             if (spawned && comp != null && comp.IsMagicUser)
             {
                 pwrVal = comp.MagicData.GetSkill_Power(TorannMagicDefOf.TM_SuppressiveAura).level;
                 verVal = comp.MagicData.GetSkill_Versatility(TorannMagicDefOf.TM_SuppressiveAura).level;
                 effVal = comp.MagicData.GetSkill_Efficiency(TorannMagicDefOf.TM_SuppressiveAura).level;
-                this.arcaneDmg = comp.arcaneDmg;
+                arcaneDmg = comp.arcaneDmg;
                 radius = (35f + (5 * effVal)) * arcaneDmg;
                 comp.MagicUserXP += Rand.RangeInclusive(1, 2);
             }
             else
             {
-                this.removeNow = true;
+                removeNow = true;
             }
         }        
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null && base.Pawn.Map != null && !Pawn.InMentalState;
+            bool flag = Pawn != null && Pawn.Map != null && !Pawn.InMentalState;
             if (flag)
             {
-                if(Find.TickManager.TicksGame % this.burdenFrequency == 0)
+                if(Find.TickManager.TicksGame % burdenFrequency == 0)
                 {
-                    this.Pawn.needs.mood.thoughts.memories.TryGainMemory(TorannMagicDefOf.TM_EmotionalWeightTD);
+                    Pawn.needs.mood.thoughts.memories.TryGainMemory(TorannMagicDefOf.TM_EmotionalWeightTD);
                 }
-                if (Find.TickManager.TicksGame % this.eventFrequency == 0)
+                if (Find.TickManager.TicksGame % eventFrequency == 0)
                 {
-                    this.Initialize();                    
+                    Initialize();                    
 
-                    if (base.Pawn.Map != null)
+                    if (Pawn.Map != null)
                     {
                         List<Pawn> pList = TM_Calc.FindAllPawnsAround(Pawn.Map, Pawn.Position, radius, Pawn.Faction, true);
                         if (pList != null && pList.Count > 0)
@@ -106,9 +106,9 @@ namespace TorannMagic
                     }
                     else if(effVal >= 3)
                     {
-                        if (base.Pawn.ParentHolder != null && base.Pawn.ParentHolder is Caravan)
+                        if (Pawn.ParentHolder != null && Pawn.ParentHolder is Caravan)
                         {
-                            Caravan car = base.Pawn.ParentHolder as Caravan;
+                            Caravan car = Pawn.ParentHolder as Caravan;
                             foreach (Pawn p in car.pawns)
                             {
                                 HealthUtility.AdjustSeverity(p, TorannMagicDefOf.TM_EmotionSuppressionHD, .5f + (.1f * pwrVal));
@@ -123,7 +123,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.removeNow || base.CompShouldRemove;
+                return removeNow || base.CompShouldRemove;
             }
         }        
     }

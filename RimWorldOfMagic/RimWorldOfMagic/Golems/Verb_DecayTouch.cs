@@ -17,7 +17,7 @@ namespace TorannMagic.Golems
             DamageWorker.DamageResult damageResult = new DamageWorker.DamageResult();
             Pawn p = target.Thing as Pawn;
             BodyPartRecord hitPart = null;
-            TMPawnGolem pg = this.CasterPawn as TMPawnGolem;
+            TMPawnGolem pg = CasterPawn as TMPawnGolem;
             float decayBonus = 1f;
             if(p != null && pg != null)
             {
@@ -58,13 +58,13 @@ namespace TorannMagic.Golems
                         hitPart = outsideParts.RandomElement();
 
                         Hediff hd = HediffMaker.MakeHediff(TorannMagicDefOf.TM_DecayHD, p, hitPart);
-                        hd.Severity = (this.tool.power / 100f) * (decayBonus * .65f);
+                        hd.Severity = (tool.power / 100f) * (decayBonus * .65f);
                         p.health.AddHediff(hd);
                     }
                 }
             }
 
-            DamageInfo dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_DecayDD, (int)(this.tool.power/5f), 2, (float)-1, this.CasterPawn, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);
+            DamageInfo dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_DecayDD, (int)(tool.power/5f), 2, (float)-1, CasterPawn, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);
             damageResult.hitThing = target.Thing;
             damageResult.totalDamageDealt = Mathf.Min((float)target.Thing.HitPoints, dinfo.Amount);
             //float angle = (Quaternion.AngleAxis(90, Vector3.up)*TM_Calc.GetVector(this.CasterPawn.Position, target.Thing.Position)).ToAngleFlat();

@@ -23,11 +23,11 @@ namespace TorannMagic.ModOptions
 
         public ChangeCloakDepthNorthWindow()
         {
-            base.closeOnCancel = true;
-            base.doCloseButton = true;
-            base.doCloseX = true;
-            base.absorbInputAroundWindow = true;
-            base.forcePause = true;
+            closeOnCancel = true;
+            doCloseButton = true;
+            doCloseX = true;
+            absorbInputAroundWindow = true;
+            forcePause = true;
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -49,7 +49,7 @@ namespace TorannMagic.ModOptions
             apply = Widgets.ButtonText(rowRect99, "Apply", true, false, true);
             if (apply)
             {
-                ModOptions.Settings.Instance.cloakDepthNorth = float.Parse(currentOffset);
+                Settings.Instance.cloakDepthNorth = float.Parse(currentOffset);
             }
             GUI.EndScrollView();
         }

@@ -16,16 +16,16 @@ namespace TorannMagic
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -53,13 +53,13 @@ namespace TorannMagic
             //pwrVal = TM_Calc.GetMagicSkillLevel(caster, comp.MagicData.MagicPowerSkill_GuardianSpirit, "TM_GuardianSpirit", "_pwr", true);
             //verVal = TM_Calc.GetMagicSkillLevel(caster, comp.MagicData.MagicPowerSkill_GuardianSpirit, "TM_GuardianSpirit", "_ver", true);
             //effVal = TM_Calc.GetMagicSkillLevel(caster, comp.MagicData.MagicPowerSkill_GuardianSpirit, "TM_GuardianSpirit", "_eff", true);
-            pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef);
-            verVal = TM_Calc.GetSkillVersatilityLevel(caster, this.Ability.Def as TMAbilityDef);
-            effVal = TM_Calc.GetSkillEfficiencyLevel(caster, this.Ability.Def as TMAbilityDef);
+            pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef);
+            verVal = TM_Calc.GetSkillVersatilityLevel(caster, Ability.Def as TMAbilityDef);
+            effVal = TM_Calc.GetSkillEfficiencyLevel(caster, Ability.Def as TMAbilityDef);
 
             if (cell != IntVec3.Invalid && (cell.IsValid && cell.Walkable(map)))
             {
-                AbilityUser.SpawnThings tempPod = new SpawnThings();
+                SpawnThings tempPod = new SpawnThings();
                 IntVec3 shiftPos = cell;
 
                 tempPod.def = comp.GuardianSpiritType;
@@ -90,8 +90,8 @@ namespace TorannMagic
                             }                            
                             comp.bondedSpirit.Destroy(DestroyMode.Vanish);
                         }
-                        this.spirit = TM_Action.SingleSpawnLoop(caster, tempPod, shiftPos, map, 5, false, false, caster.Faction, false);
-                        Pawn animal = this.spirit as Pawn;
+                        spirit = TM_Action.SingleSpawnLoop(caster, tempPod, shiftPos, map, 5, false, false, caster.Faction, false);
+                        Pawn animal = spirit as Pawn;
                         TM_Action.TrainAnimalFull(animal, caster);
                         HealthUtility.AdjustSeverity(animal, TorannMagicDefOf.TM_SpiritBondHD, -4f);
                         HealthUtility.AdjustSeverity(animal, TorannMagicDefOf.TM_SpiritBondHD, .5f + verVal);
@@ -107,7 +107,7 @@ namespace TorannMagic
                         }
                         for (int i = 0; i < 3; i++)
                         {
-                            Vector3 rndPos = this.spirit.Position.ToVector3Shifted();
+                            Vector3 rndPos = spirit.Position.ToVector3Shifted();
                             rndPos.x += Rand.Range(-.5f, .5f);
                             rndPos.z += Rand.Range(-.5f, .5f);
                             TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Healing_Small, rndPos, map, Rand.Range(.6f, .8f), .1f, .05f, .05f, 0, 0, 0, Rand.Range(0, 360));

@@ -26,11 +26,11 @@ namespace TorannMagic.Golems
 
         public GolemNameWindow()
         {
-            base.closeOnCancel = true;
-            base.doCloseButton = true;
-            base.doCloseX = true;
-            base.absorbInputAroundWindow = true;
-            base.forcePause = true;
+            closeOnCancel = true;
+            doCloseButton = true;
+            doCloseX = true;
+            absorbInputAroundWindow = true;
+            forcePause = true;
         }
 
         public override void DoWindowContents(Rect inRect)

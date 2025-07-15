@@ -19,7 +19,7 @@ namespace TorannMagic
         {
             if (targ != null && targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     validTarg = true;
                 }
@@ -40,10 +40,10 @@ namespace TorannMagic
         {
             bool flag = false;
 
-            Map map = this.CasterPawn.Map;
+            Map map = CasterPawn.Map;
 
-            Pawn hitPawn = this.currentTarget.Thing as Pawn;
-            Pawn caster = this.CasterPawn;
+            Pawn hitPawn = currentTarget.Thing as Pawn;
+            Pawn caster = CasterPawn;
 
             try
             {
@@ -59,8 +59,8 @@ namespace TorannMagic
                 //    pwrVal = mpwr.level;
                 //    verVal = mver.level;
                 //}
-                verVal = TM_Calc.GetSkillVersatilityLevel(caster, this.Ability.Def as TMAbilityDef);
-                pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef);
+                verVal = TM_Calc.GetSkillVersatilityLevel(caster, Ability.Def as TMAbilityDef);
+                pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef);
             }
             catch(NullReferenceException ex)
             {
@@ -72,22 +72,22 @@ namespace TorannMagic
                 {
                     if (pwrVal == 3)
                     {
-                        HealthUtility.AdjustSeverity(hitPawn, TorannMagicDefOf.TM_Regeneration_III, Rand.Range(1f + verVal, 3f + (verVal * 3)) * this.arcaneDmg);
+                        HealthUtility.AdjustSeverity(hitPawn, TorannMagicDefOf.TM_Regeneration_III, Rand.Range(1f + verVal, 3f + (verVal * 3)) * arcaneDmg);
                         TM_MoteMaker.ThrowRegenMote(hitPawn.DrawPos, map, 1f + (.2f * (verVal + pwrVal)));
                     }
                     else if (pwrVal == 2)
                     {
-                        HealthUtility.AdjustSeverity(hitPawn, TorannMagicDefOf.TM_Regeneration_II, Rand.Range(1f + verVal, 3f + (verVal * 3)) * this.arcaneDmg);
+                        HealthUtility.AdjustSeverity(hitPawn, TorannMagicDefOf.TM_Regeneration_II, Rand.Range(1f + verVal, 3f + (verVal * 3)) * arcaneDmg);
                         TM_MoteMaker.ThrowRegenMote(hitPawn.DrawPos, map, 1f + (.2f * (verVal + pwrVal)));
                     }
                     else if (pwrVal == 1)
                     {
-                        HealthUtility.AdjustSeverity(hitPawn, TorannMagicDefOf.TM_Regeneration_I, Rand.Range(1f + verVal, 3f + (verVal * 3)) * this.arcaneDmg);
+                        HealthUtility.AdjustSeverity(hitPawn, TorannMagicDefOf.TM_Regeneration_I, Rand.Range(1f + verVal, 3f + (verVal * 3)) * arcaneDmg);
                         TM_MoteMaker.ThrowRegenMote(hitPawn.DrawPos, map, 1f + (.2f * (verVal + pwrVal)));
                     }
                     else
                     {
-                        HealthUtility.AdjustSeverity(hitPawn, TorannMagicDefOf.TM_Regeneration, Rand.Range(1f + verVal, 3f + (verVal * 3)) * this.arcaneDmg);
+                        HealthUtility.AdjustSeverity(hitPawn, TorannMagicDefOf.TM_Regeneration, Rand.Range(1f + verVal, 3f + (verVal * 3)) * arcaneDmg);
                         TM_MoteMaker.ThrowRegenMote(hitPawn.DrawPos, map, 1f + (.2f * (verVal + pwrVal)));
                     }
                 }
@@ -100,7 +100,7 @@ namespace TorannMagic
             {
                 //ex
             }
-            this.PostCastShot(flag, out flag);
+            PostCastShot(flag, out flag);
             return flag;
         }
     }

@@ -15,10 +15,10 @@ namespace TorannMagic
         {
             DamageWorker.DamageResult damageResult = new DamageWorker.DamageResult();
             float damageVal = Rand.Range(20f, 40f);
-            DamageInfo dinfo = new DamageInfo(this.maneuver.verb.meleeDamageDef, (int)(this.tool.power/damageVal), 2, (float)-1, this.CasterPawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
+            DamageInfo dinfo = new DamageInfo(maneuver.verb.meleeDamageDef, (int)(tool.power/damageVal), 2, (float)-1, CasterPawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
             damageResult.hitThing = target.Thing;
             damageResult.totalDamageDealt = Mathf.Min((float)target.Thing.HitPoints, dinfo.Amount);
-            float angle = (Quaternion.AngleAxis(-90, Vector3.up)*GetVector(this.CasterPawn.Position, target.Thing.Position)).ToAngleFlat();
+            float angle = (Quaternion.AngleAxis(-90, Vector3.up)*GetVector(CasterPawn.Position, target.Thing.Position)).ToAngleFlat();
             for (int i = 0; i < 4; i++)
             {
                 Vector3 startPos = target.Thing.DrawPos;
@@ -28,15 +28,15 @@ namespace TorannMagic
             }
             if (target.Pawn != null && !TM_Calc.IsGolem(target.Pawn) && !TM_Calc.IsUndead(target.Pawn) && !TM_Calc.IsRobotPawn(target.Pawn))
             {
-                HealthUtility.AdjustSeverity(target.Pawn, TorannMagicDefOf.TM_SpiritDrainHD, this.tool.power/(damageVal*10f));
-                Need_Spirit nd = this.CasterPawn.needs.TryGetNeed(TorannMagicDefOf.TM_SpiritND) as Need_Spirit;
+                HealthUtility.AdjustSeverity(target.Pawn, TorannMagicDefOf.TM_SpiritDrainHD, tool.power/(damageVal*10f));
+                Need_Spirit nd = CasterPawn.needs.TryGetNeed(TorannMagicDefOf.TM_SpiritND) as Need_Spirit;
                 if(nd != null)
                 {
                     nd.GainNeed(damageVal * .03f);
                     if (target.Pawn.Dead)
                     {
                         nd.GainNeed(Rand.Range(8f, 12f));
-                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Ghost, this.CasterPawn.DrawPos, this.CasterPawn.Map, Rand.Range(.4f, .6f), .1f, .05f, .05f, 0, Rand.Range(1, 2), 0, 0);
+                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Ghost, CasterPawn.DrawPos, CasterPawn.Map, Rand.Range(.4f, .6f), .1f, .05f, .05f, 0, Rand.Range(1, 2), 0, 0);
                     }
                 }                
             }

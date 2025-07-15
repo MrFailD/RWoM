@@ -6,7 +6,7 @@ namespace TorannMagic
     {        
         public CompProperties_Polymorph()
         {
-            this.compClass = typeof(CompPolymorph);
+            compClass = typeof(CompPolymorph);
         }
     }
 }

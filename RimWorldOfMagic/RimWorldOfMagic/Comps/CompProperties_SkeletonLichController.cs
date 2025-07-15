@@ -32,7 +32,7 @@ namespace TorannMagic
 
         public CompProperties_SkeletonLichController()
         {
-            this.compClass = typeof(CompSkeletonLichController);
+            compClass = typeof(CompSkeletonLichController);
         }
     }
 }

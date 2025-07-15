@@ -43,33 +43,33 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", true, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 40, false);
-            Scribe_Values.Look<int>(ref this.waveRange, "waveRange", 1, false);
-            Scribe_Values.Look<float>(ref this.radius, "radius", 4, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_References.Look<Pawn>(ref this.caster, "caster", false);
-            Scribe_Values.Look<int>(ref this.waveDelay, "waveDelay", 10, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", true, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 40, false);
+            Scribe_Values.Look<int>(ref waveRange, "waveRange", 1, false);
+            Scribe_Values.Look<float>(ref radius, "radius", 4, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_References.Look<Pawn>(ref caster, "caster", false);
+            Scribe_Values.Look<int>(ref waveDelay, "waveDelay", 10, false);
         }
 
         private int TicksLeft
         {
             get
             {
-                return this.duration - this.age;
+                return duration - age;
             }
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
-            this.caster = this.launcher as Pawn;
+            caster = launcher as Pawn;
 
-            if(!this.initialized)
+            if(!initialized)
             {
                 CompAbilityUserMight comp = caster.GetCompAbilityUserMight();
                 //pwrVal = caster.GetCompAbilityUserMight().MightData.MightPowerSkill_WaveOfFear.FirstOrDefault((MightPowerSkill x) => x.label == "TM_WaveOfFear_pwr").level;
@@ -87,7 +87,7 @@ namespace TorannMagic
                 pwrVal = TM_Calc.GetSkillPowerLevel(caster, TorannMagicDefOf.TM_WaveOfFear);
                 verVal = TM_Calc.GetSkillVersatilityLevel(caster, TorannMagicDefOf.TM_WaveOfFear);
                 effVal = TM_Calc.GetSkillEfficiencyLevel(caster, TorannMagicDefOf.TM_WaveOfFear);
-                this.arcaneDmg = comp.mightPwr;
+                arcaneDmg = comp.mightPwr;
                 
                 //if (!caster.IsColonist && ModOptions.Settings.Instance.AIHardMode)
                 //{
@@ -103,75 +103,75 @@ namespace TorannMagic
                 }
                 if (hediff != null)
                 {
-                    this.radius = 4 + (.8f * verVal) + (.07f * hediff.Severity);
-                    HealthUtility.AdjustSeverity(caster, hediff.def, -(25f * (1 - .1f * this.effVal)));
+                    radius = 4 + (.8f * verVal) + (.07f * hediff.Severity);
+                    HealthUtility.AdjustSeverity(caster, hediff.def, -(25f * (1 - .1f * effVal)));
                 }
                 else
                 {
-                    this.radius = 4 + (.8f * verVal);
+                    radius = 4 + (.8f * verVal);
                 }
-                this.duration = Mathf.RoundToInt(this.radius * 10);
-                this.affectedPawns = new List<Pawn>();
-                this.affectedPawns.Clear();
-                if (this.Map != null)
+                duration = Mathf.RoundToInt(radius * 10);
+                affectedPawns = new List<Pawn>();
+                affectedPawns.Clear();
+                if (Map != null)
                 {
-                    SoundInfo info = SoundInfo.InMap(new TargetInfo(base.Position, this.Map, false), MaintenanceType.None);
+                    SoundInfo info = SoundInfo.InMap(new TargetInfo(Position, Map, false), MaintenanceType.None);
                     TorannMagicDefOf.TM_GaspingAir.PlayOneShot(info);
                     Effecter FearWave = TorannMagicDefOf.TM_FearWave.Spawn();
-                    FearWave.Trigger(new TargetInfo(caster.Position, caster.Map, false), new TargetInfo(base.Position, this.Map, false));
+                    FearWave.Trigger(new TargetInfo(caster.Position, caster.Map, false), new TargetInfo(Position, Map, false));
                     FearWave.Cleanup();
                     SearchAndFear();
                 }
-                this.initialized = true;
+                initialized = true;
             }  
 
-            if(Find.TickManager.TicksGame % this.waveDelay == 0 && !this.caster.DeadOrDowned && this.caster.Map != null)
+            if(Find.TickManager.TicksGame % waveDelay == 0 && !caster.DeadOrDowned && caster.Map != null)
             {
                 SearchAndFear();
-                this.waveRange++;
+                waveRange++;
             }
         }
 
         public void SearchAndFear()
         {
-            List<Pawn> mapPawns = this.caster.Map.mapPawns.AllPawnsSpawned.ToList();
+            List<Pawn> mapPawns = caster.Map.mapPawns.AllPawnsSpawned.ToList();
             if (mapPawns != null && mapPawns.Count > 0)
             {
                 for (int i = 0; i < mapPawns.Count; i++)
                 {
                     Pawn victim = mapPawns[i];
-                    if (!victim.DestroyedOrNull() && !victim.Dead && victim.Map != null && victim.health != null && victim.health.hediffSet != null && !victim.Downed && victim.mindState != null && !victim.InMentalState && !this.affectedPawns.Contains(victim))
+                    if (!victim.DestroyedOrNull() && !victim.Dead && victim.Map != null && victim.health != null && victim.health.hediffSet != null && !victim.Downed && victim.mindState != null && !victim.InMentalState && !affectedPawns.Contains(victim))
                     {
-                        if (victim.Faction != null && victim.Faction != caster.Faction && (victim.Position - caster.Position).LengthHorizontal < this.waveRange)
+                        if (victim.Faction != null && victim.Faction != caster.Faction && (victim.Position - caster.Position).LengthHorizontal < waveRange)
                         {
                             if (Rand.Chance(TM_Calc.GetSpellSuccessChance(caster, victim, true)))
                             {
-                                LocalTargetInfo t = new LocalTargetInfo(victim.Position + (6 * this.arcaneDmg * TM_Calc.GetVector(caster.DrawPos, victim.DrawPos)).ToIntVec3());
+                                LocalTargetInfo t = new LocalTargetInfo(victim.Position + (6 * arcaneDmg * TM_Calc.GetVector(caster.DrawPos, victim.DrawPos)).ToIntVec3());
                                 if (victim.jobs != null)
                                 {
                                     Job job = new Job(JobDefOf.FleeAndCower, t);
                                     victim.jobs.TryTakeOrderedJob(job, JobTag.Misc);
                                 }
                                 HealthUtility.AdjustSeverity(victim, HediffDef.Named("TM_WaveOfFearHD"), .5f + pwrVal);
-                                this.affectedPawns.Add(victim);
+                                affectedPawns.Add(victim);
                             }
                             else
                             {
                                 MoteMaker.ThrowText(victim.DrawPos, victim.Map, "TM_ResistedSpell".Translate(), -1);
                             }
                         }
-                        else if(victim.Faction == null && (victim.Position - caster.Position).LengthHorizontal < this.waveRange)
+                        else if(victim.Faction == null && (victim.Position - caster.Position).LengthHorizontal < waveRange)
                         {
                             if (Rand.Chance(TM_Calc.GetSpellSuccessChance(caster, victim, true)))
                             {
-                                LocalTargetInfo t = new LocalTargetInfo(victim.Position + (6 * this.arcaneDmg * TM_Calc.GetVector(caster.DrawPos, victim.DrawPos)).ToIntVec3());
+                                LocalTargetInfo t = new LocalTargetInfo(victim.Position + (6 * arcaneDmg * TM_Calc.GetVector(caster.DrawPos, victim.DrawPos)).ToIntVec3());
                                 if (victim.jobs != null)
                                 {
                                     Job job = new Job(JobDefOf.FleeAndCower, t);
                                     victim.jobs.TryTakeOrderedJob(job, JobTag.Misc);
                                 }
                                 HealthUtility.AdjustSeverity(victim, HediffDef.Named("TM_WaveOfFearHD"), .5f + pwrVal);
-                                this.affectedPawns.Add(victim);
+                                affectedPawns.Add(victim);
                             }
                             else
                             {
@@ -186,12 +186,12 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age <= this.duration;
+            bool flag = age <= duration;
             if (!flag)
             {
                 base.Destroy(mode);

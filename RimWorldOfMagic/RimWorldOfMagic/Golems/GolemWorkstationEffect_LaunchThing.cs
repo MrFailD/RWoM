@@ -24,13 +24,13 @@ namespace TorannMagic.Golems
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.requiresLoS, "requiresLoS");
-            Scribe_Values.Look<int>(ref this.ticksBetweenBursts, "ticksBetweenBursts");
-            Scribe_Values.Look<float>(ref this.missRadius, "missRadius");
-            Scribe_Values.Look<float>(ref this.hitChance, "hitChance");
-            Scribe_Values.Look<float>(ref this.maxRange, "maxRange");
-            Scribe_Values.Look<float>(ref this.minRange, "minRange");            
-            Scribe_Defs.Look<ThingDef>(ref this.thing, "thing");
+            Scribe_Values.Look<bool>(ref requiresLoS, "requiresLoS");
+            Scribe_Values.Look<int>(ref ticksBetweenBursts, "ticksBetweenBursts");
+            Scribe_Values.Look<float>(ref missRadius, "missRadius");
+            Scribe_Values.Look<float>(ref hitChance, "hitChance");
+            Scribe_Values.Look<float>(ref maxRange, "maxRange");
+            Scribe_Values.Look<float>(ref minRange, "minRange");            
+            Scribe_Defs.Look<ThingDef>(ref thing, "thing");
         }
 
         public override void ContinueEffect(Building_TMGolemBase golem_building)

@@ -54,7 +54,7 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false);
             Scribe_Values.Look<bool>(ref wasDead, "wasDead", false);
             Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0);
             Scribe_Values.Look<int>(ref verVal, "verVal", 0);
@@ -68,7 +68,7 @@ namespace TorannMagic
 
         //public override string GizmoLabel => "TM_ApothecaryHerbsGizmoLabel".Translate();
         //public override float MaxSeverity => def.maxSeverity + (10 * herbPwr);
-        public override bool ShouldRemove => this.removeNow;
+        public override bool ShouldRemove => removeNow;
 
         private void Initialize()
         {
@@ -94,12 +94,12 @@ namespace TorannMagic
                 verVal = TM_Calc.GetMagicSkillLevel(pawn, TorannMagicDefOf.TM_Possess, "_ver", false);
                 effVal = TM_Calc.GetMagicSkillLevel(pawn, TorannMagicDefOf.TM_Possess, "_eff", false);
             }
-            this.Severity = .5f + pwrVal;
+            Severity = .5f + pwrVal;
         }
 
         public void GenerateCompatibility()
         {
-            this.traitCompatibilityList = new List<TraitDef>();
+            traitCompatibilityList = new List<TraitDef>();
             traitCompatibilityList.Clear();
             foreach(TraitDef def in DefDatabase<TraitDef>.AllDefs)
             {
@@ -108,7 +108,7 @@ namespace TorannMagic
                     traitCompatibilityList.Add(def);
                 }
             }
-            this.backstoryCompatibilityList = new List<BackstoryDef>();
+            backstoryCompatibilityList = new List<BackstoryDef>();
             backstoryCompatibilityList.Clear();
             backstoryIdentifiers = new List<string>();
             backstoryIdentifiers.Clear();
@@ -153,16 +153,16 @@ namespace TorannMagic
             base.PostTick();
             if(!initialized)
             {
-                this.initialized = true;
+                initialized = true;
                 Initialize();
             }            
             if (Find.TickManager.TicksGame % 31 == 0)
             {
-                foreach (Hediff hd in this.pawn.health.hediffSet.hediffs)
+                foreach (Hediff hd in pawn.health.hediffSet.hediffs)
                 {
                     if (hd.def.defName == "SpaceHypoxia")
                     {
-                        this.pawn.health.RemoveHediff(hd);
+                        pawn.health.RemoveHediff(hd);
                         break;
                     }
                 }

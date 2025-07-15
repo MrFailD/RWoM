@@ -23,12 +23,12 @@ namespace TorannMagic.Golems
 
         public virtual void ExposeData()
         {
-            Scribe_Values.Look<float>(ref this.energyCostModifier, "energyCostModifier", 0f);
-            Scribe_Values.Look<float>(ref this.cooldownModifier, "cooldownModifier", 0f);
-            Scribe_Values.Look<float>(ref this.damageModifier, "damageModifier", 0f);
-            Scribe_Values.Look<float>(ref this.durationModifier, "durationModifier", 0f);
-            Scribe_Values.Look<float>(ref this.healingModifier, "healingModifier", 0f);
-            Scribe_Values.Look<float>(ref this.processingModifier, "processingModifier", 0f);
+            Scribe_Values.Look<float>(ref energyCostModifier, "energyCostModifier", 0f);
+            Scribe_Values.Look<float>(ref cooldownModifier, "cooldownModifier", 0f);
+            Scribe_Values.Look<float>(ref damageModifier, "damageModifier", 0f);
+            Scribe_Values.Look<float>(ref durationModifier, "durationModifier", 0f);
+            Scribe_Values.Look<float>(ref healingModifier, "healingModifier", 0f);
+            Scribe_Values.Look<float>(ref processingModifier, "processingModifier", 0f);
         }        
     }
 }

@@ -32,7 +32,7 @@ namespace TorannMagic
         {
             get
             {
-                return (int)(this.parent.Severity / GetApplicationSeverity);
+                return (int)(parent.Severity / GetApplicationSeverity);
             }
         }
 
@@ -42,7 +42,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -50,14 +50,14 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            CompAbilityUserMight comp = this.Pawn.GetCompAbilityUserMight();
+            bool spawned = Pawn.Spawned;
+            CompAbilityUserMight comp = Pawn.GetCompAbilityUserMight();
             if (spawned && comp != null && comp.IsMightUser)
             {
                 pwrVal = comp.MightData.MightPowerSkill_Nightshade.FirstOrDefault((MightPowerSkill x) => x.label == "TM_Nightshade_pwr").level;
@@ -65,29 +65,29 @@ namespace TorannMagic
             }
             else
             {
-                this.removeNow = true;
+                removeNow = true;
             }
         }        
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null && base.Pawn.Map != null;
+            bool flag = Pawn != null && Pawn.Map != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
 
-                if (Find.TickManager.TicksGame % this.eventFrequency == 0)
+                if (Find.TickManager.TicksGame % eventFrequency == 0)
                 {
                     Initialize();
                     severityAdjustment += Rand.Range(.2f, .3f);                    
 
                     float maxSev = 10 + (2*verVal);
-                    this.parent.Severity = Mathf.Clamp(this.parent.Severity, 0, maxSev);
+                    parent.Severity = Mathf.Clamp(parent.Severity, 0, maxSev);
                 } 
             }
         }
@@ -96,7 +96,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.removeNow || base.CompShouldRemove;
+                return removeNow || base.CompShouldRemove;
             }
         }        
     }

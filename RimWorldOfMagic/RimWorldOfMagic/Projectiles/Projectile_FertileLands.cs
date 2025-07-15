@@ -15,23 +15,23 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
-            this.caster = this.launcher as Pawn;
+            caster = launcher as Pawn;
 
-            if(!this.initialized)
+            if(!initialized)
             {
-                this.initialized = true;
+                initialized = true;
             }
 
-            CompAbilityUserMagic comp = this.caster.GetCompAbilityUserMagic();
+            CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
             comp.fertileLands = new List<IntVec3>();
             comp.fertileLands.Clear();
             List<IntVec3> affectedCells = new List<IntVec3>();
             affectedCells.Clear();
             affectedCells = ModOptions.Constants.GetGrowthCells();
-            List<IntVec3> targetCells = GenRadial.RadialCellsAround(base.Position, 6, true).ToList();            
+            List<IntVec3> targetCells = GenRadial.RadialCellsAround(Position, 6, true).ToList();            
             for (int i = 0; i < targetCells.Count(); i++)
             {
                 bool uniqueCell = true;
@@ -47,7 +47,7 @@ namespace TorannMagic
                     comp.fertileLands.Add(targetCells.ToArray<IntVec3>()[i]);
                 }                
             }
-            TM_MoteMaker.ThrowTwinkle(base.Position.ToVector3Shifted(), map, 1f);
+            TM_MoteMaker.ThrowTwinkle(Position.ToVector3Shifted(), map, 1f);
             
             ModOptions.Constants.SetGrowthCells(comp.fertileLands);
             comp.RemovePawnAbility(TorannMagicDefOf.TM_FertileLands);

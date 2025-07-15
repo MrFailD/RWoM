@@ -21,7 +21,7 @@ namespace TorannMagic
             IntVec3 intVec;
             if (RCellFinder.TryFindRandomCellNearTheCenterOfTheMapWith((IntVec3 x) => GenGrid.Standable(x, map) && !GridsUtility.Fogged(x, map) && GridsUtility.GetRoom(x, map).CellCount >= 4, map, out intVec))
             {
-                float num = this.pointsRange.RandomInRange;
+                float num = pointsRange.RandomInRange;
                 List<Pawn> list = new List<Pawn>();
                 for (int i = 0; i < 50; i++)
                 {

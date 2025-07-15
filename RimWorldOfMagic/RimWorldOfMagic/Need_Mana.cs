@@ -56,10 +56,10 @@ namespace TorannMagic
         public override float CurLevel
         {            
             get => curLevelInt;
-            set => curLevelInt = Mathf.Clamp(value, 0f, 2f*this.pawn.GetCompAbilityUserMagic().maxMP);            
+            set => curLevelInt = Mathf.Clamp(value, 0f, 2f*pawn.GetCompAbilityUserMagic().maxMP);            
         }
 
-        public override float MaxLevel => this.pawn.ageTracker.AgeBiologicalYears < 13 ? this.pawn.GetCompAbilityUserMagic().maxMP - ((12f - this.pawn.ageTracker.AgeBiologicalYearsFloat) / 12f) : this.pawn.GetCompAbilityUserMagic().maxMP;
+        public override float MaxLevel => pawn.ageTracker.AgeBiologicalYears < 13 ? pawn.GetCompAbilityUserMagic().maxMP - ((12f - pawn.ageTracker.AgeBiologicalYearsFloat) / 12f) : pawn.GetCompAbilityUserMagic().maxMP;
 
         public override void ExposeData()
         {
@@ -71,7 +71,7 @@ namespace TorannMagic
         {
             get
             {
-                bool flag = this.CurLevel < 0.1f;
+                bool flag = CurLevel < 0.1f;
                 ManaPoolCategory result;
                 if (flag)
                 {
@@ -79,21 +79,21 @@ namespace TorannMagic
                 }
                 else
                 {
-                    bool flag2 = this.CurLevel < 0.3f;
+                    bool flag2 = CurLevel < 0.3f;
                     if (flag2)
                     {
                         result = ManaPoolCategory.Weakened;
                     }
                     else
                     {
-                        bool flag3 = this.CurLevel < 0.5f;
+                        bool flag3 = CurLevel < 0.5f;
                         if (flag3)
                         {
                             result = ManaPoolCategory.Steady;
                         }
                         else
                         {
-                            bool flag4 = this.CurLevel < 0.7f;
+                            bool flag4 = CurLevel < 0.7f;
                             if (flag4)
                             {
                                 result = ManaPoolCategory.Flowing;
@@ -113,7 +113,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.GainingNeed ? 1 : -1;
+                return GainingNeed ? 1 : -1;
             }
         }
 
@@ -121,7 +121,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.CurLevel;
+                return CurLevel;
             }
         }
 
@@ -129,7 +129,7 @@ namespace TorannMagic
         {
             get
             {
-                return Find.TickManager.TicksGame < this.lastGainTick + 10;
+                return Find.TickManager.TicksGame < lastGainTick + 10;
             }
         }
 
@@ -139,87 +139,87 @@ namespace TorannMagic
 
         public Need_Mana(Pawn pawn) : base(pawn)
 		{
-            this.lastGainTick = -999;
-            this.threshPercents = new List<float>();
-            this.threshPercents.Add((0.25f / this.MaxLevel));
-            this.threshPercents.Add((0.5f / this.MaxLevel));
-            this.threshPercents.Add((0.75f / this.MaxLevel));         
+            lastGainTick = -999;
+            threshPercents = new List<float>();
+            threshPercents.Add((0.25f / MaxLevel));
+            threshPercents.Add((0.5f / MaxLevel));
+            threshPercents.Add((0.75f / MaxLevel));         
         }
 
         private void AdjustThresh()
         {
-            this.threshPercents.Clear();
-            this.threshPercents.Add((0.25f / this.MaxLevel));
-            this.threshPercents.Add((0.5f / this.MaxLevel));
-            this.threshPercents.Add((0.75f / this.MaxLevel));
-            if (this.MaxLevel > 1)
+            threshPercents.Clear();
+            threshPercents.Add((0.25f / MaxLevel));
+            threshPercents.Add((0.5f / MaxLevel));
+            threshPercents.Add((0.75f / MaxLevel));
+            if (MaxLevel > 1)
             {
-                this.threshPercents.Add((1f / this.MaxLevel));
+                threshPercents.Add((1f / MaxLevel));
             }
-            if (this.MaxLevel > 1.25f)
+            if (MaxLevel > 1.25f)
             {
-                this.threshPercents.Add((1.25f / this.MaxLevel));
+                threshPercents.Add((1.25f / MaxLevel));
             }
-            if (this.MaxLevel > 1.5f)
+            if (MaxLevel > 1.5f)
             {
-                this.threshPercents.Add((1.5f / this.MaxLevel));
+                threshPercents.Add((1.5f / MaxLevel));
             }
-            if (this.MaxLevel > 1.75f)
+            if (MaxLevel > 1.75f)
             {
-                this.threshPercents.Add((1.75f / this.MaxLevel));
+                threshPercents.Add((1.75f / MaxLevel));
             }
-            if (this.MaxLevel > 2f)
+            if (MaxLevel > 2f)
             {
-                this.threshPercents.Add((2f / this.MaxLevel));
+                threshPercents.Add((2f / MaxLevel));
             }
-            if (this.MaxLevel > 2.5f)
+            if (MaxLevel > 2.5f)
             {
-                this.threshPercents.Add((2.5f / this.MaxLevel));
+                threshPercents.Add((2.5f / MaxLevel));
             }
-            if (this.MaxLevel > 3f)
+            if (MaxLevel > 3f)
             {
-                this.threshPercents.Add((3f / this.MaxLevel));
+                threshPercents.Add((3f / MaxLevel));
             }
-            if (this.MaxLevel > 4f)
+            if (MaxLevel > 4f)
             {
-                this.threshPercents.Add((4f / this.MaxLevel));
+                threshPercents.Add((4f / MaxLevel));
             }
-            if (this.MaxLevel > 5f)
+            if (MaxLevel > 5f)
             {
-                this.threshPercents.Add((5f / this.MaxLevel));
+                threshPercents.Add((5f / MaxLevel));
             }
         }
 
         public override void SetInitialLevel()
         {
-            if(this.pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
+            if(pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
             {
-                this.def.showOnNeedList = false;
+                def.showOnNeedList = false;
             }
-            this.CurLevel = 0.8f;
+            CurLevel = 0.8f;
         }
 
         public void GainNeed(float amount)
         {            
-            if (!base.pawn.DestroyedOrNull() && !base.pawn.Dead && base.pawn.story != null && base.pawn.story.traits != null && !base.pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
+            if (!this.pawn.DestroyedOrNull() && !this.pawn.Dead && this.pawn.story != null && this.pawn.story.traits != null && !this.pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
             {                
-                Pawn pawn = base.pawn;
+                Pawn pawn = this.pawn;
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
                 if (comp != null && comp.MagicData != null && comp.IsMagicUser && pawn.Faction != null)
                 {                    
                     if (!pawn.Faction.IsPlayer && pawn.Map != null)
                     {
                         amount *= (0.025f);
-                        amount = Mathf.Min(amount, this.MaxLevel - this.CurLevel);
-                        this.curLevelInt += amount;
+                        amount = Mathf.Min(amount, MaxLevel - CurLevel);
+                        curLevelInt += amount;
                     }
                     else
                     {
                                                 
                         MagicPowerSkill manaRegen = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_global_regen.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_global_regen_pwr");
-                        this.baseManaGain = (amount * (0.0012f) * ModOptions.Settings.Instance.needMultiplier);
+                        baseManaGain = (amount * (0.0012f) * ModOptions.Settings.Instance.needMultiplier);
                         amount *= (((0.0012f * comp.mpRegenRate)) * ModOptions.Settings.Instance.needMultiplier);
-                        this.modifiedManaGain = amount - this.baseManaGain;
+                        modifiedManaGain = amount - baseManaGain;
 
                         if (pawn.health != null && pawn.health.hediffSet != null)
                         {
@@ -250,65 +250,65 @@ namespace TorannMagic
                             //Syrrium modifier
                             if (this.pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_SyrriumSenseHD"), false))
                             {
-                                this.drainSyrrium = this.baseManaGain * .5f;
-                                amount += this.drainSyrrium;                            
+                                drainSyrrium = baseManaGain * .5f;
+                                amount += drainSyrrium;                            
                             }
                             else if(this.pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_PomanaSenseHD"), false))
                             {
-                                this.drainSyrrium = this.baseManaGain * .2f;
-                                amount += this.drainSyrrium;
+                                drainSyrrium = baseManaGain * .2f;
+                                amount += drainSyrrium;
                             }
                             else
                             {
-                                this.drainSyrrium = 0;
+                                drainSyrrium = 0;
                             }
 
                             //Mana drain modifier
                             if (pawn.Map != null && pawn.Map.GameConditionManager.ConditionIsActive(TorannMagicDefOf.ManaDrain))
                             {
-                                this.drainManaDrain = 2*amount;
+                                drainManaDrain = 2*amount;
                                 //Arcane weakness modifier
                                 if (pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_ArcaneWeakness))
                                 {
-                                    this.drainManaWeakness = .75f * this.modifiedManaGain;
+                                    drainManaWeakness = .75f * modifiedManaGain;
                                 }
                                 else
                                 {
-                                    this.drainManaWeakness = 0;
+                                    drainManaWeakness = 0;
                                 }
-                                amount = (-1 * amount) - this.drainManaWeakness;                            
-                                this.drainManaSurge = 0f;
+                                amount = (-1 * amount) - drainManaWeakness;                            
+                                drainManaSurge = 0f;
                             }
                             else if (pawn.Map != null && pawn.Map.GameConditionManager.ConditionIsActive(TorannMagicDefOf.ManaSurge))
                             {
                                 //Arcane weakness modifier
-                                this.drainManaSurge = (2.25f * amount) - amount;
+                                drainManaSurge = (2.25f * amount) - amount;
                                 amount = (2.25f * amount);
                                 if (pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_ArcaneWeakness))
                                 {
-                                    this.drainManaWeakness = .75f * this.baseManaGain;
+                                    drainManaWeakness = .75f * baseManaGain;
                                 }
                                 else
                                 {
-                                    this.drainManaWeakness = 0;
+                                    drainManaWeakness = 0;
                                 }
-                                amount -= this.drainManaWeakness;
-                                this.drainManaDrain = 0;                            
+                                amount -= drainManaWeakness;
+                                drainManaDrain = 0;                            
                             }
                             else
                             {
                                 //Arcane weakness modifier
                                 if (pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_ArcaneWeakness))
                                 {
-                                    this.drainManaWeakness = .75f * this.baseManaGain;                                
+                                    drainManaWeakness = .75f * baseManaGain;                                
                                 }
                                 else
                                 {
-                                    this.drainManaWeakness = 0;
+                                    drainManaWeakness = 0;
                                 }
-                                amount -= this.drainManaWeakness;
-                                this.drainManaDrain = 0;
-                                this.drainManaSurge = 0;
+                                amount -= drainManaWeakness;
+                                drainManaDrain = 0;
+                                drainManaSurge = 0;
                             }
                         }
                         else
@@ -322,7 +322,7 @@ namespace TorannMagic
                         }
 
                         //Paracyte modifier
-                        if (pawn.Map != null && this.lastParacyteCheck < Find.TickManager.TicksGame + 3000)
+                        if (pawn.Map != null && lastParacyteCheck < Find.TickManager.TicksGame + 3000)
                         {
                             List<Thing> paracyteBushes = this.pawn.Map.listerThings.ThingsOfDef(TorannMagicDefOf.TM_Plant_Paracyte);
                             int paracyteCount = paracyteBushes.Count;
@@ -352,32 +352,32 @@ namespace TorannMagic
                             {
                                 mapManaDrainerCount = 0;
                             }
-                            this.paracyteCountReduction = 0.000005f * mapManaDrainerCount;
-                            amount -= this.paracyteCountReduction;
+                            paracyteCountReduction = 0.000005f * mapManaDrainerCount;
+                            amount -= paracyteCountReduction;
                         }
 
                         //Summoned minion modifier
                         if (comp.summonedMinions.Count > 0)
                         {
                             MagicPowerSkill summonerEff = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_SummonMinion.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SummonMinion_eff");
-                            this.drainMinion = (0.0012f * (comp.summonedMinions.Count * (.2f - (.01f * summonerEff.level))));
-                            amount -= this.drainMinion;
+                            drainMinion = (0.0012f * (comp.summonedMinions.Count * (.2f - (.01f * summonerEff.level))));
+                            amount -= drainMinion;
                         }
                         else
                         {
-                            this.drainMinion = 0;
+                            drainMinion = 0;
                         }
 
                         //Earth sprite modifier
                         if(comp.earthSpriteType != 0)
                         {
                             MagicPowerSkill manaDeviant = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_EarthSprites.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_EarthSprites_ver");
-                            this.drainSprites = (0.0012f * (.6f - (.07f * manaDeviant.level)));
-                            amount -= this.drainSprites;
+                            drainSprites = (0.0012f * (.6f - (.07f * manaDeviant.level)));
+                            amount -= drainSprites;
                         }
                         else
                         {
-                            this.drainSprites = 0;
+                            drainSprites = 0;
                         }
 
                         //Undead modifier
@@ -441,7 +441,7 @@ namespace TorannMagic
                                 }
                                 else
                                 {
-                                    if (this.CurLevel < 0.01f && undeadCount > 0)
+                                    if (CurLevel < 0.01f && undeadCount > 0)
                                     {
                                         //consume corpse
                                         Pawn current = (Pawn)comp.supportedUndead.RandomElement();
@@ -466,7 +466,7 @@ namespace TorannMagic
                                         }
                                         current.Destroy();
                                         undeadCount--;
-                                        this.curLevelInt = .12f + (.025f * manaRegen.level);
+                                        curLevelInt = .12f + (.025f * manaRegen.level);
                                     }                                    
                                 }
                             }
@@ -495,17 +495,17 @@ namespace TorannMagic
                             }
                             
                             necroReduction = (((0.0012f * (.15f - (.15f * (.1f * eff.level))) * undeadCount) * orbReduction) * ModOptions.Settings.Instance.undeadUpkeepMultiplier * shroudMultiplier);
-                            this.drainUndead = necroReduction;
+                            drainUndead = necroReduction;
                             amount -= necroReduction;
                             //Log.Message("" + pawn.LabelShort + " is 1 of " + necroCount + " contributing necros and had necro reduction of " + necroReduction);
 
                         }
                         else
                         {
-                            this.drainUndead = 0;
+                            drainUndead = 0;
                         }
 
-                        if (this.CurLevel < .01f && amount < 0 && pawn.Map != null && pawn.Spawned)
+                        if (CurLevel < .01f && amount < 0 && pawn.Map != null && pawn.Spawned)
                         {
                             float pain = pawn.health.hediffSet.PainTotal;
                             float con = pawn.health.capacities.GetLevel(PawnCapacityDefOf.Consciousness);
@@ -515,16 +515,16 @@ namespace TorannMagic
 
                         if (pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_ArcaneSickness))
                         {
-                            this.drainManaSickness = amount;
+                            drainManaSickness = amount;
                             amount = 0;
                             //no mana gain
                         }
                         else
                         {
-                            this.drainManaSickness = 0;
+                            drainManaSickness = 0;
                         }
 
-                        this.lastGainPct = amount;
+                        lastGainPct = amount;
 
                         if (comp.Mana.CurLevel < MaxLevel)
                         {
@@ -532,8 +532,8 @@ namespace TorannMagic
                         }
                         //comp.Mana.curLevelInt = Mathf.Clamp(comp.Mana.curLevelInt += amount, 0f, this.MaxLevel);
 
-                        lastNeed = this.CurLevel;
-                        this.lastGainTick = Find.TickManager.TicksGame;
+                        lastNeed = CurLevel;
+                        lastGainTick = Find.TickManager.TicksGame;
                     }
 
                     if (CurLevel < 0)
@@ -551,7 +551,7 @@ namespace TorannMagic
                 }
                 else
                 {
-                    this.curLevelInt = 0;
+                    curLevelInt = 0;
                 }
                 AdjustThresh();
             }
@@ -576,7 +576,7 @@ namespace TorannMagic
 
         public void UseMagicPower(float amount)
         {
-            this.curLevelInt = Mathf.Clamp(this.curLevelInt - amount, 0f, 2f*this.pawn.GetCompAbilityUserMagic().maxMP);
+            curLevelInt = Mathf.Clamp(curLevelInt - amount, 0f, 2f*pawn.GetCompAbilityUserMagic().maxMP);
             if ((amount) > .25f && (amount) < .45f)
             {
                 //0.0 to 0.2 max
@@ -617,7 +617,7 @@ namespace TorannMagic
                 float sev = 12.5f + ((amount - .79f) * 75);              
                 if (lastCast != Find.TickManager.TicksGame)
                 {
-                    this.lastCast = Find.TickManager.TicksGame;
+                    lastCast = Find.TickManager.TicksGame;
                     if (pawn.story != null && pawn.story.traits != null)
                     {
                         if (pawn.story.traits.HasTrait(TorannMagicDefOf.TM_EnlightenedTD))
@@ -636,7 +636,7 @@ namespace TorannMagic
 
         public override void NeedInterval()
         {
-            this.GainNeed(1f);
+            GainNeed(1f);
         }
 
         public override string GetTipString()
@@ -644,11 +644,11 @@ namespace TorannMagic
             //return base.GetTipString();
             return string.Concat(new string[]
             {
-                this.LabelCap,
+                LabelCap,
                 ": ",
-                (this.CurLevel / .01f).ToString("n2"),
+                (CurLevel / .01f).ToString("n2"),
                 "\n",
-                this.def.description
+                def.description
             });
         }
 
@@ -680,30 +680,30 @@ namespace TorannMagic
             Text.Font = ((rect.height <= 55f) ? GameFont.Tiny : GameFont.Small);
             Text.Anchor = TextAnchor.LowerLeft;
             Rect _rect2 = new Rect(rect.x + num3 + rect.width * 0.1f, rect.y, rect.width - num3 - rect.width * 0.1f, rect.height / 2f);
-            Widgets.Label(_rect2, base.LabelCap);
+            Widgets.Label(_rect2, LabelCap);
             GUI.color = Color.magenta;
             Text.Anchor = TextAnchor.UpperLeft;
             Rect rect3 = new Rect(rect.x, rect.y + rect.height / 2f, rect.width, rect.height / 2f);
             rect3 = new Rect(rect3.x + num3, rect3.y, rect3.width - num3 * 2f, rect3.height - num2);
-            Widgets.FillableBar(rect3, base.CurLevelPercentage);
-            bool flag4 = this.threshPercents != null;
+            Widgets.FillableBar(rect3, CurLevelPercentage);
+            bool flag4 = threshPercents != null;
             if (flag4)
             {
-                for (int i = 0; i < this.threshPercents.Count; i++)
+                for (int i = 0; i < threshPercents.Count; i++)
                 {
-                    this.DrawBarThreshold(rect3, this.threshPercents[i]);
+                    DrawBarThreshold(rect3, threshPercents[i]);
                 }
             }
-            float curInstantLevelPercentage = Mathf.Clamp(this.CurLevel / this.MaxLevel, 0f, 1f); // base.CurInstantLevelPercentage;
+            float curInstantLevelPercentage = Mathf.Clamp(CurLevel / MaxLevel, 0f, 1f); // base.CurInstantLevelPercentage;
             bool flag5 = curInstantLevelPercentage >= 0f;
             if (flag5)
             {
-                base.DrawBarInstantMarkerAt(rect3, curInstantLevelPercentage);
+                DrawBarInstantMarkerAt(rect3, curInstantLevelPercentage);
             }
-            bool flag6 = !this.def.tutorHighlightTag.NullOrEmpty();
+            bool flag6 = !def.tutorHighlightTag.NullOrEmpty();
             if (flag6)
             {
-                UIHighlighter.HighlightOpportunity(rect, this.def.tutorHighlightTag);
+                UIHighlighter.HighlightOpportunity(rect, def.tutorHighlightTag);
             }
             Text.Font = GameFont.Small;            
         }
@@ -712,7 +712,7 @@ namespace TorannMagic
         {
             float num = (float)((barRect.width <= 60f) ? 1 : 2);
             Rect position = new Rect(barRect.x + barRect.width * threshPct - (num - 1f), barRect.y + barRect.height / 2f, num, barRect.height / 2f);
-            bool flag = threshPct < base.CurLevelPercentage;
+            bool flag = threshPct < CurLevelPercentage;
             Texture2D image;
             if (flag)
             {

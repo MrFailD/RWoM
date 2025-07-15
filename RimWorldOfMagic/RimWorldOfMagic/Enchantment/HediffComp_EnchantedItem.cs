@@ -19,9 +19,9 @@ namespace TorannMagic.Enchantment
 
         public override void CompExposeData()
         {            
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<int>(ref this.checkActiveRate, "checkActiveRate", 60, false);
-            Scribe_Values.Look<int>(ref this.hediffActionRate, "hediffActionRate", 1, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<int>(ref checkActiveRate, "checkActiveRate", 60, false);
+            Scribe_Values.Look<int>(ref hediffActionRate, "hediffActionRate", 1, false);
             base.CompExposeData();
         }
 
@@ -29,9 +29,9 @@ namespace TorannMagic.Enchantment
         {
             get
             {
-                if (base.Def.LabelCap != null)
+                if (Def.LabelCap != null)
                 {
-                    return base.Def.LabelCap;
+                    return Def.LabelCap;
                 }
                 else
                 {
@@ -44,9 +44,9 @@ namespace TorannMagic.Enchantment
         {
             get
             {
-                if (base.Def.label != null)
+                if (Def.label != null)
                 {
-                    return base.Def.label;
+                    return Def.label;
                 }
                 else
                 {
@@ -60,13 +60,13 @@ namespace TorannMagic.Enchantment
         {
             get
             {
-                if (this.enchantedItem != null && this.enchantedItem.def != null && this.enchantedItem.def.label != null)
+                if (enchantedItem != null && enchantedItem.def != null && enchantedItem.def.label != null)
                 {
-                    return this.enchantedItem.def.label;
+                    return enchantedItem.def.label;
                 }
-                else if(this.enchantedWeapon != null && this.enchantedWeapon.def != null && this.enchantedWeapon.def.label != null)
+                else if(enchantedWeapon != null && enchantedWeapon.def != null && enchantedWeapon.def.label != null)
                 {
-                    return this.enchantedWeapon.def.label;
+                    return enchantedWeapon.def.label;
                 }
                 else
                 {
@@ -77,7 +77,7 @@ namespace TorannMagic.Enchantment
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
                 PostInitialize();
@@ -91,23 +91,23 @@ namespace TorannMagic.Enchantment
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
             }
-            if(Find.TickManager.TicksGame % this.checkActiveRate == 0)
+            if(Find.TickManager.TicksGame % checkActiveRate == 0)
             {
                 if(CheckActiveApparel() && CheckActiveEquipment())
                 {
-                    this.removeNow = true;
+                    removeNow = true;
                 }                
             }
-            if(this.hediffActionRate != 0 && Find.TickManager.TicksGame % this.hediffActionRate == 0)
+            if(hediffActionRate != 0 && Find.TickManager.TicksGame % hediffActionRate == 0)
             {
                 HediffActionTick();
             }
@@ -116,10 +116,10 @@ namespace TorannMagic.Enchantment
         public bool CheckActiveApparel()
         {
             bool remove = true;
-            List<Apparel> apparel = this.Pawn.apparel.WornApparel;
+            List<Apparel> apparel = Pawn.apparel.WornApparel;
             if (apparel != null)
             {
-                if(apparel.Contains(this.enchantedItem))
+                if(apparel.Contains(enchantedItem))
                 {
                     remove = false;
                 }
@@ -130,7 +130,7 @@ namespace TorannMagic.Enchantment
         public bool CheckActiveEquipment()
         {
             bool remove = true;
-            Thing primary = this.Pawn.equipment.Primary;
+            Thing primary = Pawn.equipment.Primary;
             if (primary != null && primary == enchantedWeapon)
             {                
                 remove = false;                
@@ -138,7 +138,7 @@ namespace TorannMagic.Enchantment
             return remove;
         }
 
-        public override bool CompShouldRemove => base.CompShouldRemove || this.removeNow;
+        public override bool CompShouldRemove => base.CompShouldRemove || removeNow;
 
         public virtual void HediffActionTick()
         {

@@ -19,7 +19,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -27,30 +27,30 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
-                FleckMaker.ThrowLightningGlow(base.Pawn.TrueCenter(), base.Pawn.Map, 3f);
+                FleckMaker.ThrowLightningGlow(Pawn.TrueCenter(), Pawn.Map, 3f);
             }
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
             }
             if(mendTick > ticksTillNextMend)
@@ -62,7 +62,7 @@ namespace TorannMagic
 
         public void TickAction()
         {
-            List<Apparel> gear = this.Pawn.apparel.WornApparel;
+            List<Apparel> gear = Pawn.apparel.WornApparel;
             int tmpDmgItems = 0;
 
             for (int i = 0; i < gear.Count; i++)
@@ -72,7 +72,7 @@ namespace TorannMagic
                     gear[i].HitPoints++;
                     for (int j = 0; j < Rand.Range(1, 3); j++)
                     {
-                        TM_MoteMaker.ThrowTwinkle(this.Pawn.DrawPos, this.Pawn.Map, Rand.Range(.4f, .7f), Rand.Range(100, 500), Rand.Range(.4f, 1f), Rand.Range(.05f, .2f), .05f, Rand.Range(.4f, .85f));
+                        TM_MoteMaker.ThrowTwinkle(Pawn.DrawPos, Pawn.Map, Rand.Range(.4f, .7f), Rand.Range(100, 500), Rand.Range(.4f, 1f), Rand.Range(.05f, .2f), .05f, Rand.Range(.4f, .85f));
                     }
                     tmpDmgItems++;
                 }
@@ -81,7 +81,7 @@ namespace TorannMagic
                     Traverse.Create(root: gear[i]).Field(name: "wornByCorpseInt").SetValue(false);
                 }
             }
-            Thing weapon = this.Pawn.equipment.Primary;
+            Thing weapon = Pawn.equipment.Primary;
             if (weapon != null && (weapon.def.IsRangedWeapon || weapon.def.IsMeleeWeapon))
             {
                 if (weapon.HitPoints < weapon.MaxHitPoints)
@@ -89,7 +89,7 @@ namespace TorannMagic
                     weapon.HitPoints++;
                     for (int j = 0; j < Rand.Range(1, 3); j++)
                     {
-                        TM_MoteMaker.ThrowTwinkle(this.Pawn.DrawPos, this.Pawn.Map, Rand.Range(.4f, .7f), Rand.Range(100, 500), Rand.Range(.4f, 1f), Rand.Range(.05f, .2f), .05f, Rand.Range(.4f, .85f));
+                        TM_MoteMaker.ThrowTwinkle(Pawn.DrawPos, Pawn.Map, Rand.Range(.4f, .7f), Rand.Range(100, 500), Rand.Range(.4f, 1f), Rand.Range(.05f, .2f), .05f, Rand.Range(.4f, .85f));
                     }                    
                     tmpDmgItems++;
                 }

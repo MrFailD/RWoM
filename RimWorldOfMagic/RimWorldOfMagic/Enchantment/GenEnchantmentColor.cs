@@ -24,15 +24,15 @@ namespace TorannMagic.Enchantment
                 case EnchantmentTier.Minor:
                     return Color.white;
                 case EnchantmentTier.Standard:
-                    return GenEnchantmentColor.Uncommon;
+                    return Uncommon;
                 case EnchantmentTier.Major:
-                    return GenEnchantmentColor.Epic;
+                    return Epic;
                 case EnchantmentTier.Crafted:
-                    return GenEnchantmentColor.Artifact;
+                    return Artifact;
                 case EnchantmentTier.Skill:
-                    return GenEnchantmentColor.Legendary;
+                    return Legendary;
                 case EnchantmentTier.Negative:
-                    return GenEnchantmentColor.Negative;
+                    return Negative;
                 default:
                     return Color.white;
             }

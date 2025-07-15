@@ -11,6 +11,6 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Hediff_Evasion : HediffWithComps
     {
-        public override string Label => base.Label + " (" + this.Severity.ToString("P0") + ") ";
+        public override string Label => base.Label + " (" + Severity.ToString("P0") + ") ";
     }
 }

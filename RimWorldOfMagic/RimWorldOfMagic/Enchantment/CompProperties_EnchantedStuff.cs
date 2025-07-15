@@ -48,7 +48,7 @@ namespace TorannMagic.Enchantment
 
         public CompProperties_EnchantedStuff()
         {
-            this.compClass = typeof(CompEnchantedStuff);
+            compClass = typeof(CompEnchantedStuff);
         }
     }
 }

@@ -15,11 +15,11 @@ namespace TorannMagic
 
         public void Initialize()
         {
-            if (this.Pawn.health != null && this.Pawn.health.hediffSet != null)
+            if (Pawn.health != null && Pawn.health.hediffSet != null)
             {
-                if (!this.Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_ArcaneWeakness))
+                if (!Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_ArcaneWeakness))
                 {
-                    HealthUtility.AdjustSeverity(this.Pawn, TorannMagicDefOf.TM_ArcaneWeakness, .1f);
+                    HealthUtility.AdjustSeverity(Pawn, TorannMagicDefOf.TM_ArcaneWeakness, .1f);
                 }
             }
             else
@@ -31,7 +31,7 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if(!initialized)
@@ -41,11 +41,11 @@ namespace TorannMagic
                 }
                 if (Find.TickManager.TicksGame % 240 == 0)  //arcane weakness drops by -12 sev per day => .0002 per tick => .048 per 240 ticks
                 {
-                    Hediff hd = this.Pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_ArcaneWeakness);
+                    Hediff hd = Pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_ArcaneWeakness);
                     if(hd == null)
                     {
-                        HealthUtility.AdjustSeverity(this.Pawn, TorannMagicDefOf.TM_ArcaneWeakness, .1f);
-                        this.parent.Severity = .1f;
+                        HealthUtility.AdjustSeverity(Pawn, TorannMagicDefOf.TM_ArcaneWeakness, .1f);
+                        parent.Severity = .1f;
                     }
                     else
                     {
@@ -57,14 +57,14 @@ namespace TorannMagic
                         {
                             hd.Severity += Rand.Range(4f, 8f);
                         }
-                        this.parent.Severity = hd.Severity;
+                        parent.Severity = hd.Severity;
                     }
                     
                 }
             }            
         }
 
-        public override bool CompShouldRemove => base.CompShouldRemove || this.shouldRemove;
+        public override bool CompShouldRemove => base.CompShouldRemove || shouldRemove;
 
     }
 }

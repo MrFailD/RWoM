@@ -15,15 +15,15 @@ namespace TorannMagic
 
         public override void CompExposeData()
         {
-            Scribe_Values.Look<int>(ref this.duration, "duration", 10, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 10, false);
             base.CompExposeData();
         }
 
-        public HediffCompProperties_SetDuration Props => (HediffCompProperties_SetDuration)base.props;
+        public HediffCompProperties_SetDuration Props => (HediffCompProperties_SetDuration)props;
 
         public override void CompPostMake()
         {
-            this.duration = Props.duration;
+            duration = Props.duration;
         }
 
         public bool initialized;
@@ -33,7 +33,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap + (" seconds remaining " + this.duration.ToString("#"));
+                return Def.LabelCap + (" seconds remaining " + duration.ToString("#"));
             }
         }
 
@@ -41,14 +41,14 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label + (" seconds remaining " + this.duration.ToString("#"));
+                return Def.label + (" seconds remaining " + duration.ToString("#"));
             }
         }
 
 
         public virtual void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
 
@@ -58,22 +58,22 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
             }
             if (Find.TickManager.TicksGame % 60 == 0)
             {
-                if (this.duration > this.Props.maxDuration) this.duration = this.Props.maxDuration;
-                this.duration--;
-                if (this.duration <= 0)
+                if (duration > Props.maxDuration) duration = Props.maxDuration;
+                duration--;
+                if (duration <= 0)
                 {
-                    this.removeNow = true;
+                    removeNow = true;
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.removeNow;
+                return base.CompShouldRemove || removeNow;
             }
         }
 

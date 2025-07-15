@@ -14,22 +14,22 @@ namespace TorannMagic
     {
         protected override bool TryCastShot()
         {
-            if ( this.CasterPawn.equipment.Primary !=null && this.CasterPawn.equipment.Primary.def.IsRangedWeapon)
+            if ( CasterPawn.equipment.Primary !=null && CasterPawn.equipment.Primary.def.IsRangedWeapon)
             {
-                Thing wpn = this.CasterPawn.equipment.Primary;
-                if (TM_Calc.HasLoSFromTo(this.CasterPawn.Position, this.currentTarget.Cell, this.CasterPawn, 0, this.Ability.Def.MainVerb.range))
+                Thing wpn = CasterPawn.equipment.Primary;
+                if (TM_Calc.HasLoSFromTo(CasterPawn.Position, currentTarget.Cell, CasterPawn, 0, Ability.Def.MainVerb.range))
                 {
-                    if (TM_Calc.IsUsingBow(this.CasterPawn))
+                    if (TM_Calc.IsUsingBow(CasterPawn))
                     {
                         base.TryCastShot();
                         return true;
                     }
                     else
                     {
-                        if (this.CasterPawn.IsColonist)
+                        if (CasterPawn.IsColonist)
                         {
                             Messages.Message("MustHaveBow".Translate(
-                            this.CasterPawn.LabelShort,
+                            CasterPawn.LabelShort,
                             wpn.LabelShort
                             ), MessageTypeDefOf.NegativeEvent);
                         }
@@ -40,7 +40,7 @@ namespace TorannMagic
             else
             {
                 Messages.Message("MustHaveRangedWeapon".Translate(
-                    this.CasterPawn.LabelCap
+                    CasterPawn.LabelCap
                 ), MessageTypeDefOf.RejectInput);
                 return false;
             }

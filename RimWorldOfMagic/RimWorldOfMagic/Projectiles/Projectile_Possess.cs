@@ -33,28 +33,28 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<bool>(ref this.prisoner, "prisoner", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", 0, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 1200, false);
-            Scribe_Values.Look<int>(ref this.inventoryCount, "inventoryCount", 0, false);
-            Scribe_References.Look<Faction>(ref this.pFaction, "pFaction", false);
-            Scribe_Values.Look<IntVec3>(ref this.oldPosition, "oldPosition", default(IntVec3), false);
-            Scribe_References.Look<Pawn>(ref this.hitPawn, "hitPawn", false);
-            Scribe_Deep.Look<Pawn>(ref this.caster, "caster", new object[0]);
-            Scribe_Collections.Look<int>(ref this.hitPawnWorkSetting, "hitPawnWorkSettings", LookMode.Value);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<bool>(ref prisoner, "prisoner", false, false);
+            Scribe_Values.Look<int>(ref age, "age", 0, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 1200, false);
+            Scribe_Values.Look<int>(ref inventoryCount, "inventoryCount", 0, false);
+            Scribe_References.Look<Faction>(ref pFaction, "pFaction", false);
+            Scribe_Values.Look<IntVec3>(ref oldPosition, "oldPosition", default(IntVec3), false);
+            Scribe_References.Look<Pawn>(ref hitPawn, "hitPawn", false);
+            Scribe_Deep.Look<Pawn>(ref caster, "caster", new object[0]);
+            Scribe_Collections.Look<int>(ref hitPawnWorkSetting, "hitPawnWorkSettings", LookMode.Value);
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
-            if (!initialized && this.age < this.duration && hitThing != null)
+            if (!initialized && age < duration && hitThing != null)
             {
-                caster = this.launcher as Pawn;
+                caster = launcher as Pawn;
                 hitPawn = hitThing as Pawn;
-                this.oldPosition = caster.Position;
+                oldPosition = caster.Position;
                 MightPowerSkill pwr = caster.GetCompAbilityUserMight().MightData.MightPowerSkill_Possess.FirstOrDefault((MightPowerSkill x) => x.label == "TM_Possess_pwr");
                 MightPowerSkill ver = caster.GetCompAbilityUserMight().MightData.MightPowerSkill_Possess.FirstOrDefault((MightPowerSkill x) => x.label == "TM_Possess_ver");
                 
@@ -65,27 +65,27 @@ namespace TorannMagic
                     pwrVal = 3;
                     verVal = 3;
                 }
-                this.duration += pwrVal * 300;
+                duration += pwrVal * 300;
                 if (hitPawn != null && hitPawn.Faction != null && hitPawn.RaceProps.Humanlike)
                 {
                     possessedFlag = (hitPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_CoOpPossessionHD) || hitPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_CoOpPossessionHD_I) || hitPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_CoOpPossessionHD_II) || hitPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_CoOpPossessionHD_III) ||
                         hitPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_PossessionHD) || hitPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_PossessionHD_I) || hitPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_PossessionHD_II) || hitPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_PossessionHD_III));
                     if (!hitPawn.Downed && !hitPawn.Dead && !possessedFlag && !hitPawn.IsPrisoner)
                     {
-                        this.pFaction = hitPawn.Faction;
-                        this.prisoner = hitPawn.IsPrisoner;
+                        pFaction = hitPawn.Faction;
+                        prisoner = hitPawn.IsPrisoner;
                         if(!caster.IsColonist && hitPawn.IsColonist)
                         {
                             List<WorkTypeDef> allWorkTypes = WorkTypeDefsUtility.WorkTypeDefsInPriorityOrder.ToList();
-                            this.hitPawnWorkSetting = new List<int>();
-                            this.hitPawnWorkSetting.Clear();
+                            hitPawnWorkSetting = new List<int>();
+                            hitPawnWorkSetting.Clear();
                             for(int i = 0; i < allWorkTypes.Count(); i++)
                             {
                                 hitPawnWorkSetting.Add(hitPawn.workSettings.GetPriority(allWorkTypes[i]));
                             }
                         }
                         
-                        if (this.pFaction != caster.Faction)
+                        if (pFaction != caster.Faction)
                         {
                             
                             if (Rand.Chance(TM_Calc.GetSpellSuccessChance(caster, hitPawn, true)))
@@ -96,7 +96,7 @@ namespace TorannMagic
                                 {
                                     weaponCount = 1;
                                 }
-                                this.inventoryCount = hitPawn.inventory.innerContainer.Count + hitPawn.apparel.WornApparelCount + weaponCount;
+                                inventoryCount = hitPawn.inventory.innerContainer.Count + hitPawn.apparel.WornApparelCount + weaponCount;
                                 if (ModCheck.Validate.GiddyUp.Core_IsInitialized())
                                 {
                                     ModCheck.GiddyUp.ForceDismount(caster);
@@ -156,8 +156,8 @@ namespace TorannMagic
                             else
                             {
                                 MoteMaker.ThrowText(hitThing.DrawPos, hitThing.Map, "TM_ResistedSpell".Translate(), -1);
-                                this.age = this.duration;
-                                this.Destroy(DestroyMode.Vanish);
+                                age = duration;
+                                Destroy(DestroyMode.Vanish);
                             }
                         }
                         else
@@ -196,8 +196,8 @@ namespace TorannMagic
                                 caster.LabelShort,
                                 hitPawn.LabelShort
                             ), MessageTypeDefOf.RejectInput);
-                        this.age = this.duration;
-                        this.Destroy(DestroyMode.Vanish);
+                        age = duration;
+                        Destroy(DestroyMode.Vanish);
                     }
                 }
                 else
@@ -206,50 +206,50 @@ namespace TorannMagic
                                 caster.LabelShort,
                                 hitThing.LabelShort
                             ), MessageTypeDefOf.RejectInput);
-                    this.age = this.duration;                    
-                    this.Destroy(DestroyMode.Vanish);
+                    age = duration;                    
+                    Destroy(DestroyMode.Vanish);
                 }
             }
             else
             {
-                if (!this.initialized)
+                if (!initialized)
                 {
-                    this.age = this.duration;
+                    age = duration;
                     Destroy(DestroyMode.Vanish);
                 }
             }
 
             if(hitPawn != null && (hitPawn.Downed || hitPawn.Dead))
             {
-                this.age = this.duration;
+                age = duration;
             }
         }
 
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age >= duration;
+            bool flag = age >= duration;
             
             if (flag)
             {
                 try
                 {
-                    if (hitPawn.RaceProps.Humanlike && !this.possessedFlag)
+                    if (hitPawn.RaceProps.Humanlike && !possessedFlag)
                     {
-                        if ((hitPawn.Downed || hitPawn.Dead) && !pFaction.HostileTo(caster.Faction) && pFaction != this.caster.Faction)
+                        if ((hitPawn.Downed || hitPawn.Dead) && !pFaction.HostileTo(caster.Faction) && pFaction != caster.Faction)
                         {
                             //pFaction.TrySetRelationKind(this.caster.Faction, FactionRelationKind.Hostile, true, null);
-                            pFaction.TryAffectGoodwillWith(this.caster.Faction, -100, true, true, TorannMagicDefOf.TM_OffensiveMagic, hitPawn);
+                            pFaction.TryAffectGoodwillWith(caster.Faction, -100, true, true, TorannMagicDefOf.TM_OffensiveMagic, hitPawn);
                         }
                         bool flag2 = caster.Spawned;
                         if (!flag2)
                         {
-                            GenPlace.TryPlaceThing(caster, this.oldPosition, this.Map, ThingPlaceMode.Near, null, null);
+                            GenPlace.TryPlaceThing(caster, oldPosition, Map, ThingPlaceMode.Near, null, null);
                             if (caster.IsColonist)
                             {
                                 //
@@ -259,7 +259,7 @@ namespace TorannMagic
                         }
                         if(!caster.Spawned)
                         {
-                            GenSpawn.Spawn(this.launcher, this.oldPosition, this.Map, WipeMode.Vanish);
+                            GenSpawn.Spawn(launcher, oldPosition, Map, WipeMode.Vanish);
                             if (caster.IsColonist)
                             {
                                 //
@@ -272,7 +272,7 @@ namespace TorannMagic
                         {
                             if(prisoner)
                             {
-                                hitPawn.guest.SetGuestStatus(this.caster.Faction, GuestStatus.Guest);
+                                hitPawn.guest.SetGuestStatus(caster.Faction, GuestStatus.Guest);
                             }
                             else
                             {
@@ -285,9 +285,9 @@ namespace TorannMagic
                             weaponCount = 1;
                         }
                         int tempInvCount = hitPawn.inventory.innerContainer.Count + hitPawn.apparel.WornApparelCount + weaponCount;
-                        if (tempInvCount < this.inventoryCount && !pFaction.HostileTo(caster.Faction) && pFaction != this.caster.Faction)
+                        if (tempInvCount < inventoryCount && !pFaction.HostileTo(caster.Faction) && pFaction != caster.Faction)
                         {
-                            pFaction.TryAffectGoodwillWith(this.caster.Faction, -200, true, true, null, null);
+                            pFaction.TryAffectGoodwillWith(caster.Faction, -200, true, true, null, null);
 
                             Find.LetterStack.ReceiveLetter("LetterLabelPossessedCaughtStealing".Translate(), "TM_PossessedCaughtStealing".Translate(
                                 hitPawn.Faction,
@@ -349,15 +349,15 @@ namespace TorannMagic
             }
             if(disguiseHD != null)
             {
-                this.hitPawn.health.RemoveHediff(disguiseHD);
+                hitPawn.health.RemoveHediff(disguiseHD);
             }
             if(possessHD != null)
             {
-                this.hitPawn.health.RemoveHediff(possessHD);
+                hitPawn.health.RemoveHediff(possessHD);
             }
             if (possessCHD != null)
             {
-                this.hitPawn.health.RemoveHediff(possessCHD);
+                hitPawn.health.RemoveHediff(possessCHD);
             }
             
         }

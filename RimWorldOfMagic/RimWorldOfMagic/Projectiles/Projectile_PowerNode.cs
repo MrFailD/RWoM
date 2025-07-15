@@ -13,33 +13,33 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
             Pawn victim = hitThing as Pawn;
             Thing item = hitThing as Thing;
             IntVec3 arg_pos_1;
 
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             comp = pawn.GetCompAbilityUserMagic();
 
-            CellRect cellRect = CellRect.CenteredOn(base.Position, 1);
+            CellRect cellRect = CellRect.CenteredOn(Position, 1);
             cellRect.ClipInsideMap(map);
             IntVec3 centerCell = cellRect.CenterCell;
 
-            if (!this.primed)
+            if (!primed)
             {
                 arg_pos_1 = centerCell;
                 if ((arg_pos_1.IsValid && arg_pos_1.Standable(map)))
                 {
-                    AbilityUser.SpawnThings tempPod = new SpawnThings();
+                    SpawnThings tempPod = new SpawnThings();
                     IntVec3 shiftPos = centerCell;
                     centerCell.x++;
                     tempPod.def = ThingDef.Named("TM_PowerNode");                    
                     tempPod.spawnCount = 1;
                     try
                     {
-                        this.SingleSpawnLoop(tempPod, shiftPos, map);
+                        SingleSpawnLoop(tempPod, shiftPos, map);
                     }
                     catch
                     {
@@ -47,7 +47,7 @@ namespace TorannMagic
                         return;
                     }
 
-                    this.primed = true;
+                    primed = true;
                 }
                 else
                 {
@@ -62,7 +62,7 @@ namespace TorannMagic
             bool flag = spawnables.def != null;
             if (flag)
             {
-                Faction faction = TM_Action.ResolveFaction(this.launcher as Pawn, spawnables, this.launcher.Faction);
+                Faction faction = TM_Action.ResolveFaction(launcher as Pawn, spawnables, launcher.Faction);
                 bool flag2 = spawnables.def.race != null;
                 if (flag2)
                 {
@@ -73,7 +73,7 @@ namespace TorannMagic
                     }
                     else
                     {
-                        TM_Action.SpawnPawn(this.launcher as Pawn, spawnables, faction, position, 0, map);
+                        TM_Action.SpawnPawn(launcher as Pawn, spawnables, faction, position, 0, map);
                     }
                 }
                 else
@@ -92,7 +92,7 @@ namespace TorannMagic
                     }
                     CompSummoned bldgComp = thing.TryGetComp<CompSummoned>();
                     bldgComp.Temporary = false;
-                    bldgComp.Spawner = this.launcher as Pawn;
+                    bldgComp.Spawner = launcher as Pawn;
                     bldgComp.sustained = true;
                     GenSpawn.Spawn(thing, position, map, Rot4.North, WipeMode.Vanish, false);
                     comp.summonedPowerNodes.Add(thing);

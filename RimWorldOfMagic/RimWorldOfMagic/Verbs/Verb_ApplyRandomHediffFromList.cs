@@ -20,27 +20,27 @@ namespace TorannMagic
 
         public Verb_ApplyRandomHediffFromList_Properties() : base()
         {
-            this.verbClass = verbClass ?? typeof(Verb_ApplyRandomHediffFromList);
+            verbClass = verbClass ?? typeof(Verb_ApplyRandomHediffFromList);
         }
     }
 
     public class Verb_ApplyRandomHediffFromList : Verb_SB
     {
         private Pawn target => currentTarget.Pawn;
-        private Verb_ApplyRandomHediffFromList_Properties Properties => this.verbProps as Verb_ApplyRandomHediffFromList_Properties;
+        private Verb_ApplyRandomHediffFromList_Properties Properties => verbProps as Verb_ApplyRandomHediffFromList_Properties;
         private List<HediffDef> Effects => Properties?.hediffDefs;
 
         private int CountUpgrade => Properties.countUpgrade == null ? 0
-            : TM_ClassUtility.GetMightPowerSkillFromLabel(this.CasterPawn.GetCompAbilityUserMight(), Properties.countUpgrade).level;
+            : TM_ClassUtility.GetMightPowerSkillFromLabel(CasterPawn.GetCompAbilityUserMight(), Properties.countUpgrade).level;
 
         private int SeverityUpgrade => Properties.severityUpgrade == null ? 0
-            : TM_ClassUtility.GetMightPowerSkillFromLabel(this.CasterPawn.GetCompAbilityUserMight(), Properties.severityUpgrade).level;
+            : TM_ClassUtility.GetMightPowerSkillFromLabel(CasterPawn.GetCompAbilityUserMight(), Properties.severityUpgrade).level;
 
         protected override bool TryCastShot()
         {
             if (Properties == null)
             {
-                Log.Warning("The TorannMagic.Verb_ApplyRandomHediffFromList cannot be used outside a TorannMagic.Verb_ApplyRandomHediffFromList_Properties, check abilityDef " + this.Ability.Def.defName);
+                Log.Warning("The TorannMagic.Verb_ApplyRandomHediffFromList cannot be used outside a TorannMagic.Verb_ApplyRandomHediffFromList_Properties, check abilityDef " + Ability.Def.defName);
                 return false;
             }
             if (target != null)

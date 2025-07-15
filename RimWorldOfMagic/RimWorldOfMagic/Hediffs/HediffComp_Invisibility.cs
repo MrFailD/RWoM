@@ -11,7 +11,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -19,39 +19,39 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            if (spawned && base.Pawn.Map != null)
+            bool spawned = Pawn.Spawned;
+            if (spawned && Pawn.Map != null)
             {
-                FleckMaker.ThrowLightningGlow(base.Pawn.TrueCenter(), base.Pawn.Map, 3f);
+                FleckMaker.ThrowLightningGlow(Pawn.TrueCenter(), Pawn.Map, 3f);
             }
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
             }
             if (Find.TickManager.TicksGame % 30 == 0)
             {
-                if(this.Pawn.CurJob != null && this.Pawn.CurJob.targetA != null && this.Pawn.CurJob.targetA.Thing is Pawn)
+                if(Pawn.CurJob != null && Pawn.CurJob.targetA != null && Pawn.CurJob.targetA.Thing is Pawn)
                 {
                     severityAdjustment -= 20;
                 }
                 Effecter InvisEffect = TorannMagicDefOf.TM_InvisibilityEffecter.Spawn();
-                InvisEffect.Trigger(new TargetInfo(this.Pawn.Position, this.Pawn.Map, false), new TargetInfo(this.Pawn.Position, this.Pawn.Map, false));
+                InvisEffect.Trigger(new TargetInfo(Pawn.Position, Pawn.Map, false), new TargetInfo(Pawn.Position, Pawn.Map, false));
                 InvisEffect.Cleanup();
             }
             if (Find.TickManager.TicksGame % 60 == 0)

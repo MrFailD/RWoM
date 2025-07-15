@@ -43,17 +43,17 @@ namespace TorannMagic.Golems
             command_VerbTarget.iconOffset = ownerThing.def.uiIconOffset;
             command_VerbTarget.tutorTag = "VerbTarget";
             command_VerbTarget.verb = verb;
-            if (this.Faction != Faction.OfPlayer)
+            if (Faction != Faction.OfPlayer)
             {
                 command_VerbTarget.Disable("CannotOrderNonControlled".Translate());
             }
             else
             {
-                if (this.WorkTagIsDisabled(WorkTags.Violent))
+                if (WorkTagIsDisabled(WorkTags.Violent))
                 {
                     command_VerbTarget.Disable("IsIncapableOfViolence".Translate(verb.CasterPawn.LabelShort, verb.CasterPawn));
                 }
-                else if (!this.Drafted)
+                else if (!Drafted)
                 {
                     command_VerbTarget.Disable("IsNotDrafted".Translate(verb.CasterPawn.LabelShort, verb.CasterPawn));
                 }
@@ -72,14 +72,14 @@ namespace TorannMagic.Golems
                 {
                     if(gu.golemUpgradeDef.verbProjectile != null && gu.currentLevel > 0 && gu.enabled)
                     {
-                        BodyPartRecord bpr = this.RaceProps.body.AllParts.FirstOrDefault(x => x.def == gu.golemUpgradeDef.bodypart);
+                        BodyPartRecord bpr = RaceProps.body.AllParts.FirstOrDefault(x => x.def == gu.golemUpgradeDef.bodypart);
                         if(bpr != null && !health.hediffSet.PartIsMissing(bpr))
                         {
-                            foreach(Verb v in this.VerbTracker.AllVerbs.Where(x => x.verbProps.hasStandardCommand && x.verbProps.range >= 2 && x.verbProps.defaultProjectile != null))
+                            foreach(Verb v in VerbTracker.AllVerbs.Where(x => x.verbProps.hasStandardCommand && x.verbProps.range >= 2 && x.verbProps.defaultProjectile != null))
                             {
-                                if(this.RaceProps.body.AllParts.Where(x => x.groups.Contains(v.verbProps.linkedBodyPartsGroup)).Contains(bpr) && v.verbProps.defaultProjectile == gu.golemUpgradeDef.verbProjectile && !validRangedVerbs.Contains(v))
+                                if(RaceProps.body.AllParts.Where(x => x.groups.Contains(v.verbProps.linkedBodyPartsGroup)).Contains(bpr) && v.verbProps.defaultProjectile == gu.golemUpgradeDef.verbProjectile && !validRangedVerbs.Contains(v))
                                 {
-                                    this.maxAvailableRange = maxAvailableRange < v.verbProps.range ? v.verbProps.range : this.maxAvailableRange;
+                                    maxAvailableRange = maxAvailableRange < v.verbProps.range ? v.verbProps.range : maxAvailableRange;
                                     validRangedVerbs.Add(v);
                                 }                                
                             }
@@ -131,21 +131,21 @@ namespace TorannMagic.Golems
         {
             get
             {
-                Vector3 pos = this.DrawPos;
+                Vector3 pos = DrawPos;
                 pos.y += 1f;
-                if (this.Rotation == Rot4.North)
+                if (Rotation == Rot4.North)
                 {
                     pos.z += .95f;
                     pos.y += -2f;
                     return pos;
                 }
-                else if (this.Rotation == Rot4.West)
+                else if (Rotation == Rot4.West)
                 {
                     pos.z += .95f;
                     pos.x += -.77f;
                     return pos;
                 }
-                else if (this.Rotation == Rot4.East)
+                else if (Rotation == Rot4.East)
                 {
                     pos.z += .95f;
                     pos.x += .77f;
@@ -161,7 +161,7 @@ namespace TorannMagic.Golems
 
         public bool showDormantPosition;
         public bool drawTickFlag = false;
-        public virtual bool ShouldDrawTick => this.CurJobDef == TorannMagicDefOf.JobDriver_GolemAttackStatic && drawTickFlag;
+        public virtual bool ShouldDrawTick => CurJobDef == TorannMagicDefOf.JobDriver_GolemAttackStatic && drawTickFlag;
 
         public Verb activeVerb;
 
@@ -190,35 +190,35 @@ namespace TorannMagic.Golems
 
         protected override void Tick()
         {
-            if (Spawned && this.drafter == null)
+            if (Spawned && drafter == null)
             {
-                this.drafter = new Pawn_DraftController(this);
+                drafter = new Pawn_DraftController(this);
             }
-            if (this.abilities == null)
+            if (abilities == null)
             {
-                this.abilities = new Pawn_AbilityTracker(this);
+                abilities = new Pawn_AbilityTracker(this);
             }
-            if (this.guest == null)
+            if (guest == null)
             {
-                this.guest = new Pawn_GuestTracker(this);
+                guest = new Pawn_GuestTracker(this);
             }
-            if(this.story == null)
+            if(story == null)
             {
-                this.story = new Pawn_StoryTracker(this);
-                this.story.Childhood = TorannMagicDefOf.TM_GolemChildBS;
-                this.story.Adulthood = TorannMagicDefOf.TM_GolemAdultBS;
-                this.story.title = "Golem";
+                story = new Pawn_StoryTracker(this);
+                story.Childhood = TorannMagicDefOf.TM_GolemChildBS;
+                story.Adulthood = TorannMagicDefOf.TM_GolemAdultBS;
+                story.title = "Golem";
             }
-            if (this.workSettings == null)
+            if (workSettings == null)
             {
-                this.workSettings = new Pawn_WorkSettings(this);
-                this.workSettings.EnableAndInitialize();
+                workSettings = new Pawn_WorkSettings(this);
+                workSettings.EnableAndInitialize();
             }
-            if(this.skills == null)
+            if(skills == null)
             {
-                this.skills = new Pawn_SkillTracker(this);
+                skills = new Pawn_SkillTracker(this);
             }
-            if (this.Spawned && this.Map != null)
+            if (Spawned && Map != null)
             {
                 base.Tick();
             }
@@ -226,13 +226,13 @@ namespace TorannMagic.Golems
             {
                 Kill(null, null);
             }
-            else if(Find.TickManager.TicksGame % 67 == 0 && this.CurJobDef == JobDefOf.Wait_Combat && ValidRangedVerbs().Count > 0)
+            else if(Find.TickManager.TicksGame % 67 == 0 && CurJobDef == JobDefOf.Wait_Combat && ValidRangedVerbs().Count > 0)
             {
                 JobGiver_DraftedGolemRangedAttack jg = new JobGiver_DraftedGolemRangedAttack();
                 Job rangedAttack = jg.TryGetJob(this);                
                 if(rangedAttack != null)
                 {
-                    this.jobs.TryTakeOrderedJob(rangedAttack, JobTag.Misc);
+                    jobs.TryTakeOrderedJob(rangedAttack, JobTag.Misc);
                 }
             }
             else if(Find.TickManager.TicksGame % 321 == 0)
@@ -247,7 +247,7 @@ namespace TorannMagic.Golems
 
         public override void PreApplyDamage(ref DamageInfo dinfo, out bool absorbed)
         {
-            Need rage = this.needs.TryGetNeed(TorannMagicDefOf.TM_GolemRage);           
+            Need rage = needs.TryGetNeed(TorannMagicDefOf.TM_GolemRage);           
             if(rage != null)
             {
                 rage.CurLevel += dinfo.Amount;
@@ -302,7 +302,7 @@ namespace TorannMagic.Golems
                         graphicLevel = gu.currentLevel.ToString();
                     }
                     
-                    if (this.Rotation == Rot4.North)
+                    if (Rotation == Rot4.North)
                     {
                         if (!gu.golemUpgradeDef.drawNorth)
                         {
@@ -314,7 +314,7 @@ namespace TorannMagic.Golems
                         }
                         vecOffset = gu.golemUpgradeDef.drawOffsetNorth;
                     }
-                    else if (this.Rotation == Rot4.West)
+                    else if (Rotation == Rot4.West)
                     {
                         if (!gu.golemUpgradeDef.drawWest)
                         {
@@ -326,7 +326,7 @@ namespace TorannMagic.Golems
                         }
                         vecOffset = gu.golemUpgradeDef.drawOffsetWest;
                     }
-                    else if (this.Rotation == Rot4.East)
+                    else if (Rotation == Rot4.East)
                     {
                         if (!gu.golemUpgradeDef.drawEast)
                         {
@@ -364,11 +364,11 @@ namespace TorannMagic.Golems
                         continue;
                     }
 
-                    Vector3 vector = this.DrawPos;
+                    Vector3 vector = DrawPos;
                     //vector.y = Altitudes.AltitudeFor(AltitudeLayer.Pawn); had to remove for v1.5, seems to have broken drawing
                     vector += vecOffset;
 
-                    Vector3 s = new Vector3(gu.golemUpgradeDef.drawSize, this.DrawPos.y, gu.golemUpgradeDef.drawSize);
+                    Vector3 s = new Vector3(gu.golemUpgradeDef.drawSize, DrawPos.y, gu.golemUpgradeDef.drawSize);
                     Matrix4x4 matrix = default(Matrix4x4);
                     Quaternion q = Quaternion.AngleAxis(rotation, Vector3.up);
 
@@ -396,9 +396,9 @@ namespace TorannMagic.Golems
                 if(frameMatInt != null)
                 {
                     
-                    Vector3 vector = this.Golem.dormantPosition.ToVector3Shifted();
+                    Vector3 vector = Golem.dormantPosition.ToVector3Shifted();
                     vector.y = Altitudes.AltitudeFor(AltitudeLayer.Blueprint);                    
-                    Vector3 s = new Vector3(Golem.dormantThing.def.graphicData.drawSize.x, this.DrawPos.y, Golem.dormantThing.def.graphicData.drawSize.y);
+                    Vector3 s = new Vector3(Golem.dormantThing.def.graphicData.drawSize.x, DrawPos.y, Golem.dormantThing.def.graphicData.drawSize.y);
                     Matrix4x4 matrix = default(Matrix4x4);
                     Quaternion q = Quaternion.identity;
                     matrix.SetTRS(vector, q, s);
@@ -429,17 +429,17 @@ namespace TorannMagic.Golems
 
         public virtual void GolemPostDraw()
         {
-            if (this.health.hediffSet.HasHediff(TorannMagicDefOf.TM_BurningFuryHD, false))
+            if (health.hediffSet.HasHediff(TorannMagicDefOf.TM_BurningFuryHD, false))
             {
                 float num = Mathf.Lerp(1.2f, 1.55f, 1f);
-                Vector3 vector = this.Drawer.DrawPos;
+                Vector3 vector = Drawer.DrawPos;
                 vector.y = Altitudes.AltitudeFor(AltitudeLayer.MoteOverhead);
 
                 float angle = (float)Rand.Range(0, 360);
                 Vector3 s = new Vector3(1.8f, 1f, 1.8f);
                 Matrix4x4 matrix = default(Matrix4x4);
                 matrix.SetTRS(vector, Quaternion.AngleAxis(angle, Vector3.up), s);
-                if (this.health.hediffSet.HasHediff(TorannMagicDefOf.TM_BurningFuryHD))
+                if (health.hediffSet.HasHediff(TorannMagicDefOf.TM_BurningFuryHD))
                 {
                     Graphics.DrawMesh(MeshPool.plane10, matrix, TM_RenderQueue.burningFuryMat, 0);
                 }
@@ -472,7 +472,7 @@ namespace TorannMagic.Golems
                 command_Toggle.isActive = (() => Drafted);
                 command_Toggle.toggleAction = delegate
                 {
-                    this.drafter.Drafted = !Drafted;
+                    drafter.Drafted = !Drafted;
                     if (verbCommands != null)
                     {
                         verbCommands.Clear();
@@ -483,9 +483,9 @@ namespace TorannMagic.Golems
                 command_Toggle.turnOnSound = SoundDefOf.DraftOn;
                 command_Toggle.turnOffSound = SoundDefOf.DraftOff;
                 command_Toggle.defaultLabel = (Drafted ? "CommandUndraftLabel" : "CommandDraftLabel").Translate();
-                if (this.Downed)
+                if (Downed)
                 {
-                    command_Toggle.Disable("IsIncapped".Translate(this.LabelShort, this));
+                    command_Toggle.Disable("IsIncapped".Translate(LabelShort, this));
                 }
                 if (!Drafted)
                 {
@@ -504,17 +504,17 @@ namespace TorannMagic.Golems
             command_Despawn.icon = ContentFinder<Texture2D>.Get("UI/golem_icon", true);
             command_Despawn.action = delegate
             {
-                this.drafter.Drafted = false;
+                drafter.Drafted = false;
                 if (Golem.shouldDespawn)
                 {
                     Golem.despawnNow = true;
                 }
                 else
                 {
-                    if (Golem.dormantPosition.Walkable(this.Map) && Golem.dormantPosition.Standable(this.Map))
+                    if (Golem.dormantPosition.Walkable(Map) && Golem.dormantPosition.Standable(Map))
                     {
-                        this.jobs.ClearQueuedJobs(true);
-                        this.jobs.StopAll();                        
+                        jobs.ClearQueuedJobs(true);
+                        jobs.StopAll();                        
                         Golem.shouldDespawn = true;
                     }
                     else
@@ -538,12 +538,12 @@ namespace TorannMagic.Golems
             command_DormantPos.action = delegate (LocalTargetInfo infoTarget)
             {
                 IntVec3 cell = infoTarget.Cell;
-                FleckMaker.ThrowAirPuffUp(infoTarget.CenterVector3, this.Map);
-                FleckMaker.ThrowHeatGlow(infoTarget.Cell, this.Map, 1f);
-                if (cell.IsValid && cell.InBoundsWithNullCheck(this.Map) && !cell.Fogged(this.Map) && cell.Standable(this.Map) && ReachabilityUtility.CanReach(this, infoTarget, PathEndMode.OnCell, Danger.Deadly, false, false, TraverseMode.ByPawn))
+                FleckMaker.ThrowAirPuffUp(infoTarget.CenterVector3, Map);
+                FleckMaker.ThrowHeatGlow(infoTarget.Cell, Map, 1f);
+                if (cell.IsValid && cell.InBoundsWithNullCheck(Map) && !cell.Fogged(Map) && cell.Standable(Map) && ReachabilityUtility.CanReach(this, infoTarget, PathEndMode.OnCell, Danger.Deadly, false, false, TraverseMode.ByPawn))
                 {
                     Golem.dormantPosition = cell;
-                    Golem.dormantMap = this.Map;
+                    Golem.dormantMap = Map;
                 }
                 else
                 {
@@ -552,9 +552,9 @@ namespace TorannMagic.Golems
             };
             gizmoList.Add(command_DormantPos);
 
-            if (this.ValidRangedVerbs() != null && this.ValidRangedVerbs().Count > 0)
+            if (ValidRangedVerbs() != null && ValidRangedVerbs().Count > 0)
             {
-                foreach (Verb v in this.ValidRangedVerbs())
+                foreach (Verb v in ValidRangedVerbs())
                 {
                     gizmoList.Add(GetCommandVerbs(v));
                     //gizmoList.Add((Gizmo)CreateVerbTargetCommand(this, v));
@@ -569,7 +569,7 @@ namespace TorannMagic.Golems
                     rangedToggle = !rangedToggle;
                     if (rangedToggle)
                     {
-                        this.jobs.EndCurrentJob(JobCondition.InterruptForced);
+                        jobs.EndCurrentJob(JobCondition.InterruptForced);
                     }
                 };
                 command_Toggle.isActive = (() => rangedToggle);
@@ -586,27 +586,27 @@ namespace TorannMagic.Golems
                                             select def;
             foreach(WorkTypeDef wtd in wtds)
             {
-                this.workSettings.SetPriority(wtd, 0);
+                workSettings.SetPriority(wtd, 0);
             }
 
-            foreach(TM_GolemDef.GolemWorkTypes gwt in this.GolemDef.golemWorkTypes)
+            foreach(TM_GolemDef.GolemWorkTypes gwt in GolemDef.golemWorkTypes)
             {
-                if (gwt.enabled && (!gwt.requiresUpgrade || this.Golem.Upgrades.Any((TM_GolemUpgrade x) => x.golemUpgradeDef == gwt.golemUpgradeDef && x.currentLevel > 0)))
+                if (gwt.enabled && (!gwt.requiresUpgrade || Golem.Upgrades.Any((TM_GolemUpgrade x) => x.golemUpgradeDef == gwt.golemUpgradeDef && x.currentLevel > 0)))
                 {
-                    this.workSettings.SetPriority(gwt.workTypeDef, gwt.priority);
+                    workSettings.SetPriority(gwt.workTypeDef, gwt.priority);
                 }          
                 else
                 {
-                    this.workSettings.SetPriority(gwt.workTypeDef, 0);
+                    workSettings.SetPriority(gwt.workTypeDef, 0);
                 }
             }
 
-            foreach (TM_GolemDef.GolemWorkTypes gwt in this.GolemDef.golemWorkTypes)
+            foreach (TM_GolemDef.GolemWorkTypes gwt in GolemDef.golemWorkTypes)
             {
                 if (gwt.upgradedSkill != null)
                 {
                     skills.GetSkill(gwt.upgradedSkill).levelInt = gwt.initialSkillLevel;
-                    foreach (TM_GolemUpgrade gu in this.Golem.Upgrades)
+                    foreach (TM_GolemUpgrade gu in Golem.Upgrades)
                     {
                         if (gu.golemUpgradeDef == gwt.golemUpgradeDef && gu.currentLevel > 0)
                         {
@@ -699,7 +699,7 @@ namespace TorannMagic.Golems
             int num2 = 0;
             foreach (SkillDef sd in workTypeDef.relevantSkills)
             {
-                foreach (SkillRecord gs in this.skills.skills)
+                foreach (SkillRecord gs in skills.skills)
                 {
                     if (gs.def == sd)
                     {
@@ -720,7 +720,7 @@ namespace TorannMagic.Golems
             {
                 return 0;
             }
-            foreach (TMDefs.TM_GolemDef.GolemWorkTypes golemWorkType in Golem.Golem.golemDef.golemWorkTypes)
+            foreach (TM_GolemDef.GolemWorkTypes golemWorkType in Golem.Golem.golemDef.golemWorkTypes)
             {
                 if (golemWorkType.workTypeDef == workTypeDef && golemWorkType.enabled)
                 {

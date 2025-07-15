@@ -31,27 +31,27 @@ namespace TorannMagic.Conditions
             if(Find.TickManager.TicksGame % 60 == 0)
             {
                 //Log.Message("wandering lich duration pct: " + (float)((float)this.TicksPassed / (float)this.Duration) + "  duration ticks: " + this.Duration);
-                if(this.thing.DestroyedOrNull())
+                if(thing.DestroyedOrNull())
                 {
-                    this.End();
+                    End();
                 }
 
                 CompSkeletonLichController comp = thing.TryGetComp<CompSkeletonLichController>();
-                if (this.nextEventTick <= Find.TickManager.TicksGame)
+                if (nextEventTick <= Find.TickManager.TicksGame)
                 {
                     if(comp != null && comp.tauntTarget == null)
                     {
-                        this.nextEventTick = Find.TickManager.TicksGame + this.ticksBetweenEvents;
-                        comp.raiseRadius = this.areaRadius;
+                        nextEventTick = Find.TickManager.TicksGame + ticksBetweenEvents;
+                        comp.raiseRadius = areaRadius;
                         comp.tauntTarget = TM_Calc.TryFindSafeCell(comp.ParentPawn, comp.ParentPawn.Position, 30, 1, 10);
                         if(comp.tauntTarget == null || comp.tauntTarget == default(IntVec3))
                         {
                             FindGoodCenterLocation();                            
-                            comp.tauntTarget = this.centerLocation.ToIntVec3;
+                            comp.tauntTarget = centerLocation.ToIntVec3;
                         }
-                        comp.geChance = this.geChance;
-                        comp.leChance = this.leChance;
-                        this.centerLocation = comp.tauntTarget.Cell.ToIntVec2;
+                        comp.geChance = geChance;
+                        comp.leChance = leChance;
+                        centerLocation = comp.tauntTarget.Cell.ToIntVec2;
                         ChangeDefendPoint(thing.Faction);
                     }
                 }
@@ -67,21 +67,21 @@ namespace TorannMagic.Conditions
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_References.Look<Thing>(ref this.thing, "thing", false);
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", true, false);
-            Scribe_Values.Look<IntVec2>(ref this.centerLocation, "centerLocation", default(IntVec2), false);
-            Scribe_Values.Look<IntVec2>(ref this.edgeLocation, "edgeLocation", default(IntVec2), false);
-            Scribe_Values.Look<bool>(ref this.disabled, "disabled", false, false);
-            Scribe_Values.Look<int>(ref this.ticksBetweenEvents, "ticksBetweenEvents", 4000, false);
-            Scribe_Values.Look<int>(ref this.nextEventTick, "nextEventTick", 0, false);
-            Scribe_Values.Look<float>(ref this.leChance, "leChance", .012f, false);
-            Scribe_Values.Look<float>(ref this.geChance, "geChance", .002f, false);
+            Scribe_References.Look<Thing>(ref thing, "thing", false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", true, false);
+            Scribe_Values.Look<IntVec2>(ref centerLocation, "centerLocation", default(IntVec2), false);
+            Scribe_Values.Look<IntVec2>(ref edgeLocation, "edgeLocation", default(IntVec2), false);
+            Scribe_Values.Look<bool>(ref disabled, "disabled", false, false);
+            Scribe_Values.Look<int>(ref ticksBetweenEvents, "ticksBetweenEvents", 4000, false);
+            Scribe_Values.Look<int>(ref nextEventTick, "nextEventTick", 0, false);
+            Scribe_Values.Look<float>(ref leChance, "leChance", .012f, false);
+            Scribe_Values.Look<float>(ref geChance, "geChance", .002f, false);
         }
 
         public override void Init()
         {
             bool tempAllow = false;
-            Map map = this.SingleMap;
+            Map map = SingleMap;
             MagicMapComponent mmc = map.GetComponent<MagicMapComponent>();
             if (mmc != null && mmc.allowAllIncidents)
             {
@@ -91,10 +91,10 @@ namespace TorannMagic.Conditions
             if (ModOptions.Settings.Instance.wanderingLichChallenge > 0 || tempAllow)
             {
                 base.Init();
-                this.disabled = false;
-                this.FindGoodEdgeLocation();
-                this.SpawnWanderingLich();
-                this.SetEventParameters();
+                disabled = false;
+                FindGoodEdgeLocation();
+                SpawnWanderingLich();
+                SetEventParameters();
                 if(ModOptions.Settings.Instance.wanderingLichChallenge >= 2)
                 {
                     InitializeDeathSkies();
@@ -107,7 +107,7 @@ namespace TorannMagic.Conditions
             }
             else
             {
-                this.disabled = true;
+                disabled = true;
                 Log.Message("Wandering Lich spawning disabled.");
             }
         }
@@ -115,7 +115,7 @@ namespace TorannMagic.Conditions
         private void InitializeSolarFlare()
         {
             GameConditionManager gameConditionManager = this.gameConditionManager;
-            int duration = Mathf.RoundToInt(this.Duration);
+            int duration = Mathf.RoundToInt(Duration);
             GameCondition cond = GameConditionMaker.MakeCondition(TorannMagicDefOf.SolarFlare, duration);
             gameConditionManager.RegisterCondition(cond);
         }
@@ -123,7 +123,7 @@ namespace TorannMagic.Conditions
         private void InitializeDeathSkies()
         {
             GameConditionManager gameConditionManager = this.gameConditionManager;
-            int duration = Mathf.RoundToInt(this.Duration);
+            int duration = Mathf.RoundToInt(Duration);
             GameCondition cond2 = GameConditionMaker.MakeCondition(TorannMagicDefOf.DarkClouds, duration);
             gameConditionManager.RegisterCondition(cond2);
         }
@@ -132,14 +132,14 @@ namespace TorannMagic.Conditions
         {
             
             float mult = Rand.Range(2f, 4f) + ModOptions.Settings.Instance.wanderingLichChallenge + Find.Storyteller.difficulty.threatScale;
-            this.nextEventTick = Find.TickManager.TicksGame + 200;
-            this.ticksBetweenEvents = Mathf.RoundToInt((float)this.Duration / mult);
+            nextEventTick = Find.TickManager.TicksGame + 200;
+            ticksBetweenEvents = Mathf.RoundToInt((float)Duration / mult);
         }
 
         public void ChangeDefendPoint(Faction faction)
         {
             Lord defendLord = null;
-            List<Lord> allLords = this.SingleMap.lordManager.lords;
+            List<Lord> allLords = SingleMap.lordManager.lords;
             for (int i = 0; i < allLords.Count; i++)
             {
                 Lord lord = allLords[i];
@@ -149,7 +149,7 @@ namespace TorannMagic.Conditions
                     {
                         defendLord = lord;
                         LordToil_DefendPoint lordToil = defendLord.CurLordToil as LordToil_DefendPoint;
-                        lordToil.SetDefendPoint(this.centerLocation.ToIntVec3);
+                        lordToil.SetDefendPoint(centerLocation.ToIntVec3);
                     }
                 }
             }
@@ -160,7 +160,7 @@ namespace TorannMagic.Conditions
         {
             Lord assaultLord = null;
             Lord defendLord = null;
-            List<Lord> allLords = this.SingleMap.lordManager.lords;
+            List<Lord> allLords = SingleMap.lordManager.lords;
             for(int i = 0; i < allLords.Count; i++)
             {
                 Lord lord = allLords[i];
@@ -170,7 +170,7 @@ namespace TorannMagic.Conditions
                     {
                         defendLord = lord;
                         LordToil_DefendPoint lordToil = defendLord.CurLordToil as LordToil_DefendPoint;
-                        lordToil.SetDefendPoint(this.centerLocation.ToIntVec3);
+                        lordToil.SetDefendPoint(centerLocation.ToIntVec3);
                     }
                     else if(lord.CurLordToil != null && lord.CurLordToil is LordToil_AssaultColony)
                     {
@@ -182,15 +182,15 @@ namespace TorannMagic.Conditions
             {
                 LordJob_AssaultColony lordJob = new LordJob_AssaultColony(faction, false, false, false, false, false);
                 Traverse.Create(root: lordJob).Field(name: "canTimeoutOrFlee").SetValue(false);
-                assaultLord = LordMaker.MakeNewLord(faction, lordJob, this.SingleMap, null);
+                assaultLord = LordMaker.MakeNewLord(faction, lordJob, SingleMap, null);
             }
             if(defendLord == null)
             {
-                LordJob_DefendPoint lordJob = new LordJob_DefendPoint(this.centerLocation.ToIntVec3);
-                defendLord = LordMaker.MakeNewLord(faction, lordJob, this.SingleMap, null);
+                LordJob_DefendPoint lordJob = new LordJob_DefendPoint(centerLocation.ToIntVec3);
+                defendLord = LordMaker.MakeNewLord(faction, lordJob, SingleMap, null);
             }
             
-            List<Pawn> allPawns = this.SingleMap.mapPawns.AllPawnsSpawned.ToList();
+            List<Pawn> allPawns = SingleMap.mapPawns.AllPawnsSpawned.ToList();
             for (int i = 0; i < allPawns.Count; i++)
             {
                 if (allPawns[i].Faction != null && allPawns[i].Faction == faction)
@@ -244,7 +244,7 @@ namespace TorannMagic.Conditions
 
         public void SpawnWanderingLich()
         {
-            AbilityUser.SpawnThings spawnables = new SpawnThings();
+            SpawnThings spawnables = new SpawnThings();
             spawnables.def = TorannMagicDefOf.TM_SkeletonLichR;
             spawnables.kindDef = PawnKindDef.Named("TM_SkeletonLich");
             spawnables.temporary = false;            
@@ -260,7 +260,7 @@ namespace TorannMagic.Conditions
             {
                 faction = Find.FactionManager.RandomEnemyFaction(true, true, true, TechLevel.Undefined);
             }
-            this.thing = TM_Action.SingleSpawnLoop(null, spawnables, edgeLocation.ToIntVec3, this.SingleMap, 0, false, false, faction);
+            thing = TM_Action.SingleSpawnLoop(null, spawnables, edgeLocation.ToIntVec3, SingleMap, 0, false, false, faction);
             CalculateWealthModifier();
             SpawnSkeletonMinions(edgeLocation.ToIntVec3, areaRadius, faction);
         }
@@ -275,7 +275,7 @@ namespace TorannMagic.Conditions
             }
             else
             {               
-                List<Pawn> allPawns = this.SingleMap.mapPawns.AllPawnsSpawned.ToList();
+                List<Pawn> allPawns = SingleMap.mapPawns.AllPawnsSpawned.ToList();
                 for(int i = 0; i < allPawns.Count; i++)
                 {
                     if(allPawns[i].def == TorannMagicDefOf.TM_SkeletonR || allPawns[i].def == TorannMagicDefOf.TM_GiantSkeletonR || allPawns[i].def == TorannMagicDefOf.TM_SkeletonLichR)
@@ -288,7 +288,7 @@ namespace TorannMagic.Conditions
                 }
             }
             List<GameCondition> gcs = new List<GameCondition>();
-            gcs = this.SingleMap.GameConditionManager.ActiveConditions;
+            gcs = SingleMap.GameConditionManager.ActiveConditions;
             for(int i = 0; i < gcs.Count; i++)
             {
                 if(gcs[i].def == TorannMagicDefOf.DarkClouds)
@@ -301,7 +301,7 @@ namespace TorannMagic.Conditions
                 }
             }
 
-            MagicMapComponent mmc = this.SingleMap.GetComponent<MagicMapComponent>();
+            MagicMapComponent mmc = SingleMap.GetComponent<MagicMapComponent>();
             if (mmc != null && mmc.allowAllIncidents)
             {
                 mmc.allowAllIncidents = false; ;
@@ -312,7 +312,7 @@ namespace TorannMagic.Conditions
         private void FindGoodEdgeLocation()
         {
             bool centerLocFound = false;
-            if (this.SingleMap.Size.x <= 32 || this.SingleMap.Size.z <= 32)
+            if (SingleMap.Size.x <= 32 || SingleMap.Size.z <= 32)
             {
                 throw new Exception("Map too small for wandering lich");
             }
@@ -322,18 +322,18 @@ namespace TorannMagic.Conditions
                 int zVar = 0;
                 if (Rand.Chance(.5f)) 
                 {
-                    xVar = Rand.Range(8, base.SingleMap.Size.x - 8);
-                    zVar = Rand.Chance(.5f) ? Rand.Range(8, 16) : Rand.Range(base.SingleMap.Size.z - 16, base.SingleMap.Size.z - 8);
+                    xVar = Rand.Range(8, SingleMap.Size.x - 8);
+                    zVar = Rand.Chance(.5f) ? Rand.Range(8, 16) : Rand.Range(SingleMap.Size.z - 16, SingleMap.Size.z - 8);
                 }
                 else
                 {
-                    xVar = Rand.Chance(.5f) ? Rand.Range(8, 16) : Rand.Range(base.SingleMap.Size.x - 16, base.SingleMap.Size.x - 8);
-                    zVar = Rand.Range(8, base.SingleMap.Size.z - 8);
+                    xVar = Rand.Chance(.5f) ? Rand.Range(8, 16) : Rand.Range(SingleMap.Size.x - 16, SingleMap.Size.x - 8);
+                    zVar = Rand.Range(8, SingleMap.Size.z - 8);
                 }
-                this.edgeLocation = new IntVec2(xVar, zVar);
-                if (this.IsGoodCenterLocation(this.edgeLocation))
+                edgeLocation = new IntVec2(xVar, zVar);
+                if (IsGoodCenterLocation(edgeLocation))
                 {
-                    this.centerLocation = this.edgeLocation;
+                    centerLocation = edgeLocation;
                     centerLocFound = true;
                     break;
                 }
@@ -346,14 +346,14 @@ namespace TorannMagic.Conditions
 
         private void FindGoodCenterLocation()
         {
-            if (this.SingleMap.Size.x <= 16 || this.SingleMap.Size.z <= 16)
+            if (SingleMap.Size.x <= 16 || SingleMap.Size.z <= 16)
             {
                 throw new Exception("Map too small for wandering lich");
             }
             for (int i = 0; i < 10; i++)
             {
-                this.centerLocation = new IntVec2(Rand.Range(8, base.SingleMap.Size.x - 8), Rand.Range(8, base.SingleMap.Size.z - 8));
-                if (this.IsGoodCenterLocation(this.centerLocation))
+                centerLocation = new IntVec2(Rand.Range(8, SingleMap.Size.x - 8), Rand.Range(8, SingleMap.Size.z - 8));
+                if (IsGoodCenterLocation(centerLocation))
                 {
                     break;
                 }
@@ -362,16 +362,16 @@ namespace TorannMagic.Conditions
 
         private bool IsGoodLocationForSpawn(IntVec3 loc)
         {
-            return loc.InBoundsWithNullCheck(base.SingleMap) && !loc.Roofed(base.SingleMap) && loc.Standable(base.SingleMap) && loc.IsValid && !loc.Fogged(base.SingleMap) && loc.Walkable(base.SingleMap);
+            return loc.InBoundsWithNullCheck(SingleMap) && !loc.Roofed(SingleMap) && loc.Standable(SingleMap) && loc.IsValid && !loc.Fogged(SingleMap) && loc.Walkable(SingleMap);
         }
 
         private bool IsGoodCenterLocation(IntVec2 loc)
         {
             int num = 0;
-            int num2 = (int)(3.14159274f * (float)this.areaRadius * (float)this.areaRadius / 2f);
-            foreach (IntVec3 current in this.GetPotentiallyAffectedCells(loc))
+            int num2 = (int)(3.14159274f * (float)areaRadius * (float)areaRadius / 2f);
+            foreach (IntVec3 current in GetPotentiallyAffectedCells(loc))
             {
-                if (this.IsGoodLocationForSpawn(current))
+                if (IsGoodLocationForSpawn(current))
                 {
                     num++;
                 }
@@ -387,11 +387,11 @@ namespace TorannMagic.Conditions
         [DebuggerHidden]
         private IEnumerable<IntVec3> GetPotentiallyAffectedCells(IntVec2 center)
         {
-            for (int x = center.x - this.areaRadius; x <= center.x + this.areaRadius; x++)
+            for (int x = center.x - areaRadius; x <= center.x + areaRadius; x++)
             {
-                for (int z = center.z - this.areaRadius; z <= center.z + this.areaRadius; z++)
+                for (int z = center.z - areaRadius; z <= center.z + areaRadius; z++)
                 {
-                    if ((center.x - x) * (center.x - x) + (center.z - z) * (center.z - z) <= this.areaRadius * this.areaRadius)
+                    if ((center.x - x) * (center.x - x) + (center.z - z) * (center.z - z) <= areaRadius * areaRadius)
                     {
                         yield return new IntVec3(x, 0, z);
                     }
@@ -402,7 +402,7 @@ namespace TorannMagic.Conditions
         public void CalculateWealthModifier()
         {
             float wealthMultiplier = .7f;
-            float wealth = this.SingleMap.PlayerWealthForStoryteller;
+            float wealth = SingleMap.PlayerWealthForStoryteller;
             if (wealth > 20000)
             {
                 wealthMultiplier = .8f;
@@ -431,7 +431,7 @@ namespace TorannMagic.Conditions
         public void SpawnSkeletonMinions(IntVec3 center, int radius, Faction faction)
         {
             IntVec3 curCell;
-            Map map = this.SingleMap;
+            Map map = SingleMap;
             IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(center, radius, true);
             for (int j = 0; j < targets.Count(); j++)
             {

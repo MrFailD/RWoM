@@ -26,24 +26,24 @@ namespace TorannMagic
             bool flag = false;
             
             Pawn caster = base.CasterPawn;
-            this.TargetsAoE.Clear();
+            TargetsAoE.Clear();
             //this.UpdateTargets();
             FindTargets();
             CompAbilityUserMight comp = caster.GetCompAbilityUserMight();
-            pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef, true);
-            if (this.Ability.Def == TorannMagicDefOf.TM_StayAlert || this.Ability.Def == TorannMagicDefOf.TM_StayAlert_I || this.Ability.Def == TorannMagicDefOf.TM_StayAlert_II || this.Ability.Def == TorannMagicDefOf.TM_StayAlert_III)
+            pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef, true);
+            if (Ability.Def == TorannMagicDefOf.TM_StayAlert || Ability.Def == TorannMagicDefOf.TM_StayAlert_I || Ability.Def == TorannMagicDefOf.TM_StayAlert_II || Ability.Def == TorannMagicDefOf.TM_StayAlert_III)
             {
                 //pwrVal = TM_Calc.GetMightSkillLevel(caster, comp.MightData.MightPowerSkill_StayAlert, "TM_StayAlert", "_pwr", true);
                 
                 flagSA = true;
             }
-            if (this.Ability.Def == TorannMagicDefOf.TM_MoveOut || this.Ability.Def == TorannMagicDefOf.TM_MoveOut_I || this.Ability.Def == TorannMagicDefOf.TM_MoveOut_II || this.Ability.Def == TorannMagicDefOf.TM_MoveOut_III)
+            if (Ability.Def == TorannMagicDefOf.TM_MoveOut || Ability.Def == TorannMagicDefOf.TM_MoveOut_I || Ability.Def == TorannMagicDefOf.TM_MoveOut_II || Ability.Def == TorannMagicDefOf.TM_MoveOut_III)
             {
                 //pwrVal = TM_Calc.GetMightSkillLevel(caster, comp.MightData.MightPowerSkill_MoveOut, "TM_MoveOut", "_pwr", true);
                 
                 flagMO = true;
             }
-            if (this.Ability.Def == TorannMagicDefOf.TM_HoldTheLine || this.Ability.Def == TorannMagicDefOf.TM_HoldTheLine_I || this.Ability.Def == TorannMagicDefOf.TM_HoldTheLine_II || this.Ability.Def == TorannMagicDefOf.TM_HoldTheLine_III)
+            if (Ability.Def == TorannMagicDefOf.TM_HoldTheLine || Ability.Def == TorannMagicDefOf.TM_HoldTheLine_I || Ability.Def == TorannMagicDefOf.TM_HoldTheLine_II || Ability.Def == TorannMagicDefOf.TM_HoldTheLine_III)
             {
                 //pwrVal = TM_Calc.GetMightSkillLevel(caster, comp.MightData.MightPowerSkill_HoldTheLine, "TM_HoldTheLine", "_pwr", true);
                 flagHTL = true;
@@ -51,9 +51,9 @@ namespace TorannMagic
             Effecter OrderED = TorannMagicDefOf.TM_CommanderOrderED.Spawn();
             OrderED.Trigger(new TargetInfo(caster.Position, caster.Map, false), new TargetInfo(caster.Position, caster.Map, false));
             OrderED.Cleanup();
-            for (int i = 0; i < this.TargetsAoE.Count; i++)
+            for (int i = 0; i < TargetsAoE.Count; i++)
             {
-                Pawn newPawn = this.TargetsAoE[i].Thing as Pawn;
+                Pawn newPawn = TargetsAoE[i].Thing as Pawn;
                 if(newPawn.RaceProps.Humanlike && newPawn != caster)
                 {
                     float socialChance = (float)(caster.skills.GetSkill(SkillDefOf.Social).Level / 20f);
@@ -69,7 +69,7 @@ namespace TorannMagic
                     }
                     if (Rand.Chance(rChance))
                     {
-                        float targetCountFactor = Mathf.Clamp(5f / (float)this.TargetsAoE.Count, .1f, 1f);
+                        float targetCountFactor = Mathf.Clamp(5f / (float)TargetsAoE.Count, .1f, 1f);
                         if (flagSA)
                         {
                             if(newPawn.needs != null && newPawn.needs.rest != null)
@@ -127,40 +127,40 @@ namespace TorannMagic
                     }
                 }
             }
-            this.PostCastShot(flag, out flag);
+            PostCastShot(flag, out flag);
             return flag;
         }
 
 
         private void FindTargets()
         {
-            bool flag2 = this.UseAbilityProps.TargetAoEProperties == null;
+            bool flag2 = UseAbilityProps.TargetAoEProperties == null;
             if (flag2)
             {
                 Log.Error("Tried to Cast AoE-Ability without defining a target class");
             }
             List<Pawn> list = new List<Pawn>();
-            IntVec3 aoeStartPosition = this.caster.PositionHeld;
-            bool flag3 = !this.UseAbilityProps.TargetAoEProperties.startsFromCaster;
+            IntVec3 aoeStartPosition = caster.PositionHeld;
+            bool flag3 = !UseAbilityProps.TargetAoEProperties.startsFromCaster;
             if (flag3)
             {
-                aoeStartPosition = this.currentTarget.Cell;
+                aoeStartPosition = currentTarget.Cell;
             }
 
-            list = (from x in this.caster.Map.mapPawns.AllPawnsSpawned
-                    where x.Position.InHorDistOf(aoeStartPosition, (float)this.UseAbilityProps.TargetAoEProperties.range) && x.Faction == base.CasterPawn.Faction
+            list = (from x in caster.Map.mapPawns.AllPawnsSpawned
+                    where x.Position.InHorDistOf(aoeStartPosition, (float)UseAbilityProps.TargetAoEProperties.range) && x.Faction == base.CasterPawn.Faction
                     select x).ToList<Pawn>();
 
-            int maxTargets = this.UseAbilityProps.abilityDef.MainVerb.TargetAoEProperties.maxTargets;
+            int maxTargets = UseAbilityProps.abilityDef.MainVerb.TargetAoEProperties.maxTargets;
             List<Pawn> list2 = new List<Pawn>(list.InRandomOrder(null));
             int num = 0;
             while (num < maxTargets && num < list2.Count<Pawn>())
             {
                 TargetInfo targ = new TargetInfo(list2[num]);
-                bool flag6 = this.UseAbilityProps.targetParams.CanTarget(targ);
+                bool flag6 = UseAbilityProps.targetParams.CanTarget(targ);
                 if (flag6)
                 {
-                    this.TargetsAoE.Add(new LocalTargetInfo(list2[num]));
+                    TargetsAoE.Add(new LocalTargetInfo(list2[num]));
                 }
                 num++;
             }

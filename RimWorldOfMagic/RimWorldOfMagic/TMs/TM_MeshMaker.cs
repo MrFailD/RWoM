@@ -23,25 +23,25 @@ namespace TorannMagic
 
         public static Mesh NewBoltMesh(float distance, float amplitude)
         {
-            TM_MeshMaker.lightningTop = new Vector2(Rand.Range(-0.2f, .2f), distance);
-            TM_MeshMaker.MakeVerticesBase();
+            lightningTop = new Vector2(Rand.Range(-0.2f, .2f), distance);
+            MakeVerticesBase();
             if (amplitude > 0)
             {
-                TM_MeshMaker.PeturbVerticesRandomly(amplitude);
+                PeturbVerticesRandomly(amplitude);
             }
-            TM_MeshMaker.DoubleVertices();
-            return TM_MeshMaker.MeshFromVerts();
+            DoubleVertices();
+            return MeshFromVerts();
         }
 
         private static void MakeVerticesBase()
         {
-            int num = (int)Math.Ceiling((double)((Vector2.zero - TM_MeshMaker.lightningTop).magnitude / 0.20f));
-            Vector2 b = TM_MeshMaker.lightningTop / (float)num;
-            TM_MeshMaker.verts2D = new List<Vector2>();
+            int num = (int)Math.Ceiling((double)((Vector2.zero - lightningTop).magnitude / 0.20f));
+            Vector2 b = lightningTop / (float)num;
+            verts2D = new List<Vector2>();
             Vector2 vector = Vector2.zero;
             for (int i = 0; i < num; i++)
             {
-                TM_MeshMaker.verts2D.Add(vector);
+                verts2D.Add(vector);
                 vector += b;
             }
         }
@@ -50,23 +50,23 @@ namespace TorannMagic
         {
             Perlin perlin = new Perlin(0.0070000002160668373, 2.0, 0.5, 6, Rand.Range(0, 2147483647), QualityMode.High);
             //List<Vector2> list = GenList.ListFullCopy<Vector2>(TM_MeshMaker.verts2D);
-            List<Vector2> list = TM_MeshMaker.verts2D.ListFullCopy<Vector2>();
-            TM_MeshMaker.verts2D.Clear();
+            List<Vector2> list = verts2D.ListFullCopy<Vector2>();
+            verts2D.Clear();
             for (int i = 0; i < list.Count; i++)
             {
                 float d = amplitude * (float)perlin.GetValue((double)i, 0.0, 0.0);
                 Vector2 item = list[i] + d * Vector2.right;
-                TM_MeshMaker.verts2D.Add(item);
+                verts2D.Add(item);
             }
         }
 
         private static void DoubleVertices()
         {
             //List<Vector2> list = GenList.ListFullCopy<Vector2>(TM_MeshMaker.verts2D);
-            List<Vector2> list = TM_MeshMaker.verts2D.ListFullCopy<Vector2>();
+            List<Vector2> list = verts2D.ListFullCopy<Vector2>();
             Vector3 vector = default(Vector3);
             Vector2 a = default(Vector2);
-            TM_MeshMaker.verts2D.Clear();
+            verts2D.Clear();
             for (int i = 0; i < list.Count; i++)
             {
                 bool flag = i <= list.Count - 2;
@@ -78,28 +78,28 @@ namespace TorannMagic
                 }
                 Vector2 item = list[i] - 1f * a;
                 Vector2 item2 = list[i] + 1f * a;
-                TM_MeshMaker.verts2D.Add(item);
-                TM_MeshMaker.verts2D.Add(item2);
+                verts2D.Add(item);
+                verts2D.Add(item2);
             }
         }
 
         private static Mesh MeshFromVerts()
         {
-            Vector3[] array = new Vector3[TM_MeshMaker.verts2D.Count];
+            Vector3[] array = new Vector3[verts2D.Count];
             for (int i = 0; i < array.Length; i++)
             {
-                array[i] = new Vector3(TM_MeshMaker.verts2D[i].x, 0f, TM_MeshMaker.verts2D[i].y);
+                array[i] = new Vector3(verts2D[i].x, 0f, verts2D[i].y);
             }
             float num = 0f;
-            Vector2[] array2 = new Vector2[TM_MeshMaker.verts2D.Count];
-            for (int j = 0; j < TM_MeshMaker.verts2D.Count; j += 2)
+            Vector2[] array2 = new Vector2[verts2D.Count];
+            for (int j = 0; j < verts2D.Count; j += 2)
             {
                 array2[j] = new Vector2(0f, num);
                 array2[j + 1] = new Vector2(1f, num);
                 num += 0.04f;
             }
-            int[] array3 = new int[TM_MeshMaker.verts2D.Count * 3];
-            for (int k = 0; k < TM_MeshMaker.verts2D.Count - 2; k += 2)
+            int[] array3 = new int[verts2D.Count * 3];
+            for (int k = 0; k < verts2D.Count - 2; k += 2)
             {
                 int num2 = k * 3;
                 array3[num2] = k;

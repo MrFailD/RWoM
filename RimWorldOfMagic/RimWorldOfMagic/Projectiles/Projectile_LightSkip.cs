@@ -34,24 +34,24 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<bool>(ref this.launchedFlag, "launchedFlag", false, false);
-            Scribe_Values.Look<bool>(ref this.landedFlag, "landedFlag", false, false);
-            Scribe_Values.Look<bool>(ref this.pivotFlag, "pivotFlag", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 1800, false);
-            Scribe_Values.Look<int>(ref this.strikeDelay, "strikeDelay", 0, false);
-            Scribe_Values.Look<int>(ref this.strikeNum, "strikeNum", 0, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_Values.Look<IntVec3>(ref this.safePos, "safePos", default(IntVec3), false);
-            Scribe_References.Look<Pawn>(ref this.pawn, "pawn", false);
-            Scribe_Collections.Look<IntVec3>(ref this.cellList, "cellList", LookMode.Value);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<bool>(ref launchedFlag, "launchedFlag", false, false);
+            Scribe_Values.Look<bool>(ref landedFlag, "landedFlag", false, false);
+            Scribe_Values.Look<bool>(ref pivotFlag, "pivotFlag", false, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 1800, false);
+            Scribe_Values.Look<int>(ref strikeDelay, "strikeDelay", 0, false);
+            Scribe_Values.Look<int>(ref strikeNum, "strikeNum", 0, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<IntVec3>(ref safePos, "safePos", default(IntVec3), false);
+            Scribe_References.Look<Pawn>(ref pawn, "pawn", false);
+            Scribe_Collections.Look<IntVec3>(ref cellList, "cellList", LookMode.Value);
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < duration;
+            bool flag = age < duration;
             if (!flag)
             {
                 ModOptions.Constants.SetPawnInFlight(false);
@@ -62,32 +62,32 @@ namespace TorannMagic
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {            
             ThingDef def = this.def;
-            if (!this.initialized)
+            if (!initialized)
             {
-                this.pawn = this.launcher as Pawn;
-                this.map = this.pawn.Map;
+                pawn = launcher as Pawn;
+                map = pawn.Map;
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
                 MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_LightSkip.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_LightSkip_pwr");
                 
                 pwrVal = pwr.level;
-                this.arcaneDmg = comp.arcaneDmg;
+                arcaneDmg = comp.arcaneDmg;
                 if (ModOptions.Settings.Instance.AIHardMode && !pawn.IsColonist)
                 {
                     pwrVal = 1;
                     verVal = 1;
                 }
-                this.draftFlag = this.pawn.drafter != null ? this.pawn.Drafted : false;
-                this.initialized = true;
+                draftFlag = pawn.drafter != null ? pawn.Drafted : false;
+                initialized = true;
             }
 
             if (!launchedFlag)
             {
-                Pawn pawnToSkip = this.pawn;
+                Pawn pawnToSkip = pawn;
                 Pawn mount = null;
                 ModOptions.Constants.SetPawnInFlight(true);
                 if (ModCheck.Validate.GiddyUp.Core_IsInitialized())
                 {
-                    mount = ModCheck.GiddyUp.GetMount(this.pawn);
+                    mount = ModCheck.GiddyUp.GetMount(pawn);
                     ModCheck.GiddyUp.ForceDismount(pawn);                    
                 }
                 if(pawnToSkip.carryTracker != null && pawnToSkip.carryTracker.CarriedThing != null)
@@ -107,15 +107,15 @@ namespace TorannMagic
                     podT.innerContainer.TryAddOrTransfer(mount);
                 }
                 podT.innerContainer.TryAddOrTransfer(pawnToSkip);                
-                GlobalTargetInfo gti = new GlobalTargetInfo(base.Position, base.Map, false);
+                GlobalTargetInfo gti = new GlobalTargetInfo(Position, Map, false);
                 LaunchLightPod(pod, podT, gti.Tile, gti.Cell);
                 launchedFlag = true;
             }
             
             if (launchedFlag)
             {
-                this.age++;
-                this.Destroy(DestroyMode.Vanish);
+                age++;
+                Destroy(DestroyMode.Vanish);
             }
         }
 
@@ -132,7 +132,7 @@ namespace TorannMagic
             obj.destinationTile = destinationTile;
             obj.arrivalAction = null;
             obj.arrivalCell = destinationCell;
-            obj.draftFlag = this.draftFlag;
+            obj.draftFlag = draftFlag;
             compTransporter.CleanUpLoadingVars(map);
             compTransporter.parent.Destroy();
             GenSpawn.Spawn(obj, compTransporter.parent.Position, map);

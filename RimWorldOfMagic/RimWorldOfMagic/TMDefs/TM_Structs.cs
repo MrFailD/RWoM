@@ -23,8 +23,8 @@ namespace TorannMagic.TMDefs
 
         public void ExposeData()
         {
-            Scribe_Defs.Look<TerrainDef>(ref this.terrain, "terrain");
-            Scribe_Values.Look<IntVec3>(ref this.position, "position", default(IntVec3), false);
+            Scribe_Defs.Look<TerrainDef>(ref terrain, "terrain");
+            Scribe_Values.Look<IntVec3>(ref position, "position", default(IntVec3), false);
         }
     }
 
@@ -108,7 +108,7 @@ namespace TorannMagic.TMDefs
             length = (end - start).magnitude;
             mat = _mat;
             GetVector(start, end);
-            vector = start + (Vector3Utility.FromAngleFlat(this.angle - 90) * length * 0.25f);
+            vector = start + (Vector3Utility.FromAngleFlat(angle - 90) * length * 0.25f);
         }
 
         public int Duration => fadeInTicks + solidTicks + fadeOutTicks;
@@ -118,17 +118,17 @@ namespace TorannMagic.TMDefs
             get
             {
                 float result;
-                if (this.age <= this.fadeInTicks)
+                if (age <= fadeInTicks)
                 {
-                    result = (float)this.age / this.fadeInTicks;
+                    result = (float)age / fadeInTicks;
                 }
-                else if (this.age < solidTicks)
+                else if (age < solidTicks)
                 {
                     result = 1f;
                 }
                 else
                 {
-                    result = 1f - (float)(this.age - this.solidTicks) / (float)this.fadeOutTicks;
+                    result = 1f - (float)(age - solidTicks) / (float)fadeOutTicks;
                 }
                 return result;
             }
@@ -139,7 +139,7 @@ namespace TorannMagic.TMDefs
             Vector3 heading = (end - start);
             float distance = heading.magnitude;
             Vector3 direction = heading / distance;
-            this.angle = (Quaternion.AngleAxis(90, Vector3.up) * direction).ToAngleFlat();
+            angle = (Quaternion.AngleAxis(90, Vector3.up) * direction).ToAngleFlat();
             return direction;
         }
 
@@ -147,14 +147,14 @@ namespace TorannMagic.TMDefs
         {
             age++;
             Matrix4x4 matrix = default(Matrix4x4);
-            matrix.SetTRS(vector, Quaternion.Euler(0f, this.angle, 0f), new Vector3(1f, 1f, length * .5f));   //drawer for beam
-            if (this.start != default(Vector3))
+            matrix.SetTRS(vector, Quaternion.Euler(0f, angle, 0f), new Vector3(1f, 1f, length * .5f));   //drawer for beam
+            if (start != default(Vector3))
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, FadedMaterialPool.FadedVersionOf(mat, this.MeshBrightness), 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, FadedMaterialPool.FadedVersionOf(mat, MeshBrightness), 0);
             }
             else
             {
-                Graphics.DrawMesh(MeshPool.plane10, this.start, Quaternion.identity, FadedMaterialPool.FadedVersionOf(mat, this.MeshBrightness), 0);
+                Graphics.DrawMesh(MeshPool.plane10, start, Quaternion.identity, FadedMaterialPool.FadedVersionOf(mat, MeshBrightness), 0);
             }
         }
     }

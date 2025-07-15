@@ -37,35 +37,35 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", true, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 1200, false);
-            Scribe_Values.Look<int>(ref this.healDelay, "healDelay", 30, false);
-            Scribe_Values.Look<int>(ref this.lastHeal, "lastHeal", 0, false);
-            Scribe_Values.Look<int>(ref this.waveDelay, "waveDelay", 240, false);
-            Scribe_Values.Look<int>(ref this.lastWave, "lastWave", 0, false);
-            Scribe_Values.Look<float>(ref this.radius, "radius", 6, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_References.Look<Pawn>(ref this.caster, "caster", false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", true, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 1200, false);
+            Scribe_Values.Look<int>(ref healDelay, "healDelay", 30, false);
+            Scribe_Values.Look<int>(ref lastHeal, "lastHeal", 0, false);
+            Scribe_Values.Look<int>(ref waveDelay, "waveDelay", 240, false);
+            Scribe_Values.Look<int>(ref lastWave, "lastWave", 0, false);
+            Scribe_Values.Look<float>(ref radius, "radius", 6, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_References.Look<Pawn>(ref caster, "caster", false);
         }
 
         private int TicksLeft
         {
             get
             {
-                return this.duration - this.age;
+                return duration - age;
             }
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
-            this.caster = this.launcher as Pawn;
+            caster = launcher as Pawn;
 
-            if(!this.initialized)
+            if(!initialized)
             {
                 CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
                 MagicPowerSkill pwr = caster.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_HealingCircle.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_HealingCircle_pwr");
@@ -79,55 +79,55 @@ namespace TorannMagic
                     pwrVal = mpwr.level;
                     verVal = mver.level;
                 }
-                this.arcaneDmg = comp.arcaneDmg;
+                arcaneDmg = comp.arcaneDmg;
                 
                 if (!caster.IsColonist && ModOptions.Settings.Instance.AIHardMode)
                 {
                     pwrVal = 3;
                     verVal = 3;
                 }
-                this.radius = this.def.projectile.explosionRadius;
-                this.angle = Rand.Range(-12, 12);
-                this.duration = this.duration + (180 * (pwrVal + verVal));
+                radius = this.def.projectile.explosionRadius;
+                angle = Rand.Range(-12, 12);
+                duration = duration + (180 * (pwrVal + verVal));
                 //TM_MoteMaker.MakePowerBeamMote(base.Position, base.Map, this.radius * 8f, 1.2f, this.duration/60f);
-                this.initialized = true;
+                initialized = true;
             }
 
-            if (this.age >= this.lastWave)
+            if (age >= lastWave)
             {
-                if (this.age >= this.lastHeal + this.healDelay)
+                if (age >= lastHeal + healDelay)
                 {
                     switch (ringFrac)
                     {
                         case 0:
-                            this.innerRing = 0;
-                            this.outerRing = this.radius * ((ringFrac + .1f) / 5f);
-                            TM_MoteMaker.MakePowerBeamMote(base.Position, base.Map, this.radius * 6f, 1.2f, this.waveDelay / 60f, (this.healDelay * 3f) / 60f, (this.healDelay * 2f) / 60f);
+                            innerRing = 0;
+                            outerRing = radius * ((ringFrac + .1f) / 5f);
+                            TM_MoteMaker.MakePowerBeamMote(Position, Map, radius * 6f, 1.2f, waveDelay / 60f, (healDelay * 3f) / 60f, (healDelay * 2f) / 60f);
                             break;
                         case 1:
-                            this.innerRing = this.outerRing;
-                            this.outerRing = this.radius * ((ringFrac) / 5f);                            
+                            innerRing = outerRing;
+                            outerRing = radius * ((ringFrac) / 5f);                            
                             break;
                         case 2:
-                            this.innerRing = this.outerRing;
-                            this.outerRing = this.radius * ((ringFrac) / 5f);
+                            innerRing = outerRing;
+                            outerRing = radius * ((ringFrac) / 5f);
                             break;
                         case 3:
-                            this.innerRing = this.outerRing;
-                            this.outerRing = this.radius * ((ringFrac) / 5f);
+                            innerRing = outerRing;
+                            outerRing = radius * ((ringFrac) / 5f);
                             break;
                         case 4:
-                            this.innerRing = this.outerRing;
-                            this.outerRing = this.radius * ((ringFrac) / 5f);
+                            innerRing = outerRing;
+                            outerRing = radius * ((ringFrac) / 5f);
                             break;
                         case 5:
-                            this.innerRing = this.outerRing;
-                            this.outerRing = this.radius;
-                            this.lastWave = this.age + this.waveDelay;
+                            innerRing = outerRing;
+                            outerRing = radius;
+                            lastWave = age + waveDelay;
                             break;
                     }                    
                     ringFrac++;
-                    this.lastHeal = this.age;
+                    lastHeal = age;
                     Search(map);
                 }
                 if (ringFrac >= 6)
@@ -140,9 +140,9 @@ namespace TorannMagic
         public void Search(Map map)
         {
             IntVec3 curCell;
-            IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(base.Position, this.radius, true);
-            IEnumerable<IntVec3> innerCircle = GenRadial.RadialCellsAround(base.Position, this.innerRing, true);
-            IEnumerable<IntVec3> outerCircle = GenRadial.RadialCellsAround(base.Position, this.outerRing, true);
+            IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(Position, radius, true);
+            IEnumerable<IntVec3> innerCircle = GenRadial.RadialCellsAround(Position, innerRing, true);
+            IEnumerable<IntVec3> outerCircle = GenRadial.RadialCellsAround(Position, outerRing, true);
 
             for (int i = innerCircle.Count(); i < outerCircle.Count(); i++)
             {                
@@ -158,7 +158,7 @@ namespace TorannMagic
                 }
                 if(pawn != null && TM_Calc.IsUndead(pawn))
                 {
-                    TM_Action.DamageUndead(pawn, (10.0f + (float)pwrVal * 3f) * this.arcaneDmg, this.launcher);
+                    TM_Action.DamageUndead(pawn, (10.0f + (float)pwrVal * 3f) * arcaneDmg, launcher);
                 }
             }
         }
@@ -185,12 +185,12 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age <= this.duration;
+            bool flag = age <= duration;
             if (!flag)
             {
                 base.Destroy(mode);

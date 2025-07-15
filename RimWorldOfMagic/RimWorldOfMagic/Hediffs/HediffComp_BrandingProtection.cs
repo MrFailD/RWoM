@@ -12,11 +12,11 @@ namespace TorannMagic
     {
         public override int AverageUpdateTick => 1000;
 
-        public bool canProtect => this.parent.Severity > .1f;
+        public bool canProtect => parent.Severity > .1f;
 
         public void TakeHit()
         {
-            this.parent.Severity = Mathf.Clamp(this.parent.Severity - Rand.Range(.2f, .6f), .015f, 1f);
+            parent.Severity = Mathf.Clamp(parent.Severity - Rand.Range(.2f, .6f), .015f, 1f);
         }
     }
 }

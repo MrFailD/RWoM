@@ -41,7 +41,7 @@ namespace TorannMagic.WorldTransport
 
         protected override void Tick()
         {
-            for (int i = 0; i < this.AllComps.Count; i++)
+            for (int i = 0; i < AllComps.Count; i++)
             {
                 AllComps[i].CompTick();
             }            
@@ -69,7 +69,7 @@ namespace TorannMagic.WorldTransport
                         {
                             if(destinationCell != default(IntVec3))
                             {
-                                arrivalAction = new WorldTransport.TM_TransportPodsArrivalAction_LandAtExactCell(maps[i].Parent, destinationCell, draftFlag);
+                                arrivalAction = new TM_TransportPodsArrivalAction_LandAtExactCell(maps[i].Parent, destinationCell, draftFlag);
                                 break;
                             }
                             arrivalAction = new TransportersArrivalAction_LandInSpecificCell(maps[i].Parent, DropCellFinder.RandomDropSpot(maps[i]));
@@ -162,7 +162,7 @@ namespace TorannMagic.WorldTransport
                 Pawn pawn = innerContainer[i] as Pawn;
                 if (pawn != null && !pawn.IsWorldPawn())
                 {
-                    if (!base.Spawned)
+                    if (!Spawned)
                     {
                         Log.Warning("Passing pawn " + pawn + " to world, but the TravelingTransportPod is not spawned. This means that WorldPawns can discard this pawn which can cause bugs.");
                     }

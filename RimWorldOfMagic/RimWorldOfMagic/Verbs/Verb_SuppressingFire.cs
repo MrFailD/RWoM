@@ -15,12 +15,12 @@ namespace TorannMagic
 
         protected override bool TryCastShot()
         {
-            Pawn pawn = this.CasterPawn;
-            if (this.currentTarget != null && pawn.equipment != null && pawn.equipment.Primary != null)
+            Pawn pawn = CasterPawn;
+            if (currentTarget != null && pawn.equipment != null && pawn.equipment.Primary != null)
             {
-                IntVec3 targetVariation = this.currentTarget.Cell;
-                targetVariation.x += Mathf.RoundToInt(Rand.Range(-.15f, .15f) * Vector3.Distance(pawn.DrawPos, this.currentTarget.CenterVector3) + Rand.Range(-1f, 1f));
-                targetVariation.z += Mathf.RoundToInt(Rand.Range(-.15f, .15f) * Vector3.Distance(pawn.DrawPos, this.currentTarget.CenterVector3) + Rand.Range(-1f, 1f));
+                IntVec3 targetVariation = currentTarget.Cell;
+                targetVariation.x += Mathf.RoundToInt(Rand.Range(-.15f, .15f) * Vector3.Distance(pawn.DrawPos, currentTarget.CenterVector3) + Rand.Range(-1f, 1f));
+                targetVariation.z += Mathf.RoundToInt(Rand.Range(-.15f, .15f) * Vector3.Distance(pawn.DrawPos, currentTarget.CenterVector3) + Rand.Range(-1f, 1f));
 
                 if (!initialized)
                 {

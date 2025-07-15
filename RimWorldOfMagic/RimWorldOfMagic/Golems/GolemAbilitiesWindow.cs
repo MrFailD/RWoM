@@ -28,11 +28,11 @@ namespace TorannMagic.Golems
 
         public GolemAbilitiesWindow()
         {
-            base.closeOnCancel = true;
-            base.doCloseButton = true;
-            base.doCloseX = true;
-            base.absorbInputAroundWindow = true;
-            base.forcePause = true;
+            closeOnCancel = true;
+            doCloseButton = true;
+            doCloseX = true;
+            absorbInputAroundWindow = true;
+            forcePause = true;
         }
 
         public override void Close(bool doCloseSound = true)
@@ -126,7 +126,7 @@ namespace TorannMagic.Golems
             workTypes.Clear();
             if (cg.Golem.golemDef.golemWorkTypes != null)
             {
-                foreach (TMDefs.TM_GolemDef.GolemWorkTypes gwt in cg.Golem.golemDef.golemWorkTypes)
+                foreach (TM_GolemDef.GolemWorkTypes gwt in cg.Golem.golemDef.golemWorkTypes)
                 {
                     if (!gwt.requiresUpgrade || cg.Golem.upgrades.Any((TM_GolemUpgrade y) => y.golemUpgradeDef == gwt.golemUpgradeDef && y.currentLevel > 0))
                     {
@@ -147,7 +147,7 @@ namespace TorannMagic.Golems
 
             Text.Font = GameFont.Medium;
             float x = Text.CalcSize("TM_GolemAbilities".Translate(cg.PawnGolem.LabelShortCap)).x;
-            Rect headerRect = new Rect(inRect.width / 2f - (x / 2), inRect.y, inRect.width, GolemAbilitiesWindow.HeaderSize);
+            Rect headerRect = new Rect(inRect.width / 2f - (x / 2), inRect.y, inRect.width, HeaderSize);
             Widgets.Label(headerRect, "TM_GolemAbilities".Translate(cg.PawnGolem.LabelShortCap));
             Text.Font = GameFont.Small;
             GUI.color = Color.white;

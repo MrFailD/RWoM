@@ -17,12 +17,12 @@ namespace TorannMagic.Enchantment
 
         public override void PostInitialize()
         {
-            this.hediffActionRate = 1800;            
+            hediffActionRate = 1800;            
         }
 
         public override void HediffActionTick()
         {
-            Need rest = this.Pawn.needs.rest;
+            Need rest = Pawn.needs.rest;
             if (rest != null)
             {
                 rest.CurLevel += .0065f;               

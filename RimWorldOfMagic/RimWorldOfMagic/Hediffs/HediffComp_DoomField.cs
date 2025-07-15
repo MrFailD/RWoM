@@ -19,7 +19,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -27,14 +27,14 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
                 
@@ -43,10 +43,10 @@ namespace TorannMagic
 
         public override void CompPostTick(ref float severityAdjustment)
         {
-            bool flag = base.Pawn.DestroyedOrNull();
+            bool flag = Pawn.DestroyedOrNull();
             if (!flag)
             {
-                if (base.Pawn.Spawned)
+                if (Pawn.Spawned)
                 {
                     if ((Find.TickManager.TicksGame % tickAction == 0) && !Pawn.Dead && Pawn.Map != null)
                     {

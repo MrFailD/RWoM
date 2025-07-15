@@ -17,15 +17,15 @@ namespace TorannMagic.Enchantment
 
         public override void PostInitialize()
         {
-            this.hediffActionRate = 1800;            
+            hediffActionRate = 1800;            
         }
 
         public override void HediffActionTick()
         {
-            if (this.Pawn.mindState.mentalStateHandler.InMentalState && Rand.Chance(.08f))
+            if (Pawn.mindState.mentalStateHandler.InMentalState && Rand.Chance(.08f))
             {
-                Messages.Message("TM_BrokenOutOfMentalState".Translate(this.Pawn.LabelShort, this.Pawn.mindState.mentalStateHandler.CurState.def.label), this.Pawn, MessageTypeDefOf.PositiveEvent);
-                this.Pawn.mindState.mentalStateHandler.CurState.RecoverFromState();                
+                Messages.Message("TM_BrokenOutOfMentalState".Translate(Pawn.LabelShort, Pawn.mindState.mentalStateHandler.CurState.def.label), Pawn, MessageTypeDefOf.PositiveEvent);
+                Pawn.mindState.mentalStateHandler.CurState.RecoverFromState();                
             }
         }
 

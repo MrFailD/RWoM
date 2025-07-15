@@ -14,7 +14,7 @@ namespace TorannMagic.Enchantment
         {
             get
             {
-                return (CompProperties_EnchantedStuff)this.props;
+                return (CompProperties_EnchantedStuff)props;
             }
         }
     }

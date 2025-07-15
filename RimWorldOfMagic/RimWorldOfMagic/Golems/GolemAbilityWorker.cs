@@ -171,7 +171,7 @@ namespace TorannMagic.Golems
                 LocalTargetInfo currentTarget = golem.TargetCurrentlyAimingAt != null ? golem.TargetCurrentlyAimingAt : golem.CurJob.targetA;
                 if (ability.golemAbilityDef.autocasting != null)
                 {
-                    if (ability.golemAbilityDef.autocasting.type == TMDefs.AutocastType.OnTarget && currentTarget != null)
+                    if (ability.golemAbilityDef.autocasting.type == AutocastType.OnTarget && currentTarget != null)
                     {
                         LocalTargetInfo localTarget = TM_Calc.GetAutocastTarget(golem, ability.golemAbilityDef.autocasting, currentTarget);
                         if (localTarget != null && localTarget.IsValid)
@@ -223,7 +223,7 @@ namespace TorannMagic.Golems
                             comp.StartAbility(ability, targetThing);
                         }
                     }
-                    if (ability.golemAbilityDef.autocasting.type == TMDefs.AutocastType.OnSelf)
+                    if (ability.golemAbilityDef.autocasting.type == AutocastType.OnSelf)
                     {
                         LocalTargetInfo localTarget = TM_Calc.GetAutocastTarget(golem, ability.golemAbilityDef.autocasting, golem);
                         if (localTarget != null && localTarget.IsValid)
@@ -240,7 +240,7 @@ namespace TorannMagic.Golems
                             comp.StartAbility(ability, targetThing);
                         }
                     }
-                    if (ability.golemAbilityDef.autocasting.type == TMDefs.AutocastType.OnCell && currentTarget != null)
+                    if (ability.golemAbilityDef.autocasting.type == AutocastType.OnCell && currentTarget != null)
                     {
                         LocalTargetInfo localTarget = TM_Calc.GetAutocastTarget(golem, ability.golemAbilityDef.autocasting, currentTarget);
                         if (localTarget != null && localTarget.IsValid)
@@ -265,7 +265,7 @@ namespace TorannMagic.Golems
                             comp.StartAbility(ability, targetThing);
                         }
                     }
-                    if (ability.golemAbilityDef.autocasting.type == TMDefs.AutocastType.OnNearby)
+                    if (ability.golemAbilityDef.autocasting.type == AutocastType.OnNearby)
                     {
                         LocalTargetInfo localTarget = TM_Calc.GetAutocastTarget(golem, ability.golemAbilityDef.autocasting, currentTarget);
                         if (localTarget != null && localTarget.IsValid)

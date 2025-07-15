@@ -18,10 +18,10 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             Pawn caster = base.CasterPawn;
-            Pawn pawn = this.currentTarget.Thing as Pawn;
+            Pawn pawn = currentTarget.Thing as Pawn;
             CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
-            pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef);
-            verVal = TM_Calc.GetSkillVersatilityLevel(caster, this.Ability.Def as TMAbilityDef);
+            pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef);
+            verVal = TM_Calc.GetSkillVersatilityLevel(caster, Ability.Def as TMAbilityDef);
 
             bool flag = pawn != null;
             if (flag)
@@ -49,7 +49,7 @@ namespace TorannMagic
                 }
                 else
                 {
-                    sevAdjustment = (Rand.Range(0f, 1f) * this.arcaneDmg);
+                    sevAdjustment = (Rand.Range(0f, 1f) * arcaneDmg);
                 }
                 if(sevAdjustment >= .25f) 
                 {

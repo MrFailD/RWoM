@@ -24,10 +24,10 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<float>(ref this.windSpeed, "windSpeed", 0f, false);
-            Scribe_Values.Look<int>(ref this.windSpeedEndTick, "windSpeedEndTick", 0, false);
-            Scribe_Values.Look<bool>(ref this.allowAllIncidents, "allowAllIncidents", false, false);
-            Scribe_Values.Look<int>(ref this.weatherControlExpiration, "weatherControlExpiration", 0, false);
+            Scribe_Values.Look<float>(ref windSpeed, "windSpeed", 0f, false);
+            Scribe_Values.Look<int>(ref windSpeedEndTick, "windSpeedEndTick", 0, false);
+            Scribe_Values.Look<bool>(ref allowAllIncidents, "allowAllIncidents", false, false);
+            Scribe_Values.Look<int>(ref weatherControlExpiration, "weatherControlExpiration", 0, false);
         }
 
         public void ApplyComponentConditions(string condition, float value = 0f)
@@ -39,7 +39,7 @@ namespace TorannMagic
             }
             if(condition == "ArcaneInspiration")
             {
-                List<Pawn> colonists = this.map.mapPawns.FreeColonistsSpawned.InRandomOrder().ToList();
+                List<Pawn> colonists = map.mapPawns.FreeColonistsSpawned.InRandomOrder().ToList();
                 int count = Mathf.Clamp(Rand.RangeInclusive(1, 3), 1, colonists.Count);
                 for(int i =0; i < count; i++)
                 {
@@ -49,7 +49,7 @@ namespace TorannMagic
             }
             if(condition == "AllowAllIncidents")
             {
-                this.allowAllIncidents = true;
+                allowAllIncidents = true;
             }
         }
     }

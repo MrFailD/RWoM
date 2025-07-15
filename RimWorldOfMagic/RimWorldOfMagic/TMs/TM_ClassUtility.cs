@@ -297,9 +297,9 @@ namespace TorannMagic
             return null;
         }
 
-        public static TMDefs.TM_CustomClass GetRandomCustomFighter()
+        public static TM_CustomClass GetRandomCustomFighter()
         {
-            List<TMDefs.TM_CustomClass> customFighters = CustomFighterClasses.ToList();
+            List<TM_CustomClass> customFighters = CustomFighterClasses.ToList();
             if(customFighters.Count > 0)
             {
                 return customFighters.RandomElement();
@@ -307,9 +307,9 @@ namespace TorannMagic
             return null;
         }
 
-        public static TMDefs.TM_CustomClass GetRandomCustomMage()
+        public static TM_CustomClass GetRandomCustomMage()
         {
-            List<TMDefs.TM_CustomClass> customMages = CustomMageClasses.ToList();
+            List<TM_CustomClass> customMages = CustomMageClasses.ToList();
             if (customMages.Count > 0)
             {
                 return customMages.RandomElement();

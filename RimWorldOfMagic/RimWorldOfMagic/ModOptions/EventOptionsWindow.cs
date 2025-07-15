@@ -20,11 +20,11 @@ namespace TorannMagic.ModOptions
 
         public EventOptionsWindow()
         {
-            base.closeOnCancel = true;
-            base.doCloseButton = true;
-            base.doCloseX = true;
-            base.absorbInputAroundWindow = true;
-            base.forcePause = true;
+            closeOnCancel = true;
+            doCloseButton = true;
+            doCloseX = true;
+            absorbInputAroundWindow = true;
+            forcePause = true;
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -38,7 +38,7 @@ namespace TorannMagic.ModOptions
 
             Text.Font = GameFont.Medium;
             float x = Text.CalcSize("TM_EventOptions".Translate()).x;
-            Rect headerRect = new Rect(inRect.width / 2f - (x / 2), inRect.y, inRect.width, EventOptionsWindow.HeaderSize);
+            Rect headerRect = new Rect(inRect.width / 2f - (x / 2), inRect.y, inRect.width, HeaderSize);
             Widgets.Label(headerRect, "TM_EventOptions".Translate());
             Text.Font = GameFont.Small;
             GUI.color = Color.white;

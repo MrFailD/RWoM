@@ -21,8 +21,8 @@ namespace TorannMagic
                 CompAbilityUserMight comp = caster.GetCompAbilityUserMight();
                 //verVal = TM_Calc.GetMightSkillLevel(caster, comp.MightData.MightPowerSkill_VeilOfShadows, "TM_VeilOfShadows", "_ver", true);
                 //pwrVal = TM_Calc.GetMightSkillLevel(caster, comp.MightData.MightPowerSkill_VeilOfShadows, "TM_VeilOfShadows", "_pwr", true);
-                verVal = TM_Calc.GetSkillVersatilityLevel(caster, this.Ability.Def as TMAbilityDef);
-                pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef);
+                verVal = TM_Calc.GetSkillVersatilityLevel(caster, Ability.Def as TMAbilityDef);
+                pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef);
 
                 HealthUtility.AdjustSeverity(caster, TorannMagicDefOf.TM_ShadowCloakHD, .2f + (comp.mightPwr * verVal));
 

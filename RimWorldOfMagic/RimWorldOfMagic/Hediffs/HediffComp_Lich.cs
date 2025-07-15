@@ -23,7 +23,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -31,13 +31,13 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
                 
@@ -47,13 +47,13 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
             }
 
@@ -64,7 +64,7 @@ namespace TorannMagic
                 {
                     if (hd.def.defName == "SpaceHypoxia")
                     {
-                        this.Pawn.health.RemoveHediff(hd);
+                        Pawn.health.RemoveHediff(hd);
                         break;
                     }
                 }
@@ -72,7 +72,7 @@ namespace TorannMagic
 
             if (Find.TickManager.TicksGame % 600 == 0)
             {
-                List<Need> needs = base.Pawn.needs.AllNeeds;
+                List<Need> needs = Pawn.needs.AllNeeds;
                 for (int i = 0; i < needs.Count; i++)
                 {
                     if(needs[i].def.defName != "Joy" && 

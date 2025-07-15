@@ -31,7 +31,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -39,40 +39,40 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            CompAbilityUserMagic comp = this.Pawn.GetCompAbilityUserMagic();
-            if (spawned && comp != null && comp.IsMagicUser && this.Pawn.needs.mood != null)
+            bool spawned = Pawn.Spawned;
+            CompAbilityUserMagic comp = Pawn.GetCompAbilityUserMagic();
+            if (spawned && comp != null && comp.IsMagicUser && Pawn.needs.mood != null)
             {
                 pwrVal = comp.MagicData.GetSkill_Power(TorannMagicDefOf.TM_Empathy).level;
                 verVal = comp.MagicData.GetSkill_Versatility(TorannMagicDefOf.TM_Empathy).level;
                 effVal = comp.MagicData.GetSkill_Efficiency(TorannMagicDefOf.TM_Empathy).level;
-                this.parent.Severity = .1f + (.17f * pwrVal);
-                this.radius = 25f + (3f * effVal);
-                this.arcaneDmg = comp.arcaneDmg;
-                this.eventFrequency = 1251 - (125 * effVal);
+                parent.Severity = .1f + (.17f * pwrVal);
+                radius = 25f + (3f * effVal);
+                arcaneDmg = comp.arcaneDmg;
+                eventFrequency = 1251 - (125 * effVal);
             }
             else
             {
-                this.removeNow = true;
+                removeNow = true;
             }
         }        
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null && base.Pawn.Map != null && !removeNow;
+            bool flag = Pawn != null && Pawn.Map != null && !removeNow;
             if (flag)
             {
-                if (Find.TickManager.TicksGame % this.eventFrequency == 0)
+                if (Find.TickManager.TicksGame % eventFrequency == 0)
                 {
                     Initialize();
-                    EmotionalInspiration(base.Pawn);                    
+                    EmotionalInspiration(Pawn);                    
 
                     List<Pawn> pList = (from mp in Pawn.Map.mapPawns.AllPawnsSpawned
                                         where (mp != Pawn && !mp.Dead && (mp.Position - Pawn.Position).LengthHorizontal <= radius && mp.RaceProps != null && mp.RaceProps.IsFlesh && mp.RaceProps.Humanlike && mp.needs != null && mp.needs.mood != null)
@@ -81,16 +81,16 @@ namespace TorannMagic
                     {
                         Pawn p = pList.RandomElement();
 
-                        if (Rand.Chance(TM_Calc.GetSpellSuccessChance(Pawn, p, true)) && this.Pawn.needs.mood != null && this.Pawn.needs.mood.thoughts != null && this.Pawn.needs.mood.thoughts.memories != null && this.Pawn.needs.mood.thoughts.memories.Memories != null &&
+                        if (Rand.Chance(TM_Calc.GetSpellSuccessChance(Pawn, p, true)) && Pawn.needs.mood != null && Pawn.needs.mood.thoughts != null && Pawn.needs.mood.thoughts.memories != null && Pawn.needs.mood.thoughts.memories.Memories != null &&
                            p.needs.mood.thoughts != null && p.needs.mood.thoughts.memories != null && p.needs.mood.thoughts.memories.Memories != null)
                         {
-                            if (this.Pawn.InMentalState)
+                            if (Pawn.InMentalState)
                             {
                                 p.needs.mood.thoughts.memories.TryGainMemory(TorannMagicDefOf.TM_NegativeEmpathyTD, Pawn);
                             }
                             else
                             {
-                                List<Thought_Memory> tms = (from t in this.Pawn.needs.mood.thoughts.memories.Memories
+                                List<Thought_Memory> tms = (from t in Pawn.needs.mood.thoughts.memories.Memories
                                                             where (t.def.stages != null && t.MoodOffset() != 0 && t.def != TorannMagicDefOf.TM_PositiveEmpathyTD && t.def != TorannMagicDefOf.TM_NegativeEmpathyTD)
                                                             select t).ToList();
                                 if (tms != null && tms.Count > 0)
@@ -120,11 +120,11 @@ namespace TorannMagic
                                     {
                                         if (tm.MoodOffset() < 0 && Rand.Chance(1f - (.05f * pwrVal)))
                                         {
-                                            this.Pawn.needs.mood.thoughts.memories.TryGainMemory(TorannMagicDefOf.TM_NegativeEmpathyTD);
+                                            Pawn.needs.mood.thoughts.memories.TryGainMemory(TorannMagicDefOf.TM_NegativeEmpathyTD);
                                         }
                                         else
                                         {
-                                            this.Pawn.needs.mood.thoughts.memories.TryGainMemory(TorannMagicDefOf.TM_PositiveEmpathyTD);
+                                            Pawn.needs.mood.thoughts.memories.TryGainMemory(TorannMagicDefOf.TM_PositiveEmpathyTD);
                                         }
                                     }
                                 }
@@ -154,7 +154,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.removeNow || base.CompShouldRemove;
+                return removeNow || base.CompShouldRemove;
             }
         }        
     }

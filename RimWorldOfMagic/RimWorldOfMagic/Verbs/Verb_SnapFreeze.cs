@@ -21,7 +21,7 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     //out of range
                     validTarg = true;
@@ -40,35 +40,35 @@ namespace TorannMagic
 
         protected override bool TryCastShot()
         {
-            Pawn p = this.CasterPawn;
-            Map map = this.CasterPawn.Map;
+            Pawn p = CasterPawn;
+            Map map = CasterPawn.Map;
             if (map != null)
             {
-                CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
+                CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
                 pawns.Clear();
                 plants.Clear();
-                GenClamor.DoClamor(p, this.UseAbilityProps.TargetAoEProperties.range, ClamorDefOf.Ability);
+                GenClamor.DoClamor(p, UseAbilityProps.TargetAoEProperties.range, ClamorDefOf.Ability);
                 Effecter snapeFreezeED = TorannMagicDefOf.TM_SnapFreezeED.Spawn();
-                snapeFreezeED.Trigger(new TargetInfo(this.currentTarget.Cell, map, false), new TargetInfo(this.currentTarget.Cell, map, false));
+                snapeFreezeED.Trigger(new TargetInfo(currentTarget.Cell, map, false), new TargetInfo(currentTarget.Cell, map, false));
                 snapeFreezeED.Cleanup();
-                SoundInfo info = SoundInfo.InMap(new TargetInfo(this.currentTarget.Cell, map, false), MaintenanceType.None);
+                SoundInfo info = SoundInfo.InMap(new TargetInfo(currentTarget.Cell, map, false), MaintenanceType.None);
                 info.pitchFactor = .4f;
                 info.volumeFactor = 1.2f;
                 TorannMagicDefOf.TM_WindLowSD.PlayOneShot(info);
-                TargetInfo ti = new TargetInfo(this.currentTarget.Cell, map, false);
+                TargetInfo ti = new TargetInfo(currentTarget.Cell, map, false);
                 TM_MoteMaker.MakeOverlay(ti, TorannMagicDefOf.TM_Mote_PsycastAreaEffect, map, Vector3.zero, 3f, 0f, .1f, .4f, 1.2f, -3f);
                 float classBonus = 1f;
                 if (p.story != null && p.story.traits != null && p.story.traits.HasTrait(TorannMagicDefOf.HeartOfFrost))
                 {
                     classBonus = 1.5f;
                 }
-                if (this.currentTarget != null && p != null && comp != null)
+                if (currentTarget != null && p != null && comp != null)
                 {
-                    this.arcaneDmg = comp.arcaneDmg;
-                    this.TargetsAoE.Clear();
-                    this.FindTargets();
-                    float energy = -125000 * this.arcaneDmg * classBonus;
-                    GenTemperature.PushHeat(this.currentTarget.Cell, p.Map, energy);
+                    arcaneDmg = comp.arcaneDmg;
+                    TargetsAoE.Clear();
+                    FindTargets();
+                    float energy = -125000 * arcaneDmg * classBonus;
+                    GenTemperature.PushHeat(currentTarget.Cell, p.Map, energy);
                     for (int i = 0; i < pawns.Count; i++)
                     {
                         if (!pawns[i].RaceProps.IsMechanoid && pawns[i].RaceProps.body.AllPartsVulnerableToFrostbite.Count > 0)
@@ -81,11 +81,11 @@ namespace TorannMagic
                             int bites = Mathf.RoundToInt(Rand.Range(1f, 5f) * classBonus);
                             for (int j = 0; j < bites; j++)
                             {
-                                if (Rand.Chance(TM_Calc.GetSpellSuccessChance(this.CasterPawn, pawns[i], true)) && Rand.Chance(distanceModifier))
+                                if (Rand.Chance(TM_Calc.GetSpellSuccessChance(CasterPawn, pawns[i], true)) && Rand.Chance(distanceModifier))
                                 {
                                     TM_Action.DamageEntities(pawns[i], pawns[i].def.race.body.AllPartsVulnerableToFrostbite.RandomElement(), Rand.Range(10, 20) * distanceModifier, 1f, TMDamageDefOf.DamageDefOf.TM_FreezingWindsDD, p);
                                 }
-                                if (Rand.Chance(TM_Calc.GetSpellSuccessChance(this.CasterPawn, pawns[i], true)) && Rand.Chance(distanceModifier))
+                                if (Rand.Chance(TM_Calc.GetSpellSuccessChance(CasterPawn, pawns[i], true)) && Rand.Chance(distanceModifier))
                                 {
                                     HealthUtility.AdjustSeverity(pawns[i], HediffDefOf.Hypothermia, distanceModifier / 5f);
                                 }
@@ -115,7 +115,7 @@ namespace TorannMagic
                         }
                         plants[i].Notify_ColorChanged();
                     }
-                    List<IntVec3> cellList = GenRadial.RadialCellsAround(this.currentTarget.Cell, this.UseAbilityProps.TargetAoEProperties.range, true).ToList();
+                    List<IntVec3> cellList = GenRadial.RadialCellsAround(currentTarget.Cell, UseAbilityProps.TargetAoEProperties.range, true).ToList();
                     if (cellList != null && cellList.Count > 0 && map.weatherManager != null)
                     {
                         bool raining = map.weatherManager.RainRate > 0f || map.weatherManager.SnowRate > 0f;
@@ -125,18 +125,18 @@ namespace TorannMagic
                             WeatherBuildupUtility.AddSnowRadial(cellList[i], map, 2.4f, Rand.Range(.08f, .13f));
                             TM_MoteMaker.ThrowGenericFleck(FleckDefOf.AirPuff, cellList[i].ToVector3Shifted(), map, 2.5f, .05f, .05f, Rand.Range(2f, 3f), Rand.Range(-60, 60), .5f, -70, Rand.Range(0, 360));
                         }
-                        List<IntVec3> windList = GenRadial.RadialCellsAround(this.currentTarget.Cell, this.UseAbilityProps.TargetAoEProperties.range + 1, true).Except(cellList).ToList();
+                        List<IntVec3> windList = GenRadial.RadialCellsAround(currentTarget.Cell, UseAbilityProps.TargetAoEProperties.range + 1, true).Except(cellList).ToList();
                         for (int i = 0; i < windList.Count; i++)
                         {
                             windList[i] = windList[i].ClampInsideMap(map);
-                            Vector3 angle = TM_Calc.GetVector(windList[i], this.currentTarget.Cell);
+                            Vector3 angle = TM_Calc.GetVector(windList[i], currentTarget.Cell);
                             TM_MoteMaker.ThrowGenericFleck(FleckDefOf.AirPuff, windList[i].ToVector3Shifted(), map, Rand.Range(1.2f, 2f), .45f, Rand.Range(0f, .25f), .5f, -200, Rand.Range(3, 5), (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat(), Rand.Range(0, 360));
                         }
                     }
                 }
             }
 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return true;
         }
 
@@ -144,14 +144,14 @@ namespace TorannMagic
         private void FindTargets()
         {
 
-            IntVec3 aoeStartPosition = this.currentTarget.Cell;
-            int radius = this.UseAbilityProps.TargetAoEProperties.range;
+            IntVec3 aoeStartPosition = currentTarget.Cell;
+            int radius = UseAbilityProps.TargetAoEProperties.range;
 
             List<Thing> list = new List<Thing>();
 
-            bool flag4 = !this.UseAbilityProps.TargetAoEProperties.friendlyFire;
+            bool flag4 = !UseAbilityProps.TargetAoEProperties.friendlyFire;
 
-            list = (from x in this.caster.Map.listerThings.AllThings
+            list = (from x in caster.Map.listerThings.AllThings
                     where x.Position.InHorDistOf(aoeStartPosition, (float)radius)
                     select x).ToList<Thing>();
 

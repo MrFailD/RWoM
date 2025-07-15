@@ -19,7 +19,7 @@ namespace TorannMagic
         {
             if (targ != null && targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     validTarg = true;
                 }
@@ -38,10 +38,10 @@ namespace TorannMagic
 
         protected override bool TryCastShot()
         {
-            Map map = this.CasterPawn.Map;
+            Map map = CasterPawn.Map;
 
-            Pawn pawn = this.currentTarget.Thing as Pawn;
-            Pawn caster = this.CasterPawn;
+            Pawn pawn = currentTarget.Thing as Pawn;
+            Pawn caster = CasterPawn;
             CompAbilityUserMight comp = caster.GetCompAbilityUserMight();
 
             int verVal = TM_Calc.GetSkillVersatilityLevel(caster, TorannMagicDefOf.TM_SoothingBalm, false);

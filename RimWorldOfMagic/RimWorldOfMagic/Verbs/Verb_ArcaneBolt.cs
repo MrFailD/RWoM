@@ -39,7 +39,7 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool result = false;
-            Pawn pawn = this.CasterPawn;
+            Pawn pawn = CasterPawn;
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             int burstCountMin = 1;
             
@@ -57,14 +57,14 @@ namespace TorannMagic
                 burstCountMin = 3;
             }
 
-            Map map = this.CasterPawn.Map;
-            IntVec3 targetVariation = this.currentTarget.Cell;
-            targetVariation.x += Mathf.RoundToInt(Rand.Range(-.05f, .05f) * Vector3.Distance(pawn.DrawPos, this.currentTarget.CenterVector3));// + Rand.Range(-1f, 1f));
-            targetVariation.z += Mathf.RoundToInt(Rand.Range(-.05f, .05f) * Vector3.Distance(pawn.DrawPos, this.currentTarget.CenterVector3));// + Rand.Range(-1f, 1f));
-            this.TryLaunchProjectile(this.verbProps.defaultProjectile, targetVariation);
-            this.burstShotsLeft--;
+            Map map = CasterPawn.Map;
+            IntVec3 targetVariation = currentTarget.Cell;
+            targetVariation.x += Mathf.RoundToInt(Rand.Range(-.05f, .05f) * Vector3.Distance(pawn.DrawPos, currentTarget.CenterVector3));// + Rand.Range(-1f, 1f));
+            targetVariation.z += Mathf.RoundToInt(Rand.Range(-.05f, .05f) * Vector3.Distance(pawn.DrawPos, currentTarget.CenterVector3));// + Rand.Range(-1f, 1f));
+            TryLaunchProjectile(verbProps.defaultProjectile, targetVariation);
+            burstShotsLeft--;
             //Log.Message("burst shots left " + this.burstShotsLeft);
-            float burstCountFloat = (float)(15f - this.burstShotsLeft);
+            float burstCountFloat = (float)(15f - burstShotsLeft);
             float mageLevelFloat = (float)(burstCountMin + (comp.MagicUserLevel/10f));
             result = Rand.Chance(mageLevelFloat - burstCountFloat);            
             return result;

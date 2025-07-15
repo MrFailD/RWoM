@@ -9,26 +9,26 @@ namespace TorannMagic.Weapon
     {
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             try
             {
-                ExplosionHelper.Explode(base.Position, map, 0.4f, TMDamageDefOf.DamageDefOf.Iceshard, this.launcher, this.def.projectile.GetDamageAmount(1,null), 3, this.def.projectile.soundExplode, def, this.equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
+                ExplosionHelper.Explode(Position, map, 0.4f, TMDamageDefOf.DamageDefOf.Iceshard, launcher, this.def.projectile.GetDamageAmount(1,null), 3, this.def.projectile.soundExplode, def, equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
             }
             catch
             {
                 //don't care
             }
-            CellRect cellRect = CellRect.CenteredOn(base.Position, 2);
+            CellRect cellRect = CellRect.CenteredOn(Position, 2);
             cellRect.ClipInsideMap(map);
             for (int i = 0; i < Rand.Range(2, 10); i++)
             {
                 try
                 {
                     IntVec3 randomCell = cellRect.RandomCell;
-                    this.Shrapnel(2, randomCell, map, 0.4f);
+                    Shrapnel(2, randomCell, map, 0.4f);
                 }
                 catch
                 {
@@ -40,7 +40,7 @@ namespace TorannMagic.Weapon
         protected void Shrapnel(int pwr, IntVec3 pos, Map map, float radius)
         {
             ThingDef def = this.def;
-            Explosion(pwr, pos, map, radius, TMDamageDefOf.DamageDefOf.Iceshard, this.launcher, null, def, this.equipmentDef, TorannMagicDefOf.Mote_Base_Smoke, 0.4f, 1, false, null, 0f, 1);
+            Explosion(pwr, pos, map, radius, TMDamageDefOf.DamageDefOf.Iceshard, launcher, null, def, equipmentDef, TorannMagicDefOf.Mote_Base_Smoke, 0.4f, 1, false, null, 0f, 1);
 
         }
 

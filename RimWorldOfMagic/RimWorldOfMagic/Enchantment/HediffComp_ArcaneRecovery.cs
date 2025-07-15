@@ -17,12 +17,12 @@ namespace TorannMagic.Enchantment
 
         public override void PostInitialize()
         {
-            this.hediffActionRate = 900;            
+            hediffActionRate = 900;            
         }
 
         public override void HediffActionTick()
         {
-            Hediff weakness = this.Pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_ArcaneWeakness, false);
+            Hediff weakness = Pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_ArcaneWeakness, false);
             if(weakness != null)
             {
                 weakness.Severity -= Rand.Range(.01f, .04f);

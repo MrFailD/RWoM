@@ -14,16 +14,16 @@ namespace TorannMagic
         {
             if(parent.Severity >= .1f)
             {
-                float sev = surging ? 2 * this.parent.Severity : this.parent.Severity;
+                float sev = surging ? 2 * parent.Severity : parent.Severity;
 
-                if(base.Pawn.InMentalState && Rand.Chance(sev * .05f))
+                if(Pawn.InMentalState && Rand.Chance(sev * .05f))
                 {
-                    this.Pawn.MentalState.RecoverFromState();
+                    Pawn.MentalState.RecoverFromState();
                 }
 
-                if(this.Pawn.needs != null && this.Pawn.needs.mood != null)
+                if(Pawn.needs != null && Pawn.needs.mood != null)
                 {
-                    this.Pawn.needs.mood.CurLevel += sev * .025f;
+                    Pawn.needs.mood.CurLevel += sev * .025f;
                 }
             }
         }

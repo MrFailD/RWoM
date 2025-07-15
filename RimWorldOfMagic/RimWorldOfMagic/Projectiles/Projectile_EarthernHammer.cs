@@ -37,19 +37,19 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", true, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);            
-            Scribe_Values.Look<int>(ref this.gravityPoints, "gravityPoints", 0, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_References.Look<Pawn>(ref this.caster, "caster", false);
-            Scribe_Collections.Look<IntVec3>(ref this.launchCells, "launchCells", LookMode.Value);
-            Scribe_Collections.Look<Thing>(ref this.launchableThings, "launchableThings", LookMode.Deep);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", true, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);            
+            Scribe_Values.Look<int>(ref gravityPoints, "gravityPoints", 0, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_References.Look<Pawn>(ref caster, "caster", false);
+            Scribe_Collections.Look<IntVec3>(ref launchCells, "launchCells", LookMode.Value);
+            Scribe_Collections.Look<Thing>(ref launchableThings, "launchableThings", LookMode.Deep);
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < duration;
+            bool flag = age < duration;
             if (!flag)
             {
                 base.Destroy(mode);
@@ -58,7 +58,7 @@ namespace TorannMagic
 
         private void Initialize()
         {
-            caster = this.launcher as Pawn;
+            caster = launcher as Pawn;
             CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
             pwrVal = caster.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_EarthernHammer.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_EarthernHammer_pwr").level;
             verVal = caster.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_EarthernHammer.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_EarthernHammer_ver").level;
@@ -68,18 +68,18 @@ namespace TorannMagic
                 pwrVal = caster.GetCompAbilityUserMight().MightData.MightPowerSkill_Mimic.FirstOrDefault((MightPowerSkill x) => x.label == "TM_Mimic_pwr").level;
                 verVal = caster.GetCompAbilityUserMight().MightData.MightPowerSkill_Mimic.FirstOrDefault((MightPowerSkill x) => x.label == "TM_Mimic_ver").level;
             }
-            this.arcaneDmg = comp.arcaneDmg;
+            arcaneDmg = comp.arcaneDmg;
             if (ModOptions.Settings.Instance.AIHardMode && !caster.IsColonist)
             {
                 pwrVal = 3;
                 verVal = 3;
             }
-            this.gravityPoints = this.baseGravityPoints + (pwrVal * 2);
+            gravityPoints = baseGravityPoints + (pwrVal * 2);
 
-            this.launchCells = new List<IntVec3>();
-            this.launchCells.Clear();
+            launchCells = new List<IntVec3>();
+            launchCells.Clear();
 
-            this.launchCells = GenRadial.RadialCellsAround(caster.Position, this.radius, false).ToList();
+            launchCells = GenRadial.RadialCellsAround(caster.Position, radius, false).ToList();
             for (int i = 0; i < launchCells.Count(); i++)
             {
                 if (launchCells[i].IsValid && launchCells[i].InBoundsWithNullCheck(caster.Map))
@@ -102,7 +102,7 @@ namespace TorannMagic
                             {
                                 if (cellList[j].def.thingCategories.Contains(ThingCategoryDefOf.StoneChunks) || cellList[j].def.thingCategories.Contains(ThingCategoryDefOf.StoneBlocks))
                                 {
-                                    this.launchableThings.Add(cellList[j]);
+                                    launchableThings.Add(cellList[j]);
                                 }
                             }
                         }
@@ -126,63 +126,63 @@ namespace TorannMagic
             if (!initialized)
             {
                 Initialize();
-                DamageInfo dinfo = new DamageInfo(DamageDefOf.Stun, (20 * (1 - (.2f * verVal))), 0, -1, this.caster, null, null, DamageInfo.SourceCategory.ThingOrUnknown, this.caster);
-                this.caster.TakeDamage(dinfo);
-                this.initialized = true;
+                DamageInfo dinfo = new DamageInfo(DamageDefOf.Stun, (20 * (1 - (.2f * verVal))), 0, -1, caster, null, null, DamageInfo.SourceCategory.ThingOrUnknown, caster);
+                caster.TakeDamage(dinfo);
+                initialized = true;
             }
-            if (!(this.caster.DestroyedOrNull() || this.caster.Dead || this.caster.Downed))
+            if (!(caster.DestroyedOrNull() || caster.Dead || caster.Downed))
             {
-                if (this.age > this.nextStrike)
+                if (age > nextStrike)
                 {
-                    if (this.gravityStep == 0 || this.gravityStep % 3 == 0)
+                    if (gravityStep == 0 || gravityStep % 3 == 0)
                     {
-                        if (this.gravityPoints >= 3)
+                        if (gravityPoints >= 3)
                         {
                             SpawnAndThrow();
                         }
                         else
                         {
-                            if (this.gravityPoints > 0 && this.launchableThings.Count() > 0)
+                            if (gravityPoints > 0 && launchableThings.Count() > 0)
                             {
                                 SearchAndThrow();
                             }
                             else
                             {
-                                this.age = this.duration;
+                                age = duration;
                             }
                         }
                     }
-                    else if (this.gravityPoints > 0 && this.launchableThings.Count() > 0)
+                    else if (gravityPoints > 0 && launchableThings.Count() > 0)
                     {
                         SearchAndThrow();
                     }
                     else
                     {
-                        if (this.gravityPoints < 3)
+                        if (gravityPoints < 3)
                         {
-                            this.age = this.duration;
+                            age = duration;
                         }
                     }
 
-                    this.nextStrike = this.age + Mathf.RoundToInt((ticksTillNextStrike * (1 - .15f * verVal)));
-                    this.gravityStep++;
+                    nextStrike = age + Mathf.RoundToInt((ticksTillNextStrike * (1 - .15f * verVal)));
+                    gravityStep++;
                 }
             }
             else
             {
-                this.age = this.duration;
+                age = duration;
             }
         }
 
         public void SpawnAndThrow()
         {
-            this.gravityPoints -= 3;
+            gravityPoints -= 3;
 
-            AbilityUser.SpawnThings tempPod = new SpawnThings();
+            SpawnThings tempPod = new SpawnThings();
             tempPod.def = ThingDef.Named("ChunkSandstone");
             tempPod.spawnCount = 1;
-            IntVec3 origin = this.launchCells.RandomElement();          
-            SingleSpawnLoop(tempPod, origin, this.caster.Map);
+            IntVec3 origin = launchCells.RandomElement();          
+            SingleSpawnLoop(tempPod, origin, caster.Map);
 
             float magnitude = (origin.ToVector3Shifted() - Find.Camera.transform.position).magnitude;
             Find.CameraDriver.shaker.DoShake(6 / magnitude);
@@ -192,24 +192,24 @@ namespace TorannMagic
 
         public void SearchAndThrow()
         {
-            this.gravityPoints--;            
+            gravityPoints--;            
 
-            this.launchableThing = this.launchableThings.RandomElement();
-            this.launchableThings.Remove(this.launchableThing);
-            IntVec3 origin = this.launchableThing.Position;
+            launchableThing = launchableThings.RandomElement();
+            launchableThings.Remove(launchableThing);
+            IntVec3 origin = launchableThing.Position;
 
             ThrowStone(origin);
         }        
 
         public void ThrowStone(IntVec3 origin)
         {
-            SoundInfo info = SoundInfo.InMap(new TargetInfo(origin, this.caster.Map, false), MaintenanceType.None);
+            SoundInfo info = SoundInfo.InMap(new TargetInfo(origin, caster.Map, false), MaintenanceType.None);
             info.pitchFactor = .7f;
             info.volumeFactor = 2f;
             TorannMagicDefOf.TM_AirWoosh.PlayOneShot(info);
 
-            CellRect cellRect = CellRect.CenteredOn(base.Position, radius+2);
-            cellRect.ClipInsideMap(this.caster.Map);
+            CellRect cellRect = CellRect.CenteredOn(Position, radius+2);
+            cellRect.ClipInsideMap(caster.Map);
             IntVec3 destination = cellRect.RandomCell;
 
             if (launchableThing != null && destination != IntVec3.Invalid)
@@ -217,18 +217,18 @@ namespace TorannMagic
                 float launchAngle = (Quaternion.AngleAxis(90, Vector3.up) * TM_Calc.GetVector(origin, destination)).ToAngleFlat();
                 for (int m = 0; m < 4; m++)
                 {
-                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_ThickDust, origin.ToVector3Shifted(), this.caster.Map, Rand.Range(.4f, .7f), Rand.Range(.2f, .3f), .05f, Rand.Range(.4f, .6f), Rand.Range(-20, 20), Rand.Range(3f, 5f), launchAngle += Rand.Range(-25,25), Rand.Range(0, 360));
+                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_ThickDust, origin.ToVector3Shifted(), caster.Map, Rand.Range(.4f, .7f), Rand.Range(.2f, .3f), .05f, Rand.Range(.4f, .6f), Rand.Range(-20, 20), Rand.Range(3f, 5f), launchAngle += Rand.Range(-25,25), Rand.Range(0, 360));
                 }
-                FlyingObject_Spinning flyingObject = (FlyingObject_Spinning)GenSpawn.Spawn(ThingDef.Named("FlyingObject_Spinning"), origin, this.caster.Map);
-                flyingObject.force = this.arcaneDmg + .2f;
-                flyingObject.Launch(this.caster, destination, this.launchableThing.SplitOff(1), this.spinRate);
+                FlyingObject_Spinning flyingObject = (FlyingObject_Spinning)GenSpawn.Spawn(ThingDef.Named("FlyingObject_Spinning"), origin, caster.Map);
+                flyingObject.force = arcaneDmg + .2f;
+                flyingObject.Launch(caster, destination, launchableThing.SplitOff(1), spinRate);
             }
         }
 
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public void SingleSpawnLoop(SpawnThings spawnables, IntVec3 position, Map map)
@@ -236,7 +236,7 @@ namespace TorannMagic
             bool flag = spawnables.def != null;
             if (flag)
             {
-                Faction faction = TM_Action.ResolveFaction(this.launcher as Pawn, spawnables, this.launcher.Faction);
+                Faction faction = TM_Action.ResolveFaction(launcher as Pawn, spawnables, launcher.Faction);
                 bool flag2 = spawnables.def.race != null;
                 if (flag2)
                 {
@@ -247,7 +247,7 @@ namespace TorannMagic
                     }
                     else
                     {
-                        TM_Action.SpawnPawn(this.launcher as Pawn, spawnables, faction, position, 0, map);
+                        TM_Action.SpawnPawn(launcher as Pawn, spawnables, faction, position, 0, map);
                     }
                 }
                 else
@@ -259,8 +259,8 @@ namespace TorannMagic
                     {
                         stuff = ThingDefOf.WoodLog;
                     }
-                    this.launchableThing = ThingMaker.MakeThing(def, stuff);
-                    GenSpawn.Spawn(this.launchableThing, position, map, Rot4.North, WipeMode.Vanish, false);
+                    launchableThing = ThingMaker.MakeThing(def, stuff);
+                    GenSpawn.Spawn(launchableThing, position, map, Rot4.North, WipeMode.Vanish, false);
                 }
             }
         }

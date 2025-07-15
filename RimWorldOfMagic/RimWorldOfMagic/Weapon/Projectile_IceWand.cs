@@ -12,21 +12,21 @@ namespace TorannMagic.Weapon
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             if (pawn != null)
             {
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
                 if (comp.IsMagicUser)
                 {
-                    this.arcaneDmg = comp.arcaneDmg;
+                    arcaneDmg = comp.arcaneDmg;
                 }
             }
             try
             {
-                ExplosionHelper.Explode(base.Position, map, 0.4f, TMDamageDefOf.DamageDefOf.Iceshard, this.launcher, Mathf.RoundToInt(this.def.projectile.GetDamageAmount(1,null) * this.arcaneDmg), 1, this.def.projectile.soundExplode, def, this.equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
+                ExplosionHelper.Explode(Position, map, 0.4f, TMDamageDefOf.DamageDefOf.Iceshard, launcher, Mathf.RoundToInt(this.def.projectile.GetDamageAmount(1,null) * arcaneDmg), 1, this.def.projectile.soundExplode, def, equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
             }
             catch
             {
@@ -37,7 +37,7 @@ namespace TorannMagic.Weapon
         protected void Shrapnel(int pwr, IntVec3 pos, Map map, float radius)
         {
             ThingDef def = this.def;
-            Explosion(pwr, pos, map, radius, TMDamageDefOf.DamageDefOf.Iceshard, this.launcher, null, def, this.equipmentDef, TorannMagicDefOf.Mote_Base_Smoke, 0.4f, 1, false, null, 0f, 1);
+            Explosion(pwr, pos, map, radius, TMDamageDefOf.DamageDefOf.Iceshard, launcher, null, def, equipmentDef, TorannMagicDefOf.Mote_Base_Smoke, 0.4f, 1, false, null, 0f, 1);
 
         }
 

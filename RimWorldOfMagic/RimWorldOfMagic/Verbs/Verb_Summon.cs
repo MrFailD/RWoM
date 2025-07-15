@@ -12,7 +12,7 @@ namespace TorannMagic
         
         public override bool CanHitTargetFrom(IntVec3 casterPos, LocalTargetInfo targ)
         {
-            bool flag = base.UseAbilityProps.AbilityTargetCategory != AbilityTargetCategory.TargetThing;
+            bool flag = UseAbilityProps.AbilityTargetCategory != AbilityTargetCategory.TargetThing;
             bool result;
             if (flag)
             {
@@ -20,16 +20,16 @@ namespace TorannMagic
             }
             else
             {
-                if( targ.Cell.IsValid && !targ.Cell.Fogged(base.caster.Map))
+                if( targ.Cell.IsValid && !targ.Cell.Fogged(caster.Map))
                 {
-                    if ((casterPos - targ.Cell).LengthHorizontal > this.verbProps.range)
+                    if ((casterPos - targ.Cell).LengthHorizontal > verbProps.range)
                     {
                         result = false;
                     }
                     else
                     {
                         ShootLine shootLine;
-                        result = base.TryFindShootLineFromTo(casterPos, targ, out shootLine);
+                        result = TryFindShootLineFromTo(casterPos, targ, out shootLine);
                     }
                 }
                 else
@@ -43,7 +43,7 @@ namespace TorannMagic
 
         protected override bool TryCastShot()
         {
-            CellRect cellRect = CellRect.CenteredOn(this.currentTarget.Cell, 1);
+            CellRect cellRect = CellRect.CenteredOn(currentTarget.Cell, 1);
             Map map = base.CasterPawn.Map;
             cellRect.ClipInsideMap(map);
 
@@ -63,8 +63,8 @@ namespace TorannMagic
             else
             {
                 pVect = summonableThing.TrueCenter();
-                pVect.x = base.caster.TrueCenter().x;
-                pVect.z = base.caster.TrueCenter().z;
+                pVect.x = caster.TrueCenter().x;
+                pVect.z = caster.TrueCenter().z;
                 pVect.y = 0f;
                 summonablePawn = summonableThing as Pawn;
                 if (summonablePawn != base.CasterPawn)
@@ -81,10 +81,10 @@ namespace TorannMagic
 
             bool result = false;
             bool arg_40_0;
-            if (this.currentTarget != null && base.CasterPawn != null)
+            if (currentTarget != null && base.CasterPawn != null)
             {
-                IntVec3 arg_29_0 = this.currentTarget.Cell;
-                arg_40_0 = this.currentTarget.Cell.IsValid;
+                IntVec3 arg_29_0 = currentTarget.Cell;
+                arg_40_0 = currentTarget.Cell.IsValid;
             }
             else
             {
@@ -98,12 +98,12 @@ namespace TorannMagic
                     if (pflag)// && flyingPawn != null)
                     {
                         //Thing p = summonablePawn;
-                        if(!summonablePawn.RaceProps.Humanlike || summonablePawn.Faction == this.CasterPawn.Faction)
+                        if(!summonablePawn.RaceProps.Humanlike || summonablePawn.Faction == CasterPawn.Faction)
                         {
                             summonablePawn.DeSpawn();
                             GenSpawn.Spawn(summonablePawn, base.CasterPawn.Position, map);
                         }
-                        else if (summonablePawn.RaceProps.Humanlike && summonablePawn.Faction != this.CasterPawn.Faction && Rand.Chance(TM_Calc.GetSpellSuccessChance(this.CasterPawn, summonablePawn, true)))
+                        else if (summonablePawn.RaceProps.Humanlike && summonablePawn.Faction != CasterPawn.Faction && Rand.Chance(TM_Calc.GetSpellSuccessChance(CasterPawn, summonablePawn, true)))
                         {
                             //summonablePawn.DeSpawn();
                             //GenSpawn.Spawn(p, base.caster.Position, base.CasterPawn.Map, Rot4.North, false);
@@ -128,7 +128,7 @@ namespace TorannMagic
                     else
                     {
                         summonableThing.DeSpawn(DestroyMode.Vanish);
-                        GenPlace.TryPlaceThing(summonableThing, this.CasterPawn.Position, this.CasterPawn.Map, ThingPlaceMode.Near);
+                        GenPlace.TryPlaceThing(summonableThing, CasterPawn.Position, CasterPawn.Map, ThingPlaceMode.Near);
                         //summonableThing.Position = base.CasterPawn.Position;
                         //summonableThing.Rotation = Rot4.North;
                         //summonableThing.SetPositionDirect(base.CasterPawn.InteractionCell);
@@ -140,7 +140,7 @@ namespace TorannMagic
             {
                 Log.Warning("failed to TryCastShot");
             }
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             //this.ability.TicksUntilCasting = (int)base.UseAbilityProps.SecondsToRecharge * 60;
             return result;
         }

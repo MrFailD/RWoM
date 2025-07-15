@@ -25,7 +25,7 @@ namespace TorannMagic.Ideology
             {
                 if (!skipReason)
                 {
-                    reason = "MessageRitualRoleMustBeHumanlike".Translate(base.LabelCap);
+                    reason = "MessageRitualRoleMustBeHumanlike".Translate(LabelCap);
                 }
                 return false;
             }

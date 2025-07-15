@@ -57,12 +57,12 @@ namespace TorannMagic
 
         private void StartChoosingDestination()
         {
-            CameraJumper.TryJump(CameraJumper.GetWorldTarget(TargetA.ToGlobalTargetInfo(this.Map)));
+            CameraJumper.TryJump(CameraJumper.GetWorldTarget(TargetA.ToGlobalTargetInfo(Map)));
             Find.WorldSelector.ClearSelection();
-            int tile = this.pawn.Map.Tile;
-            Find.WorldTargeter.BeginTargeting(new Func<GlobalTargetInfo, bool>(this.ChooseWorldTarget), true, JobDriver_PortalDestination.TargeterMouseAttachment, true, delegate
+            int tile = pawn.Map.Tile;
+            Find.WorldTargeter.BeginTargeting(new Func<GlobalTargetInfo, bool>(ChooseWorldTarget), true, TargeterMouseAttachment, true, delegate
             {
-                GenDraw.DrawWorldRadiusRing(tile, (int)(this.portalBldg.MaxLaunchDistance));  //center, max launch distance
+                GenDraw.DrawWorldRadiusRing(tile, (int)(portalBldg.MaxLaunchDistance));  //center, max launch distance
             }, delegate (GlobalTargetInfo target)
             {
                 if (!target.IsValid)
@@ -126,7 +126,7 @@ namespace TorannMagic
                     {
                         Current.Game.CurrentMap = myMap;
                     }
-                }, JobDriver_PortalDestination.TargeterMouseAttachment);
+                }, TargeterMouseAttachment);
                 return true;
             }
             bool flag;

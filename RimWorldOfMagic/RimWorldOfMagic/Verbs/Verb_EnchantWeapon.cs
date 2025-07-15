@@ -19,16 +19,16 @@ namespace TorannMagic
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -45,10 +45,10 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             Pawn caster = base.CasterPawn;
-            Pawn pawn = this.currentTarget.Thing as Pawn;
+            Pawn pawn = currentTarget.Thing as Pawn;
 
             comp = caster.GetCompAbilityUserMagic();
-            pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef);
+            pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef);
             //MagicPowerSkill pwr = comp.MagicData.MagicPowerSkill_EnchantWeapon.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_EnchantWeapon_pwr");
             //pwrVal = pwr.level;
             //
@@ -68,7 +68,7 @@ namespace TorannMagic
                     RemoveExistingEnchantment(pawn);
                     ApplyEnchantment(pawn);
                 }
-                else if(this.CasterPawn.IsColonist)
+                else if(CasterPawn.IsColonist)
                 {
                     Messages.Message("TM_NoMeleeWeaponToEnchant".Translate(
                     pawn
@@ -107,12 +107,12 @@ namespace TorannMagic
                 TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Shadow, pawn.DrawPos, pawn.Map, 1f, .2f, .1f, .8f, Rand.Range(-30, 30), .3f, Rand.Range(-30, 30), Rand.Range(0, 360));
             }
             HealthUtility.AdjustSeverity(pawn, hediff, .5f + pwrVal);
-            CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();            
+            CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();            
             comp.weaponEnchants.Add(pawn);
             Hediff diff = pawn.health.hediffSet.GetFirstHediffOfDef(hediff, false);
             HediffComp_EnchantedWeapon ewComp = diff.TryGetComp<HediffComp_EnchantedWeapon>();
             ewComp.enchantedWeapon = pawn.equipment.Primary;
-            ewComp.enchanterPawn = this.CasterPawn;
+            ewComp.enchanterPawn = CasterPawn;
 
         }
 

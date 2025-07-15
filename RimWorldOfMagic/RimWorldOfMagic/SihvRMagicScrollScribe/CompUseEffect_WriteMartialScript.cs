@@ -15,7 +15,7 @@ namespace TorannMagic.SihvRMagicScrollScribe
             ThingDef tempPod = null;
             IntVec3 currentPos = parent.PositionHeld;
             Map map = parent.Map;
-            List<TMDefs.TM_CustomClass> cFighters = TM_ClassUtility.CustomFighterClasses;
+            List<TM_CustomClass> cFighters = TM_ClassUtility.CustomFighterClasses;
             
             CompAbilityUserMight comp = user.GetCompAbilityUserMight();
             if (parent.def != null && comp != null && user.IsSlave)
@@ -28,52 +28,52 @@ namespace TorannMagic.SihvRMagicScrollScribe
             else if(parent.def != null && comp != null && comp.customClass != null)
             {
                 tempPod = comp.customClass.fullScript;
-                this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                parent.SplitOff(1).Destroy(DestroyMode.Vanish);
             }
             else if (parent.def != null && user.story.traits.HasTrait(TorannMagicDefOf.Gladiator))
             {
                 tempPod = ThingDef.Named("BookOfGladiator");
-                this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                parent.SplitOff(1).Destroy(DestroyMode.Vanish);
             }
             else if (parent.def != null && user.story.traits.HasTrait(TorannMagicDefOf.TM_Sniper))
             {
                 tempPod = ThingDef.Named("BookOfSniper");
-                this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                parent.SplitOff(1).Destroy(DestroyMode.Vanish);
             }
             else if (parent.def != null && user.story.traits.HasTrait(TorannMagicDefOf.Bladedancer))
             {
                 tempPod = ThingDef.Named("BookOfBladedancer");
-                this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                parent.SplitOff(1).Destroy(DestroyMode.Vanish);
             }
             else if (parent.def != null && user.story.traits.HasTrait(TorannMagicDefOf.Ranger))
             {
                 tempPod = ThingDef.Named("BookOfRanger");
-                this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                parent.SplitOff(1).Destroy(DestroyMode.Vanish);
             }
             else if (parent.def != null && user.story.traits.HasTrait(TorannMagicDefOf.Faceless))
             {
                 tempPod = ThingDef.Named("BookOfFaceless");
-                this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                parent.SplitOff(1).Destroy(DestroyMode.Vanish);
             }
             else if (parent.def != null && user.story.traits.HasTrait(TorannMagicDefOf.TM_Psionic))
             {
                 tempPod = ThingDef.Named("BookOfPsionic");
-                this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                parent.SplitOff(1).Destroy(DestroyMode.Vanish);
             }
             else if (parent.def != null && user.story.traits.HasTrait(TorannMagicDefOf.DeathKnight))
             {
                 tempPod = ThingDef.Named("BookOfDeathKnight");
-                this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                parent.SplitOff(1).Destroy(DestroyMode.Vanish);
             }
             else if (parent.def != null && user.story.traits.HasTrait(TorannMagicDefOf.TM_Monk))
             {
                 tempPod = ThingDef.Named("BookOfMonk");
-                this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                parent.SplitOff(1).Destroy(DestroyMode.Vanish);
             }
             else if (parent.def != null && user.story.traits.HasTrait(TorannMagicDefOf.TM_Commander))
             {
                 tempPod = ThingDef.Named("BookOfCommander");
-                this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                parent.SplitOff(1).Destroy(DestroyMode.Vanish);
             }
             else if (parent.def != null && (user.story.traits.HasTrait(TorannMagicDefOf.PhysicalProdigy) || user.story.traits.HasTrait(TorannMagicDefOf.TM_Wayfarer) || user.story.traits.HasTrait(TorannMagicDefOf.TM_SuperSoldier)))
             {
@@ -204,7 +204,7 @@ namespace TorannMagic.SihvRMagicScrollScribe
                             goto RetryWrite;
                         }
                     }
-                    this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                    parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                 }
                 else
                 {

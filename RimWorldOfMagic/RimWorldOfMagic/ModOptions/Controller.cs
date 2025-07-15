@@ -31,8 +31,8 @@ namespace TorannMagic.ModOptions
 
         public Controller(ModContentPack content) : base(content)
         {
-            Controller.Instance = this;
-            Settings.Instance = base.GetSettings<Settings>();
+            Instance = this;
+            Settings.Instance = GetSettings<Settings>();
         }
 
         public override void DoSettingsWindowContents(Rect canvas)
@@ -48,8 +48,8 @@ namespace TorannMagic.ModOptions
             num++;
             num++;
             SettingsRef settingsRef = new SettingsRef();
-            deathExplosionDmgMin = ModOptions.Settings.Instance.deathExplosionMin.ToString();
-            deathExplosionDmgMax = ModOptions.Settings.Instance.deathExplosionMax.ToString();
+            deathExplosionDmgMin = Settings.Instance.deathExplosionMin.ToString();
+            deathExplosionDmgMax = Settings.Instance.deathExplosionMax.ToString();
             Rect rowRect = UIHelper.GetRowRect(rect1, rowHeight, num);
             Settings.Instance.xpMultiplier = Widgets.HorizontalSlider(rowRect, Settings.Instance.xpMultiplier, .1f, 2f, false, "XPMultiplier".Translate() + " " + Settings.Instance.xpMultiplier, ".1", "2", .1f);
             Rect rowRectShiftRight = UIHelper.GetRowRect(rowRect, rowHeight, num);
@@ -159,7 +159,7 @@ namespace TorannMagic.ModOptions
             Widgets.CheckboxLabeled(rowRect7, "AICanCast".Translate(), ref Settings.Instance.AICasting, false);
             Rect rowRect7ShiftRight = UIHelper.GetRowRect(rowRect7, rowHeight, num);
             rowRect7ShiftRight.x += rowRect7.width + 56f;
-            Widgets.CheckboxLabeled(rowRect7ShiftRight, "AIHardMode".Translate(), ref Settings.Instance.AIHardMode, !ModOptions.Settings.Instance.AICasting);            
+            Widgets.CheckboxLabeled(rowRect7ShiftRight, "AIHardMode".Translate(), ref Settings.Instance.AIHardMode, !Settings.Instance.AICasting);            
             num++;            
             Rect rowRect11 = UIHelper.GetRowRect(rowRect7, rowHeight, num);
             Widgets.CheckboxLabeled(rowRect11, "unrestrictedBloodTypesForBloodMagic".Translate(), ref Settings.Instance.unrestrictedBloodTypes, false);            
@@ -216,8 +216,8 @@ namespace TorannMagic.ModOptions
                 Settings.Instance.deathRetaliationChance = 1f;
                 Settings.Instance.deathRetaliationDelayFactor = 1f;                
 
-                this.deathExplosionDmgMax = "50.0";
-                this.deathExplosionDmgMin = "20.0";
+                deathExplosionDmgMax = "50.0";
+                deathExplosionDmgMin = "20.0";
 
                 Settings.Instance.autocastEnabled = true;
                 Settings.Instance.autocastMinThreshold = .7f;
@@ -252,8 +252,8 @@ namespace TorannMagic.ModOptions
                 Settings.Instance.deathRetaliationIsLethal = true;
                 Settings.Instance.deathRetaliationChance = 1f;
                 Settings.Instance.deathRetaliationDelayFactor = .3f;
-                this.deathExplosionDmgMax = "60.0";
-                this.deathExplosionDmgMin = "30.0";
+                deathExplosionDmgMax = "60.0";
+                deathExplosionDmgMin = "30.0";
 
                 Settings.Instance.autocastEnabled = true;
                 Settings.Instance.autocastMinThreshold = .8f;
@@ -282,8 +282,8 @@ namespace TorannMagic.ModOptions
                 Settings.Instance.riftChallenge = 1f;
                 Settings.Instance.autocastAnimals = false;
                 Settings.Instance.unrestrictedWeaponCopy = false;
-                this.deathExplosionDmgMax = "5.0";
-                this.deathExplosionDmgMin = "10.0";
+                deathExplosionDmgMax = "5.0";
+                deathExplosionDmgMin = "10.0";
 
                 Settings.Instance.autocastEnabled = true;
                 Settings.Instance.autocastMinThreshold = .6f;

@@ -23,8 +23,8 @@ namespace TorannMagic.Golems
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<float>(ref this.radius, "radius", 0f);
-            Scribe_Values.Look<float>(ref this.hitChance, "hitChance", 1f);
+            Scribe_Values.Look<float>(ref radius, "radius", 0f);
+            Scribe_Values.Look<float>(ref hitChance, "hitChance", 1f);
         }
 
         public void ApplyFadeTouch(Pawn caster, IntVec3 cell, float effectBonus)

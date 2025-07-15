@@ -16,7 +16,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -24,30 +24,30 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
-                FleckMaker.ThrowLightningGlow(base.Pawn.TrueCenter(), base.Pawn.Map, 3f);
+                FleckMaker.ThrowLightningGlow(Pawn.TrueCenter(), Pawn.Map, 3f);
             }
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
             }
             if(Find.TickManager.TicksGame % 1200 == 0)
@@ -58,14 +58,14 @@ namespace TorannMagic
 
         public void TickAction()
         {
-            List<Apparel> gear = this.Pawn.apparel.WornApparel;
+            List<Apparel> gear = Pawn.apparel.WornApparel;
             for(int i = 0; i < gear.Count; i++)
             {
                 if(Rand.Chance(.2f) && gear[i].HitPoints < gear[i].MaxHitPoints)
                 {
                     gear[i].HitPoints++;
                 }
-                CompAbilityUserMight comp = this.Pawn.GetCompAbilityUserMight();
+                CompAbilityUserMight comp = Pawn.GetCompAbilityUserMight();
                 if (comp != null && comp.MightData.MightPowerSkill_FieldTraining.FirstOrDefault((MightPowerSkill x) => x.label == "TM_FieldTraining_ver").level >= 5)
                 {
                     if (gear[i].HitPoints >= gear[i].MaxHitPoints && gear[i].WornByCorpse)
@@ -74,7 +74,7 @@ namespace TorannMagic
                     }
                 }
             }
-            Thing weapon = this.Pawn.equipment.Primary;
+            Thing weapon = Pawn.equipment.Primary;
             if (weapon != null && (weapon.def.IsRangedWeapon || weapon.def.IsMeleeWeapon))
             {
                 if(Rand.Chance(.2f) && weapon.HitPoints < weapon.MaxHitPoints)

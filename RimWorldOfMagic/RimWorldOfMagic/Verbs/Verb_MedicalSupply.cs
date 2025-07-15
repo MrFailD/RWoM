@@ -15,7 +15,7 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     validTarg = true;
                 }
@@ -36,14 +36,14 @@ namespace TorannMagic
         {
             bool result = false;
 
-            Pawn pawn = this.CasterPawn;
-            Map map = this.CasterPawn.Map;
+            Pawn pawn = CasterPawn;
+            Map map = CasterPawn.Map;
             
             //if (pawn != null && !pawn.Downed)
 
             List<BodyPartRecord> validParts = new List<BodyPartRecord>();
             Thing medicalThing = null;
-            if (GetMedicalSupplyFromCell(this.currentTarget.Cell, this.CasterPawn, out medicalThing, true))
+            if (GetMedicalSupplyFromCell(currentTarget.Cell, CasterPawn, out medicalThing, true))
             {
                 float potency = medicalThing.GetStatValue(StatDefOf.MedicalPotency);
                 float supplyGain = 20f * potency * potency;
@@ -56,7 +56,7 @@ namespace TorannMagic
                     medicalThing.SplitOff(1).Destroy(DestroyMode.Vanish);
                 }
 
-                HealthUtility.AdjustSeverity(this.CasterPawn, HediffDef.Named("TM_MedicalSupplyHD"), supplyGain);
+                HealthUtility.AdjustSeverity(CasterPawn, HediffDef.Named("TM_MedicalSupplyHD"), supplyGain);
             }
             else
             {
@@ -64,7 +64,7 @@ namespace TorannMagic
                 //Messages.Message("TM_NoMedicalSupply".Translate(this.CasterPawn.LabelShort), MessageTypeDefOf.RejectInput, false);
                 Log.Warning("failed to TryCastShot");
             }
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return result;
         }
 

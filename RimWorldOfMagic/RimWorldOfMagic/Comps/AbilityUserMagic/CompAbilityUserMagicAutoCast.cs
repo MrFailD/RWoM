@@ -24,16 +24,16 @@ namespace TorannMagic
                 return;
             }
 
-            var pawn = this.Pawn;
+            var pawn = Pawn;
             var job = pawn.CurJob;
             bool isChaosMage = pawn.story.traits.HasTrait(TorannMagicDefOf.ChaosMage);
             bool isSummoner = pawn.story.traits.HasTrait(TorannMagicDefOf.Summoner);
             bool isChronomancer = pawn.story.traits.HasTrait(TorannMagicDefOf.Chronomancer);
             bool isArcanist = pawn.story.traits.HasTrait(TorannMagicDefOf.Arcanist);
-            bool isCustomClass = this.customClass != null;
+            bool isCustomClass = customClass != null;
 
-            if (pawn.drafter != null && !pawn.Drafted && this.Mana != null &&
-                this.Mana.CurLevelPercentage >= ModOptions.Settings.Instance.autocastMinThreshold)
+            if (pawn.drafter != null && !pawn.Drafted && Mana != null &&
+                Mana.CurLevelPercentage >= ModOptions.Settings.Instance.autocastMinThreshold)
             {
                 if (TryAutocastUndraftedMagic(pawn, job))
                     return;
@@ -41,7 +41,7 @@ namespace TorannMagic
                 if ((isSummoner || isChaosMage || isCustomClass) && TryAutocastSummoner())
                     return;
 
-                if ((isChronomancer || isCustomClass) && !this.recallSet && TryAutocastChronomancer(job))
+                if ((isChronomancer || isCustomClass) && !recallSet && TryAutocastChronomancer(job))
                     return;
 
                 if ((isArcanist || isChaosMage || isCustomClass) && TryAutocastArcanist(job, isChaosMage))
@@ -51,7 +51,7 @@ namespace TorannMagic
 
         private bool CanAutocastOnCurrentJob()
         {
-            var pawn = this.Pawn;
+            var pawn = Pawn;
             var job = pawn?.CurJob;
 
             if (!ModOptions.Settings.Instance.autocastEnabled ||
@@ -189,7 +189,7 @@ namespace TorannMagic
 
         private bool TryAutocastUndraftedMagic(Pawn pawn, Job job)
         {
-            foreach (MagicPower magicPower in this.MagicData.MagicPowersCustomAll)
+            foreach (MagicPower magicPower in MagicData.MagicPowersCustomAll)
             {
                 if (!magicPower.learned || !magicPower.autocast || magicPower.autocasting == null ||
                     !magicPower.autocasting.magicUser || !magicPower.autocasting.undrafted)
@@ -205,14 +205,14 @@ namespace TorannMagic
                     !pawn.story.DisabledWorkTagsBackstoryAndTraits.HasFlag(WorkTags.Violent) ||
                     !abilityDef.MainVerb.isViolent;
 
-                if (!TM_Calc.HasResourcesForAbility(this.Pawn, abilityDef))
+                if (!TM_Calc.HasResourcesForAbility(Pawn, abilityDef))
                     continue;
 
                 if (!canUseIfViolentAbility)
                     continue;
 
                 PawnAbility ability =
-                    this.AbilityData.Powers.FirstOrDefault(x => x.Def == abilityDef);
+                    AbilityData.Powers.FirstOrDefault(x => x.Def == abilityDef);
                 bool castSuccess = false;
 
                 switch (magicPower.autocasting.type)
@@ -241,17 +241,17 @@ namespace TorannMagic
         private bool TryAutocastSummoner()
         {
             MagicPower magicPower =
-                this.MagicData.MagicPowersS.FirstOrDefault(x =>
+                MagicData.MagicPowersS.FirstOrDefault(x =>
                     x.abilityDef == TorannMagicDefOf.TM_SummonMinion);
 
             if (magicPower == null || !magicPower.learned || !magicPower.autocast ||
-                this.summonedMinions.Count() >= 4)
+                summonedMinions.Count() >= 4)
             {
                 return false;
             }
 
             PawnAbility ability =
-                this.AbilityData.Powers.FirstOrDefault(x => x.Def == TorannMagicDefOf.TM_SummonMinion);
+                AbilityData.Powers.FirstOrDefault(x => x.Def == TorannMagicDefOf.TM_SummonMinion);
 
             AutoCast.MagicAbility_OnSelfPosition.Evaluate(
                 this, TorannMagicDefOf.TM_SummonMinion, ability, magicPower, out bool castSuccess);
@@ -260,20 +260,20 @@ namespace TorannMagic
 
         private bool TryAutocastChronomancer(Job job)
         {
-            if (this.AbilityData.Powers.All(p => p.Def != TorannMagicDefOf.TM_TimeMark))
+            if (AbilityData.Powers.All(p => p.Def != TorannMagicDefOf.TM_TimeMark))
             {
                 return false;
             }
 
             MagicPower magicPower =
-                this.MagicData.MagicPowersStandalone.FirstOrDefault(x =>
+                MagicData.MagicPowersStandalone.FirstOrDefault(x =>
                     x.abilityDef == TorannMagicDefOf.TM_TimeMark);
 
             if (magicPower != null && (magicPower.learned || spell_Recall) && magicPower.autocast &&
                 !job.playerForced)
             {
                 PawnAbility ability =
-                    this.AbilityData.Powers.FirstOrDefault(x => x.Def == TorannMagicDefOf.TM_TimeMark);
+                    AbilityData.Powers.FirstOrDefault(x => x.Def == TorannMagicDefOf.TM_TimeMark);
 
                 AutoCast.MagicAbility_OnSelfPosition.Evaluate(
                     this, TorannMagicDefOf.TM_TimeMark, ability, magicPower, out bool castSuccess);
@@ -286,7 +286,7 @@ namespace TorannMagic
 
         private bool TryAutocastArcanist(Job job, bool isChaosMage)
         {
-            foreach (var tmAbilityDef in this.MagicData.MagicPowersA
+            foreach (var tmAbilityDef in MagicData.MagicPowersA
                          .Where(magicPower => magicPower?.abilityDef != null).SelectMany(magicPower =>
                              magicPower.TMabilityDefs.Cast<TMAbilityDef>()
                                  .Where(tmAbilityDef => tmAbilityDef != null)))
@@ -297,12 +297,12 @@ namespace TorannMagic
                      tmAbilityDef == TorannMagicDefOf.TM_Summon_III) && !job.playerForced)
                 {
                     MagicPower mpSummon =
-                        this.MagicData.MagicPowersA.FirstOrDefault(x => x.abilityDef == tmAbilityDef);
+                        MagicData.MagicPowersA.FirstOrDefault(x => x.abilityDef == tmAbilityDef);
 
                     if (mpSummon != null && mpSummon.learned && mpSummon.autocast)
                     {
                         PawnAbility ability =
-                            this.AbilityData.Powers.FirstOrDefault(x => x.Def == tmAbilityDef);
+                            AbilityData.Powers.FirstOrDefault(x => x.Def == tmAbilityDef);
 
                         float minDistance = ActualManaCost(tmAbilityDef) * 150;
                         AutoCast.Summon.Evaluate(
@@ -322,12 +322,12 @@ namespace TorannMagic
                 }
 
                 MagicPower mp =
-                    this.MagicData.MagicPowersA.FirstOrDefault(x => x.abilityDef == tmAbilityDef);
+                    MagicData.MagicPowersA.FirstOrDefault(x => x.abilityDef == tmAbilityDef);
 
                 if (mp != null && mp.learned && mp.autocast)
                 {
                     PawnAbility ability =
-                        this.AbilityData.Powers.FirstOrDefault(x => x.Def == tmAbilityDef);
+                        AbilityData.Powers.FirstOrDefault(x => x.Def == tmAbilityDef);
 
                     float minDistance = ActualManaCost(tmAbilityDef) * 240;
                     AutoCast.Blink.Evaluate(
@@ -337,12 +337,12 @@ namespace TorannMagic
                         return true;
                 }
 
-                if (!isChaosMage || mp == null || !this.spell_Blink || mp.learned || !mp.autocast)
+                if (!isChaosMage || mp == null || !spell_Blink || mp.learned || !mp.autocast)
                 {
                     continue;
                 }
 
-                PawnAbility abilityPower = this.AbilityData.Powers.FirstOrDefault(x => x.Def == tmAbilityDef);
+                PawnAbility abilityPower = AbilityData.Powers.FirstOrDefault(x => x.Def == tmAbilityDef);
 
                 float minDistanceAbilityPower = ActualManaCost(tmAbilityDef) * 200;
                 AutoCast.Blink.Evaluate(

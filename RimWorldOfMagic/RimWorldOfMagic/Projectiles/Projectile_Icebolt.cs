@@ -14,11 +14,11 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
             
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Icebolt.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Icebolt_pwr");
             MagicPowerSkill ver = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Icebolt.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Icebolt_ver");
@@ -31,25 +31,25 @@ namespace TorannMagic
                 pwrVal = mpwr.level;
                 verVal = mver.level;
             }
-            this.arcaneDmg = comp.arcaneDmg;
+            arcaneDmg = comp.arcaneDmg;
             if(ModOptions.Settings.Instance.AIHardMode && !pawn.IsColonist)
             {
                 pwrVal = 3;
                 verVal = 3;
             }
-            ExplosionHelper.Explode(base.Position, map, 0.4f, TMDamageDefOf.DamageDefOf.Iceshard, this.launcher, Mathf.RoundToInt(this.def.projectile.GetDamageAmount(1,null) * this.arcaneDmg), 0, this.def.projectile.soundExplode, def, this.equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
-            CellRect cellRect = CellRect.CenteredOn(base.Position, 3);
+            ExplosionHelper.Explode(Position, map, 0.4f, TMDamageDefOf.DamageDefOf.Iceshard, launcher, Mathf.RoundToInt(this.def.projectile.GetDamageAmount(1,null) * arcaneDmg), 0, this.def.projectile.soundExplode, def, equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
+            CellRect cellRect = CellRect.CenteredOn(Position, 3);
             cellRect.ClipInsideMap(map);
             for (int i = 0; i < Rand.Range((2 + verVal), (3 + 4*verVal)); i++)
             {
                 IntVec3 randomCell = cellRect.RandomCell;
                 if (pwrVal > 0)
                 {
-                    this.Shrapnel(pwrVal, randomCell, map, 0.4f);
+                    Shrapnel(pwrVal, randomCell, map, 0.4f);
                 }
                 else
                 {
-                    this.Shrapnel(1, randomCell, map, 0.4f);
+                    Shrapnel(1, randomCell, map, 0.4f);
                 }
                 
             }
@@ -58,7 +58,7 @@ namespace TorannMagic
         protected void Shrapnel(int pwr, IntVec3 pos, Map map, float radius)
         {
             ThingDef def = this.def;
-            Explosion(pwr, pos, map, radius, TMDamageDefOf.DamageDefOf.Iceshard, this.launcher, null, def, this.equipmentDef, TorannMagicDefOf.Mote_Base_Smoke, 0.4f, 1, false, null, 0f, 1);
+            Explosion(pwr, pos, map, radius, TMDamageDefOf.DamageDefOf.Iceshard, launcher, null, def, equipmentDef, TorannMagicDefOf.Mote_Base_Smoke, 0.4f, 1, false, null, 0f, 1);
 
         }
 
@@ -66,7 +66,7 @@ namespace TorannMagic
         {
             System.Random rnd = new System.Random();
             int modDamAmountRand = GenMath.RoundRandom(Rand.Range(2 + pwr * 2, 5 + TMDamageDefOf.DamageDefOf.Iceshard.defaultDamage * pwr));  //4
-            modDamAmountRand = Mathf.RoundToInt(modDamAmountRand * this.arcaneDmg);
+            modDamAmountRand = Mathf.RoundToInt(modDamAmountRand * arcaneDmg);
             if (map == null)
             {
                 Log.Warning("Tried to do explosion in a null map.");

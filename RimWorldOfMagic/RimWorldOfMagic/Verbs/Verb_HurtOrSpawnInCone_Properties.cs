@@ -14,7 +14,7 @@ namespace TorannMagic
         public int angle;
         public Verb_HurtOrSpawnInCone_Properties() : base()
         {
-            this.verbClass = verbClass ?? typeof(Verb_HurtOrSpawnInCone);
+            verbClass = verbClass ?? typeof(Verb_HurtOrSpawnInCone);
         }
     }
 
@@ -22,27 +22,27 @@ namespace TorannMagic
     {
         protected override bool TryCastShot()
         {
-            Verb_HurtOrSpawnInCone_Properties Properties = this.verbProps as Verb_HurtOrSpawnInCone_Properties;
+            Verb_HurtOrSpawnInCone_Properties Properties = verbProps as Verb_HurtOrSpawnInCone_Properties;
             bool dealDamage = false;
-            if (this.verbProps.defaultProjectile.projectile.GetDamageAmount(1, null) > 0)
+            if (verbProps.defaultProjectile.projectile.GetDamageAmount(1, null) > 0)
             {
                 dealDamage = true;
             }
             //List<IntVec3> AoECells = GenRadial.RadialCellsAround(this.CasterPawn.Position, verbProps.range, false).ToList();
-            float distance = Vector3.Distance(this.CasterPawn.Position.ToVector3(), this.currentTarget.CenterVector3);
-            List<IntVec3> AoECells = GenRadial.RadialCellsAround(this.CasterPawn.Position, distance, false).ToList();
+            float distance = Vector3.Distance(CasterPawn.Position.ToVector3(), currentTarget.CenterVector3);
+            List<IntVec3> AoECells = GenRadial.RadialCellsAround(CasterPawn.Position, distance, false).ToList();
             if (verbProps.minRange > 0)
             {
-                AoECells = AoECells.Except(GenRadial.RadialCellsAround(this.CasterPawn.Position, verbProps.minRange, false).ToList()).ToList();
+                AoECells = AoECells.Except(GenRadial.RadialCellsAround(CasterPawn.Position, verbProps.minRange, false).ToList()).ToList();
             }
-            float angle = GetAngle(this.CasterPawn.Position, this.currentTarget.Cell);
+            float angle = GetAngle(CasterPawn.Position, currentTarget.Cell);
             float width = Properties.angle;
             List<IntVec3> ConeCells = new List<IntVec3>();
             foreach (IntVec3 c in AoECells)
             {
-                if (Math.Abs(GetAngle(this.CasterPawn.Position, c) - angle) < width)
+                if (Math.Abs(GetAngle(CasterPawn.Position, c) - angle) < width)
                 {
-                    if (Rand.Range(0, 1) < this.verbProps.defaultProjectile.projectile.postExplosionSpawnChance)
+                    if (Rand.Range(0, 1) < verbProps.defaultProjectile.projectile.postExplosionSpawnChance)
                     {
                         ConeCells.Add(c);
                     }
@@ -52,14 +52,14 @@ namespace TorannMagic
             {
                 foreach (IntVec3 c in ConeCells)
                 {
-                    TM_CopyAndLaunchProjectile.CopyAndLaunchThing(this.verbProps.defaultProjectile, this.CasterPawn, c, c, ProjectileHitFlags.IntendedTarget);
+                    TM_CopyAndLaunchProjectile.CopyAndLaunchThing(verbProps.defaultProjectile, CasterPawn, c, c, ProjectileHitFlags.IntendedTarget);
                 }
             }
             else
             {
                 foreach (IntVec3 c in ConeCells)
                 {
-                    GenSpawn.Spawn(this.verbProps.defaultProjectile.projectile.postExplosionSpawnThingDef, c, this.CasterPawn.Map);
+                    GenSpawn.Spawn(verbProps.defaultProjectile.projectile.postExplosionSpawnThingDef, c, CasterPawn.Map);
                 }
             }
             return true;

@@ -12,7 +12,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -20,7 +20,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
@@ -29,18 +29,18 @@ namespace TorannMagic
             base.CompPostTick(ref severityAdjustment);
             if (Find.TickManager.TicksGame % 21 == 0)
             {
-                bool firingAtTarget = this.Pawn.TargetCurrentlyAimingAt != null && this.Pawn.TargetCurrentlyAimingAt.Thing != null;
-                bool hasTargetedJob = this.Pawn.CurJob != null && this.Pawn.CurJob.targetA != null && this.Pawn.CurJob.targetA.Thing is Pawn;
+                bool firingAtTarget = Pawn.TargetCurrentlyAimingAt != null && Pawn.TargetCurrentlyAimingAt.Thing != null;
+                bool hasTargetedJob = Pawn.CurJob != null && Pawn.CurJob.targetA != null && Pawn.CurJob.targetA.Thing is Pawn;
                 if (firingAtTarget || hasTargetedJob)
                 {
-                    HediffComp_Disappears hdComp = base.Pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_ShadowSlayerCloakHD).TryGetComp<HediffComp_Disappears>();
+                    HediffComp_Disappears hdComp = Pawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_ShadowSlayerCloakHD).TryGetComp<HediffComp_Disappears>();
                     if (hdComp != null)
                     {
                         hdComp.ticksToDisappear -= Rand.Range(40, 60);
                         if (hdComp.ticksToDisappear <= 0)
                         {
                             Effecter InvisEffect = TorannMagicDefOf.TM_InvisibilityEffecter.Spawn();
-                            InvisEffect.Trigger(new TargetInfo(this.Pawn.Position, this.Pawn.Map, false), new TargetInfo(this.Pawn.Position, this.Pawn.Map, false));
+                            InvisEffect.Trigger(new TargetInfo(Pawn.Position, Pawn.Map, false), new TargetInfo(Pawn.Position, Pawn.Map, false));
                             InvisEffect.Cleanup();
                         }
                     }

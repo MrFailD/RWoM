@@ -20,7 +20,7 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     validTarg = true;
                 }
@@ -48,7 +48,7 @@ namespace TorannMagic
             bool flagCorpse = false;
 
             
-            Thing transmutateThing = TM_Calc.GetTransmutableThingFromCell(this.currentTarget.Cell, this.CasterPawn, out flagRawResource, out flagStuffItem, out flagNoStuffItem, out flagNutrition, out flagCorpse, true);
+            Thing transmutateThing = TM_Calc.GetTransmutableThingFromCell(currentTarget.Cell, CasterPawn, out flagRawResource, out flagStuffItem, out flagNoStuffItem, out flagNutrition, out flagCorpse, true);
 
             //List<Thing> thingList = this.currentTarget.Cell.GetThingList(caster.Map);
 
@@ -97,16 +97,16 @@ namespace TorannMagic
 
             if(transmutateThing != null)
             {
-                TM_Action.DoTransmutate(this.CasterPawn, transmutateThing, flagNoStuffItem, flagRawResource, flagStuffItem, flagNutrition, flagCorpse);
+                TM_Action.DoTransmutate(CasterPawn, transmutateThing, flagNoStuffItem, flagRawResource, flagStuffItem, flagNutrition, flagCorpse);
             }
             else
             {
                 Messages.Message("TM_NoThingToTransmutate".Translate(
-                    this.CasterPawn.LabelShort
+                    CasterPawn.LabelShort
                 ), MessageTypeDefOf.RejectInput);
             }
 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return false;
         }
 

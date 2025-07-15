@@ -27,7 +27,7 @@ namespace TorannMagic
             if (!pawn.DestroyedOrNull() && !pawn.Dead && itemComp != null)
             {
 
-                Rect overRect = new Rect(topLeft.x + 2, topLeft.y, this.GetWidth(75), 75); //overall rect size (shell)
+                Rect overRect = new Rect(topLeft.x + 2, topLeft.y, GetWidth(75), 75); //overall rect size (shell)
                 if (parms.highLight)
                 {
                     Widgets.DrawStrongHighlight(overRect.ExpandedBy(12f));
@@ -48,13 +48,13 @@ namespace TorannMagic
                             try
                             {
                                 fillPercent = itemComp.NecroticEnergy / 100f;
-                                Widgets.FillableBar(rect2, fillPercent, Gizmo_StatusBar.FullTex, Gizmo_StatusBar.EmptyShieldBarTex, false);
+                                Widgets.FillableBar(rect2, fillPercent, FullTex, EmptyShieldBarTex, false);
                                 Widgets.Label(rect2, "" + (itemComp.NecroticEnergy.ToString("F0")) + " / " + 100f.ToString("F0"));
                             }
                             catch
                             {
                                 fillPercent = 0f;
-                                Widgets.FillableBar(rect2, fillPercent, Gizmo_StatusBar.FullTex, Gizmo_StatusBar.EmptyShieldBarTex, false);
+                                Widgets.FillableBar(rect2, fillPercent, FullTex, EmptyShieldBarTex, false);
                                 Widgets.Label(rect2, "");
                             }
                             yShift += (barHeight) + 5f;
@@ -67,7 +67,7 @@ namespace TorannMagic
             }
             else
             {
-                Rect overRect = new Rect(topLeft.x + 2, topLeft.y, this.GetWidth(100), 75); //overall rect size (shell)
+                Rect overRect = new Rect(topLeft.x + 2, topLeft.y, GetWidth(100), 75); //overall rect size (shell)
                 float barHeight;
                 float initialShift = 0;
                 Find.WindowStack.ImmediateWindow(984798, overRect, WindowLayer.GameUI, delegate
@@ -82,7 +82,7 @@ namespace TorannMagic
                     Text.Anchor = TextAnchor.MiddleCenter;
                     rect2.y += yShift;
                     fillPercent = 0f;
-                    Widgets.FillableBar(rect2, fillPercent, Gizmo_StatusBar.FullTex, Gizmo_StatusBar.EmptyShieldBarTex, false);
+                    Widgets.FillableBar(rect2, fillPercent, FullTex, EmptyShieldBarTex, false);
                     Widgets.Label(rect2, "");
                     yShift += (barHeight) + 5f;
                 }, true, false, 1f);

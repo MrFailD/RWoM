@@ -26,7 +26,7 @@ namespace TorannMagic
             verVal = comp.MagicData.MagicPowerSkill_Shapeshift.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Shapeshift_ver").level;
             pwrVal = comp.MagicData.MagicPowerSkill_Shapeshift.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Shapeshift_pwr").level;
             effVal = comp.MagicData.MagicPowerSkill_Shapeshift.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Shapeshift_eff").level;
-            this.duration = Mathf.RoundToInt((this.duration + (360 * effVal))*comp.arcaneDmg);
+            duration = Mathf.RoundToInt((duration + (360 * effVal))*comp.arcaneDmg);
             bool flag = caster != null && !caster.Dead;
             if (flag)
             {
@@ -58,9 +58,9 @@ namespace TorannMagic
                         Log.Message("random creature was null");
                     }
 
-                    Pawn polymorphedPawn = TM_Action.PolymorphPawn(this.CasterPawn, caster, caster, spawnThing, caster.Position, true, duration, caster.Faction);
+                    Pawn polymorphedPawn = TM_Action.PolymorphPawn(CasterPawn, caster, caster, spawnThing, caster.Position, true, duration, caster.Faction);
 
-                    if (this.effVal >= 3)
+                    if (effVal >= 3)
                     {
                         polymorphedPawn.GetComp<CompPolymorph>().Temporary = false;
                     }

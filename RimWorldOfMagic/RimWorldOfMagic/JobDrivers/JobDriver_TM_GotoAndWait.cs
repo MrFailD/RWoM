@@ -36,43 +36,43 @@ namespace TorannMagic
                 {
                     if (TargetB != null)
                     {
-                        this.waitForPawn = TargetB.Thing as Pawn;
-                        if(this.waitForPawn != null && this.waitForPawn.jobs != null && this.waitForPawn.jobs.curJob != null && this.waitForPawn.CurJobDef != null)
+                        waitForPawn = TargetB.Thing as Pawn;
+                        if(waitForPawn != null && waitForPawn.jobs != null && waitForPawn.jobs.curJob != null && waitForPawn.CurJobDef != null)
                         {
-                            this.targetJobDef = this.waitForPawn.CurJobDef;
+                            targetJobDef = waitForPawn.CurJobDef;
                         }
                     }
-                    this.durationTicks = this.job.expiryInterval;
-                    if(this.age > this.durationTicks)
+                    durationTicks = job.expiryInterval;
+                    if(age > durationTicks)
                     {
-                        this.EndJobWith(JobCondition.InterruptForced);
+                        EndJobWith(JobCondition.InterruptForced);
                     }
                 },
                 tickAction = () =>
                 {
-                    if(this.waitForPawn != null)
+                    if(waitForPawn != null)
                     {
-                        if (this.targetJobDef != null && this.waitForPawn.jobs != null && this.waitForPawn.jobs.curJob != null && this.waitForPawn.CurJobDef != this.targetJobDef)
+                        if (targetJobDef != null && waitForPawn.jobs != null && waitForPawn.jobs.curJob != null && waitForPawn.CurJobDef != targetJobDef)
                         {
-                            this.EndJobWith(JobCondition.InterruptForced);
+                            EndJobWith(JobCondition.InterruptForced);
                         }
                     }
                     if (age > durationTicks)
                     {
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                     age++;
                 },
                 defaultCompleteMode = ToilCompleteMode.Never
             };
-            waitFor.defaultDuration = this.durationTicks;
+            waitFor.defaultDuration = durationTicks;
             waitFor.WithProgressBar(TargetIndex.A, delegate
             {
-                if (this.pawn.DestroyedOrNull() || this.pawn.Dead || this.pawn.Downed)
+                if (pawn.DestroyedOrNull() || pawn.Dead || pawn.Downed)
                 {
                     return 1f;
                 }
-                return 1f - (float)waitFor.actor.jobs.curDriver.ticksLeftThisToil / this.durationTicks;
+                return 1f - (float)waitFor.actor.jobs.curDriver.ticksLeftThisToil / durationTicks;
 
             }, false, 0f);
             yield return waitFor;         

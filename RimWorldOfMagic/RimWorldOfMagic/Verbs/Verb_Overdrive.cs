@@ -22,7 +22,7 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     validTarg = true;
                 }
@@ -57,16 +57,16 @@ namespace TorannMagic
             //    pwrVal = 3;
             //    verVal = 3;
             //}
-            pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef);
-            verVal = TM_Calc.GetSkillVersatilityLevel(caster, this.Ability.Def as TMAbilityDef);
+            pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef);
+            verVal = TM_Calc.GetSkillVersatilityLevel(caster, Ability.Def as TMAbilityDef);
             Thing targetThing = null;
-            if(this.currentTarget.Thing != null)
+            if(currentTarget.Thing != null)
             {
-                targetThing = this.currentTarget.Thing;
+                targetThing = currentTarget.Thing;
             }
             else
             {
-                targetThing = this.currentTarget.Cell.GetFirstBuilding(this.CasterPawn.Map);
+                targetThing = currentTarget.Cell.GetFirstBuilding(CasterPawn.Map);
             }
             if (targetThing != null)
             {
@@ -126,15 +126,15 @@ namespace TorannMagic
 
         private void ApplyHediffs(Pawn target)
         {
-            if (this.verVal == 3)
+            if (verVal == 3)
             {
                 HealthUtility.AdjustSeverity(target, TorannMagicDefOf.TM_OverdriveHD_III, .5f + pwrVal);
             }
-            else if (this.verVal == 2)
+            else if (verVal == 2)
             {
                 HealthUtility.AdjustSeverity(target, TorannMagicDefOf.TM_OverdriveHD_II, .5f + pwrVal);
             }
-            else if (this.verVal == 1)
+            else if (verVal == 1)
             {
                 HealthUtility.AdjustSeverity(target, TorannMagicDefOf.TM_OverdriveHD_I, .5f + pwrVal);
             }

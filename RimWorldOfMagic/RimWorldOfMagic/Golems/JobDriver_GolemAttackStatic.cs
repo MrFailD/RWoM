@@ -34,9 +34,9 @@ namespace TorannMagic.Golems
             Toil init = new Toil();
             init.initAction = delegate
             {
-                this.job.endIfCantShootTargetFromCurPos = true;
-                this.job.endIfCantShootInMelee = true;
-                Pawn pawn2 = base.TargetThingA as Pawn;                
+                job.endIfCantShootTargetFromCurPos = true;
+                job.endIfCantShootInMelee = true;
+                Pawn pawn2 = TargetThingA as Pawn;                
                 if (pawn2 != null)
                 {
                     startedIncapacitated = pawn2.Downed;
@@ -46,15 +46,15 @@ namespace TorannMagic.Golems
                     TMPawnGolem gp = pawn as TMPawnGolem;
                     attackVerb = gp.activeVerb;
                 }
-                if(this.job.verbToUse != null)
+                if(job.verbToUse != null)
                 {
-                    attackVerb = this.job.verbToUse;
+                    attackVerb = job.verbToUse;
                 }
                 pawn.pather.StopDead();
             };
             init.tickAction = delegate
             {
-                if (!base.TargetA.IsValid)
+                if (!TargetA.IsValid)
                 {
                     EndJobWith(JobCondition.Succeeded);
                 }
@@ -62,20 +62,20 @@ namespace TorannMagic.Golems
                 {
                     TMPawnGolem gp = pawn as TMPawnGolem;
                     CompGolem cg = gp.Golem;
-                    if (base.TargetA.HasThing)
+                    if (TargetA.HasThing)
                     {
-                        Pawn pawn = base.TargetA.Thing as Pawn;
-                        if (base.TargetA.Thing.Destroyed || (pawn != null && !startedIncapacitated && pawn.Downed) || (pawn != null && pawn.IsPsychologicallyInvisible()))
+                        Pawn pawn = TargetA.Thing as Pawn;
+                        if (TargetA.Thing.Destroyed || (pawn != null && !startedIncapacitated && pawn.Downed) || (pawn != null && pawn.IsPsychologicallyInvisible()))
                         {
                             EndJobWith(JobCondition.Succeeded);
                             return;
                         }
                     }
-                    if (numAttacksMade >= job.maxNumStaticAttacks && !base.pawn.stances.FullBodyBusy)
+                    if (numAttacksMade >= job.maxNumStaticAttacks && !this.pawn.stances.FullBodyBusy)
                     {
                         EndJobWith(JobCondition.Succeeded);
                     }
-                    if (job.endIfCantShootTargetFromCurPos && (attackVerb == null || !attackVerb.CanHitTargetFrom(base.pawn.Position, base.TargetA)))
+                    if (job.endIfCantShootTargetFromCurPos && (attackVerb == null || !attackVerb.CanHitTargetFrom(this.pawn.Position, TargetA)))
                     {
                         cg.threatTarget = null; //get a new target
                         EndJobWith(JobCondition.InterruptForced);
@@ -89,14 +89,14 @@ namespace TorannMagic.Golems
                         }
                         else
                         {
-                            float num = attackVerb.verbProps.EffectiveMinRange(base.TargetA, base.pawn);
-                            if ((float)base.pawn.Position.DistanceToSquared(base.TargetA.Cell) < num * num && base.pawn.Position.AdjacentTo8WayOrInside(base.TargetA.Cell))
+                            float num = attackVerb.verbProps.EffectiveMinRange(TargetA, pawn);
+                            if ((float)pawn.Position.DistanceToSquared(TargetA.Cell) < num * num && pawn.Position.AdjacentTo8WayOrInside(TargetA.Cell))
                             {
                                 EndJobWith(JobCondition.Incompletable);
                             }
                         }
                     }
-                    if (TryStartAttack(base.pawn, base.TargetA, attackVerb))
+                    if (TryStartAttack(this.pawn, TargetA, attackVerb))
                     {
                         numAttacksMade++;
                     }

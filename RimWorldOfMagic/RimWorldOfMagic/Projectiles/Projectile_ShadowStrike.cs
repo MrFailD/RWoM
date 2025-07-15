@@ -23,17 +23,17 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", true, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 65, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_References.Look<Pawn>(ref this.caster, "caster", false);
-            Scribe_Values.Look<IntVec3>(ref this.startPos, "startPos", default(IntVec3), false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", true, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 65, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_References.Look<Pawn>(ref caster, "caster", false);
+            Scribe_Values.Look<IntVec3>(ref startPos, "startPos", default(IntVec3), false);
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < duration;
+            bool flag = age < duration;
             if (!flag)
             {
                 if (!caster.DestroyedOrNull() && !caster.Dead)
@@ -50,17 +50,17 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {           
-            if (!this.initialized && !hitThing.DestroyedOrNull())
+            if (!initialized && !hitThing.DestroyedOrNull())
             {
-                this.initialized = true;
-                this.caster = this.launcher as Pawn;               
+                initialized = true;
+                caster = launcher as Pawn;               
                 CompAbilityUserMight comp = caster.GetCompAbilityUserMight();
                 //verVal = TM_Calc.GetMightSkillLevel(caster, comp.MightData.MightPowerSkill_ShadowStrike, "TM_ShadowStrike", "_ver", true);    
                 verVal = TM_Calc.GetSkillVersatilityLevel(caster, TorannMagicDefOf.TM_ShadowStrike);
-                this.startPos = caster.Position;
-                this.age = 0;
-                this.weaponDamage = GetWeaponDmg(caster);
-                this.critChance = comp.weaponCritChance;
+                startPos = caster.Position;
+                age = 0;
+                weaponDamage = GetWeaponDmg(caster);
+                critChance = comp.weaponCritChance;
                 
                 GenClamor.DoClamor(caster, 2f, ClamorDefOf.Ability);
                 if (DoMove(hitThing))
@@ -80,7 +80,7 @@ namespace TorannMagic
         public bool DoMove(Thing target)
         {
             Map map = caster.Map;
-            this.startPos = caster.Position;
+            startPos = caster.Position;
             IntVec3 targetPos = target.Position;
             IntVec3 tmpPos = targetPos;
             if(!target.DestroyedOrNull() && target is Pawn p)
@@ -159,13 +159,13 @@ namespace TorannMagic
                     {
                         if (!t.DestroyedOrNull() && !t.Dead && t.Map != null)
                         {
-                            int dmg = Mathf.RoundToInt(this.weaponDamage);
+                            int dmg = Mathf.RoundToInt(weaponDamage);
                             if (Rand.Chance(critChance))
                             {
                                 dmg *= 3;
                             }
                             BodyPartRecord bpr = t.health.hediffSet.GetRandomNotMissingPart(DamageDefOf.Stab, BodyPartHeight.Undefined, BodyPartDepth.Outside);
-                            TM_Action.DamageEntities(target, bpr, dmg, Rand.Range(0f, .5f), DamageDefOf.Stab, this.caster);
+                            TM_Action.DamageEntities(target, bpr, dmg, Rand.Range(0f, .5f), DamageDefOf.Stab, caster);
                             Vector3 rndPos = t.DrawPos;
                             rndPos.x += Rand.Range(-.2f, .2f);
                             rndPos.z += Rand.Range(-.2f, .2f);

@@ -16,7 +16,7 @@ namespace TorannMagic
         {            
             if ( targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     Pawn targetPawn = targ.Thing as Pawn;
                     if(targ.Thing is Pawn)
@@ -24,7 +24,7 @@ namespace TorannMagic
                         if(targetPawn.RaceProps.Humanlike)
                         {
                             ShootLine shootLine;
-                            validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                            validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                         }
                         else
                         {
@@ -56,16 +56,16 @@ namespace TorannMagic
         {
             bool result = false;
 
-            if (this.currentTarget != null && base.CasterPawn != null && this.currentTarget.Thing is Pawn targetPawn)
+            if (currentTarget != null && base.CasterPawn != null && currentTarget.Thing is Pawn targetPawn)
             {
                 if (targetPawn.RaceProps.Humanlike)
                 {
                     CompAbilityUserMight mightPawn = targetPawn.GetCompAbilityUserMight();
-                    CompAbilityUserMight mightComp = this.CasterPawn.GetCompAbilityUserMight();
+                    CompAbilityUserMight mightComp = CasterPawn.GetCompAbilityUserMight();
                     
                     if (mightPawn.IsMightUser)
                     {
-                        if (!targetPawn.story.traits.HasTrait(TM_Calc.GetMightTrait(this.CasterPawn)))
+                        if (!targetPawn.story.traits.HasTrait(TM_Calc.GetMightTrait(CasterPawn)))
                         {
                             TMAbilityDef tempAbility = TM_Calc.GetCopiedMightAbility(targetPawn, base.CasterPawn);
 
@@ -90,7 +90,7 @@ namespace TorannMagic
                             {
                                 //invalid target
                                 Messages.Message("TM_MimicFailed".Translate(
-                                        this.CasterPawn.LabelShort
+                                        CasterPawn.LabelShort
                                     ), MessageTypeDefOf.RejectInput);
                             }
                         }
@@ -98,7 +98,7 @@ namespace TorannMagic
                         {
                             //invalid target
                             Messages.Message("TM_MimicFailed".Translate(
-                                    this.CasterPawn.LabelShort
+                                    CasterPawn.LabelShort
                                 ), MessageTypeDefOf.RejectInput);
                         }
                     }
@@ -106,7 +106,7 @@ namespace TorannMagic
                     {
                         //invalid target
                         Messages.Message("TM_MimicFailed".Translate(
-                                this.CasterPawn.LabelShort
+                                CasterPawn.LabelShort
                             ), MessageTypeDefOf.RejectInput);
                     }
                 }
@@ -114,7 +114,7 @@ namespace TorannMagic
                 {
                     //invalid target
                     Messages.Message("TM_MimicFailed".Translate(
-                            this.CasterPawn.LabelShort
+                            CasterPawn.LabelShort
                         ), MessageTypeDefOf.RejectInput);
                 }
             }
@@ -122,7 +122,7 @@ namespace TorannMagic
             {
                 Log.Warning("failed to TryCastShot");
             }
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return result;
         }
     }

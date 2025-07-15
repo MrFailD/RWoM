@@ -42,9 +42,9 @@ namespace TorannMagic.Golems
 
         public void ExposeData()
         {
-            Scribe_Values.Look<int>(ref this.lastUsedTick, "lastUsedTick", 0);
-            Scribe_Values.Look<int>(ref this.currentLevel, "currentLevel", 1);
-            Scribe_Defs.Look<TM_GolemAbilityDef>(ref this.golemAbilityDef, "golemAbilityDef");
+            Scribe_Values.Look<int>(ref lastUsedTick, "lastUsedTick", 0);
+            Scribe_Values.Look<int>(ref currentLevel, "currentLevel", 1);
+            Scribe_Defs.Look<TM_GolemAbilityDef>(ref golemAbilityDef, "golemAbilityDef");
         }
     }
 }

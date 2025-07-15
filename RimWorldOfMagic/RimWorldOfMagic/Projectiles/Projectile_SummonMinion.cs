@@ -29,19 +29,19 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<bool>(ref this.destroyed, "destroyed", false, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<bool>(ref destroyed, "destroyed", false, false);
         }
 
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < duration;
+            bool flag = age < duration;
             if (!flag)
             {
                 base.Destroy(mode);
@@ -51,14 +51,14 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             //GenClamor.DoClamor(this, 2.1f, ClamorDefOf.Impact);
             //base.Impact(hitThing);
 
             if (!initialized)
             {
                 SpawnThings spawnThing = new SpawnThings();
-                pawn = this.launcher as Pawn;
+                pawn = launcher as Pawn;
                 comp = pawn.GetCompAbilityUserMagic();
                 MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_SummonMinion.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SummonMinion_pwr");
                 MagicPowerSkill ver = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_SummonMinion.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SummonMinion_ver");
@@ -77,12 +77,12 @@ namespace TorannMagic
                     int tmpVerVal = (int)((pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Cantrips.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Cantrips_ver").level) / 5);
                     verVal = (tmpVerVal > verVal) ? tmpVerVal : verVal;
                 }
-                CellRect cellRect = CellRect.CenteredOn(this.Position, 1);
+                CellRect cellRect = CellRect.CenteredOn(Position, 1);
                 cellRect.ClipInsideMap(map);
 
                 IntVec3 centerCell = cellRect.CenterCell;
-                System.Random random = new System.Random();
-                random = new System.Random();
+                Random random = new Random();
+                random = new Random();
 
                 duration += (verVal * durationMultiplier);
                 duration = (int)(duration * comp.arcaneDmg);
@@ -119,11 +119,11 @@ namespace TorannMagic
                 }
 
                 SoundDefOf.Ambient_AltitudeWind.sustainFadeoutTime.Equals(30.0f);
-                this.initialized = true;
+                initialized = true;
             }
             else
             {
-                this.age = this.duration;
+                age = duration;
             }
             Destroy();
         }
@@ -146,9 +146,9 @@ namespace TorannMagic
                     {
                         newPawn = (TMPawnSummoned)PawnGenerator.GeneratePawn(spawnables.kindDef, faction);
                         newPawn.validSummoning = true;
-                        newPawn.Spawner = this.Caster;
+                        newPawn.Spawner = Caster;
                         newPawn.Temporary = true;
-                        newPawn.TicksToDestroy = this.duration;
+                        newPawn.TicksToDestroy = duration;
                         if (newPawn.playerSettings != null)
                         {
                             newPawn.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
@@ -163,15 +163,15 @@ namespace TorannMagic
                             Thing dismissMinion = comp.summonedMinions[0];
                             if (dismissMinion != null && dismissMinion.Position.IsValid)
                             {
-                                FleckMaker.ThrowSmoke(dismissMinion.Position.ToVector3(), base.Map, 1);
-                                FleckMaker.ThrowHeatGlow(dismissMinion.Position, base.Map, 1);
+                                FleckMaker.ThrowSmoke(dismissMinion.Position.ToVector3(), Map, 1);
+                                FleckMaker.ThrowHeatGlow(dismissMinion.Position, Map, 1);
                             }
                             comp.summonedMinions.Remove(comp.summonedMinions[0]);
                             if (!dismissMinion.Destroyed)
                             {
                                 dismissMinion.Destroy();
                                 Messages.Message("TM_SummonedCreatureLimitExceeded".Translate(
-                                    this.launcher.LabelShort
+                                    launcher.LabelShort
                                 ), MessageTypeDefOf.NeutralEvent);
                             }
                             if (comp.summonedMinions.Count > 4)
@@ -190,7 +190,7 @@ namespace TorannMagic
                         }
                         try
                         {
-                            Pawn p = (Pawn)GenSpawn.Spawn(newPawn, position, this.Map);
+                            Pawn p = (Pawn)GenSpawn.Spawn(newPawn, position, Map);
                             if (p.playerSettings != null)
                             {
                                 p.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
@@ -199,13 +199,13 @@ namespace TorannMagic
                         }
                         catch
                         {
-                            this.age = this.duration;
+                            age = duration;
                             comp.Mana.CurLevel += comp.ActualManaCost(TorannMagicDefOf.TM_SummonMinion);
                             Log.Message("TM_Exception".Translate(
                                 pawn.LabelShort,
-                                this.def.defName
+                                def.defName
                                 ));
-                            this.Destroy(DestroyMode.Vanish);
+                            Destroy(DestroyMode.Vanish);
                         }
                         
                         comp.summonedMinions.Add(newPawn);
@@ -222,7 +222,7 @@ namespace TorannMagic
                             if (flag4)
                             {
                                 LordJob_DefendPoint lordJob = new LordJob_DefendPoint(newPawn.Position);
-                                lord = LordMaker.MakeNewLord(faction, lordJob, this.Map, null);
+                                lord = LordMaker.MakeNewLord(faction, lordJob, Map, null);
                             }
                             else
                             {

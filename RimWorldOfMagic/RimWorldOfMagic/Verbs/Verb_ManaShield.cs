@@ -13,16 +13,16 @@ namespace TorannMagic
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -39,8 +39,8 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool result = false;
-            Pawn pawn = this.CasterPawn;
-            Map map = this.CasterPawn.Map;
+            Pawn pawn = CasterPawn;
+            Map map = CasterPawn.Map;
 
             if (pawn != null && !pawn.Downed)
             {
@@ -66,7 +66,7 @@ namespace TorannMagic
                 Log.Warning("failed to TryCastShot");
             }
 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
 
             return result;
         }

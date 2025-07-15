@@ -21,7 +21,7 @@ namespace TorannMagic
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < duration;
+            bool flag = age < duration;
             if (!flag)
             {
                 base.Destroy(mode);
@@ -31,16 +31,16 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
 
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             Pawn victim = null;
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             if (comp != null)
@@ -57,7 +57,7 @@ namespace TorannMagic
                     pwrVal = mpwr.level;
                     verVal = mver.level;
                 }
-                this.arcaneDmg = comp.arcaneDmg;
+                arcaneDmg = comp.arcaneDmg;
                 if (ModOptions.Settings.Instance.AIHardMode && !pawn.IsColonist)
                 {
                     pwrVal = 3;
@@ -70,23 +70,23 @@ namespace TorannMagic
                 verVal = Rand.RangeInclusive(0,3);
             }
 
-            if (!this.initialized)
+            if (!initialized)
             {
                 fog = TorannMagicDefOf.Fog_Torment;
-                this.duration = this.duration + (180 * verVal);
-                this.strikeDelay = this.strikeDelay - (18 * verVal);
+                duration = duration + (180 * verVal);
+                strikeDelay = strikeDelay - (18 * verVal);
 
-                fog.gas.expireSeconds.min = this.duration/60;
-                fog.gas.expireSeconds.max = this.duration/60;
-                ExplosionHelper.Explode(base.Position, map, this.def.projectile.explosionRadius + verVal, TMDamageDefOf.DamageDefOf.TM_Torment, this.launcher, 0, 0, this.def.projectile.soundExplode, def, this.equipmentDef, null, fog, 1f, 1, null, false, null, 0f, 0, 0.0f, false);
+                fog.gas.expireSeconds.min = duration/60;
+                fog.gas.expireSeconds.max = duration/60;
+                ExplosionHelper.Explode(Position, map, this.def.projectile.explosionRadius + verVal, TMDamageDefOf.DamageDefOf.TM_Torment, launcher, 0, 0, this.def.projectile.soundExplode, def, equipmentDef, null, fog, 1f, 1, null, false, null, 0f, 0, 0.0f, false);
                 
-                this.initialized = true;
+                initialized = true;
             }
 
-            if (this.age > this.lastStrike + this.strikeDelay)
+            if (age > lastStrike + strikeDelay)
             {
                 IntVec3 curCell;
-                IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(base.Position, this.def.projectile.explosionRadius + verVal, true);
+                IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(Position, this.def.projectile.explosionRadius + verVal, true);
                 for (int i = 0; i < targets.Count(); i++)
                 {
                     curCell = targets.ToArray<IntVec3>()[i];
@@ -111,34 +111,34 @@ namespace TorannMagic
                                 if (Rand.Chance(TM_Calc.GetSpellSuccessChance(pawn, victim) - .4f))
                                 {
                                     float targetMassFactor = victim.def.BaseMass != 0 ? 50f/victim.def.BaseMass : 1f;                                    
-                                    damageEntities(victim, Mathf.RoundToInt(Rand.Range(2f + (1f * pwrVal), 4f + (1f * pwrVal)) * this.arcaneDmg * targetMassFactor), TMDamageDefOf.DamageDefOf.TM_Torment);
+                                    damageEntities(victim, Mathf.RoundToInt(Rand.Range(2f + (1f * pwrVal), 4f + (1f * pwrVal)) * arcaneDmg * targetMassFactor), TMDamageDefOf.DamageDefOf.TM_Torment);
                                 }
                             }
                         }
                     }
                 }
-                this.lastStrike = this.age;
+                lastStrike = age;
             }
         }            
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", true, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 1440, false);
-            Scribe_Values.Look<int>(ref this.strikeDelay, "shockDelay", 0, false);
-            Scribe_Values.Look<int>(ref this.lastStrike, "lastStrike", 0, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_Defs.Look<ThingDef>(ref this.fog, "fog");
+            Scribe_Values.Look<bool>(ref initialized, "initialized", true, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 1440, false);
+            Scribe_Values.Look<int>(ref strikeDelay, "shockDelay", 0, false);
+            Scribe_Values.Look<int>(ref lastStrike, "lastStrike", 0, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_Defs.Look<ThingDef>(ref fog, "fog");
         }
 
         public void damageEntities(Pawn e, float d, DamageDef type)
         {
             int amt = Mathf.RoundToInt(Rand.Range(.5f, 1.5f) * d);
             DamageInfo dinfo = new DamageInfo(type, amt, 0, (float)-1, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
-            if (this.launcher != null && this.launcher is Pawn caster)
+            if (launcher != null && launcher is Pawn caster)
             {
                 dinfo = new DamageInfo(type, amt, 0, (float)-1, caster, null, null, DamageInfo.SourceCategory.ThingOrUnknown);                
             }

@@ -10,7 +10,7 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_References.Look<Pawn>(ref this.tauntTarget, "tauntTarget");
+            Scribe_References.Look<Pawn>(ref tauntTarget, "tauntTarget");
         }
     }
 }

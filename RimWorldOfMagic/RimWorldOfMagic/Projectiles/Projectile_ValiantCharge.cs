@@ -12,9 +12,9 @@ namespace TorannMagic
     public class Projectile_ValiantCharge : Projectile_AbilityBase
     {
         private static readonly Color wingColor = new Color(160f, 160f, 160f);
-        private static readonly Material wingsNS = MaterialPool.MatFrom("Other/angelwings_up", ShaderDatabase.Transparent, Projectile_ValiantCharge.wingColor);
-        private static readonly Material wingsE = MaterialPool.MatFrom("Other/angelwings_up_east", ShaderDatabase.Transparent, Projectile_ValiantCharge.wingColor);
-        private static readonly Material wingsW = MaterialPool.MatFrom("Other/angelwings_up_west", ShaderDatabase.Transparent, Projectile_ValiantCharge.wingColor);
+        private static readonly Material wingsNS = MaterialPool.MatFrom("Other/angelwings_up", ShaderDatabase.Transparent, wingColor);
+        private static readonly Material wingsE = MaterialPool.MatFrom("Other/angelwings_up_east", ShaderDatabase.Transparent, wingColor);
+        private static readonly Material wingsW = MaterialPool.MatFrom("Other/angelwings_up_west", ShaderDatabase.Transparent, wingColor);
 
         private bool arg_40_0;
         private bool arg_41_0;
@@ -47,22 +47,22 @@ namespace TorannMagic
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
 
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
 
-            CellRect cellRect = CellRect.CenteredOn(base.Position, 1); 
+            CellRect cellRect = CellRect.CenteredOn(Position, 1); 
             cellRect.ClipInsideMap(map);
             IntVec3 centerCell = cellRect.CenterCell;
             IntVec3 expCell1 = centerCell;
             IntVec3 expCell2 = centerCell;
-            IntVec3 target = base.Position;
+            IntVec3 target = Position;
 
             Hediff invul = new Hediff();
             invul.def = TorannMagicDefOf.TM_HediffInvulnerable;
             invul.Severity = 5;
 
-            pawn = this.launcher as Pawn;
+            pawn = launcher as Pawn;
             pawn.health.AddHediff(invul, null, null);
 
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
@@ -78,9 +78,9 @@ namespace TorannMagic
             bool flag = arg_40_0 && arg_41_0 && arg_42_0;
             if (flag)
             {
-                if (!destinationReached && this.age >= lastMove + moveRate)
+                if (!destinationReached && age >= lastMove + moveRate)
                 {
-                    lastMove = this.age;
+                    lastMove = age;
                     XProb(target, pawn);
                     if (target.x == pawn.Position.x)
                     {
@@ -115,7 +115,7 @@ namespace TorannMagic
                 zflag = false;
                 xflag = false;
                 SoundDefOf.Ambient_AltitudeWind.sustainFadeoutTime.Equals(30.0f);
-                this.FireExplosion(pwr.level, ver.level, centerCell, map, (1.2f + (float)(ver.level * .8f)));
+                FireExplosion(pwr.level, ver.level, centerCell, map, (1.2f + (float)(ver.level * .8f)));
                 FleckMaker.ThrowSmoke(pawn.Position.ToVector3(), map, (0.8f + (float)(ver.level * .8f)));
 
                 pawn.mindState.priorityWork.ClearPrioritizedWorkAndJobQueue();
@@ -136,10 +136,10 @@ namespace TorannMagic
                 {
                     cellRect = CellRect.CenteredOn(expCell1, (1 + ver.level));
                     IntVec3 randomCell = cellRect.RandomCell;
-                    this.FireExplosion(pwr.level, ver.level, randomCell, map, .4f);
+                    FireExplosion(pwr.level, ver.level, randomCell, map, .4f);
                     cellRect = CellRect.CenteredOn(expCell2, (1 + ver.level));
                     randomCell = cellRect.RandomCell;
-                    this.FireExplosion(pwr.level, ver.level, randomCell, map, .4f);
+                    FireExplosion(pwr.level, ver.level, randomCell, map, .4f);
                 }
                 
             }
@@ -261,14 +261,14 @@ namespace TorannMagic
         {
             ThingDef def = this.def;
 
-            Explosion(pwr, pos, map, radius, TMDamageDefOf.DamageDefOf.TM_Holy, this.launcher, null, def, this.equipmentDef, null, 0.3f, 1, false, null, 0f, 1);
+            Explosion(pwr, pos, map, radius, TMDamageDefOf.DamageDefOf.TM_Holy, launcher, null, def, equipmentDef, null, 0.3f, 1, false, null, 0f, 1);
 
             if (ver >= 2)
             {
                 int stunProb = Rand.Range(1, 10);
                 if (stunProb > (4 + ver))
                 {
-                    Explosion(pwr, pos, map, radius, DamageDefOf.Stun, this.launcher, null, def, this.equipmentDef, null, 0.3f, 1, false, null, 0f, 1);
+                    Explosion(pwr, pos, map, radius, DamageDefOf.Stun, launcher, null, def, equipmentDef, null, 0.3f, 1, false, null, 0f, 1);
                 }
             }
 
@@ -317,15 +317,15 @@ namespace TorannMagic
                 matrix.SetTRS(vector, Quaternion.AngleAxis(0f, Vector3.up), s);
                 if (shieldedPawn.Rotation == Rot4.South || shieldedPawn.Rotation == Rot4.North)
                 {
-                    Graphics.DrawMesh(MeshPool.plane10, matrix, Projectile_ValiantCharge.wingsNS, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, wingsNS, 0);
                 }
                 if (shieldedPawn.Rotation == Rot4.East)
                 {
-                    Graphics.DrawMesh(MeshPool.plane10, matrix, Projectile_ValiantCharge.wingsE, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, wingsE, 0);
                 }
                 if (shieldedPawn.Rotation == Rot4.West)
                 {
-                    Graphics.DrawMesh(MeshPool.plane10, matrix, Projectile_ValiantCharge.wingsW, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, matrix, wingsW, 0);
                 }
             }
         }
@@ -400,7 +400,7 @@ namespace TorannMagic
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.destinationReached;
+            bool flag = destinationReached;
             if (flag)
             {
                 base.Destroy(mode);

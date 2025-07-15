@@ -39,7 +39,7 @@ namespace TorannMagic
             {
                 foreach (IntVec3 current in portalBldg.PortableCells)
                 {
-                    Thing stockpileThing = current.GetFirstItem(base.Map);
+                    Thing stockpileThing = current.GetFirstItem(Map);
                     if (stockpileThing != null)
                     {
                         FleckMaker.ThrowHeatGlow(stockpileThing.Position, stockpileThing.Map, 1f);
@@ -53,7 +53,7 @@ namespace TorannMagic
                     }
                     List<Thing> thingList;
                     Pawn portalAnimal = null;
-                    thingList = current.GetThingList(base.Map);
+                    thingList = current.GetThingList(Map);
                     int z = 0;
                     if (thingList != null)
                     {

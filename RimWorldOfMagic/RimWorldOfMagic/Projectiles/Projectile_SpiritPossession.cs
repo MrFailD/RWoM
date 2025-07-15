@@ -14,10 +14,10 @@ namespace TorannMagic
 		protected override void Impact(Thing hitThing, bool blockedByShield = false)
 		{
             
-            Map map = base.Map;
+            Map map = Map;
 			base.Impact(hitThing);
 			ThingDef def = this.def;            
-            Pawn caster = this.launcher as Pawn;
+            Pawn caster = launcher as Pawn;
             Pawn hitPawn = hitThing as Pawn;
             bool validTarget = false;
             verVal = TM_Calc.GetSkillVersatilityLevel(caster, TorannMagicDefOf.TM_SpiritPossession, false);
@@ -30,7 +30,7 @@ namespace TorannMagic
                 Corpse corpse = null;
                 Thing corpseThing = null;
                 List<Thing> thingList;
-                thingList = this.DestinationCell.GetThingList(map);
+                thingList = DestinationCell.GetThingList(map);
                 int z = 0;
                 while (z < thingList.Count)
                 {                    

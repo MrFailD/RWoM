@@ -27,13 +27,13 @@ namespace TorannMagic
 
         public Pawn Original
         {
-            get => this.original;
+            get => original;
             set => original = value;
         }
 
         public Pawn Spawner
         {
-            get => this.spawner;
+            get => spawner;
             set => spawner = value;
         }
 
@@ -49,11 +49,11 @@ namespace TorannMagic
         {
             get
             {
-                return this.temporary;
+                return temporary;
             }
             set
             {
-                this.temporary = value;
+                temporary = value;
             }
         }
 
@@ -61,7 +61,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.ticksToDestroy;
+                return ticksToDestroy;
             }
             set
             {
@@ -73,102 +73,102 @@ namespace TorannMagic
         {
             get
             {
-                return this.ticksLeft;
+                return ticksLeft;
             }
             set
             {
-                this.ticksLeft = value;
+                ticksLeft = value;
             }
         }
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {
-            this.ticksLeft = this.ticksToDestroy;
+            ticksLeft = ticksToDestroy;
             base.SpawnSetup(map, respawningAfterLoad);
         }
 
         public virtual void PostSummonSetup()
         {
-            if (!this.validSummoning)
+            if (!validSummoning)
             {
-                this.Destroy(DestroyMode.Vanish);
+                Destroy(DestroyMode.Vanish);
             }
         }
 
         public void CheckPawnState()
         {
-            if (this.def.race.body.ToString() == "Minion")
+            if (def.race.body.ToString() == "Minion")
             {
                 try
                 {
-                    if (this.Downed && !this.Destroyed && this != null && this.Faction == Faction.OfPlayer)
+                    if (Downed && !Destroyed && this != null && Faction == Faction.OfPlayer)
                     {
                         Messages.Message("MinionFled".Translate(), MessageTypeDefOf.NeutralEvent);
-                        FleckMaker.ThrowSmoke(this.Position.ToVector3(), base.Map, 1);
-                        FleckMaker.ThrowHeatGlow(this.Position, base.Map, 1);
+                        FleckMaker.ThrowSmoke(Position.ToVector3(), Map, 1);
+                        FleckMaker.ThrowHeatGlow(Position, Map, 1);
                         if (CompSummoner != null)
                         {
                             CompSummoner.summonedMinions.Remove(this);
                         }
-                        this.Destroy(DestroyMode.Vanish);
+                        Destroy(DestroyMode.Vanish);
                     }
                 }
                 catch
                 {
                     Log.Message("TM_ExceptionTick".Translate(
-                        this.def.defName
+                        def.defName
                     ));
-                    this.Destroy(DestroyMode.Vanish);
+                    Destroy(DestroyMode.Vanish);
                 }
             }
         }
 
         protected override void Tick()
         {
-            if (Spawned && this.Map != null && this.Position.InBounds(this.Map))
+            if (Spawned && Map != null && Position.InBounds(Map))
             {
                 base.Tick();
                 if (Find.TickManager.TicksGame % 10 == 0)
                 {
-                    if (!this.initialized)
+                    if (!initialized)
                     {
-                        this.initialized = true;
-                        this.PostSummonSetup();
+                        initialized = true;
+                        PostSummonSetup();
                     }
-                    bool flag2 = this.temporary;
+                    bool flag2 = temporary;
                     if (flag2)
                     {
-                        this.ticksLeft -= 10;
-                        bool flag3 = this.ticksLeft <= 0;
+                        ticksLeft -= 10;
+                        bool flag3 = ticksLeft <= 0;
                         if (flag3)
                         {
-                            this.PreDestroy();
-                            if (!this.Destroyed)
+                            PreDestroy();
+                            if (!Destroyed)
                             {
-                                this.Destroy(DestroyMode.Vanish);
+                                Destroy(DestroyMode.Vanish);
                             }
                         }
                         CheckPawnState();
 
-                        bool flag4 = this.effecter == null;
+                        bool flag4 = effecter == null;
                         if (flag4)
                         {
                             EffecterDef progressBar = EffecterDefOf.ProgressBar;
-                            this.effecter = progressBar.Spawn();
+                            effecter = progressBar.Spawn();
                         }
                         else
                         {
                             LocalTargetInfo localTargetInfo = this;
-                            bool spawned2 = base.Spawned;
+                            bool spawned2 = Spawned;
                             if (spawned2)
                             {
-                                this.effecter.EffectTick(this, TargetInfo.Invalid);
+                                effecter.EffectTick(this, TargetInfo.Invalid);
                             }
-                            MoteProgressBar mote = ((SubEffecter_ProgressBar)this.effecter.children[0]).mote;
+                            MoteProgressBar mote = ((SubEffecter_ProgressBar)effecter.children[0]).mote;
                             bool flag5 = mote != null;
                             if (flag5)
                             {
-                                float value = 1f - (float)(this.TicksToDestroy - this.ticksLeft) / (float)this.TicksToDestroy;
+                                float value = 1f - (float)(TicksToDestroy - ticksLeft) / (float)TicksToDestroy;
                                 mote.progress = Mathf.Clamp01(value);
                                 mote.offsetZ = -0.5f;
                             }
@@ -185,21 +185,21 @@ namespace TorannMagic
         public void PreDestroy()
         {
             Thing resultThing = null;
-            if (this.carryTracker != null && this.carryTracker.CarriedThing != null)
+            if (carryTracker != null && carryTracker.CarriedThing != null)
             {
-                this.carryTracker.TryDropCarriedThing(this.Position, ThingPlaceMode.Near, out resultThing);
+                carryTracker.TryDropCarriedThing(Position, ThingPlaceMode.Near, out resultThing);
             }
-            if (this.def.defName == "TM_MinionR" || this.def.defName == "TM_GreaterMinionR")
+            if (def.defName == "TM_MinionR" || def.defName == "TM_GreaterMinionR")
             {
                 try
                 {
-                    if (base.Map != null)
+                    if (Map != null)
                     {
-                        FleckMaker.ThrowSmoke(this.Position.ToVector3(), base.Map, 3); 
+                        FleckMaker.ThrowSmoke(Position.ToVector3(), Map, 3); 
                     }
                     else
                     {
-                        this.holdingOwner.Remove(this);
+                        holdingOwner.Remove(this);
                     }
                     if (CompSummoner != null)
                     {
@@ -209,33 +209,33 @@ namespace TorannMagic
                 catch
                 {
                     Log.Message("TM_ExceptionClose".Translate(
-                            this.def.defName
+                            def.defName
                     ));
                 }
             }
-            if(this.def == TorannMagicDefOf.TM_SpiritWolfR || this.def == TorannMagicDefOf.TM_SpiritBearR || this.def == TorannMagicDefOf.TM_SpiritCrowR || this.def == TorannMagicDefOf.TM_SpiritMongooseR)
+            if(def == TorannMagicDefOf.TM_SpiritWolfR || def == TorannMagicDefOf.TM_SpiritBearR || def == TorannMagicDefOf.TM_SpiritCrowR || def == TorannMagicDefOf.TM_SpiritMongooseR)
             {
                 try
                 {
-                    if(base.Map != null)
+                    if(Map != null)
                     {
-                        FleckMaker.ThrowSmoke(this.DrawPos, base.Map, Rand.Range(1f, 3f));
-                        FleckMaker.ThrowSmoke(this.DrawPos, base.Map, Rand.Range(1f, 2f));
-                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Ghost, this.DrawPos, base.Map, 1f, .25f, 0f, .25f, 0, Rand.Range(1f, 2f), 0, 0);
+                        FleckMaker.ThrowSmoke(DrawPos, Map, Rand.Range(1f, 3f));
+                        FleckMaker.ThrowSmoke(DrawPos, Map, Rand.Range(1f, 2f));
+                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Ghost, DrawPos, Map, 1f, .25f, 0f, .25f, 0, Rand.Range(1f, 2f), 0, 0);
                     }
-                    else if(this.holdingOwner != null && this.holdingOwner.Contains(this))
+                    else if(holdingOwner != null && holdingOwner.Contains(this))
                     {
-                        this.holdingOwner.Remove(this);
+                        holdingOwner.Remove(this);
                     }                
                 }
                 catch
                 {
                     Log.Message("TM_ExceptionClose".Translate(
-                            this.def.defName
+                            def.defName
                     ));
                 }
             }
-            if(this.original != null)
+            if(original != null)
             {
                 //Log.Message("pre destroy");
                 CopyDamage(this);
@@ -246,10 +246,10 @@ namespace TorannMagic
 
         public override void DeSpawn(DestroyMode mode = DestroyMode.Vanish)
         {            
-            bool flag = this.effecter != null;
+            bool flag = effecter != null;
             if (flag)
             {
-                this.effecter.Cleanup();
+                effecter.Cleanup();
             }
             base.DeSpawn(mode);
         }
@@ -262,13 +262,13 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.temporary, "temporary", false, false);
-            Scribe_Values.Look<bool>(ref this.validSummoning, "validSummoning", true, false);
-            Scribe_Values.Look<int>(ref this.ticksLeft, "ticksLeft", 0, false);
-            Scribe_Values.Look<int>(ref this.ticksToDestroy, "ticksToDestroy", 1800, false);
-            Scribe_Values.Look<CompAbilityUserMagic>(ref this.compSummoner, "compSummoner", null, false);
-            Scribe_References.Look<Pawn>(ref this.spawner, "spawner", false);
-            Scribe_References.Look<Pawn>(ref this.original, "original", false);
+            Scribe_Values.Look<bool>(ref temporary, "temporary", false, false);
+            Scribe_Values.Look<bool>(ref validSummoning, "validSummoning", true, false);
+            Scribe_Values.Look<int>(ref ticksLeft, "ticksLeft", 0, false);
+            Scribe_Values.Look<int>(ref ticksToDestroy, "ticksToDestroy", 1800, false);
+            Scribe_Values.Look<CompAbilityUserMagic>(ref compSummoner, "compSummoner", null, false);
+            Scribe_References.Look<Pawn>(ref spawner, "spawner", false);
+            Scribe_References.Look<Pawn>(ref original, "original", false);
         }
 
         public TMPawnSummoned()
@@ -286,25 +286,25 @@ namespace TorannMagic
 
         public void SpawnOriginal()
         {
-            GenSpawn.Spawn(this.original, this.Position, this.Map, WipeMode.Vanish);
+            GenSpawn.Spawn(original, Position, Map, WipeMode.Vanish);
         }
 
         public void ApplyDamage(Pawn pawn)
         {
             List<BodyPartRecord> bodyparts = pawn.health.hediffSet.GetNotMissingParts().ToList();
-            for(int i =0; i < this.injuries.Count; i++)
+            for(int i =0; i < injuries.Count; i++)
             {
-                pawn.health.AddHediff(this.injuries[i], bodyparts.RandomElement());
+                pawn.health.AddHediff(injuries[i], bodyparts.RandomElement());
             }
         }
 
         public void CheckAndTrain()
         {
-            if (this.training != null && this.training.CanBeTrained(TrainableDefOf.Tameness))
+            if (training != null && training.CanBeTrained(TrainableDefOf.Tameness))
             {
-                while (!this.training.HasLearned(TrainableDefOf.Tameness))
+                while (!training.HasLearned(TrainableDefOf.Tameness))
                 {
-                    this.training.Train(TrainableDefOf.Tameness, null);
+                    training.Train(TrainableDefOf.Tameness, null);
                 }
             }
         }

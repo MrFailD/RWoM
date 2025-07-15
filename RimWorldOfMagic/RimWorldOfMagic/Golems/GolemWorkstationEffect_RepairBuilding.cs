@@ -19,7 +19,7 @@ namespace TorannMagic.Golems
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<int>(ref this.healthRestored, "healthRestored");
+            Scribe_Values.Look<int>(ref healthRestored, "healthRestored");
         }
 
         public override void StartEffect(Building_TMGolemBase golem_building, TM_GolemUpgrade upgrade, float effectLevel = 1)

@@ -24,8 +24,8 @@ namespace TorannMagic
             }
             if(Find.TickManager.TicksGame % 16 == 0)
             {
-                this.matRng++;
-                if(this.matRng >= 4)
+                matRng++;
+                if(matRng >= 4)
                 {
                     matRng = 0;
                 }
@@ -45,19 +45,19 @@ namespace TorannMagic
             matrix.SetTRS(vector, Quaternion.AngleAxis(angle, Vector3.up), s);
             if (matRng == 0)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMSunlight.sunlightMat_1, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, sunlightMat_1, 0);
             }
             else if (matRng == 1)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMSunlight.sunlightMat_2, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, sunlightMat_2, 0);
             }
             else if (matRng == 2)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMSunlight.sunlightMat_3, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, sunlightMat_3, 0);
             }
             else
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_TMSunlight.sunlightMat_2, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, sunlightMat_2, 0);
             }
         }
     }

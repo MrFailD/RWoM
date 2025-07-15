@@ -27,7 +27,7 @@ namespace TorannMagic
 
         public CompProperties_SkeletonController()
         {
-            this.compClass = typeof(CompSkeletonController);
+            compClass = typeof(CompSkeletonController);
         }
     }
 }

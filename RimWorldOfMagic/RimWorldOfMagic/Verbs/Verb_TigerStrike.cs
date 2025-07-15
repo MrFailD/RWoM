@@ -19,17 +19,17 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool continueAttack = true;
-            if (this.CasterPawn.equipment.Primary == null)
+            if (CasterPawn.equipment.Primary == null)
             {
-                Thing target = this.currentTarget.Thing;
-                if (target != null && target is Pawn targetPawn && this.burstShotsLeft > 0)
+                Thing target = currentTarget.Thing;
+                if (target != null && target is Pawn targetPawn && burstShotsLeft > 0)
                 {
-                    int dmgNum = this.GetAttackDmg(this.CasterPawn);
+                    int dmgNum = GetAttackDmg(CasterPawn);
                     BodyPartRecord hitPart = null;
                     DamageDef dmgType = TMDamageDefOf.DamageDefOf.TM_TigerStrike;
                     if(verVal > 0 && Rand.Chance(.1f))
                     {
-                        TM_Action.DamageEntities(target, null, 4, DamageDefOf.Stun, this.CasterPawn);
+                        TM_Action.DamageEntities(target, null, 4, DamageDefOf.Stun, CasterPawn);
                     }
                     if(verVal > 1 && Rand.Chance(.4f))
                     {
@@ -37,7 +37,7 @@ namespace TorannMagic
                         {
                             CompAbilityUserMagic compMagic = targetPawn.GetCompAbilityUserMagic();
                             float manaDrain = Mathf.Clamp(compMagic.Mana.CurLevel, 0, .25f);
-                            this.CasterPawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_ChiHD).Severity += (manaDrain * 100);
+                            CasterPawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_ChiHD).Severity += (manaDrain * 100);
                             compMagic.Mana.CurLevel -= manaDrain;
 
                         }
@@ -45,7 +45,7 @@ namespace TorannMagic
                         {
                             CompAbilityUserMight compMight = targetPawn.GetCompAbilityUserMight();
                             float staminaDrain = Mathf.Clamp(compMight.Stamina.CurLevel, 0, .25f);
-                            this.CasterPawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_ChiHD).Severity += (staminaDrain * 100);
+                            CasterPawn.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_ChiHD).Severity += (staminaDrain * 100);
                             compMight.Stamina.CurLevel -= staminaDrain;
                         }
                     }
@@ -60,15 +60,15 @@ namespace TorannMagic
                         dmgNum = Mathf.RoundToInt(dmgNum * 1.4f);
                     }
                     //DamageInfo dinfo2 = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_TigerStrike, dmgNum, 0, (float)-1, this.CasterPawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
-                    TM_Action.DamageEntities(target, hitPart, dmgNum, dmgType, this.CasterPawn);
-                    Vector3 strikeEndVec = this.currentTarget.CenterVector3;
+                    TM_Action.DamageEntities(target, hitPart, dmgNum, dmgType, CasterPawn);
+                    Vector3 strikeEndVec = currentTarget.CenterVector3;
                     strikeEndVec.x += Rand.Range(-.2f, .2f);
                     strikeEndVec.z += Rand.Range(-.2f, .2f);
-                    Vector3 strikeStartVec = this.CasterPawn.DrawPos;
+                    Vector3 strikeStartVec = CasterPawn.DrawPos;
                     strikeStartVec.z += Rand.Range(-.2f, .2f);
                     strikeStartVec.x += Rand.Range(-.2f, .2f);
                     Vector3 angle = TM_Calc.GetVector(strikeStartVec, strikeEndVec);
-                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_TigerStrike, strikeStartVec, this.CasterPawn.Map, .4f, .08f, .03f, .05f, 0, 8f, (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat(), (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat());
+                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_TigerStrike, strikeStartVec, CasterPawn.Map, .4f, .08f, .03f, .05f, 0, 8f, (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat(), (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat());
                     if(!target.DestroyedOrNull())
                     {
                         if(targetPawn.Downed || targetPawn.Dead)
@@ -76,9 +76,9 @@ namespace TorannMagic
                             continueAttack = false;
                         }
                     }
-                    if(this.burstShotsLeft <= (10 - (4 + verVal)))
+                    if(burstShotsLeft <= (10 - (4 + verVal)))
                     {
-                        this.burstShotsLeft = 0;
+                        burstShotsLeft = 0;
                         continueAttack = false;
                     }
                 }
@@ -86,10 +86,10 @@ namespace TorannMagic
             else
             {
                 Messages.Message("MustBeUnarmed".Translate(
-                    this.CasterPawn.LabelCap,
-                    this.verbProps.label
+                    CasterPawn.LabelCap,
+                    verbProps.label
                 ), MessageTypeDefOf.RejectInput);
-                this.burstShotsLeft = 0;
+                burstShotsLeft = 0;
                 return false;
             }
             return continueAttack;
@@ -103,8 +103,8 @@ namespace TorannMagic
             //MightPowerSkill ver = comp.MightData.MightPowerSkill_TigerStrike.FirstOrDefault((MightPowerSkill x) => x.label == "TM_TigerStrike_ver");
             //verVal = TM_Calc.GetMightSkillLevel(pawn, comp.MightData.MightPowerSkill_TigerStrike, "TM_TigerStrike", "_ver", true);
             //pwrVal = TM_Calc.GetMightSkillLevel(pawn, comp.MightData.MightPowerSkill_TigerStrike, "TM_TigerStrike", "_pwr", true);
-            verVal = TM_Calc.GetSkillVersatilityLevel(pawn, this.Ability.Def as TMAbilityDef, false);
-            pwrVal = TM_Calc.GetSkillPowerLevel(pawn, this.Ability.Def as TMAbilityDef, false);
+            verVal = TM_Calc.GetSkillVersatilityLevel(pawn, Ability.Def as TMAbilityDef, false);
+            pwrVal = TM_Calc.GetSkillPowerLevel(pawn, Ability.Def as TMAbilityDef, false);
             MightPowerSkill str = comp.MightData.MightPowerSkill_global_strength.FirstOrDefault((MightPowerSkill x) => x.label == "TM_global_strength_pwr");
             //this.verVal = ver.level;
             //this.pwrVal = pwr.level;

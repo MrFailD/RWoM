@@ -231,23 +231,23 @@ namespace TorannMagic.Golems
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look<bool>(ref this.shouldDespawn, "shouldDespawn", false);
-            Scribe_Values.Look<int>(ref this.age, "age", 0);
-            Scribe_Deep.Look<TM_Golem>(ref this.golem, "golem");
+            Scribe_Values.Look<bool>(ref shouldDespawn, "shouldDespawn", false);
+            Scribe_Values.Look<int>(ref age, "age", 0);
+            Scribe_Deep.Look<TM_Golem>(ref golem, "golem");
             Scribe_Deep.Look(ref innerContainer, "innerContainer", this);
-            Scribe_Values.Look<int>(ref this.actionTickAverage80, "actionTickAverage80", 300);
-            Scribe_Values.Look<Rot4>(ref this.dormantRotation, "dormantRotation", Rot4.South, false);
-            Scribe_Values.Look<IntVec3>(ref this.dormantPosition, "dormantPosition", default(IntVec3));
-            Scribe_References.Look<Map>(ref this.dormantMap, "dormantMap");
-            Scribe_References.Look<Pawn>(ref this.pawnMaster, "pawnMaster");
-            Scribe_Values.Look<bool>(ref this.followsMaster, "followsMaster", false);
-            Scribe_Values.Look<bool>(ref this.followsMasterDrafted, "followsMasterDrafted", false);
-            Scribe_Values.Look<float>(ref this.threatRange, "threatRange", 40f);
-            Scribe_References.Look<Thing>(ref this.threatTarget, "threatTarget");
-            Scribe_Values.Look<float>(ref this.energyPctShouldRest, "energyPctShouldRest", .1f);
-            Scribe_Values.Look<float>(ref this.minEnergyPctForAbilities, "minEnergyForAbilities", .2f);
-            Scribe_Values.Look<float>(ref this.energyPctShouldAwaken, "energyPctShouldAwaken", 1f);
-            Scribe_Deep.Look<Name>(ref this.golemName, "golemName");
+            Scribe_Values.Look<int>(ref actionTickAverage80, "actionTickAverage80", 300);
+            Scribe_Values.Look<Rot4>(ref dormantRotation, "dormantRotation", Rot4.South, false);
+            Scribe_Values.Look<IntVec3>(ref dormantPosition, "dormantPosition", default(IntVec3));
+            Scribe_References.Look<Map>(ref dormantMap, "dormantMap");
+            Scribe_References.Look<Pawn>(ref pawnMaster, "pawnMaster");
+            Scribe_Values.Look<bool>(ref followsMaster, "followsMaster", false);
+            Scribe_Values.Look<bool>(ref followsMasterDrafted, "followsMasterDrafted", false);
+            Scribe_Values.Look<float>(ref threatRange, "threatRange", 40f);
+            Scribe_References.Look<Thing>(ref threatTarget, "threatTarget");
+            Scribe_Values.Look<float>(ref energyPctShouldRest, "energyPctShouldRest", .1f);
+            Scribe_Values.Look<float>(ref minEnergyPctForAbilities, "minEnergyForAbilities", .2f);
+            Scribe_Values.Look<float>(ref energyPctShouldAwaken, "energyPctShouldAwaken", 1f);
+            Scribe_Deep.Look<Name>(ref golemName, "golemName");
         }
 
         public bool AbilityActive => abilityTick <= abilityMaxTicks;
@@ -286,7 +286,7 @@ namespace TorannMagic.Golems
         {
             get
             {
-                return (CompProperties_Golem)this.props;
+                return (CompProperties_Golem)props;
             }
         }
 
@@ -299,7 +299,7 @@ namespace TorannMagic.Golems
         {
             get
             {
-                Pawn pawn = this.parent as Pawn;
+                Pawn pawn = parent as Pawn;
                 bool flag = pawn == null;
                 if (flag)
                 {
@@ -337,7 +337,7 @@ namespace TorannMagic.Golems
                 {
                     return true;
                 }
-                if(this.shouldDespawn)
+                if(shouldDespawn)
                 {
                     if(Pawn.Position == dormantPosition)
                     {
@@ -350,8 +350,8 @@ namespace TorannMagic.Golems
 
         protected virtual void Initialize()
         {
-            this.shouldDespawn = false;
-            this.despawnNow = false;
+            shouldDespawn = false;
+            despawnNow = false;
             foreach(HediffDef hd in Golem.hediffs)
             {
                 HealthUtility.AdjustSeverity(Pawn, hd, hd.initialSeverity);
@@ -564,19 +564,19 @@ namespace TorannMagic.Golems
 
         public override void CompTick()
         {
-            if (this.age > 0)
+            if (age > 0)
             {
-                if (!this.initialized && InnerWorkstation != null)
+                if (!initialized && InnerWorkstation != null)
                 {
                     Initialize();
-                    this.initialized = true;
+                    initialized = true;
                 }
 
-                if (this.Pawn.Spawned && Pawn.Map != null)
+                if (Pawn.Spawned && Pawn.Map != null)
                 {
-                    if (!this.Pawn.Downed)
+                    if (!Pawn.Downed)
                     {                       
-                        if(AbilityActive && this.activeAbility != null)
+                        if(AbilityActive && activeAbility != null)
                         {
                             UseAbility();
                         }
@@ -592,10 +592,10 @@ namespace TorannMagic.Golems
                             UpdateGolemancerStatus();
                         }
 
-                        if ((this.ShouldDespawnNow && !Pawn.IsBurning()) || Energy.CurLevel <= .1f)
+                        if ((ShouldDespawnNow && !Pawn.IsBurning()) || Energy.CurLevel <= .1f)
                         {
                             DeSpawnGolem();
-                            this.shouldDespawn = false;
+                            shouldDespawn = false;
                         }
                     }
                 }                
@@ -660,11 +660,11 @@ namespace TorannMagic.Golems
 
         public void UseAbility()
         {
-            bool flag4 = this.effecter == null;
+            bool flag4 = effecter == null;
             if (flag4)
             {
                 EffecterDef progressBar = EffecterDefOf.ProgressBar;
-                this.effecter = progressBar.Spawn();
+                effecter = progressBar.Spawn();
             }
             else
             {
@@ -672,34 +672,34 @@ namespace TorannMagic.Golems
                 bool spawned2 = Pawn.Spawned;
                 if (spawned2)
                 {
-                    this.effecter.EffectTick(Pawn, TargetInfo.Invalid);
+                    effecter.EffectTick(Pawn, TargetInfo.Invalid);
                 }
-                MoteProgressBar mote = ((SubEffecter_ProgressBar)this.effecter.children[0]).mote;
+                MoteProgressBar mote = ((SubEffecter_ProgressBar)effecter.children[0]).mote;
                 bool flag5 = mote != null;
                 if (flag5)
                 {
-                    float value = (float)(this.abilityTick) / (float)this.abilityMaxTicks;
+                    float value = (float)(abilityTick) / (float)abilityMaxTicks;
                     mote.progress = Mathf.Clamp01(value);
                     mote.offsetZ = -0.5f;                    
                 }
             }
-            if(this.activeAbility.golemAbilityDef.tickMote != null && Find.TickManager.TicksGame % this.activeAbility.golemAbilityDef.tickMoteFrequency == 0)
+            if(activeAbility.golemAbilityDef.tickMote != null && Find.TickManager.TicksGame % activeAbility.golemAbilityDef.tickMoteFrequency == 0)
             {
                 float angle = Rand.Range(0f, 360f);
-                if(this.activeAbility.golemAbilityDef.tickMoteVelocityTowardsTarget != 0)
+                if(activeAbility.golemAbilityDef.tickMoteVelocityTowardsTarget != 0)
                 {
                     angle = (Quaternion.AngleAxis(90, Vector3.up) * TM_Calc.GetVector(Pawn.DrawPos, abilityTarget.CenterVector3)).ToAngleFlat();
                 }
-                TM_MoteMaker.ThrowGenericMote(this.activeAbility.golemAbilityDef.tickMote, Pawn.DrawPos, Pawn.Map, this.activeAbility.golemAbilityDef.tickMoteSize,
-                    this.activeAbility.golemAbilityDef.tickMote.mote.solidTime,
-                    this.activeAbility.golemAbilityDef.tickMote.mote.fadeInTime,
-                    this.activeAbility.golemAbilityDef.tickMote.mote.fadeOutTime,
+                TM_MoteMaker.ThrowGenericMote(activeAbility.golemAbilityDef.tickMote, Pawn.DrawPos, Pawn.Map, activeAbility.golemAbilityDef.tickMoteSize,
+                    activeAbility.golemAbilityDef.tickMote.mote.solidTime,
+                    activeAbility.golemAbilityDef.tickMote.mote.fadeInTime,
+                    activeAbility.golemAbilityDef.tickMote.mote.fadeOutTime,
                     Rand.Range(-50, 50),
-                    this.activeAbility.golemAbilityDef.tickMoteVelocityTowardsTarget,
+                    activeAbility.golemAbilityDef.tickMoteVelocityTowardsTarget,
                     angle,
                     Rand.Range(0, 360));
             }
-            if(this.abilityTick >= activeAbility.golemAbilityDef.warmupTicks)
+            if(abilityTick >= activeAbility.golemAbilityDef.warmupTicks)
             {
                 if(abilityBurstTick <= 0)
                 {
@@ -714,15 +714,15 @@ namespace TorannMagic.Golems
                             }
                             else
                             {
-                                this.abilityTick = this.abilityMaxTicks;
+                                abilityTick = abilityMaxTicks;
                             }                            
                         }
                     }
                 }
                 abilityBurstTick--;
             }
-            this.abilityTick++;
-            if(this.abilityTick > this.abilityMaxTicks)
+            abilityTick++;
+            if(abilityTick > abilityMaxTicks)
             {
                 EndActiveAbility();
             }
@@ -730,11 +730,11 @@ namespace TorannMagic.Golems
 
         public void EndActiveAbility()
         {            
-            this.abilityMaxTicks = 0;
-            this.abilityTick = 0;
-            this.activeAbility = null;
-            this.abilityBurstTick = 0;            
-            this.effecter?.Cleanup();
+            abilityMaxTicks = 0;
+            abilityTick = 0;
+            activeAbility = null;
+            abilityBurstTick = 0;            
+            effecter?.Cleanup();
         }
 
         public void DeSpawnGolem()
@@ -764,7 +764,7 @@ namespace TorannMagic.Golems
             else
             {
                 
-                AbilityUser.SpawnThings spawnables = new SpawnThings();
+                SpawnThings spawnables = new SpawnThings();
                 spawnables.def = TM_GolemUtility.GetGolemDefFromThing(Pawn).golemWorkstationDef;
                 spawnables.spawnCount = 1;
                 bool flag = spawnables.def != null;
@@ -780,10 +780,10 @@ namespace TorannMagic.Golems
                     }
                     spawnedThing = ThingMaker.MakeThing(def, stuff) as Building_TMGolemBase;
                     spawnedThing.SetFaction(Pawn.Faction);
-                    GenSpawn.Spawn(spawnedThing, Pawn.Position, this.Pawn.Map, dormantRotation, WipeMode.Vanish, false);                    
+                    GenSpawn.Spawn(spawnedThing, Pawn.Position, Pawn.Map, dormantRotation, WipeMode.Vanish, false);                    
                 }
             }
-            if (Find.Selector.SingleSelectedThing == this.parent)
+            if (Find.Selector.SingleSelectedThing == parent)
             {
                 Find.Selector.ClearSelection();
             }
@@ -791,8 +791,8 @@ namespace TorannMagic.Golems
             spawnedThing.tmpGolem = Pawn;
             spawnedThing.pauseFor = 300;
             spawnedThing.ToggleGlowing();
-            this.initialized = false;
-            this.parent.DeSpawn(DestroyMode.Vanish);
+            initialized = false;
+            parent.DeSpawn(DestroyMode.Vanish);
             PawnGolem.PostGolemDeActivate();
         }
 
@@ -839,10 +839,10 @@ namespace TorannMagic.Golems
 
         public void StartAbility(TM_GolemAbility ability, LocalTargetInfo target)
         {
-            this.activeAbility = ability;
-            this.abilityTarget = target;
-            this.abilityMaxTicks = ability.golemAbilityDef.warmupTicks + (Mathf.RoundToInt(ability.golemAbilityDef.burstCount * DurationModifier * ability.golemAbilityDef.ticksBetweenBurstShots));
-            ability.lastUsedTick = Find.TickManager.TicksGame + Mathf.RoundToInt((float)this.abilityMaxTicks * CooldownModifier);
+            activeAbility = ability;
+            abilityTarget = target;
+            abilityMaxTicks = ability.golemAbilityDef.warmupTicks + (Mathf.RoundToInt(ability.golemAbilityDef.burstCount * DurationModifier * ability.golemAbilityDef.ticksBetweenBurstShots));
+            ability.lastUsedTick = Find.TickManager.TicksGame + Mathf.RoundToInt((float)abilityMaxTicks * CooldownModifier);
             if(ability.golemAbilityDef.requiredNeed != null)
             {
                 DecreaseNeed(ability.golemAbilityDef.requiredNeed, ability.golemAbilityDef.needCost);
@@ -851,8 +851,8 @@ namespace TorannMagic.Golems
             {
                 DecreaseHediff(ability.golemAbilityDef.requiredHediff, ability.golemAbilityDef.hediffCost);
             }
-            this.abilityTick = 0;
-            this.abilityBurstTick = 0;
+            abilityTick = 0;
+            abilityBurstTick = 0;
         }
 
         public void DecreaseNeed(NeedDef need, float amount)

@@ -22,7 +22,7 @@ namespace TorannMagic.Golems
         {
             if (Scribe.mode == LoadSaveMode.Saving)
             {
-                storedEnergySaved = this.StoredEnergy;
+                storedEnergySaved = StoredEnergy;
             }
             base.PostExposeData();
             Scribe_Values.Look(ref storedEnergyUpgradeCount, "storedEnergyUpgradeCount", 0f);
@@ -98,7 +98,7 @@ namespace TorannMagic.Golems
         {
             get
             {
-                return (CompProperties_GolemEnergyHandler)this.props;
+                return (CompProperties_GolemEnergyHandler)props;
             }
         }
 
@@ -126,17 +126,17 @@ namespace TorannMagic.Golems
             }
             if(StoredEnergy < 5)
             {
-                if(this.canDrawPower)
+                if(canDrawPower)
                 {
-                    this.canDrawPower = false;
+                    canDrawPower = false;
                     parent.Map.powerNetManager.Notfiy_TransmitterTransmitsPowerNowChanged(this);
                 }
             }
             if(!parent.GetComp<CompFlickable>().SwitchIsOn)
             {
-                if (this.canDrawPower)
+                if (canDrawPower)
                 {
-                    this.canDrawPower = false;
+                    canDrawPower = false;
                     parent.Map.powerNetManager.Notfiy_TransmitterTransmitsPowerNowChanged(this);
                 }
             }

@@ -18,7 +18,7 @@ namespace TorannMagic.Golems
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<float>(ref this.energyPerFilth, "energyPerFilth");
+            Scribe_Values.Look<float>(ref energyPerFilth, "energyPerFilth");
         }
 
         public void AbsorbNearbyFilth(Pawn caster, float range, float amount)

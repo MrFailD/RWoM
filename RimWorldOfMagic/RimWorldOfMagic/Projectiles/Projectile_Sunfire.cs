@@ -46,30 +46,30 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_Values.Look<float>(ref this.arcaneDmg, "arcaneDmg", 1, false);
-            Scribe_Values.Look<float>(ref this.lightPotency, "lightPotency", .5f, false);
-            Scribe_Collections.Look<Vector3>(ref this.sfBeams, "sfBeams", LookMode.Value);
-            Scribe_Collections.Look<Vector3>(ref this.sfBeamsROM, "sfBeamsROM", LookMode.Value);
-            Scribe_Collections.Look<Vector3>(ref this.sfBeams, "sfBeamsCurve", LookMode.Value);
-            Scribe_Collections.Look<int>(ref this.sfBeamsStep, "sfBeamsStep", LookMode.Value);
-            Scribe_Collections.Look<int>(ref this.sfBeamsStartTick, "sfBeamsStartTick", LookMode.Value);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<float>(ref arcaneDmg, "arcaneDmg", 1, false);
+            Scribe_Values.Look<float>(ref lightPotency, "lightPotency", .5f, false);
+            Scribe_Collections.Look<Vector3>(ref sfBeams, "sfBeams", LookMode.Value);
+            Scribe_Collections.Look<Vector3>(ref sfBeamsROM, "sfBeamsROM", LookMode.Value);
+            Scribe_Collections.Look<Vector3>(ref sfBeams, "sfBeamsCurve", LookMode.Value);
+            Scribe_Collections.Look<int>(ref sfBeamsStep, "sfBeamsStep", LookMode.Value);
+            Scribe_Collections.Look<int>(ref sfBeamsStartTick, "sfBeamsStartTick", LookMode.Value);
         }
 
         private int TicksLeft
         {
             get
             {
-                return this.maxAge - this.age;
+                return maxAge - age;
             }
         }
 
         private void Initialize()
         {
-            caster = this.launcher as Pawn;
+            caster = launcher as Pawn;
             CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
             if (comp != null && comp.MagicData != null)
             {
@@ -78,29 +78,29 @@ namespace TorannMagic
                 pwrVal = TM_Calc.GetSkillPowerLevel(caster, TorannMagicDefOf.TM_Sunfire);
                 verVal = TM_Calc.GetSkillVersatilityLevel(caster, TorannMagicDefOf.TM_Sunfire);
             }
-            this.arcaneDmg = comp.arcaneDmg;
+            arcaneDmg = comp.arcaneDmg;
             if (caster.health.hediffSet.HasHediff(TorannMagicDefOf.TM_LightCapacitanceHD))
             {
                 HediffComp_LightCapacitance hd = caster.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_LightCapacitanceHD).TryGetComp<HediffComp_LightCapacitance>();
-                this.lightPotency = hd.LightPotency;
+                lightPotency = hd.LightPotency;
                 hd.LightEnergy -= 25f;
             }
             int mapTime = GenLocalDate.HourOfDay(caster.Map);
             if (mapTime > 13)
             {
-                this.angle = ((float)Mathf.Abs(mapTime - 12f) * -5f);
+                angle = ((float)Mathf.Abs(mapTime - 12f) * -5f);
             }
             else if( mapTime < 12)
             {
-                this.angle = ((float)Mathf.Abs(12 - mapTime) * 5f);
+                angle = ((float)Mathf.Abs(12 - mapTime) * 5f);
             }
             else
             {
-                this.angle = 0f;
+                angle = 0f;
             }
-            this.radius += (.15f * this.def.projectile.explosionRadius);
-            this.CheckSpawnSustainer();
-            this.InitializeBeams();
+            radius += (.15f * def.projectile.explosionRadius);
+            CheckSpawnSustainer();
+            InitializeBeams();
         }
 
         public void InitializeBeams()
@@ -111,21 +111,21 @@ namespace TorannMagic
             sfBeamsROM.Clear();
             sfBeamsStartTick.Clear();
             sfBeamsStep.Clear();
-            Vector3 centerPos = base.Position.ToVector3Shifted();
-            int beamCount = 8 + (Mathf.RoundToInt(this.def.projectile.explosionRadius)*2) + (4*verVal);
+            Vector3 centerPos = Position.ToVector3Shifted();
+            int beamCount = 8 + (Mathf.RoundToInt(def.projectile.explosionRadius)*2) + (4*verVal);
             for(int i =0; i < beamCount; i++)
             {                
                 Vector3 rndPos = centerPos;
-                rndPos.x += Rand.Range(-this.radius, this.radius);
-                rndPos.z += Rand.Range(-this.radius, this.radius);
-                if(!rndPos.InBoundsWithNullCheck(this.Map))
+                rndPos.x += Rand.Range(-radius, radius);
+                rndPos.z += Rand.Range(-radius, radius);
+                if(!rndPos.InBoundsWithNullCheck(Map))
                 {
                     continue;
                 }                
                 Vector3 dstPos = rndPos;
-                dstPos.x += Rand.Range(-this.radius, this.radius);
-                dstPos.z += Rand.Range(-this.radius, this.radius);
-                if (!dstPos.InBoundsWithNullCheck(this.Map))
+                dstPos.x += Rand.Range(-radius, radius);
+                dstPos.z += Rand.Range(-radius, radius);
+                if (!dstPos.InBoundsWithNullCheck(Map))
                 {
                     continue;
                 }
@@ -135,43 +135,43 @@ namespace TorannMagic
                 sfBeams.Add(rndPos);
                 sfBeamsDest.Add(dstPos);
                 sfBeamsROM.Add((dstPos - rndPos) / (float)step);
-                sfBeamsCurve.Add(new Vector3(Rand.Range(-this.curveFactor, this.curveFactor), 0f, Rand.Range(-this.curveFactor, this.curveFactor)));
+                sfBeamsCurve.Add(new Vector3(Rand.Range(-curveFactor, curveFactor), 0f, Rand.Range(-curveFactor, curveFactor)));
             }
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             ThingDef def = this.def;
-            if (!this.initialized)
+            if (!initialized)
             {
                 Initialize();
-                this.initialized = true;
+                initialized = true;
             }
 
-            if (this.sustainer != null)
+            if (sustainer != null)
             {
-                this.sustainer.info.volumeFactor = 2f;
-                this.sustainer.Maintain();
-                if (this.TicksLeft <= 0)
+                sustainer.info.volumeFactor = 2f;
+                sustainer.Maintain();
+                if (TicksLeft <= 0)
                 {
-                    this.sustainer.End();
-                    this.sustainer = null;
+                    sustainer.End();
+                    sustainer = null;
                 }
             }
 
-            if(this.sfBeams != null && this.sfBeams.Count > 0)
+            if(sfBeams != null && sfBeams.Count > 0)
             {
                 DoSunfireActions();
             }
             
-            if(sfBeams == null || sfBeams.Count <= 0 || this.ignoreAge)
+            if(sfBeams == null || sfBeams.Count <= 0 || ignoreAge)
             { 
-                this.ignoreAge = true;
+                ignoreAge = true;
                 Destroy(DestroyMode.Vanish);
             }
 
-            if (!this.ignoreAge)
+            if (!ignoreAge)
             {
                 Destroy(DestroyMode.Vanish);
             }
@@ -183,7 +183,7 @@ namespace TorannMagic
             removedIndex.Clear();
             try
             {
-                for (int i = 0; i < this.sfBeams.Count; i++)
+                for (int i = 0; i < sfBeams.Count; i++)
                 {
                     if (sfBeamsStep[i] <= 0)
                     {
@@ -191,11 +191,11 @@ namespace TorannMagic
                     }
                     else
                     {
-                        if (sfBeamsStartTick[i] <= this.age)
+                        if (sfBeamsStartTick[i] <= age)
                         {
                             sfBeamsStep[i]--;
                             SunfireDamage(sfBeams[i].ToIntVec3());
-                            TM_MoteMaker.ThrowGenericFleck(FleckDefOf.DustPuff, sfBeams[i], this.Map, .4f, .2f, .1f, .2f, Rand.Range(-100, 100), 2f, Rand.Range(0, 360), 0);
+                            TM_MoteMaker.ThrowGenericFleck(FleckDefOf.DustPuff, sfBeams[i], Map, .4f, .2f, .1f, .2f, Rand.Range(-100, 100), 2f, Rand.Range(0, 360), 0);
                             sfBeams[i] += sfBeamsROM[i];
                             sfBeamsROM[i] += (sfBeamsCurve[i] * (20f - sfBeamsStep[i]));
                         }
@@ -203,25 +203,25 @@ namespace TorannMagic
                 }
                 for (int i = 0; i < removedIndex.Count; i++)
                 {
-                    this.sfBeamsCurve.Remove(this.sfBeamsCurve[removedIndex[i]]);
-                    this.sfBeamsDest.Remove(sfBeamsDest[removedIndex[i]]);
-                    this.sfBeamsROM.Remove(sfBeamsROM[removedIndex[i]]);
-                    this.sfBeamsStartTick.Remove(sfBeamsStartTick[removedIndex[i]]);
-                    this.sfBeamsStep.Remove(sfBeamsStep[removedIndex[i]]);
-                    this.sfBeams.Remove(sfBeams[removedIndex[i]]);
+                    sfBeamsCurve.Remove(sfBeamsCurve[removedIndex[i]]);
+                    sfBeamsDest.Remove(sfBeamsDest[removedIndex[i]]);
+                    sfBeamsROM.Remove(sfBeamsROM[removedIndex[i]]);
+                    sfBeamsStartTick.Remove(sfBeamsStartTick[removedIndex[i]]);
+                    sfBeamsStep.Remove(sfBeamsStep[removedIndex[i]]);
+                    sfBeams.Remove(sfBeams[removedIndex[i]]);
                 }
             }
             catch
             {
-                this.ignoreAge = true;
+                ignoreAge = true;
                 Destroy(DestroyMode.Vanish);
             }
         }
 
         public void SunfireDamage(IntVec3 c)
         {
-            List<Thing> tList = c.GetThingList(this.Map);
-            float baseDamage = 4f * lightPotency * this.arcaneDmg;
+            List<Thing> tList = c.GetThingList(Map);
+            float baseDamage = 4f * lightPotency * arcaneDmg;
             for(int i = 0; i < tList.Count; i++)
             {
                 if(tList[i] is Pawn)
@@ -245,7 +245,7 @@ namespace TorannMagic
                     }
                     else
                     {
-                        FireUtility.TryStartFireIn(c, this.Map, .2f, null);
+                        FireUtility.TryStartFireIn(c, Map, .2f, null);
                     }
                 }                
             }
@@ -253,9 +253,9 @@ namespace TorannMagic
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            for (int i = 0; i < this.sfBeams.Count; i++)
+            for (int i = 0; i < sfBeams.Count; i++)
             {
-                if (sfBeamsStartTick[i] <= this.age && sfBeamsStep[i] > 0)
+                if (sfBeamsStartTick[i] <= age && sfBeamsStep[i] > 0)
                 {
                     DrawBeams(i);
                 }
@@ -265,35 +265,35 @@ namespace TorannMagic
         public void DrawBeams(int i)
         {
             float lanceWidth = .5f;                                                              
-            if (this.age - sfBeamsStartTick[i] <= 10)
+            if (age - sfBeamsStartTick[i] <= 10)
             {
-                lanceWidth *= (float)(this.age - sfBeamsStartTick[i]) / 10f;
+                lanceWidth *= (float)(age - sfBeamsStartTick[i]) / 10f;
             }
-            if (this.sfBeamsStep[i] < 10)
+            if (sfBeamsStep[i] < 10)
             {
                 lanceWidth *= (float)(sfBeamsStep[i]) / 10f;
             }
-            float lanceLength = ((float)base.Map.Size.z - sfBeams[i].z) * 1.4f;
-            Vector3 a = Vector3Utility.FromAngleFlat(this.angle - 90f);  //angle of beam
+            float lanceLength = ((float)Map.Size.z - sfBeams[i].z) * 1.4f;
+            Vector3 a = Vector3Utility.FromAngleFlat(angle - 90f);  //angle of beam
             Vector3 lanceVector = sfBeams[i] + a * lanceLength * 0.5f;
             Matrix4x4 matrix = default(Matrix4x4);
-            matrix.SetTRS(lanceVector, Quaternion.Euler(0f, this.angle, 0f), new Vector3(lanceWidth, 1f, lanceLength));   //drawer for beam
-            Graphics.DrawMesh(MeshPool.plane10, matrix, Projectile_Sunfire.BeamMat, 0, null, 0, Projectile_Sunfire.MatPropertyBlock);
+            matrix.SetTRS(lanceVector, Quaternion.Euler(0f, angle, 0f), new Vector3(lanceWidth, 1f, lanceLength));   //drawer for beam
+            Graphics.DrawMesh(MeshPool.plane10, matrix, BeamMat, 0, null, 0, MatPropertyBlock);
             Matrix4x4 matrix2 = default(Matrix4x4);
-            matrix2.SetTRS(sfBeams[i] - (.5f * a * lanceWidth), Quaternion.Euler(0f, this.angle, 0f), new Vector3(lanceWidth, 1f, lanceWidth));  //drawer for beam start
-            Graphics.DrawMesh(MeshPool.plane10, matrix2, Projectile_Sunfire.BeamEndMat, 0, null, 0, Projectile_Sunfire.MatPropertyBlock);
+            matrix2.SetTRS(sfBeams[i] - (.5f * a * lanceWidth), Quaternion.Euler(0f, angle, 0f), new Vector3(lanceWidth, 1f, lanceWidth));  //drawer for beam start
+            Graphics.DrawMesh(MeshPool.plane10, matrix2, BeamEndMat, 0, null, 0, MatPropertyBlock);
         }
 
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age <= this.maxAge;
-            if (!flag || this.ignoreAge)
+            bool flag = age <= maxAge;
+            if (!flag || ignoreAge)
             {
                 base.Destroy(mode);
             }
@@ -301,11 +301,11 @@ namespace TorannMagic
 
         private void CheckSpawnSustainer()
         {
-            if (this.TicksLeft >= 0)
+            if (TicksLeft >= 0)
             {
                 LongEventHandler.ExecuteWhenFinished(delegate
                 {
-                    this.sustainer = SoundDef.Named("OrbitalBeam").TrySpawnSustainer(SoundInfo.InMap(this.selectedTarget, MaintenanceType.PerTick));
+                    sustainer = SoundDef.Named("OrbitalBeam").TrySpawnSustainer(SoundInfo.InMap(selectedTarget, MaintenanceType.PerTick));
                 });
             }
         }

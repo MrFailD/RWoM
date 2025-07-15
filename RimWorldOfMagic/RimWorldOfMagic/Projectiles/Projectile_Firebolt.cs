@@ -12,12 +12,12 @@ namespace TorannMagic
         private float arcaneDmg = 1f;
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
             
 
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             Pawn victim = hitThing as Pawn;
             if (pawn != null)
             {
@@ -32,15 +32,15 @@ namespace TorannMagic
                 }
             }
             
-            ExplosionHelper.Explode(base.Position, map, 0.4f, TMDamageDefOf.DamageDefOf.Firebolt, this.launcher, Mathf.RoundToInt(this.def.projectile.GetDamageAmount(1, null) * arcaneDmg), 0, this.def.projectile.soundExplode, def, this.equipmentDef, this.intendedTarget.Thing, null, 0f, 1, null, false, null, 0f, 1, 0.6f, false);
-            CellRect cellRect = CellRect.CenteredOn(base.Position, 3);
+            ExplosionHelper.Explode(Position, map, 0.4f, TMDamageDefOf.DamageDefOf.Firebolt, launcher, Mathf.RoundToInt(this.def.projectile.GetDamageAmount(1, null) * arcaneDmg), 0, this.def.projectile.soundExplode, def, equipmentDef, intendedTarget.Thing, null, 0f, 1, null, false, null, 0f, 1, 0.6f, false);
+            CellRect cellRect = CellRect.CenteredOn(Position, 3);
             cellRect.ClipInsideMap(map);
 
-            victim = base.Position.GetFirstPawn(map);
+            victim = Position.GetFirstPawn(map);
             if (victim != null)
             {                
                 int dmg = Mathf.RoundToInt(((this.def.projectile.GetDamageAmount(1,null) / 3) * pwrVal)* arcaneDmg);  //projectile = 16
-                if (ModOptions.Settings.Instance.AIHardMode && this.launcher is Pawn && !pawn.IsColonist)
+                if (ModOptions.Settings.Instance.AIHardMode && launcher is Pawn && !pawn.IsColonist)
                 {
                     dmg += 10;
                 }

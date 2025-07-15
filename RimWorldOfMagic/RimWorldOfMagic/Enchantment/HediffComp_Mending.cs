@@ -17,12 +17,12 @@ namespace TorannMagic.Enchantment
 
         public override void PostInitialize()
         {
-            this.hediffActionRate = 1500;
+            hediffActionRate = 1500;
         }
 
         public override void HediffActionTick()
         {
-            List<Apparel> gear = this.Pawn.apparel.WornApparel;
+            List<Apparel> gear = Pawn.apparel.WornApparel;
             for (int i = 0; i < gear.Count; i++)
             {
                 if (Rand.Chance(.25f) && gear[i].HitPoints < gear[i].MaxHitPoints)
@@ -30,7 +30,7 @@ namespace TorannMagic.Enchantment
                     gear[i].HitPoints++;
                 }
             }
-            Thing weapon = this.Pawn.equipment.Primary;
+            Thing weapon = Pawn.equipment.Primary;
             if (weapon != null && (weapon.def.IsRangedWeapon || weapon.def.IsMeleeWeapon))
             {
                 if (Rand.Chance(.2f) && weapon.HitPoints < weapon.MaxHitPoints)

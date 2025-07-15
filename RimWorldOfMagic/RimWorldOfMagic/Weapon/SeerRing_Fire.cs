@@ -11,20 +11,20 @@ namespace TorannMagic.Weapon
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
 
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
             try
             {
-                ExplosionHelper.Explode(base.Position, map, this.def.projectile.explosionRadius, DamageDefOf.Bomb, this.launcher, this.def.projectile.GetDamageAmount(1,null), 2, SoundDefOf.Crunch, def, this.equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0.1f, false);
+                ExplosionHelper.Explode(Position, map, this.def.projectile.explosionRadius, DamageDefOf.Bomb, launcher, this.def.projectile.GetDamageAmount(1,null), 2, SoundDefOf.Crunch, def, equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0.1f, false);
             }
             catch
             {
                 //don't care
             }
-            CellRect cellRect = CellRect.CenteredOn(base.Position, 2);
+            CellRect cellRect = CellRect.CenteredOn(Position, 2);
             cellRect.ClipInsideMap(map);
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
 
             for (int i = 0; i < 3; i++)
             {
@@ -33,7 +33,7 @@ namespace TorannMagic.Weapon
                     IntVec3 randomCell = cellRect.RandomCell;
                     if (randomCell.IsValid && randomCell.InBoundsWithNullCheck(map))
                     {
-                        this.FireExplosion(randomCell, map, 1f);
+                        FireExplosion(randomCell, map, 1f);
                     }
                 }
                 catch
@@ -47,12 +47,12 @@ namespace TorannMagic.Weapon
         protected void FireExplosion(IntVec3 pos, Map map, float radius)
         {
             ThingDef def = this.def;
-            Explosion(pos, map, radius, DamageDefOf.Flame, this.launcher, null, def, this.equipmentDef, null, 0.6f, 1, false, null, 0f, 1);            
+            Explosion(pos, map, radius, DamageDefOf.Flame, launcher, null, def, equipmentDef, null, 0.6f, 1, false, null, 0f, 1);            
         }
 
         public static void Explosion(IntVec3 center, Map map, float radius, DamageDef damType, Thing instigator, SoundDef explosionSound = null, ThingDef projectile = null, ThingDef source = null, ThingDef postExplosionSpawnThingDef = null, float postExplosionSpawnChance = 0f, int postExplosionSpawnThingCount = 1, bool applyDamageToExplosionCellsNeighbors = false, ThingDef preExplosionSpawnThingDef = null, float preExplosionSpawnChance = 0f, int preExplosionSpawnThingCount = 1)
         {
-            System.Random rnd = new System.Random();
+            Random rnd = new Random();
             int modDamAmountRand = (int)GenMath.RoundRandom(rnd.Next(3, projectile.projectile.GetDamageAmount(1,null)/2));
             if (map == null)
             {

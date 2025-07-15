@@ -19,14 +19,14 @@ namespace TorannMagic.Conditions
         public override void Init()
         {
             base.Init();
-            if(this.SingleMap != null)
+            if(SingleMap != null)
             {                
                 List<Pawn> potentialAnimals = new List<Pawn>();
                 potentialHostiles.Clear();                
                 potentialAnimals.Clear();
-                for(int i = 0; i < this.SingleMap.mapPawns.AllPawnsSpawned.Count; i++)
+                for(int i = 0; i < SingleMap.mapPawns.AllPawnsSpawned.Count; i++)
                 {
-                    Pawn animal = this.SingleMap.mapPawns.AllPawnsSpawned[i];
+                    Pawn animal = SingleMap.mapPawns.AllPawnsSpawned[i];
                     if(animal.Faction == null)
                     {
                         if(animal.RaceProps != null && animal.RaceProps.predator)
@@ -47,7 +47,7 @@ namespace TorannMagic.Conditions
                         a.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Manhunter, null, true, false, false, null, true);
                         if(a.InMentalState)
                         {
-                            this.enragedPredators.AddDistinct(a);
+                            enragedPredators.AddDistinct(a);
                         }
                     }
                 }

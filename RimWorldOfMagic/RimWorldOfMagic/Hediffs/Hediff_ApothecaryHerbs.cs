@@ -30,7 +30,7 @@ namespace TorannMagic
 
         public override string GizmoLabel => "TM_ApothecaryHerbsGizmoLabel".Translate();
         public override float MaxSeverity => def.maxSeverity + (10 * herbPwr);
-        public override bool ShouldRemove => this.removeNow;
+        public override bool ShouldRemove => removeNow;
 
         private void Initialize()
         {
@@ -49,26 +49,26 @@ namespace TorannMagic
             base.PostTick();
             if(!initialized)
             {
-                this.initialized = true;
+                initialized = true;
                 Initialize();
             }
             if(Find.TickManager.TicksGame % 150 == 0)
             {
-                this.Severity -= .015f * (1f - (.1f * herbEff));
+                Severity -= .015f * (1f - (.1f * herbEff));
                 if(Find.TickManager.TicksGame % 3000 == 0)
                 {
                     Initialize();
                 }
-                if(this.pawn.CurJob != null && this.pawn.CurJobDef.defName == "PruneGauranlenTree")
+                if(pawn.CurJob != null && pawn.CurJobDef.defName == "PruneGauranlenTree")
                 {
-                    this.Severity += .4f * (1f + (.1f * herbVer));
+                    Severity += .4f * (1f + (.1f * herbVer));
                 }
-                if(this.pawn.Map == null && this.pawn.ParentHolder is Caravan car)
+                if(pawn.Map == null && pawn.ParentHolder is Caravan car)
                 {
                     bool flag;
                     if (!car.NightResting)
                     {
-                        this.Severity += (ForagedFoodPerDayCalculator.GetBaseForagedNutritionPerDay(this.pawn, out flag)/50f) * (1f + (.05f * herbVer));
+                        Severity += (ForagedFoodPerDayCalculator.GetBaseForagedNutritionPerDay(pawn, out flag)/50f) * (1f + (.05f * herbVer));
                     }                    
                 }
             }

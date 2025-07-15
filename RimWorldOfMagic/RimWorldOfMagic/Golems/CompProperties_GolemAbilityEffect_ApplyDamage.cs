@@ -21,10 +21,10 @@ namespace TorannMagic.Golems
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<float>(ref this.damageAmount, "damageAmount");
-            Scribe_Values.Look<DamageDef>(ref this.damageType, "damageType");
-            Scribe_Values.Look<float>(ref this.splashRadius, "splashRadius");
-            Scribe_Values.Look<float>(ref this.armorPenetration, "armorPenetration");
+            Scribe_Values.Look<float>(ref damageAmount, "damageAmount");
+            Scribe_Values.Look<DamageDef>(ref damageType, "damageType");
+            Scribe_Values.Look<float>(ref splashRadius, "splashRadius");
+            Scribe_Values.Look<float>(ref armorPenetration, "armorPenetration");
         }
 
         public override void Apply(LocalTargetInfo target, Pawn caster, TM_GolemAbilityDef ability, float effectLevel = 1f, float effectBonus = 1f)

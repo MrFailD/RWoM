@@ -21,9 +21,9 @@ namespace TorannMagic
             {
                 if(bondedPawn != null)
                 {
-                    return base.Def.LabelCap + "(" + bondedPawn.LabelShort + ")";
+                    return Def.LabelCap + "(" + bondedPawn.LabelShort + ")";
                 }
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -33,31 +33,31 @@ namespace TorannMagic
             {
                 if (bondedPawn != null)
                 {
-                    return base.Def.label + "(" + bondedPawn.LabelShort + ")";
+                    return Def.label + "(" + bondedPawn.LabelShort + ")";
                 }
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
-                FleckMaker.ThrowHeatGlow(base.Pawn.DrawPos.ToIntVec3(), base.Pawn.Map, 2f);
+                FleckMaker.ThrowHeatGlow(Pawn.DrawPos.ToIntVec3(), Pawn.Map, 2f);
             }            
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);            
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
             }
             bool flag4 = Find.TickManager.TicksGame % 600 == 0;
@@ -65,9 +65,9 @@ namespace TorannMagic
             {
                 if(Find.TickManager.TicksGame % 3600 == 0)
                 {
-                    Find.HistoryEventsManager.RecordEvent(new HistoryEvent(TorannMagicDefOf.TM_UsedMagic, this.Pawn.Named(HistoryEventArgsNames.Doer), this.Pawn.Named(HistoryEventArgsNames.Subject), this.Pawn.Named(HistoryEventArgsNames.AffectedFaction), this.Pawn.Named(HistoryEventArgsNames.Victim)), true);
+                    Find.HistoryEventsManager.RecordEvent(new HistoryEvent(TorannMagicDefOf.TM_UsedMagic, Pawn.Named(HistoryEventArgsNames.Doer), Pawn.Named(HistoryEventArgsNames.Subject), Pawn.Named(HistoryEventArgsNames.AffectedFaction), Pawn.Named(HistoryEventArgsNames.Victim)), true);
                 }
-                Pawn pawn = base.Pawn;
+                Pawn pawn = Pawn;
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
                 Pawn soulPawn = comp.soulBondPawn;
                 bondedPawn = soulPawn;
@@ -75,7 +75,7 @@ namespace TorannMagic
                 {
                     if (soulPawn.Dead || soulPawn.Destroyed)
                     {
-                        this.soulPawnRemove = true;
+                        soulPawnRemove = true;
                     }
                     else
                     {
@@ -107,25 +107,25 @@ namespace TorannMagic
                         }
                         if(!soulPawnHasHediff)
                         {
-                            if(this.Pawn.gender == Gender.Female)
+                            if(Pawn.gender == Gender.Female)
                             {
                                 HealthUtility.AdjustSeverity(soulPawn, HediffDef.Named("TM_SoulBondPhysicalHD"), -4f);
                                 HealthUtility.AdjustSeverity(soulPawn, HediffDef.Named("TM_SoulBondPhysicalHD"), 0.5f + comp.MagicData.MagicPowerSkill_SoulBond.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SoulBond_ver").level);
                             }
-                            else if(this.Pawn.gender == Gender.Male)
+                            else if(Pawn.gender == Gender.Male)
                             {
                                 HealthUtility.AdjustSeverity(soulPawn, HediffDef.Named("TM_SoulBondMentalHD"), -4f);
                                 HealthUtility.AdjustSeverity(soulPawn, HediffDef.Named("TM_SoulBondMentalHD"), 0.5f + comp.MagicData.MagicPowerSkill_SoulBond.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SoulBond_ver").level);
                             }
                         }
-                        if(this.parent.Severity != .5f + comp.MagicData.MagicPowerSkill_SoulBond.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SoulBond_pwr").level)
+                        if(parent.Severity != .5f + comp.MagicData.MagicPowerSkill_SoulBond.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SoulBond_pwr").level)
                         {
-                            if (this.parent.def.defName == "TM_SDSoulBondPhysicalHD")
+                            if (parent.def.defName == "TM_SDSoulBondPhysicalHD")
                             {
                                 HealthUtility.AdjustSeverity(pawn, HediffDef.Named("TM_SDSoulBondPhysicalHD"), -4f);
                                 HealthUtility.AdjustSeverity(pawn, HediffDef.Named("TM_SDSoulBondPhysicalHD"), 0.5f + comp.MagicData.MagicPowerSkill_SoulBond.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SoulBond_pwr").level);
                             }
-                            else if (this.parent.def.defName == "TM_WDSoulBondMentalHD")
+                            else if (parent.def.defName == "TM_WDSoulBondMentalHD")
                             {
                                 HealthUtility.AdjustSeverity(pawn, HediffDef.Named("TM_WDSoulBondMentalHD"), -4f);
                                 HealthUtility.AdjustSeverity(pawn, HediffDef.Named("TM_WDSoulBondMentalHD"), 0.5f + comp.MagicData.MagicPowerSkill_SoulBond.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SoulBond_pwr").level);
@@ -135,7 +135,7 @@ namespace TorannMagic
                 }
                 else
                 {
-                    this.soulPawnRemove = true;
+                    soulPawnRemove = true;
                 }
             }
         }
@@ -144,7 +144,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.soulPawnRemove;
+                return base.CompShouldRemove || soulPawnRemove;
             }
         }
     }

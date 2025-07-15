@@ -20,9 +20,9 @@ namespace TorannMagic.Golems
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<float>(ref this.severity, "severity");
-            Scribe_Values.Look<HediffDef>(ref this.hediff, "hediff");
-            Scribe_Values.Look<bool>(ref this.canStack, "canStack");
+            Scribe_Values.Look<float>(ref severity, "severity");
+            Scribe_Values.Look<HediffDef>(ref hediff, "hediff");
+            Scribe_Values.Look<bool>(ref canStack, "canStack");
         }
 
         public override void Apply(LocalTargetInfo target, Pawn caster, TM_GolemAbilityDef ability, float effectLevel = 1f, float effectBonus = 1f)

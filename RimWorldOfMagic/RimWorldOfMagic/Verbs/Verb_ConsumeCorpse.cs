@@ -17,7 +17,7 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     validTarg = true;
                 }
@@ -37,12 +37,12 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
 
-            Pawn caster = this.CasterPawn;
+            Pawn caster = CasterPawn;
             CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
             MagicPowerSkill ver = caster.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_ConsumeCorpse.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_ConsumeCorpse_ver");
             MagicPowerSkill manaRegen = caster.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_global_regen.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_global_regen_pwr");
 
-            Thing undeadThing = this.currentTarget.Thing;
+            Thing undeadThing = currentTarget.Thing;
             if (undeadThing is Pawn undead)
             {
                 if (!undead.Dead)
@@ -91,7 +91,7 @@ namespace TorannMagic
             }
 
             
-            IntVec3 target = this.currentTarget.Cell;
+            IntVec3 target = currentTarget.Cell;
             Thing corpseThing = null;
             Corpse corpse = null;
             List<Thing> thingList;

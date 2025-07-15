@@ -16,7 +16,7 @@ namespace TorannMagic
         public int addShotPerMightLevels = 1000;
         public Verb_ShootDifferentProjectiles_Properties() : base()
         {
-            this.verbClass = verbClass ?? typeof(Verb_ShootDifferentProjectiles);
+            verbClass = verbClass ?? typeof(Verb_ShootDifferentProjectiles);
         }
     }
 
@@ -25,28 +25,28 @@ namespace TorannMagic
         private int ShotsSoFar;
         protected override bool TryCastShot()
         {
-            Verb_ShootDifferentProjectiles_Properties Properties = this.verbProps as Verb_ShootDifferentProjectiles_Properties;
-            if (this.ShotsSoFar == 0)
+            Verb_ShootDifferentProjectiles_Properties Properties = verbProps as Verb_ShootDifferentProjectiles_Properties;
+            if (ShotsSoFar == 0)
             {
-                CompAbilityUserMagic compMagic = this.CasterPawn.GetCompAbilityUserMagic();
+                CompAbilityUserMagic compMagic = CasterPawn.GetCompAbilityUserMagic();
                 if (compMagic != null && compMagic.MagicData != null)
                 {
-                    this.burstShotsLeft += (int)(this.CasterPawn.GetCompAbilityUserMagic().MagicUserLevel / Properties.addShotPerMagicLevels);
+                    burstShotsLeft += (int)(CasterPawn.GetCompAbilityUserMagic().MagicUserLevel / Properties.addShotPerMagicLevels);
                 }
-                CompAbilityUserMight compMight = this.CasterPawn.GetCompAbilityUserMight();
+                CompAbilityUserMight compMight = CasterPawn.GetCompAbilityUserMight();
                 if (compMight != null && compMight.MightData != null)
                 {
-                    this.burstShotsLeft += (int)(this.CasterPawn.GetCompAbilityUserMight().MightUserLevel / Properties.addShotPerMightLevels);
+                    burstShotsLeft += (int)(CasterPawn.GetCompAbilityUserMight().MightUserLevel / Properties.addShotPerMightLevels);
                 }
             }
-            IntVec3 targetVariation = (IntVec3)this.currentTarget;
+            IntVec3 targetVariation = (IntVec3)currentTarget;
 
-            if (this.verbProps.ForcedMissRadius > 0)
+            if (verbProps.ForcedMissRadius > 0)
             {
-                targetVariation = this.currentTarget.Cell;
+                targetVariation = currentTarget.Cell;
                 System.Random rnd = new System.Random();
-                targetVariation.x += rnd.Next(-(int)Math.Sqrt(this.verbProps.ForcedMissRadius), (int)Math.Sqrt(this.verbProps.ForcedMissRadius));
-                targetVariation.z += rnd.Next(-(int)Math.Sqrt(this.verbProps.ForcedMissRadius), (int)Math.Sqrt(this.verbProps.ForcedMissRadius));
+                targetVariation.x += rnd.Next(-(int)Math.Sqrt(verbProps.ForcedMissRadius), (int)Math.Sqrt(verbProps.ForcedMissRadius));
+                targetVariation.z += rnd.Next(-(int)Math.Sqrt(verbProps.ForcedMissRadius), (int)Math.Sqrt(verbProps.ForcedMissRadius));
             }
             ThingDef toLaunch;
             if (Properties.projectiles != null)
@@ -65,9 +65,9 @@ namespace TorannMagic
             }
             else
             {
-                toLaunch = this.verbProps.defaultProjectile;
+                toLaunch = verbProps.defaultProjectile;
             }
-            this.TryLaunchProjectile(toLaunch, targetVariation);
+            TryLaunchProjectile(toLaunch, targetVariation);
             ShotsSoFar++;
             // return (ShotsSoFar <= verbProps.burstShotCount + (int)(this.CasterPawn.GetCompAbilityUserMagic().MagicUserLevel / 10));
             return true;

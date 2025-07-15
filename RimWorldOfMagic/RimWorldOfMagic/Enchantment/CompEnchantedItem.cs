@@ -20,7 +20,7 @@ namespace TorannMagic.Enchantment
         {
             get
             {
-                return (CompProperties_EnchantedItem)this.props;
+                return (CompProperties_EnchantedItem)props;
             }
         }
 
@@ -28,7 +28,7 @@ namespace TorannMagic.Enchantment
         {
             get
             {
-                return this.parent.Stuff.GetCompProperties<CompProperties_EnchantedStuff>();
+                return parent.Stuff.GetCompProperties<CompProperties_EnchantedStuff>();
             }
         }
 
@@ -36,7 +36,7 @@ namespace TorannMagic.Enchantment
         {
             get
             {
-                if (this.parent != null && this.parent.def.MadeFromStuff && this.parent.Stuff != null && this.parent.Stuff.GetCompProperties<CompProperties_EnchantedStuff>() != null)
+                if (parent != null && parent.def.MadeFromStuff && parent.Stuff != null && parent.Stuff.GetCompProperties<CompProperties_EnchantedStuff>() != null)
                 {                 
                     return EnchantedStuff.isEnchanted;
                 }
@@ -60,7 +60,7 @@ namespace TorannMagic.Enchantment
         {
             get
             {
-                Apparel ap = this.parent as Apparel;
+                Apparel ap = parent as Apparel;
                 if(ap != null)
                 {
                     if(ap.Wearer != null)
@@ -68,7 +68,7 @@ namespace TorannMagic.Enchantment
                         return ap.Wearer;
                     }
                 }
-                ThingWithComps twc = this.parent as ThingWithComps;
+                ThingWithComps twc = parent as ThingWithComps;
                 if(twc != null)
                 {
                     Pawn_EquipmentTracker p_et = twc.ParentHolder as Pawn_EquipmentTracker;
@@ -88,87 +88,87 @@ namespace TorannMagic.Enchantment
         public override void Initialize(CompProperties props)
         {
             base.Initialize(props);
-            Pawn pawn = this.parent as Pawn;
+            Pawn pawn = parent as Pawn;
 
             if(initialized && !abilitiesInitialized)
             {
-                InitializeAbilities(this.parent);
+                InitializeAbilities(parent);
             }
 
             if (!initialized)
             {
-                this.hasEnchantment = this.Props.hasEnchantment;
-                if(!this.hasEnchantment)
+                hasEnchantment = Props.hasEnchantment;
+                if(!hasEnchantment)
                 {
-                    this.hasEnchantment = this.MadeFromEnchantedStuff;
+                    hasEnchantment = MadeFromEnchantedStuff;
                 }
 
-                this.arcaneDmg = this.Props.arcaneDmg;
-                this.arcaneDmgTier = this.Props.arcaneDmgTier;
-                this.arcaneRes = this.Props.arcaneRes;
-                this.arcaneResTier = this.Props.arcaneResTier;
+                arcaneDmg = Props.arcaneDmg;
+                arcaneDmgTier = Props.arcaneDmgTier;
+                arcaneRes = Props.arcaneRes;
+                arcaneResTier = Props.arcaneResTier;
 
-                this.maxMP = this.Props.maxMP;
-                this.maxMPTier = this.Props.maxMPTier;
-                this.mpRegenRate = this.Props.mpRegenRate;
-                this.mpRegenRateTier = this.Props.mpRegenRateTier;
-                this.coolDown = this.Props.coolDown;
-                this.coolDownTier = this.Props.coolDownTier;
-                this.mpCost = this.Props.mpCost;
-                this.mpCostTier = this.Props.mpCostTier;
-                this.xpGain = this.Props.xpGain;
-                this.xpGainTier = this.Props.xpGainTier;
+                maxMP = Props.maxMP;
+                maxMPTier = Props.maxMPTier;
+                mpRegenRate = Props.mpRegenRate;
+                mpRegenRateTier = Props.mpRegenRateTier;
+                coolDown = Props.coolDown;
+                coolDownTier = Props.coolDownTier;
+                mpCost = Props.mpCost;
+                mpCostTier = Props.mpCostTier;
+                xpGain = Props.xpGain;
+                xpGainTier = Props.xpGainTier;
 
-                if(MadeFromEnchantedStuff && this.EnchantedStuff != null)
+                if(MadeFromEnchantedStuff && EnchantedStuff != null)
                 {
-                    this.maxMP += this.EnchantedStuff.maxEnergyOffset;
-                    this.mpRegenRate += this.EnchantedStuff.energyRegenOffset;
-                    this.coolDown += this.EnchantedStuff.cooldownOffset;
-                    this.mpCost += this.EnchantedStuff.energyCostOffset;
-                    this.xpGain += this.EnchantedStuff.xpGainOffset;
-                    this.arcaneRes += this.EnchantedStuff.arcaneResOffset;
-                    this.arcaneDmg += this.EnchantedStuff.arcaneDmgOffset;
+                    maxMP += EnchantedStuff.maxEnergyOffset;
+                    mpRegenRate += EnchantedStuff.energyRegenOffset;
+                    coolDown += EnchantedStuff.cooldownOffset;
+                    mpCost += EnchantedStuff.energyCostOffset;
+                    xpGain += EnchantedStuff.xpGainOffset;
+                    arcaneRes += EnchantedStuff.arcaneResOffset;
+                    arcaneDmg += EnchantedStuff.arcaneDmgOffset;
                 }
 
-                this.healthRegenRate = this.Props.healthRegenRate;
+                healthRegenRate = Props.healthRegenRate;
 
-                this.enchantmentAction = this.Props.enchantedAction;
-                this.arcaneSpectre = this.Props.arcaneSpectre;
-                this.phantomShift = this.Props.phantomShift;
-                this.arcalleumCooldown = this.Props.arcalleumCooldown;
-                this.enchantmentThought = this.Props.enchantmentThought;
+                enchantmentAction = Props.enchantedAction;
+                arcaneSpectre = Props.arcaneSpectre;
+                phantomShift = Props.phantomShift;
+                arcalleumCooldown = Props.arcalleumCooldown;
+                enchantmentThought = Props.enchantmentThought;
 
-                this.skillTier = this.Props.skillTier;
+                skillTier = Props.skillTier;
 
-                this.hediff = this.Props.hediff;
-                this.hediffSeverity = this.Props.hediffSeverity;
+                hediff = Props.hediff;
+                hediffSeverity = Props.hediffSeverity;
 
-                if (this.parent.def.tickerType == TickerType.Rare)
+                if (parent.def.tickerType == TickerType.Rare)
                 {
-                    Find.TickManager.RegisterAllTickabilityFor(this.parent);
+                    Find.TickManager.RegisterAllTickabilityFor(parent);
                 }
 
-                if(this.parent.def.tickerType == TickerType.Never)
+                if(parent.def.tickerType == TickerType.Never)
                 {
-                    this.parent.def.tickerType = TickerType.Rare;
-                    Find.TickManager.RegisterAllTickabilityFor(this.parent);
+                    parent.def.tickerType = TickerType.Rare;
+                    Find.TickManager.RegisterAllTickabilityFor(parent);
                 }
 
-                if(this.Props.hasAbility && !abilitiesInitialized)
+                if(Props.hasAbility && !abilitiesInitialized)
                 {
-                    InitializeAbilities(this.parent as Apparel);
+                    InitializeAbilities(parent as Apparel);
                 }
 
-                if(this.parent.def == TorannMagicDefOf.TM_MagicArtifact_MagicEssence && this.magicEssence == 0)
+                if(parent.def == TorannMagicDefOf.TM_MagicArtifact_MagicEssence && magicEssence == 0)
                 {
-                    this.magicEssence = Rand.Range(200, 500);
+                    magicEssence = Rand.Range(200, 500);
                 }
-                if(this.parent.def == TorannMagicDefOf.TM_MagicArtifact_MightEssence && this.mightEssence == 0)
+                if(parent.def == TorannMagicDefOf.TM_MagicArtifact_MightEssence && mightEssence == 0)
                 {
-                    this.mightEssence = Rand.Range(200, 500);
+                    mightEssence = Rand.Range(200, 500);
                 }
 
-                this.initialized = true;
+                initialized = true;
             }
         }        
 
@@ -185,7 +185,7 @@ namespace TorannMagic.Enchantment
                     }
                     //AbilityUserMod.Notify_ApparelRemoved_PostFix(abilityApparel.Wearer.apparel, abilityApparel);
                     //AbilityUserMod.Notify_ApparelAdded_PostFix(abilityApparel.Wearer.apparel, abilityApparel);
-                    this.abilitiesInitialized = true;
+                    abilitiesInitialized = true;
                 }
             }
             else
@@ -197,7 +197,7 @@ namespace TorannMagic.Enchantment
                     {
                         comp.Notify_Equipped(WearingPawn);
                     }
-                    this.abilitiesInitialized = true;
+                    abilitiesInitialized = true;
                 }
             }
             
@@ -205,9 +205,9 @@ namespace TorannMagic.Enchantment
 
         public override void CompTickRare()
         {
-            if (this.hediff != null)
+            if (hediff != null)
             {
-                Apparel artifact = this.parent as Apparel;                
+                Apparel artifact = parent as Apparel;                
                 if (artifact != null)
                 {
                     if (artifact.Wearer != null)
@@ -222,15 +222,15 @@ namespace TorannMagic.Enchantment
                             foreach(Apparel item in aList)
                             {
                                 CompEnchantedItem enchantedItem = item.TryGetComp<CompEnchantedItem>();
-                                if(enchantedItem != null && enchantedItem.Props.hediff == this.hediff)
+                                if(enchantedItem != null && enchantedItem.Props.hediff == hediff)
                                 {
                                     if (enchantedItem.Props.usesStackingHediff)
                                     {
-                                        if (enchantedItem.Props.hediffStacks && this.Props.hediffStacks)
+                                        if (enchantedItem.Props.hediffStacks && Props.hediffStacks)
                                         {
                                             totalSeverity += enchantedItem.hediffSeverity;
                                         }
-                                        else if (enchantedItem.Props.hediffSeverity > this.Props.hediffSeverity)
+                                        else if (enchantedItem.Props.hediffSeverity > Props.hediffSeverity)
                                         {
                                             totalSeverity = enchantedItem.Props.hediffSeverity;
                                         }
@@ -255,7 +255,7 @@ namespace TorannMagic.Enchantment
                         }
                     }
                 }
-                Thing primary = this.parent as Thing;
+                Thing primary = parent as Thing;
                 if (primary != null && primary.ParentHolder is Pawn_EquipmentTracker pet)
                 {
                     if (pet.pawn != null && pet.pawn.equipment != null && pet.pawn.equipment.Primary == primary)
@@ -276,30 +276,30 @@ namespace TorannMagic.Enchantment
                     }
                 }                
             }
-            if (this.Props.hasAbility && !this.abilitiesInitialized)
+            if (Props.hasAbility && !abilitiesInitialized)
             {
-                Apparel artifact = this.parent as Apparel;
+                Apparel artifact = parent as Apparel;
                 if (artifact != null)
                 {
                     if (artifact.Wearer != null)
                     {
                         //Log.Message("" + artifact.LabelShort + " has holding owner " + artifact.Wearer.LabelShort);
-                        this.InitializeAbilities(artifact);                        
+                        InitializeAbilities(artifact);                        
                     }
 
-                    this.MagicAbilities = artifact.GetComp<CompAbilityItem>().Props.Abilities;
+                    MagicAbilities = artifact.GetComp<CompAbilityItem>().Props.Abilities;
                     //this.MagicAbilities = new List<AbilityDef>();
                     //this.MagicAbilities.Clear();
                     // abilities;
                 }
-                ThingWithComps primary = this.parent as ThingWithComps;
+                ThingWithComps primary = parent as ThingWithComps;
                 if (primary != null && primary.ParentHolder is Pawn_EquipmentTracker pet)
                 {
                     if (pet.pawn != null && pet.pawn.equipment != null && pet.pawn.equipment.Primary == primary)
                     {
-                        this.InitializeAbilities(primary);
+                        InitializeAbilities(primary);
                     }
-                    this.MagicAbilities = primary.GetComp<CompAbilityItem>().Props.Abilities;
+                    MagicAbilities = primary.GetComp<CompAbilityItem>().Props.Abilities;
                 }
             }
             if (GetEnchantedStuff_HediffDef != null)
@@ -365,7 +365,7 @@ namespace TorannMagic.Enchantment
 
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
-            bool flag = this.parent.def.tickerType == TickerType.Never;
+            bool flag = parent.def.tickerType == TickerType.Never;
             if (flag)
             {
                 //this.parent.def.tickerType = TickerType.Rare;
@@ -397,81 +397,81 @@ namespace TorannMagic.Enchantment
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look<float>(ref this.maxMP, "maxMP", 0, false);
-            Scribe_Values.Look<float>(ref this.mpRegenRate, "mpRegenRateP", 0, false);
-            Scribe_Values.Look<float>(ref this.coolDown, "coolDown", 0, false);
-            Scribe_Values.Look<float>(ref this.mpCost, "mpCost", 0, false);
-            Scribe_Values.Look<float>(ref this.xpGain, "xpGain", 0, false);
-            Scribe_Values.Look<float>(ref this.arcaneRes, "arcaneRes", 0, false);
-            Scribe_Values.Look<float>(ref this.arcaneDmg, "arcaneDmg", 0, false);
-            Scribe_Values.Look<float>(ref this.necroticEnergy, "necroticEnergy", 0f, false);
-            Scribe_Values.Look<bool>(ref this.arcaneSpectre, "arcaneSpectre", false, false);
-            Scribe_Values.Look<bool>(ref this.phantomShift, "phantomShift", false, false);
+            Scribe_Values.Look<float>(ref maxMP, "maxMP", 0, false);
+            Scribe_Values.Look<float>(ref mpRegenRate, "mpRegenRateP", 0, false);
+            Scribe_Values.Look<float>(ref coolDown, "coolDown", 0, false);
+            Scribe_Values.Look<float>(ref mpCost, "mpCost", 0, false);
+            Scribe_Values.Look<float>(ref xpGain, "xpGain", 0, false);
+            Scribe_Values.Look<float>(ref arcaneRes, "arcaneRes", 0, false);
+            Scribe_Values.Look<float>(ref arcaneDmg, "arcaneDmg", 0, false);
+            Scribe_Values.Look<float>(ref necroticEnergy, "necroticEnergy", 0f, false);
+            Scribe_Values.Look<bool>(ref arcaneSpectre, "arcaneSpectre", false, false);
+            Scribe_Values.Look<bool>(ref phantomShift, "phantomShift", false, false);
             //Scribe_Deep.Look<EnchantmentAction>(ref this.enchantmentAction, "enchantmentAction", new object[0]);
-            Scribe_Defs.Look<ThoughtDef>(ref this.enchantmentThought, "enchantmentThought");
-            Scribe_Values.Look<float>(ref this.arcalleumCooldown, "arcalleumCooldown", 0f, false);
-            Scribe_Values.Look<EnchantmentTier>(ref this.maxMPTier, "maxMPTier", (EnchantmentTier)0, false);
-            Scribe_Values.Look<EnchantmentTier>(ref this.mpRegenRateTier, "mpRegenRateTier", (EnchantmentTier)0, false);
-            Scribe_Values.Look<EnchantmentTier>(ref this.coolDownTier, "coolDownTier", (EnchantmentTier)0, false);
-            Scribe_Values.Look<EnchantmentTier>(ref this.mpCostTier, "mpCostTier", (EnchantmentTier)0, false);
-            Scribe_Values.Look<EnchantmentTier>(ref this.xpGainTier, "xpGainTier", (EnchantmentTier)0, false);
-            Scribe_Values.Look<EnchantmentTier>(ref this.arcaneResTier, "arcaneResTier", (EnchantmentTier)0, false);
-            Scribe_Values.Look<EnchantmentTier>(ref this.arcaneDmgTier, "arcaneDmgTier", (EnchantmentTier)0, false);
-            Scribe_Values.Look<bool>(ref this.hasEnchantment, "hasEnchantment", false, false);
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Collections.Look<Trait>(ref this.SoulOrbTraits, "SoulOrbTraits", LookMode.Deep);
-            Scribe_Values.Look<int>(ref this.mightEssence, "mightEssence", 0, false);
-            Scribe_Values.Look<int>(ref this.magicEssence, "magicEssence", 0, false);
+            Scribe_Defs.Look<ThoughtDef>(ref enchantmentThought, "enchantmentThought");
+            Scribe_Values.Look<float>(ref arcalleumCooldown, "arcalleumCooldown", 0f, false);
+            Scribe_Values.Look<EnchantmentTier>(ref maxMPTier, "maxMPTier", (EnchantmentTier)0, false);
+            Scribe_Values.Look<EnchantmentTier>(ref mpRegenRateTier, "mpRegenRateTier", (EnchantmentTier)0, false);
+            Scribe_Values.Look<EnchantmentTier>(ref coolDownTier, "coolDownTier", (EnchantmentTier)0, false);
+            Scribe_Values.Look<EnchantmentTier>(ref mpCostTier, "mpCostTier", (EnchantmentTier)0, false);
+            Scribe_Values.Look<EnchantmentTier>(ref xpGainTier, "xpGainTier", (EnchantmentTier)0, false);
+            Scribe_Values.Look<EnchantmentTier>(ref arcaneResTier, "arcaneResTier", (EnchantmentTier)0, false);
+            Scribe_Values.Look<EnchantmentTier>(ref arcaneDmgTier, "arcaneDmgTier", (EnchantmentTier)0, false);
+            Scribe_Values.Look<bool>(ref hasEnchantment, "hasEnchantment", false, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Collections.Look<Trait>(ref SoulOrbTraits, "SoulOrbTraits", LookMode.Deep);
+            Scribe_Values.Look<int>(ref mightEssence, "mightEssence", 0, false);
+            Scribe_Values.Look<int>(ref magicEssence, "magicEssence", 0, false);
             //this.Props.ExposeData();
         }
 
         public override string GetDescriptionPart()
         {
             string text = string.Empty;
-            bool flag = this.Props.MagicAbilities.Count == 1;
+            bool flag = Props.MagicAbilities.Count == 1;
             if (flag)
             {
                 text += "Item Ability:";
             }
             else
             {
-                bool flag2 = this.Props.MagicAbilities.Count > 1;
+                bool flag2 = Props.MagicAbilities.Count > 1;
                 if (flag2)
                 {
                     text += "Item Abilities:";
                 }
             }
-            foreach (TMAbilityDef current in this.Props.MagicAbilities)
+            foreach (TMAbilityDef current in Props.MagicAbilities)
             {
                 text += "\n\n";
                 text = text + current.label.CapitalizeFirst() + " - ";
                 text += current.GetDescription();
             }
-            bool flag3 = this.SoulOrbTraits != null && this.SoulOrbTraits.Count > 0;
+            bool flag3 = SoulOrbTraits != null && SoulOrbTraits.Count > 0;
             if (flag3)
             {
                 text += "Absorbed Traits:";
-                foreach (Trait current in this.SoulOrbTraits)
+                foreach (Trait current in SoulOrbTraits)
                 {
                     text += "\n";
                     text = text + current.LabelCap;
                 }
 
             }
-            bool flag4 = this.necroticEnergy != 0;
+            bool flag4 = necroticEnergy != 0;
             if(flag4)
             {
-                text += "Necrotic Energy: " + this.NecroticEnergy.ToString("N1");
+                text += "Necrotic Energy: " + NecroticEnergy.ToString("N1");
             }
-            bool flag5 = this.mightEssence != 0;
+            bool flag5 = mightEssence != 0;
             if(flag5)
             {
-                text += "Might Essence: " + this.mightEssence;
+                text += "Might Essence: " + mightEssence;
             }
-            bool flag6 = this.magicEssence != 0;
+            bool flag6 = magicEssence != 0;
             if (flag6)
             {
-                text += "Magic Essence: " + this.magicEssence;
+                text += "Magic Essence: " + magicEssence;
             }
             return text;
         }
@@ -529,11 +529,11 @@ namespace TorannMagic.Enchantment
         {
             get
             {
-                return Mathf.Clamp(this.necroticEnergy, 0f, 100f);
+                return Mathf.Clamp(necroticEnergy, 0f, 100f);
             }
             set
             {
-                this.necroticEnergy = Mathf.Clamp(value, 0f, 100f);
+                necroticEnergy = Mathf.Clamp(value, 0f, 100f);
             }
         }
 
@@ -545,7 +545,7 @@ namespace TorannMagic.Enchantment
                 //{
                 //    return 120f;
                 //}
-                if(this.parent.Stuff != null && MadeFromEnchantedStuff && EnchantedStuff.enchantmentBonusMultiplier != 1f)
+                if(parent.Stuff != null && MadeFromEnchantedStuff && EnchantedStuff.enchantmentBonusMultiplier != 1f)
                 {
                     return 100f * EnchantedStuff.enchantmentBonusMultiplier;
                 }
@@ -561,7 +561,7 @@ namespace TorannMagic.Enchantment
             get
             {
                 return "TM_MaxMPLabel".Translate(
-                    this.maxMP * StuffMultiplier
+                    maxMP * StuffMultiplier
                 );
             }
         }
@@ -571,7 +571,7 @@ namespace TorannMagic.Enchantment
             get
             {
                 return "TM_MPRegenRateLabel".Translate(
-                    this.mpRegenRate * StuffMultiplier
+                    mpRegenRate * StuffMultiplier
                 );
             }
         }
@@ -581,7 +581,7 @@ namespace TorannMagic.Enchantment
             get
             {
                 return "TM_CoolDownLabel".Translate(
-                    this.coolDown * StuffMultiplier
+                    coolDown * StuffMultiplier
                 );
             }
         }
@@ -591,7 +591,7 @@ namespace TorannMagic.Enchantment
             get
             {
                 return "TM_MPCostLabel".Translate(
-                    this.mpCost * StuffMultiplier
+                    mpCost * StuffMultiplier
                 );
             }
         }
@@ -601,7 +601,7 @@ namespace TorannMagic.Enchantment
             get
             {
                 return "TM_XPGainLabel".Translate(
-                    this.xpGain * StuffMultiplier
+                    xpGain * StuffMultiplier
                 );
             }
         }
@@ -611,7 +611,7 @@ namespace TorannMagic.Enchantment
             get
             {
                 return "TM_ArcaneResLabel".Translate(
-                    this.arcaneRes * StuffMultiplier
+                    arcaneRes * StuffMultiplier
                 );
             }
         }
@@ -621,7 +621,7 @@ namespace TorannMagic.Enchantment
             get
             {
                 return "TM_ArcaneDmgLabel".Translate(
-                    this.arcaneDmg * StuffMultiplier
+                    arcaneDmg * StuffMultiplier
                 );
             }
         }
@@ -647,7 +647,7 @@ namespace TorannMagic.Enchantment
             get
             {
                 return "TM_ArcalleumCooldown".Translate(
-                    this.arcalleumCooldown);
+                    arcalleumCooldown);
             }
         }
 
@@ -658,18 +658,18 @@ namespace TorannMagic.Enchantment
                 if (enchantmentAction.type == EnchantmentActionType.ApplyHediff)
                 {
                     return "TM_EA_Hediff".Translate(
-                        this.enchantmentAction.actionLabel,
-                        this.enchantmentAction.hediffDef.label,
-                        this.enchantmentAction.hediffChance * 100f);
+                        enchantmentAction.actionLabel,
+                        enchantmentAction.hediffDef.label,
+                        enchantmentAction.hediffChance * 100f);
                 }
                 if(enchantmentAction.type == EnchantmentActionType.ApplyDamage)
                 {
                     return "TM_EA_Damage".Translate(
-                        this.enchantmentAction.actionLabel,
-                        this.enchantmentAction.damageAmount - this.enchantmentAction.damageVariation,
-                        this.enchantmentAction.damageAmount + this.enchantmentAction.damageVariation,
-                        this.enchantmentAction.damageDef.label,
-                        this.enchantmentAction.damageChance * 100f);
+                        enchantmentAction.actionLabel,
+                        enchantmentAction.damageAmount - enchantmentAction.damageVariation,
+                        enchantmentAction.damageAmount + enchantmentAction.damageVariation,
+                        enchantmentAction.damageDef.label,
+                        enchantmentAction.damageChance * 100f);
                 }
                 return "";
             }
@@ -679,7 +679,7 @@ namespace TorannMagic.Enchantment
         {
             get
             {
-                return this.hediff.LabelCap;
+                return hediff.LabelCap;
             }
         }
 

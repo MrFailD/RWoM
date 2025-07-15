@@ -24,21 +24,21 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 1, false);
-            Scribe_Values.Look<bool>(ref this.destroyed, "destroyed", false, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 1, false);
+            Scribe_Values.Look<bool>(ref destroyed, "destroyed", false, false);
         }        
 
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {            
-            if (!(this.age < duration))
+            if (!(age < duration))
             {
                 base.Destroy(mode);
             }
@@ -46,21 +46,21 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             //base.Impact(hitThing);
-            GenClamor.DoClamor(this, this.def.projectile.explosionRadius, ClamorDefOf.Impact);
+            GenClamor.DoClamor(this, def.projectile.explosionRadius, ClamorDefOf.Impact);
             SpawnThings spawnThing = new SpawnThings();
-            Pawn caster = this.launcher as Pawn;
+            Pawn caster = launcher as Pawn;
             arcaneDmg = caster.GetCompAbilityUserMagic().arcaneDmg;
             verVal = TM_Calc.GetSkillVersatilityLevel(caster, TorannMagicDefOf.TM_SummonSpiritAnimalMass, false);
             pwrVal = TM_Calc.GetSkillPowerLevel(caster, TorannMagicDefOf.TM_SummonSpiritAnimalMass, false);
 
-            CellRect cellRect = CellRect.CenteredOn(this.Position, Mathf.RoundToInt(this.def.projectile.explosionRadius));
+            CellRect cellRect = CellRect.CenteredOn(Position, Mathf.RoundToInt(def.projectile.explosionRadius));
             cellRect.ClipInsideMap(map);
 
             for (int i = 0; i < 3; i++)
             {
-                AbilityUser.SpawnThings tempPod = new SpawnThings();
+                SpawnThings tempPod = new SpawnThings();
                 IntVec3 shiftPos = cellRect.RandomCell;
                     
                 if (i == 0)
@@ -102,7 +102,7 @@ namespace TorannMagic
                             {
                                 item.caller.Notify_Released();
                             }
-                            item.jobs.EndCurrentJob(Verse.AI.JobCondition.InterruptForced);
+                            item.jobs.EndCurrentJob(JobCondition.InterruptForced);
                         }
 
                         if (enemy != null)
@@ -145,7 +145,7 @@ namespace TorannMagic
                 }                    
             }
 
-            this.age = this.duration;   
+            age = duration;   
             
             Destroy();
         }

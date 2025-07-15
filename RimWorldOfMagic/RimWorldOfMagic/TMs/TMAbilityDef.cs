@@ -51,7 +51,7 @@ namespace TorannMagic
         public string GetPointDesc()
 		{
 			StringBuilder stringBuilder = new StringBuilder();
-			stringBuilder.AppendLine(this.GetDescription());
+			stringBuilder.AppendLine(GetDescription());
 			return stringBuilder.ToString();
 		}
 

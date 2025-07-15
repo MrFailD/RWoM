@@ -23,7 +23,7 @@ namespace TorannMagic
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            if (pawn.Reserve(TargetA, this.job, 1, 1, null, errorOnFailed))
+            if (pawn.Reserve(TargetA, job, 1, 1, null, errorOnFailed))
             {
                 return true;
             }
@@ -47,24 +47,24 @@ namespace TorannMagic
             {                    
                 if (age > duration)
                 {
-                    this.EndJobWith(JobCondition.Succeeded);
+                    EndJobWith(JobCondition.Succeeded);
                 }
                 if (mentalPawn.DestroyedOrNull() || mentalPawn.Dead)
                 {
-                    this.EndJobWith(JobCondition.Incompletable);
+                    EndJobWith(JobCondition.Incompletable);
                 }
 
-                this.pawn.rotationTracker.FaceTarget(TargetA);
-                mentalPawn.rotationTracker.FaceTarget(this.pawn);
+                pawn.rotationTracker.FaceTarget(TargetA);
+                mentalPawn.rotationTracker.FaceTarget(pawn);
                 mentalPawn.ClearAllReservations(false);
-                this.pawn.ClearAllReservations(false);
+                pawn.ClearAllReservations(false);
 
             };
             doMotivate.tickAction = delegate
             {
                 if (mentalPawn.DestroyedOrNull() || mentalPawn.Dead || !mentalPawn.InMentalState)
                 {
-                    this.EndJobWith(JobCondition.Incompletable);
+                    EndJobWith(JobCondition.Incompletable);
                 }
                 if (age > (lastEffect + ticksTillEffects))
                 {
@@ -81,28 +81,28 @@ namespace TorannMagic
                 }
                 if(mentalPawn.Drafted && mentalPawn.CurJobDef != JobDefOf.Wait_Combat)
                 {
-                    this.EndJobWith(JobCondition.InterruptForced);
+                    EndJobWith(JobCondition.InterruptForced);
                 }
                 age++;
                 ticksLeftThisToil = duration - age;
-                if((mentalPawn.Position - this.pawn.Position).LengthHorizontal > 5)
+                if((mentalPawn.Position - pawn.Position).LengthHorizontal > 5)
                 {
                     age = duration + 1;
                 }
                 if (age > duration)
                 {
-                    this.EndJobWith(JobCondition.Succeeded);
+                    EndJobWith(JobCondition.Succeeded);
                 }
             };
             doMotivate.defaultCompleteMode = ToilCompleteMode.Delay;
-            doMotivate.defaultDuration = this.duration;
+            doMotivate.defaultDuration = duration;
             doMotivate.WithProgressBar(TargetIndex.B, delegate
             {
-                if (this.pawn.DestroyedOrNull() || this.pawn.Dead)
+                if (pawn.DestroyedOrNull() || pawn.Dead)
                 {
                     return 1f;
                 }
-                return 1f - (float)doMotivate.actor.jobs.curDriver.ticksLeftThisToil / this.duration;
+                return 1f - (float)doMotivate.actor.jobs.curDriver.ticksLeftThisToil / duration;
 
             }, false, 0f);
             doMotivate.AddFinishAction(delegate
@@ -128,13 +128,13 @@ namespace TorannMagic
             rndPos.x += Rand.Range(-1f, 1f);
             rndPos.z += Rand.Range(-1f, 1f);
             ThingDef mote = TorannMagicDefOf.Mote_Twinkle;
-            TM_MoteMaker.ThrowGenericMote(mote, rndPos, this.pawn.Map, Rand.Range(.2f, .7f), Rand.Range(.2f, .6f), Rand.Range(0f, .8f), Rand.Range(.5f,.8f), Rand.Range(-50, 50), Rand.Range(.5f, 1f), direction, Rand.Range(0,360));
+            TM_MoteMaker.ThrowGenericMote(mote, rndPos, pawn.Map, Rand.Range(.2f, .7f), Rand.Range(.2f, .6f), Rand.Range(0f, .8f), Rand.Range(.5f,.8f), Rand.Range(-50, 50), Rand.Range(.5f, 1f), direction, Rand.Range(0,360));
 
         }        
 
         private void AssignXP()
         {
-            CompAbilityUserMight comp = this.pawn.GetCompAbilityUserMight();
+            CompAbilityUserMight comp = pawn.GetCompAbilityUserMight();
 
             if (comp != null)
             {
@@ -145,13 +145,13 @@ namespace TorannMagic
                     int xpGain = Mathf.RoundToInt(xpBase * comp.xpGain);
                     MoteMaker.ThrowText(pawn.DrawPos, pawn.MapHeld, "XP +" + xpGain, -1f);
                     comp.MightUserXP += xpGain;
-                    if (this.pawn.needs.joy != null)
+                    if (pawn.needs.joy != null)
                     {
-                        this.pawn.needs.joy.GainJoy(.4f, TorannMagicDefOf.Social);
+                        pawn.needs.joy.GainJoy(.4f, TorannMagicDefOf.Social);
                     }
-                    if (this.pawn.skills != null)
+                    if (pawn.skills != null)
                     {
-                        this.pawn.skills.Learn(SkillDefOf.Social, Rand.Range(200f, 500f));
+                        pawn.skills.Learn(SkillDefOf.Social, Rand.Range(200f, 500f));
                     }
                 }
                 catch (NullReferenceException ex)

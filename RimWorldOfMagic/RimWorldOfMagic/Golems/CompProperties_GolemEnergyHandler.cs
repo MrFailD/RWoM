@@ -28,7 +28,7 @@ namespace TorannMagic.Golems
 
         public CompProperties_GolemEnergyHandler()
         {
-            this.compClass = typeof(CompGolemEnergyHandler);
+            compClass = typeof(CompGolemEnergyHandler);
         }
     }
 }

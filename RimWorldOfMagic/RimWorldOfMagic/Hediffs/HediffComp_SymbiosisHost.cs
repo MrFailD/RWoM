@@ -13,7 +13,7 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_References.Look<Pawn>(ref this.symbiote, "symbiote");
+            Scribe_References.Look<Pawn>(ref symbiote, "symbiote");
         }
 
         public override string CompLabelInBracketsExtra => symbiote != null ? symbiote.LabelShort + "[+]" + base.CompLabelInBracketsExtra : base.CompLabelInBracketsExtra;
@@ -24,9 +24,9 @@ namespace TorannMagic
             {
                 if (symbiote != null)
                 {
-                    return base.Def.LabelCap + "(" + symbiote.LabelShort + ")";
+                    return Def.LabelCap + "(" + symbiote.LabelShort + ")";
                 }
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -36,79 +36,79 @@ namespace TorannMagic
             {
                 if (symbiote != null)
                 {
-                    return base.Def.label + "(" + symbiote.LabelShort + ")";
+                    return Def.label + "(" + symbiote.LabelShort + ")";
                 }
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            if (spawned && base.Pawn.Map != null)
+            bool spawned = Pawn.Spawned;
+            if (spawned && Pawn.Map != null)
             {
-                FleckMaker.ThrowHeatGlow(base.Pawn.Position, base.Pawn.Map, 2f);
+                FleckMaker.ThrowHeatGlow(Pawn.Position, Pawn.Map, 2f);
             }
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
                 if (Find.TickManager.TicksGame % 201 == 0)
                 {
                     if (symbiote.DestroyedOrNull())
                     {
-                        this.shouldRemove = true;
+                        shouldRemove = true;
                     }
                     else if (symbiote.Dead || !symbiote.Downed)
                     {
-                        this.shouldRemove = true;
+                        shouldRemove = true;
                     }                    
-                    if(this.symbiote.health != null && this.symbiote.health.hediffSet != null)
+                    if(symbiote.health != null && symbiote.health.hediffSet != null)
                     {
-                        if(this.symbiote.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_OutOfBodyHD) == null)
+                        if(symbiote.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_OutOfBodyHD) == null)
                         {
-                            this.shouldRemove = true;
+                            shouldRemove = true;
                         }
                     }
                     else
                     {
-                        this.shouldRemove = true;
+                        shouldRemove = true;
                     }
                     float effVal = TM_Calc.GetSkillPowerLevel(symbiote, TorannMagicDefOf.TM_Symbiosis);
-                    if(base.Pawn.needs != null)
+                    if(Pawn.needs != null)
                     {
-                        if (base.Pawn.needs.mood != null)
+                        if (Pawn.needs.mood != null)
                         {
-                            base.Pawn.needs.mood.CurLevel += (.001f * effVal);
+                            Pawn.needs.mood.CurLevel += (.001f * effVal);
                         }
-                        if(base.Pawn.needs.rest != null)
+                        if(Pawn.needs.rest != null)
                         {
-                            base.Pawn.needs.rest.CurLevel += (.001f * effVal);
+                            Pawn.needs.rest.CurLevel += (.001f * effVal);
                         }
-                        if(base.Pawn.needs.food != null)
+                        if(Pawn.needs.food != null)
                         {
-                            base.Pawn.needs.food.CurLevel += (.001f * effVal);
+                            Pawn.needs.food.CurLevel += (.001f * effVal);
                         }
-                        if(base.Pawn.needs.joy != null)
+                        if(Pawn.needs.joy != null)
                         {
-                            base.Pawn.needs.joy.CurLevel += (.001f * effVal);
+                            Pawn.needs.joy.CurLevel += (.001f * effVal);
                         }
                     }
                 }
-                if (this.Pawn.Dead && this.symbiote != null && !this.symbiote.Dead)
+                if (Pawn.Dead && symbiote != null && !symbiote.Dead)
                 {
-                    this.shouldRemove = true;
+                    shouldRemove = true;
                     DamageInfo dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_SymbiosisDD, 1f);
-                    this.symbiote.Kill(dinfo, null);
+                    symbiote.Kill(dinfo, null);
                     RemoveSymbioteHediff();                    
                 }
             }
@@ -116,17 +116,17 @@ namespace TorannMagic
 
         public void RemoveSymbioteHediff()
         {
-            if (this.symbiote != null && this.symbiote.health != null && this.symbiote.health.hediffSet != null)
+            if (symbiote != null && symbiote.health != null && symbiote.health.hediffSet != null)
             {
-                Hediff hd = this.symbiote.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_OutOfBodyHD);
+                Hediff hd = symbiote.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_OutOfBodyHD);
                 if (hd != null)
                 {
-                    this.symbiote.health.RemoveHediff(hd);
+                    symbiote.health.RemoveHediff(hd);
                 }
             }
         }
 
-        public override bool CompShouldRemove => base.CompShouldRemove || this.shouldRemove;
+        public override bool CompShouldRemove => base.CompShouldRemove || shouldRemove;
 
     }
 }

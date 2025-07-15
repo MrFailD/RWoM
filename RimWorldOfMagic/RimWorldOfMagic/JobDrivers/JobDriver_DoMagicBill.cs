@@ -39,15 +39,15 @@ namespace TorannMagic
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            Pawn pawn = base.pawn;
-            LocalTargetInfo target = base.job.GetTarget(TargetIndex.A);
-            Job job = base.job;
+            Pawn pawn = this.pawn;
+            LocalTargetInfo target = this.job.GetTarget(TargetIndex.A);
+            Job job = this.job;
             bool errorOnFailed2 = errorOnFailed;
             if (!pawn.Reserve(target, job, 1, -1, null, errorOnFailed2))
             {
                 return false;
             }
-            base.pawn.ReserveAsManyAsPossible(base.job.GetTargetQueue(TargetIndex.B), base.job);
+            this.pawn.ReserveAsManyAsPossible(this.job.GetTargetQueue(TargetIndex.B), this.job);
             return true;
         }
 
@@ -138,7 +138,7 @@ namespace TorannMagic
                     Bill_Production bill_Production = recount.actor.jobs.curJob.bill as Bill_Production;
                     if (bill_Production != null && bill_Production.repeatMode == BillRepeatModeDefOf.TargetCount)
                     {
-                        base.Map.resourceCounter.UpdateResourceCounts();
+                        Map.resourceCounter.UpdateResourceCounts();
                     }
                 };
                 yield return recount;

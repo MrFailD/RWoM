@@ -16,7 +16,7 @@ namespace TorannMagic.Golems
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if ((root - targ.Cell).LengthHorizontal < this.verbProps.minRange)
+            if ((root - targ.Cell).LengthHorizontal < verbProps.minRange)
             {
                 return false;
             }
@@ -60,7 +60,7 @@ namespace TorannMagic.Golems
 
         protected override bool TryCastShot()
         {
-            TMPawnGolem pg = this.CasterPawn as TMPawnGolem;
+            TMPawnGolem pg = CasterPawn as TMPawnGolem;
             if(pg != null)
             {
                 pg.drawTickFlag = false;

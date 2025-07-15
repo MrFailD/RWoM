@@ -22,8 +22,8 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = this.launcher.Map;
-            Pawn pawn = this.launcher as Pawn;
+            Map map = launcher.Map;
+            Pawn pawn = launcher as Pawn;
 
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_TechnoTurret.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_TechnoTurret_pwr");
@@ -42,19 +42,19 @@ namespace TorannMagic
 
             //if ((pawn.Position.IsValid && pawn.Position.Standable(map)))
             //{
-                AbilityUser.SpawnThings tempPod = new SpawnThings();
+                SpawnThings tempPod = new SpawnThings();
                 IntVec3 shiftPos = pawn.Position;
 
                 tempPod.def = ThingDef.Named("TM_TechnoTurret_Base");
                 Thing turretGun = new Thing();
 
                 turretGun.def = ThingDef.Named("Gun_Mark-IV");
-                if (this.verVal >= 5)
+                if (verVal >= 5)
                 {
                     tempPod.def = ThingDef.Named("TM_TechnoTurret_Base_RL");
                     turretGun.def = ThingDef.Named("Gun_Mark-IV_RL");
                 }
-                if(this.verVal >= 10)
+                if(verVal >= 10)
                 {
                     tempPod.def = ThingDef.Named("TM_TechnoTurret_Base_RL_MTR");
                     turretGun.def = ThingDef.Named("Gun_Mark-IV_RL_MTR");
@@ -64,9 +64,9 @@ namespace TorannMagic
                 turretGun.def.SetStatBaseValue(StatDefOf.AccuracyShort, 0.75f + (.01f * pwrVal));
                 turretGun.def.SetStatBaseValue(StatDefOf.AccuracyMedium, 0.65f + (.01f * pwrVal));
                 turretGun.def.SetStatBaseValue(StatDefOf.AccuracyLong, 0.35f + (.01f * pwrVal));
-                turretGun.def.Verbs.FirstOrDefault().burstShotCount = Mathf.RoundToInt((6 + (.4f * pwrVal)) * this.arcaneDmg);
+                turretGun.def.Verbs.FirstOrDefault().burstShotCount = Mathf.RoundToInt((6 + (.4f * pwrVal)) * arcaneDmg);
                 turretGun.def.Verbs.FirstOrDefault().warmupTime = 1.5f - (.03f * pwrVal);
-                turretGun.def.Verbs.FirstOrDefault().range = (Mathf.RoundToInt((35 + verVal)*this.arcaneDmg));
+                turretGun.def.Verbs.FirstOrDefault().range = (Mathf.RoundToInt((35 + verVal)*arcaneDmg));
 
                 tempPod.def.building.turretGunDef = turretGun.def;
 
@@ -74,24 +74,24 @@ namespace TorannMagic
                 tempPod.spawnCount = 1;
                 try
                 {
-                    this.turret = TM_Action.SingleSpawnLoop(pawn, tempPod, base.Position, map, 3600 + (300 * effVal), true, false, pawn.Faction, true);
-                    this.turret.def.building.turretBurstCooldownTime = 4.5f - (.1f * pwrVal);
+                    turret = TM_Action.SingleSpawnLoop(pawn, tempPod, Position, map, 3600 + (300 * effVal), true, false, pawn.Faction, true);
+                    turret.def.building.turretBurstCooldownTime = 4.5f - (.1f * pwrVal);
 
-                    Building_TechnoTurret b_tt = this.turret as Building_TechnoTurret;
+                    Building_TechnoTurret b_tt = turret as Building_TechnoTurret;
                     b_tt.ManPawn = pawn;
-                    b_tt.Cell = this.launcher.Position;
+                    b_tt.Cell = launcher.Position;
 
                     for (int i = 0; i < 4; i++)
                     {
-                        Vector3 rndPos = this.DrawPos;
+                        Vector3 rndPos = DrawPos;
                         rndPos.x += Rand.Range(-.5f, .5f);
                         rndPos.z += Rand.Range(-.5f, .5f);
-                        TM_MoteMaker.ThrowGenericFleck(TorannMagicDefOf.SparkFlash, rndPos, this.Map, Rand.Range(.6f, .8f), .1f, .05f, .05f, 0, 0, 0, Rand.Range(0, 360));
-                        FleckMaker.ThrowSmoke(rndPos, this.Map, Rand.Range(.8f, 1.2f));
-                        rndPos = this.DrawPos;
+                        TM_MoteMaker.ThrowGenericFleck(TorannMagicDefOf.SparkFlash, rndPos, Map, Rand.Range(.6f, .8f), .1f, .05f, .05f, 0, 0, 0, Rand.Range(0, 360));
+                        FleckMaker.ThrowSmoke(rndPos, Map, Rand.Range(.8f, 1.2f));
+                        rndPos = DrawPos;
                         rndPos.x += Rand.Range(-.5f, .5f);
                         rndPos.z += Rand.Range(-.5f, .5f);
-                        TM_MoteMaker.ThrowGenericFleck(TorannMagicDefOf.ElectricalSpark, rndPos, this.Map, Rand.Range(.4f, .7f), .2f, .05f, .1f, 0, 0, 0, Rand.Range(0, 360));
+                        TM_MoteMaker.ThrowGenericFleck(TorannMagicDefOf.ElectricalSpark, rndPos, Map, Rand.Range(.4f, .7f), .2f, .05f, .1f, 0, 0, 0, Rand.Range(0, 360));
                     }
                 }
                 catch

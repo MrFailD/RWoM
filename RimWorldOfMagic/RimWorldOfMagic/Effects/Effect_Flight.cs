@@ -11,10 +11,10 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -31,7 +31,7 @@ namespace TorannMagic
 
         public virtual void Effect()
         {
-            LocalTargetInfo t = this.TargetsAoE[0];
+            LocalTargetInfo t = TargetsAoE[0];
             bool flag = t.Cell != default(IntVec3);
             if (flag)
             {
@@ -43,8 +43,8 @@ namespace TorannMagic
                 base.CasterPawn.rotationTracker.Face(t.CenterVector3);
                 LongEventHandler.QueueLongEvent(delegate
                 {
-                    FlyingObject_Flight flyingObject = (FlyingObject_Flight)GenSpawn.Spawn(ThingDef.Named("FlyingObject_Flight"), this.CasterPawn.Position, this.CasterPawn.Map);
-                    flyingObject.Launch(this.CasterPawn, t.Cell, base.CasterPawn);
+                    FlyingObject_Flight flyingObject = (FlyingObject_Flight)GenSpawn.Spawn(ThingDef.Named("FlyingObject_Flight"), CasterPawn.Position, CasterPawn.Map);
+                    flyingObject.Launch(CasterPawn, t.Cell, base.CasterPawn);
                 }, "LaunchingFlyer", false, null);
             }
         }
@@ -53,7 +53,7 @@ namespace TorannMagic
         {
             if (inResult)
             {
-                this.Effect();
+                Effect();
                 outResult = true;
             }
             outResult = inResult;

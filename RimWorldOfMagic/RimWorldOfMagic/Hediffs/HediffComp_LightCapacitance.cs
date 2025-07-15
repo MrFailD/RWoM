@@ -14,16 +14,16 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look<float>(ref this.lightEnergy, "lightEnergy", 10f, false);
+            Scribe_Values.Look<float>(ref lightEnergy, "lightEnergy", 10f, false);
         }
 
-        public override string CompLabelInBracketsExtra => this.lightPowerString;
+        public override string CompLabelInBracketsExtra => lightPowerString;
 
         public string labelCap
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -31,7 +31,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
@@ -48,11 +48,11 @@ namespace TorannMagic
         {
             get
             {                
-                return this.lightEnergy;
+                return lightEnergy;
             }
             set
             {
-                this.lightEnergy = Mathf.Clamp(value, 0f, LightEnergyMax);
+                lightEnergy = Mathf.Clamp(value, 0f, LightEnergyMax);
             }
         }
 
@@ -60,7 +60,7 @@ namespace TorannMagic
         {
             get
             {
-                return Mathf.Clamp((2f * (this.LightEnergy / 100f)), .5f, 2.5f);
+                return Mathf.Clamp((2f * (LightEnergy / 100f)), .5f, 2.5f);
             }
         }
 
@@ -68,9 +68,9 @@ namespace TorannMagic
         {
             get
             {
-                if (base.Pawn.Spawned && base.Pawn.Map != null)
+                if (Pawn.Spawned && Pawn.Map != null)
                 {
-                    CompAbilityUserMagic comp = base.Pawn.GetCompAbilityUserMagic();
+                    CompAbilityUserMagic comp = Pawn.GetCompAbilityUserMagic();
                     if (comp != null && comp.SoL != null)
                     {
                         return comp.SoL;
@@ -98,15 +98,15 @@ namespace TorannMagic
             get
             {
                 float val = .01f;
-                if (this.Pawn.Map != null)
+                if (Pawn.Map != null)
                 {
-                    if (this.Pawn.Map.weatherManager?.curWeather?.defName != "Clear")
+                    if (Pawn.Map.weatherManager?.curWeather?.defName != "Clear")
                     {
                         val *= .8f;
                     }
-                    if (this.Pawn.Map.GameConditionManager?.ActiveConditions?.Count > 0)
+                    if (Pawn.Map.GameConditionManager?.ActiveConditions?.Count > 0)
                     {
-                        List<GameCondition> gcList = this.Pawn.Map.GameConditionManager.ActiveConditions;
+                        List<GameCondition> gcList = Pawn.Map.GameConditionManager.ActiveConditions;
                         for (int i = 0; i < gcList.Count; i++)
                         {
                             if (gcList[i].def == GameConditionDefOf.Aurora)
@@ -135,11 +135,11 @@ namespace TorannMagic
                             }
                         }
                     }
-                    if (this.Pawn.Position.Roofed(this.Pawn.Map))
+                    if (Pawn.Position.Roofed(Pawn.Map))
                     {
                         val -= .004f;
                     }
-                    int mapTime = GenLocalDate.HourOfDay(this.Pawn.Map);
+                    int mapTime = GenLocalDate.HourOfDay(Pawn.Map);
                     if (mapTime < 20 && mapTime > 5)
                     {
                         float amt = 0;
@@ -174,8 +174,8 @@ namespace TorannMagic
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            if (spawned && base.Pawn.Map != null)
+            bool spawned = Pawn.Spawned;
+            if (spawned && Pawn.Map != null)
             {
 
             }
@@ -184,12 +184,12 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if(!initialized)
                 {
-                    this.initialized = true;
+                    initialized = true;
                     Initialize();
                 }
 
@@ -215,11 +215,11 @@ namespace TorannMagic
         {
             if(Get_SoLEnergy != 0f)
             {
-                this.lightPowerString = LightEnergy.ToString("0.#") + " | " + Get_SoLEnergy.ToString("0.#");
+                lightPowerString = LightEnergy.ToString("0.#") + " | " + Get_SoLEnergy.ToString("0.#");
             }
             else
             {
-                this.lightPowerString = LightEnergy.ToString("0.#");
+                lightPowerString = LightEnergy.ToString("0.#");
             }
         }
 

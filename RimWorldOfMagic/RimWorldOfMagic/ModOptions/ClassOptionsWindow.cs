@@ -17,11 +17,11 @@ namespace TorannMagic.ModOptions
 
         public ClassOptionsWindow()
         {
-            base.closeOnCancel = true;
-            base.doCloseButton = true;
-            base.doCloseX = true;
-            base.absorbInputAroundWindow = true;
-            base.forcePause = true;            
+            closeOnCancel = true;
+            doCloseButton = true;
+            doCloseX = true;
+            absorbInputAroundWindow = true;
+            forcePause = true;            
         }
 
         public override void Close(bool doCloseSound = true)
@@ -40,15 +40,15 @@ namespace TorannMagic.ModOptions
             
             Text.Font = GameFont.Medium;
             float x = Text.CalcSize("TM_EnabledClasses".Translate()).x;
-            Rect headerRect = new Rect(inRect.width / 2f - (x / 2), inRect.y, inRect.width, ClassOptionsWindow.HeaderSize);
+            Rect headerRect = new Rect(inRect.width / 2f - (x / 2), inRect.y, inRect.width, HeaderSize);
             Widgets.Label(headerRect, "TM_EnabledClasses".Translate());
             Text.Font = GameFont.Small;
             GUI.color = Color.yellow;
             x = Text.CalcSize("TM_ClassWarning".Translate()).x;
-            Rect warningRect = new Rect(inRect.width / 2f - (x / 2), inRect.y + ClassOptionsWindow.HeaderSize + 4f, inRect.width, ClassOptionsWindow.TextSize);
+            Rect warningRect = new Rect(inRect.width / 2f - (x / 2), inRect.y + HeaderSize + 4f, inRect.width, TextSize);
             Widgets.Label(warningRect, "TM_ClassWarning".Translate());
             x = Text.CalcSize("TM_RequiresRestart".Translate()).x;
-            Rect restartRect = new Rect(inRect.width / 2f - (x / 2), inRect.y + ClassOptionsWindow.HeaderSize + ClassOptionsWindow.TextSize + 4f, inRect.width, ClassOptionsWindow.TextSize);
+            Rect restartRect = new Rect(inRect.width / 2f - (x / 2), inRect.y + HeaderSize + TextSize + 4f, inRect.width, TextSize);
             Widgets.Label(restartRect, "TM_RequiresRestart".Translate());
             GUI.color = Color.white;
             Rect rect1 = new Rect(inRect);

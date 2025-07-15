@@ -15,16 +15,16 @@ namespace TorannMagic.Weapon
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -40,10 +40,10 @@ namespace TorannMagic.Weapon
 
         protected override bool TryCastShot()
         {
-            CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
+            CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
             if(comp != null && comp.IsMagicUser)
             {
-                LocalTargetInfo t = this.CurrentTarget;
+                LocalTargetInfo t = CurrentTarget;
                 bool flag = t.Cell != default(IntVec3);
                 if (flag)
                 {
@@ -58,7 +58,7 @@ namespace TorannMagic.Weapon
                     //{
                     Vector3 launchDirection = TM_Calc.GetVector(CasterPawn.Position, t.Cell);
                     Vector3 launchPosition = CasterPawn.DrawPos + (launchDirection * 1.4f);
-                    Weapon.FlyingObject_FreezingWinds flyingObject = (FlyingObject_FreezingWinds)GenSpawn.Spawn(launchedThing.def, this.CasterPawn.Position, this.CasterPawn.Map);
+                    FlyingObject_FreezingWinds flyingObject = (FlyingObject_FreezingWinds)GenSpawn.Spawn(launchedThing.def, CasterPawn.Position, CasterPawn.Map);
                     flyingObject.AdvancedLaunch(CasterPawn, TorannMagicDefOf.Mote_WhiteIce, Rand.RangeInclusive(3,8), Rand.RangeInclusive(0,22), true, launchPosition, t, launchedThing, (int)flyingObject.def.projectile.speed, false, 0, 0, flyingObject.def.projectile.damageDef, null, 0, true, .5f);
                     //}, "LaunchingFlyer", false, null);                    
                 }
@@ -68,7 +68,7 @@ namespace TorannMagic.Weapon
             {
                 if (Rand.Chance(.1f))
                 {
-                    MoteMaker.ThrowText(this.CasterPawn.DrawPos, this.CasterPawn.Map, "Failed", -1);
+                    MoteMaker.ThrowText(CasterPawn.DrawPos, CasterPawn.Map, "Failed", -1);
                 }
                 return false;
             }

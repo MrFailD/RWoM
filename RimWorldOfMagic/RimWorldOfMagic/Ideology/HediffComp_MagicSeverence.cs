@@ -17,16 +17,16 @@ namespace TorannMagic.Ideology
 
         public override void CompExposeData()
         {
-            Scribe_Values.Look<bool>(ref this.selectableForRetaliation, "selectableForRetaliation", true);
-            Scribe_Values.Look<bool>(ref this.delayedMindburn, "delayedMindburn", false);
-            Scribe_Values.Look<int>(ref this.ticksTillDeath, "ticksTillDeath", 10);
+            Scribe_Values.Look<bool>(ref selectableForRetaliation, "selectableForRetaliation", true);
+            Scribe_Values.Look<bool>(ref delayedMindburn, "delayedMindburn", false);
+            Scribe_Values.Look<int>(ref ticksTillDeath, "ticksTillDeath", 10);
             base.CompExposeData();
         }
         public string labelCap
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -34,38 +34,38 @@ namespace TorannMagic.Ideology
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
                 
             }
         }
 
-        public override bool CompShouldRemove => base.CompShouldRemove || this.shouldRemove;
+        public override bool CompShouldRemove => base.CompShouldRemove || shouldRemove;
 
         public override void CompPostTick(ref float severityAdjustment)
         {
 
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn.DestroyedOrNull();
+            bool flag = Pawn.DestroyedOrNull();
             if (!flag)
             {
-                if (base.Pawn.Spawned && this.Pawn.needs != null)
+                if (Pawn.Spawned && Pawn.needs != null)
                 {
-                    if(TM_Calc.IsMagicUser(this.Pawn))
+                    if(TM_Calc.IsMagicUser(Pawn))
                     {
-                        this.shouldRemove = true;
+                        shouldRemove = true;
                     }
-                    if (base.Pawn.Dead || base.Pawn.Downed)
+                    if (Pawn.Dead || Pawn.Downed)
                     {
-                        this.shouldRemove = true;
+                        shouldRemove = true;
                     }
                 }
                 if(delayedMindburn)
@@ -73,7 +73,7 @@ namespace TorannMagic.Ideology
                     ticksTillDeath--;
                     if(ticksTillDeath <= 0)
                     {
-                        TM_Action.KillPawnByMindBurn(this.Pawn);
+                        TM_Action.KillPawnByMindBurn(Pawn);
                     }
                 }
             }

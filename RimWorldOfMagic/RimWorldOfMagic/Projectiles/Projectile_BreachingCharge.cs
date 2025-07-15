@@ -19,18 +19,18 @@ namespace TorannMagic
         {
             base.Impact(hitThing);
             ThingDef def = this.def;
-            if (!this.initialized)
+            if (!initialized)
             {
-                caster = this.launcher as Pawn;
+                caster = launcher as Pawn;
                 CompAbilityUserMight comp = caster.GetCompAbilityUserMight();
                 //verVal = TM_Calc.GetMightSkillLevel(caster, comp.MightData.MightPowerSkill_ShotgunSpec, "TM_ShotgunSpec", "_ver", true); 
                 verVal = TM_Calc.GetSkillVersatilityLevel(caster, TorannMagicDefOf.TM_ShotgunSpec);
-                this.explosionCount = 5;
+                explosionCount = 5;
                 if(verVal >= 3)
                 {
-                    this.explosionCount++;
+                    explosionCount++;
                 }
-                this.initialized = true;
+                initialized = true;
             }
 
             landed = true;
@@ -42,15 +42,15 @@ namespace TorannMagic
         {
             if (explosionCount > 0)
             {
-                ExplosionHelper.Explode(base.Position, base.Map, this.def.projectile.explosionRadius-explosionCount, 
-                    this.def.projectile.damageDef, this.launcher as Pawn, Mathf.RoundToInt((this.def.projectile.GetDamageAmount(this) * (1f + (.15f * verVal))) * mightPwr), this.def.projectile.damageDef.defaultArmorPenetration, this.def.projectile.damageDef.soundExplosion, def, this.equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0f, true);
+                ExplosionHelper.Explode(Position, Map, def.projectile.explosionRadius-explosionCount, 
+                    def.projectile.damageDef, launcher as Pawn, Mathf.RoundToInt((def.projectile.GetDamageAmount(this) * (1f + (.15f * verVal))) * mightPwr), def.projectile.damageDef.defaultArmorPenetration, def.projectile.damageDef.soundExplosion, def, equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0f, true);
             }
             else
             {
                 Effecter exp = TorannMagicDefOf.GiantExplosion.Spawn();
-                exp.Trigger(new TargetInfo(base.Position, this.Map, false), new TargetInfo(base.Position, this.Map, false));
+                exp.Trigger(new TargetInfo(Position, Map, false), new TargetInfo(Position, Map, false));
                 exp.Cleanup();
-                this.Destroy(DestroyMode.Vanish);
+                Destroy(DestroyMode.Vanish);
             }
             explosionCount--;
         }

@@ -27,7 +27,7 @@ namespace TorannMagic
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            CompAbilityUserMight comp = this.pawn.GetCompAbilityUserMight();
+            CompAbilityUserMight comp = pawn.GetCompAbilityUserMight();
             float radius = 2.5f;
             //radius += (.75f * TM_Calc.GetMightSkillLevel(pawn, comp.MightData.MightPowerSkill_PsionicBarrier, "TM_PsionicBarrier", "_ver", true));
             radius += (.75f * TM_Calc.GetSkillVersatilityLevel(pawn, TorannMagicDefOf.TM_PsionicBarrier));
@@ -39,25 +39,25 @@ namespace TorannMagic
             //{
             //    radius = 2 + (.5f * comp.MightData.MightPowerSkill_Mimic.FirstOrDefault((MightPowerSkill x) => x.label == "TM_Mimic_ver").level);
             //}
-            this.psiFlag = this.pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_PsionicHD"), false);
+            psiFlag = pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_PsionicHD"), false);
             Toil psionicBarrier = new Toil();
             psionicBarrier.initAction = delegate
             {
                 if (age > duration)
                 {
-                    this.EndJobWith(JobCondition.Succeeded);
+                    EndJobWith(JobCondition.Succeeded);
                 }                
-                Map map = this.pawn.Map;
-                this.barrierCells = new List<IntVec3>();
-                this.barrierCells.Clear();
-                this.GetCellList(radius);
+                Map map = pawn.Map;
+                barrierCells = new List<IntVec3>();
+                barrierCells.Clear();
+                GetCellList(radius);
                 ticksLeftThisToil = 10;
                 comp.shouldDrawPsionicShield = true;                
             };
             psionicBarrier.tickAction = delegate
             {
                 //DrawBarrier(radius);
-                if (Find.TickManager.TicksGame % this.barrierSearchFrequency == 0)
+                if (Find.TickManager.TicksGame % barrierSearchFrequency == 0)
                 {
                     if (psiFlag)
                     {
@@ -69,21 +69,21 @@ namespace TorannMagic
                         {
                             RepelProjectiles(psiFlag, radius);
                         }
-                        if (this.pawn.IsColonist)
+                        if (pawn.IsColonist)
                         {
-                            HealthUtility.AdjustSeverity(this.pawn, HediffDef.Named("TM_PsionicHD"), -.004f);
+                            HealthUtility.AdjustSeverity(pawn, HediffDef.Named("TM_PsionicHD"), -.004f);
                         }
                         else
                         {
-                            HealthUtility.AdjustSeverity(this.pawn, HediffDef.Named("TM_PsionicHD"), -.04f);
+                            HealthUtility.AdjustSeverity(pawn, HediffDef.Named("TM_PsionicHD"), -.04f);
                         }
                         
-                        psiEnergy = this.pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("TM_PsionicHD"), false).Severity;
+                        psiEnergy = pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("TM_PsionicHD"), false).Severity;
                         if (psiEnergy < 1)
                         {
-                            this.EndJobWith(JobCondition.Succeeded);
+                            EndJobWith(JobCondition.Succeeded);
                         }
-                        if (this.psiFlag)
+                        if (psiFlag)
                         {
                             ticksLeftThisToil = (int)psiEnergy;
                         }
@@ -100,19 +100,19 @@ namespace TorannMagic
                     ticksLeftThisToil = Mathf.RoundToInt(((float)(duration - age) / (float)duration)*100f);
                     if (age > duration)
                     {
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                     if(comp.Stamina.CurLevel < .01f)
                     {
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                 }               
             };
             psionicBarrier.defaultCompleteMode = ToilCompleteMode.Delay;
-            psionicBarrier.defaultDuration = this.duration;
+            psionicBarrier.defaultDuration = duration;
             psionicBarrier.WithProgressBar(TargetIndex.A, delegate
             {
-                if (this.pawn.DestroyedOrNull() || this.pawn.Dead || this.pawn.Downed)
+                if (pawn.DestroyedOrNull() || pawn.Dead || pawn.Downed)
                 {
                     return 1f;
                 }
@@ -121,9 +121,9 @@ namespace TorannMagic
             }, false, 0f);
             psionicBarrier.AddFinishAction(delegate
             {
-                if(this.pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
+                if(pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
                 {                    
-                    CompAbilityUserMight mightComp = this.pawn.GetCompAbilityUserMight();
+                    CompAbilityUserMight mightComp = pawn.GetCompAbilityUserMight();
                     if (mightComp.mimicAbility != null)
                     {
                         mightComp.RemovePawnAbility(mightComp.mimicAbility);
@@ -137,9 +137,9 @@ namespace TorannMagic
 
         private void RepelProjectiles(bool usePsionicEnergy, float radius)
         {
-            for (int i = 0; i < this.barrierCells.Count(); i++)
+            for (int i = 0; i < barrierCells.Count(); i++)
             {
-                List<Thing> cellList = this.barrierCells[i].GetThingList(this.pawn.Map);
+                List<Thing> cellList = barrierCells[i].GetThingList(pawn.Map);
                 for (int j = 0; j < cellList.Count; j++)
                 {
                     if (cellList[j] is Projectile)
@@ -147,25 +147,25 @@ namespace TorannMagic
                         Projectile p = cellList[j] as Projectile;
                         if (p.Launcher != null && p.Launcher.Position.DistanceTo(TargetLocA) > (radius +.5f))
                         {
-                            Vector3 displayEffect = this.barrierCells[i].ToVector3Shifted();
+                            Vector3 displayEffect = barrierCells[i].ToVector3Shifted();
                             displayEffect.x += Rand.Range(-.3f, .3f);
                             displayEffect.y += Rand.Range(-.3f, .3f);
                             displayEffect.z += Rand.Range(-.3f, .3f);
                             float projectileDamage = cellList[j].def.projectile.GetDamageAmount(1, null);
-                            TM_MoteMaker.ThrowGenericFleck(FleckDefOf.LightningGlow, displayEffect, this.Map, projectileDamage / 8f, .2f, .1f, .3f, 0, 0, 0, Rand.Range(0, 360));
+                            TM_MoteMaker.ThrowGenericFleck(FleckDefOf.LightningGlow, displayEffect, Map, projectileDamage / 8f, .2f, .1f, .3f, 0, 0, 0, Rand.Range(0, 360));
                             if(usePsionicEnergy)
                             {
-                                int eff = this.pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_PsionicBarrier.FirstOrDefault((MightPowerSkill x) => x.label == "TM_PsionicBarrier_eff").level;
+                                int eff = pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_PsionicBarrier.FirstOrDefault((MightPowerSkill x) => x.label == "TM_PsionicBarrier_eff").level;
                                 float sevReduct = (projectileDamage / (12 + eff));
-                                HealthUtility.AdjustSeverity(this.pawn, HediffDef.Named("TM_PsionicHD"), -sevReduct);
+                                HealthUtility.AdjustSeverity(pawn, HediffDef.Named("TM_PsionicHD"), -sevReduct);
                             }
                             else
                             {
-                                this.pawn.GetCompAbilityUserMight().Stamina.CurLevel -= (projectileDamage / 600);
+                                pawn.GetCompAbilityUserMight().Stamina.CurLevel -= (projectileDamage / 600);
                             }
                             if(cellList[j].def.projectile.explosionRadius > 0 && cellList[j].def != TorannMagicDefOf.Projectile_FogOfTorment)
                             {
-                                ExplosionHelper.Explode(barrierCells[i], this.pawn.Map, cellList[j].def.projectile.explosionRadius, cellList[j].def.projectile.damageDef, this.pawn, (int)projectileDamage, cellList[j].def.projectile.GetArmorPenetration(null, null), cellList[j].def.projectile.soundExplode,
+                                ExplosionHelper.Explode(barrierCells[i], pawn.Map, cellList[j].def.projectile.explosionRadius, cellList[j].def.projectile.damageDef, pawn, (int)projectileDamage, cellList[j].def.projectile.GetArmorPenetration(null, null), cellList[j].def.projectile.soundExplode,
                                     null, cellList[j].def, null, cellList[j].def.projectile.postExplosionSpawnThingDef, cellList[j].def.projectile.postExplosionSpawnChance, cellList[j].def.projectile.postExplosionSpawnThingCount, null, cellList[j].def.projectile.applyDamageToExplosionCellsNeighbors,
                                     cellList[j].def.projectile.preExplosionSpawnThingDef, cellList[j].def.projectile.preExplosionSpawnChance, cellList[j].def.projectile.preExplosionSpawnThingCount, cellList[j].def.projectile.explosionChanceToStartFire, cellList[j].def.projectile.explosionDamageFalloff);
                             }
@@ -180,7 +180,7 @@ namespace TorannMagic
         {
             float drawRadius = radius * .23f;
             float num = Mathf.Lerp(drawRadius, 9.5f, drawRadius);
-            Vector3 vector = this.TargetLocA.ToVector3Shifted();
+            Vector3 vector = TargetLocA.ToVector3Shifted();
             vector.y = Altitudes.AltitudeFor(AltitudeLayer.VisEffects);
             Vector3 s = new Vector3(num, 9.5f, num);
             Matrix4x4 matrix = default(Matrix4x4);
@@ -192,7 +192,7 @@ namespace TorannMagic
         {
             IEnumerable<IntVec3> outerCells = GenRadial.RadialCellsAround(TargetLocA, radius, false);
             IEnumerable<IntVec3> innerCells = GenRadial.RadialCellsAround(TargetLocA, radius - 2, false);
-            this.barrierCells = outerCells.Except(innerCells).ToList<IntVec3>();
+            barrierCells = outerCells.Except(innerCells).ToList<IntVec3>();
             //for (int i = 0; i < this.barrierCells.Count(); i++)
             //{
             //    IntVec3 intVec = this.barrierCells[i];

@@ -13,7 +13,7 @@ namespace TorannMagic
             Map map = base.CasterPawn.Map;
             Pawn pawn = base.CasterPawn;
             CompAbilityUserMight comp = pawn.GetCompAbilityUserMight();
-            int pwrVal = TM_Calc.GetSkillPowerLevel(pawn, this.Ability.Def as TMAbilityDef);
+            int pwrVal = TM_Calc.GetSkillPowerLevel(pawn, Ability.Def as TMAbilityDef);
 
             if (pawn != null && !pawn.Dead)
             {
@@ -36,7 +36,7 @@ namespace TorannMagic
                 }
             }
 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return false;
         }
     }

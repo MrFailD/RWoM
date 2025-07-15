@@ -23,7 +23,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -31,14 +31,14 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
                 
@@ -47,12 +47,12 @@ namespace TorannMagic
 
         public override void CompPostTick(ref float severityAdjustment)
         {
-            bool flag = base.Pawn.DestroyedOrNull();
+            bool flag = Pawn.DestroyedOrNull();
             if (!flag)
             {
-                if (base.Pawn.Spawned)
+                if (Pawn.Spawned)
                 {                    
-                    if ((Find.TickManager.TicksGame > nextTick || shouldStrike) && !base.Pawn.Dead && Pawn.Map != null)
+                    if ((Find.TickManager.TicksGame > nextTick || shouldStrike) && !Pawn.Dead && Pawn.Map != null)
                     {
                         TMHollowGolem caster = Pawn as TMHollowGolem;
                         nextTick = Find.TickManager.TicksGame + Rand.Range(150, 300);
@@ -77,7 +77,7 @@ namespace TorannMagic
             for (int i = 0; i < rndCount; i++)
             {
                 TM_Action.DamageEntities(target, null, 8f, TMDamageDefOf.DamageDefOf.TM_DecayDD, caster);
-                float range = Vector3.Distance(target.DrawPos, this.Pawn.DrawPos);
+                float range = Vector3.Distance(target.DrawPos, Pawn.DrawPos);
                 Vector3 dir = TM_Calc.GetVector(caster.Position, target.Position);
                 float angle = (Quaternion.AngleAxis(90, Vector3.up) * dir).ToAngleFlat();
                 Mesh mesh = RandomBoltMesh(range);

@@ -20,15 +20,15 @@ namespace TorannMagic
 
         public override void CompExposeData()
         {
-            Scribe_Values.Look<bool>(ref this.consumeJoy, "consumeJoy", false);
-            Scribe_Values.Look<float>(ref this.reductionFactor, "reductionFactor", 1f);
+            Scribe_Values.Look<bool>(ref consumeJoy, "consumeJoy", false);
+            Scribe_Values.Look<float>(ref reductionFactor, "reductionFactor", 1f);
             base.CompExposeData();
         }
         public string labelCap
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -36,34 +36,34 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
-                if(base.Pawn.records != null)
+                if(Pawn.records != null)
                 {
-                    lastDamageDealt = base.Pawn.records.GetAsInt(RecordDefOf.DamageDealt);
+                    lastDamageDealt = Pawn.records.GetAsInt(RecordDefOf.DamageDealt);
                 }
             }
         }
 
 
-        public override bool CompShouldRemove => base.CompShouldRemove || this.shouldRemove;
+        public override bool CompShouldRemove => base.CompShouldRemove || shouldRemove;
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             bool usedEmotions = false;
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn.DestroyedOrNull();
+            bool flag = Pawn.DestroyedOrNull();
             if (!flag)
             {
-                if (base.Pawn.Spawned && this.Pawn.needs != null)
+                if (Pawn.Spawned && Pawn.needs != null)
                 {
                     if(!initialized)
                     {
@@ -78,17 +78,17 @@ namespace TorannMagic
                     {
                         float tickCost = (reductionAmount * reductionFactor);
                         float moodGain = 0f;
-                        if (base.Pawn.records != null)
+                        if (Pawn.records != null)
                         {
-                            int currentDamage = base.Pawn.records.GetAsInt(RecordDefOf.DamageDealt);
+                            int currentDamage = Pawn.records.GetAsInt(RecordDefOf.DamageDealt);
                             int damageDiff = Mathf.Clamp(currentDamage - lastDamageDealt, 0, 100);
                             moodGain = Mathf.Clamp(.001f * damageDiff, 0f, 1f);
                             lastDamageDealt = currentDamage;
                         }
 
-                        for (int i = 0; i < this.Pawn.needs.AllNeeds.Count; i++)
+                        for (int i = 0; i < Pawn.needs.AllNeeds.Count; i++)
                         {
-                            Need n = this.Pawn.needs.AllNeeds[i];
+                            Need n = Pawn.needs.AllNeeds[i];
                             if(consumeJoy && n.def == TorannMagicDefOf.Joy && n.CurLevel >= tickCost)
                             {
                                 n.CurLevel -= tickCost;
@@ -111,7 +111,7 @@ namespace TorannMagic
                         }
                         if (!usedEmotions)
                         {
-                            if (this.parent.Severity >= tickCost)
+                            if (parent.Severity >= tickCost)
                             {
                                 severityAdjustment = (-1f * tickCost);
                             }
@@ -121,9 +121,9 @@ namespace TorannMagic
                             }
                         }
                     }
-                    if(base.Pawn.Dead || base.Pawn.Downed)
+                    if(Pawn.Dead || Pawn.Downed)
                     {
-                        this.shouldRemove = true;
+                        shouldRemove = true;
                     }
                 }
             }
@@ -131,7 +131,7 @@ namespace TorannMagic
 
         public override void CompPostPostRemoved()
         {
-            Need n = this.Pawn.needs.mood;
+            Need n = Pawn.needs.mood;
             if(n != null && n.CurLevel < .4f)
             {
                 n.CurLevel = .4f;
@@ -141,10 +141,10 @@ namespace TorannMagic
 
         public void DrawEffects()
         {
-            Vector3 headOffset = this.Pawn.DrawPos;
+            Vector3 headOffset = Pawn.DrawPos;
             headOffset.z += .4f;
             float throwAngle = Rand.Range(-20, 20);
-            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_BloodMist, headOffset, this.Pawn.Map, Rand.Range(.4f, .6f), .12f, .01f, .1f, 0, .5f, throwAngle, Rand.Range(0, 360));
+            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_BloodMist, headOffset, Pawn.Map, Rand.Range(.4f, .6f), .12f, .01f, .1f, 0, .5f, throwAngle, Rand.Range(0, 360));
             //if (this.Pawn.Rotation == Rot4.East)
             //{
                 

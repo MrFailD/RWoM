@@ -9,16 +9,16 @@ namespace TorannMagic
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if ( targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             { //targ.Cell.DistanceToEdge(base.CasterPawn.Map) >= 4 &&
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -38,11 +38,11 @@ namespace TorannMagic
             TargetAoEProperties targetAoEProperties = UseAbilityProps.abilityDef.MainVerb.TargetAoEProperties;
             if (targetAoEProperties == null || !targetAoEProperties.showRangeOnSelect)
             {
-                CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
+                CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
                 float adjustedRadius = verbProps.defaultProjectile?.projectile?.explosionRadius ?? 1.2f;
                 if (comp != null && comp.MagicData != null)
                 {
-                    int verVal = TM_Calc.GetSkillVersatilityLevel(this.CasterPawn, this.Ability.Def as TMAbilityDef);
+                    int verVal = TM_Calc.GetSkillVersatilityLevel(CasterPawn, Ability.Def as TMAbilityDef);
                     adjustedRadius = 1.2f + (.8f * verVal);
                 }
                 return adjustedRadius;
@@ -52,7 +52,7 @@ namespace TorannMagic
 
         public virtual void Effect()
         {
-            LocalTargetInfo t = this.TargetsAoE[0];
+            LocalTargetInfo t = TargetsAoE[0];
             bool flag = t.Cell != default(IntVec3);
             if (flag)
             {
@@ -65,8 +65,8 @@ namespace TorannMagic
 
                 LongEventHandler.QueueLongEvent(delegate
                 {
-                    FlyingObject_ValiantCharge flyingObject = (FlyingObject_ValiantCharge)GenSpawn.Spawn(ThingDef.Named("FlyingObject_ValiantCharge"), this.CasterPawn.Position, this.CasterPawn.Map);
-                    flyingObject.Launch(this.CasterPawn, t.Cell, this.CasterPawn);
+                    FlyingObject_ValiantCharge flyingObject = (FlyingObject_ValiantCharge)GenSpawn.Spawn(ThingDef.Named("FlyingObject_ValiantCharge"), CasterPawn.Position, CasterPawn.Map);
+                    flyingObject.Launch(CasterPawn, t.Cell, CasterPawn);
                 }, "LaunchingFlyer", false, null);
             }
         }
@@ -75,7 +75,7 @@ namespace TorannMagic
         {
             if (inResult)
             {
-                this.Effect();
+                Effect();
                 outResult = true;
             }
             outResult = inResult;

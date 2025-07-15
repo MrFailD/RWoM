@@ -21,7 +21,7 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             Map map = base.CasterPawn.Map;
-            comp = this.CasterPawn.GetCompAbilityUserMagic();
+            comp = CasterPawn.GetCompAbilityUserMagic();
             StartChoosingDestination();
             return false;
         }
@@ -31,9 +31,9 @@ namespace TorannMagic
             CameraJumper.TryJump(CameraJumper.GetWorldTarget(base.CasterPawn.Map.info.parent));
             Find.WorldSelector.ClearSelection();
             int tile = base.CasterPawn.Map.Tile;
-            Find.WorldTargeter.BeginTargeting(new Func<GlobalTargetInfo, bool>(this.ChoseWorldTarget), true, Verb_FoldReality.TargeterMouseAttachment, true, delegate
+            Find.WorldTargeter.BeginTargeting(new Func<GlobalTargetInfo, bool>(ChoseWorldTarget), true, TargeterMouseAttachment, true, delegate
             {
-                GenDraw.DrawWorldRadiusRing(tile, this.MaxLaunchDistance);  //center, max launch distance
+                GenDraw.DrawWorldRadiusRing(tile, MaxLaunchDistance);  //center, max launch distance
             }, delegate (GlobalTargetInfo target)
             {
                 if (!target.IsValid)
@@ -41,11 +41,11 @@ namespace TorannMagic
                     return null;
                 }
                 int num = Find.WorldGrid.TraversalDistanceBetween(tile, target.Tile);
-                if (num <= this.MaxLaunchDistance) // <= max launch distance
+                if (num <= MaxLaunchDistance) // <= max launch distance
                 {
                     return null;
                 }
-                if (num > this.MaxLaunchDistance) //this.MaxLaunchDistanceEverPossible
+                if (num > MaxLaunchDistance) //this.MaxLaunchDistanceEverPossible
                 {
                     return "TM_GatewayBeyondMaximumRange".Translate();
                 }
@@ -61,7 +61,7 @@ namespace TorannMagic
                 return false;
             }
             int num = Find.WorldGrid.TraversalDistanceBetween(base.CasterPawn.Map.Tile, target.Tile);
-            if (num > this.MaxLaunchDistance)
+            if (num > MaxLaunchDistance)
             {
                 Messages.Message("TM_GatewayBeyondMaximumRange".Translate(), MessageTypeDefOf.RejectInput);
                 return false;
@@ -90,7 +90,7 @@ namespace TorannMagic
                     {
                         Current.Game.CurrentMap = myMap;
                     }
-                }, Verb_FoldReality.TargeterMouseAttachment);
+                }, TargeterMouseAttachment);
                 return true;
             }
             bool flag;
@@ -150,14 +150,14 @@ namespace TorannMagic
                         if(thingList[j] != null && thingList[j].def.mote == null)
                         {
                             Thing targetThing = thingList[j];
-                            if (targetThing != this.CasterPawn)
+                            if (targetThing != CasterPawn)
                             {
                                 if (targetThing is Pawn)
                                 {
                                     FleckMaker.ThrowLightningGlow(targetThing.DrawPos, targetThing.Map, 1f);
                                     FleckMaker.ThrowHeatGlow(targetThing.Position, targetThing.Map, 1f);
                                     targetThing.DeSpawn();
-                                    GenSpawn.Spawn(targetThing, this.CasterPawn.Position, this.CasterPawn.Map);
+                                    GenSpawn.Spawn(targetThing, CasterPawn.Position, CasterPawn.Map);
                                     transportedItemCount++;
                                     j--;
                                 }
@@ -166,7 +166,7 @@ namespace TorannMagic
                                     FleckMaker.ThrowLightningGlow(targetThing.DrawPos, targetThing.Map, .6f);
                                     FleckMaker.ThrowHeatGlow(targetThing.Position, targetThing.Map, 1f);
                                     targetThing.DeSpawn();
-                                    GenPlace.TryPlaceThing(targetThing, this.CasterPawn.Position, this.CasterPawn.Map, ThingPlaceMode.Near, null);
+                                    GenPlace.TryPlaceThing(targetThing, CasterPawn.Position, CasterPawn.Map, ThingPlaceMode.Near, null);
                                     transportedItemCount++;
                                     j--;
                                 }

@@ -24,29 +24,29 @@ namespace TorannMagic
             {
                 initAction = () =>
                 {
-                    if(this.age > this.durationTicks)
+                    if(age > durationTicks)
                     {
-                        this.EndJobWith(JobCondition.InterruptForced);
+                        EndJobWith(JobCondition.InterruptForced);
                     }
                 },
                 tickAction = () =>
                 {
                     if (age > durationTicks)
                     {
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                     age++;
                 },
                 defaultCompleteMode = ToilCompleteMode.Never
             };
-            doFor.defaultDuration = this.durationTicks;
+            doFor.defaultDuration = durationTicks;
             doFor.WithProgressBar(TargetIndex.A, delegate
             {
-                if (this.pawn.DestroyedOrNull() || this.pawn.Dead || this.pawn.Downed)
+                if (pawn.DestroyedOrNull() || pawn.Dead || pawn.Downed)
                 {
                     return 1f;
                 }
-                return 1f - (float)doFor.actor.jobs.curDriver.ticksLeftThisToil / this.durationTicks;
+                return 1f - (float)doFor.actor.jobs.curDriver.ticksLeftThisToil / durationTicks;
 
             }, false, 0f);
             yield return doFor;         

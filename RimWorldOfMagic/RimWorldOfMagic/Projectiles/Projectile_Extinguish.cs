@@ -10,11 +10,11 @@ namespace TorannMagic
 	{
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
-            ExplosionHelper.Explode(base.Position, map, this.def.projectile.explosionRadius, this.def.projectile.damageDef, this.launcher, this.def.projectile.GetDamageAmount(1, null), 0, SoundDefOf.Artillery_ShellLoaded, def, this.equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
-            Pawn p = this.launcher as Pawn;
+            ExplosionHelper.Explode(Position, map, this.def.projectile.explosionRadius, this.def.projectile.damageDef, launcher, this.def.projectile.GetDamageAmount(1, null), 0, SoundDefOf.Artillery_ShellLoaded, def, equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
+            Pawn p = launcher as Pawn;
             if (p != null)
             {
                 CompAbilityUserMagic comp = p.GetCompAbilityUserMagic();
@@ -22,7 +22,7 @@ namespace TorannMagic
                 {
                     if (comp.MagicData.MagicPowerSkill_Cantrips.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Cantrips_pwr").level >= 4)
                     {
-                        List<Pawn> allPawns = TM_Calc.FindAllPawnsAround(map, base.Position, this.def.projectile.explosionRadius);
+                        List<Pawn> allPawns = TM_Calc.FindAllPawnsAround(map, Position, this.def.projectile.explosionRadius);
                         if (allPawns != null && allPawns.Count > 0)
                         {
                             for (int i = 0; i < allPawns.Count; i++)

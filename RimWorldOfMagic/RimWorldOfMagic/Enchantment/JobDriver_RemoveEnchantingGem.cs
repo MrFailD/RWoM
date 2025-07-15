@@ -14,7 +14,7 @@ namespace TorannMagic.Enchantment
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<int>(ref this.useDuration, "useDuration", 0, false);
+            Scribe_Values.Look<int>(ref useDuration, "useDuration", 0, false);
         }
 
         public override void Notify_Starting()
@@ -24,7 +24,7 @@ namespace TorannMagic.Enchantment
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
+            return pawn.Reserve(job.targetA, job, 1, -1, null);
         }
 
         [DebuggerHidden]

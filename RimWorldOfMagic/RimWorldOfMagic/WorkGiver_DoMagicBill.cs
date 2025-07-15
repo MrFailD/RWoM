@@ -246,7 +246,7 @@ namespace TorannMagic
                     if (bill.ShouldDoNow() && bill.PawnAllowedToStartAnew(pawn))
                     {
                         bool issueBill = true;
-                        this.magicCircle = thing as Building_TMMagicCircleBase;
+                        magicCircle = thing as Building_TMMagicCircleBase;
                         
                         List<Pawn> billPawns = new List<Pawn>();
                         billPawns.Clear();
@@ -295,11 +295,11 @@ namespace TorannMagic
                                 }
                                 if (TryFindBestBillIngredients(bill, pawn, (Thing)giver, chosenIngThings))
                                 {
-                                    this.magicCircle = thing as Building_TMMagicCircle;
-                                    if (this.magicCircle != null && bill.recipe is MagicRecipeDef)
+                                    magicCircle = thing as Building_TMMagicCircle;
+                                    if (magicCircle != null && bill.recipe is MagicRecipeDef)
                                     {
-                                        this.magicCircle.magicRecipeDef = bill.recipe as MagicRecipeDef;
-                                        this.magicCircle.MageList.Clear();
+                                        magicCircle.magicRecipeDef = bill.recipe as MagicRecipeDef;
+                                        magicCircle.MageList.Clear();
                                         magicCircle.MageList.Add(pawn);
                                         //Log.Message("assigning magic bill to " + pawn.LabelShort);
                                         if (bill.recipe is MagicRecipeDef && billPawns.Count > 1)
@@ -314,7 +314,7 @@ namespace TorannMagic
                                                 }
                                             }
                                         }
-                                        this.magicCircle.IsPending = true;
+                                        magicCircle.IsPending = true;
                                     }
                                     Job result = TryStartNewDoBillJob(pawn, bill, giver);
                                     chosenIngThings.Clear();

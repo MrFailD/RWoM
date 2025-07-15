@@ -30,7 +30,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -38,68 +38,68 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            CompAbilityUserMight comp = this.Pawn.GetCompAbilityUserMight();
+            bool spawned = Pawn.Spawned;
+            CompAbilityUserMight comp = Pawn.GetCompAbilityUserMight();
             if (spawned && comp != null && comp.IsMightUser)
             {
                 DetermineHediff();
             }
             else
             {
-                this.Pawn.health.RemoveHediff(this.parent);
+                Pawn.health.RemoveHediff(parent);
             }
         }        
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
 
-                if (Find.TickManager.TicksGame > this.nextApplyTick)
+                if (Find.TickManager.TicksGame > nextApplyTick)
                 {
-                    this.nextApplyTick = Find.TickManager.TicksGame + Rand.Range(1000, 1200);
-                    if (base.Pawn.Map != null)
+                    nextApplyTick = Find.TickManager.TicksGame + Rand.Range(1000, 1200);
+                    if (Pawn.Map != null)
                     {
                         speechPawns.Clear();
-                        List<Pawn> mapPawns = this.Pawn.Map.mapPawns.AllPawnsSpawned.ToList();
+                        List<Pawn> mapPawns = Pawn.Map.mapPawns.AllPawnsSpawned.ToList();
                         for (int i = 0; i < mapPawns.Count; i++)
                         {
-                            if (mapPawns[i].RaceProps.Humanlike && mapPawns[i].Faction != null && mapPawns[i].Faction == base.Pawn.Faction && mapPawns[i] != this.Pawn)
+                            if (mapPawns[i].RaceProps.Humanlike && mapPawns[i].Faction != null && mapPawns[i].Faction == Pawn.Faction && mapPawns[i] != Pawn)
                             {
                                 if (!TM_Calc.IsUndeadNotVamp(mapPawns[i]))
                                 {
-                                    if (base.Pawn.Position.InHorDistOf(mapPawns[i].Position, radius))
+                                    if (Pawn.Position.InHorDistOf(mapPawns[i].Position, radius))
                                     {
                                         ApplyHediff(mapPawns[i]);
                                     }
                                 }
                             }
                         }
-                        CompAbilityUserMight comp = this.Pawn.GetCompAbilityUserMight();
+                        CompAbilityUserMight comp = Pawn.GetCompAbilityUserMight();
                         comp.MightUserXP += Rand.Range(2, 5);                        
                     }
                     else //map null
                     {
-                        if (this.Pawn.ParentHolder.ToString().Contains("Caravan"))
+                        if (Pawn.ParentHolder.ToString().Contains("Caravan"))
                         {
-                            foreach (Pawn current in base.Pawn.holdingOwner)
+                            foreach (Pawn current in Pawn.holdingOwner)
                             {
                                 if (current != null)
                                 {
-                                    if (current.RaceProps.Humanlike && current.Faction != null && current.Faction == this.Pawn.Faction && current != this.Pawn)
+                                    if (current.RaceProps.Humanlike && current.Faction != null && current.Faction == Pawn.Faction && current != Pawn)
                                     {
                                         ApplyHediff(current);
                                     }
@@ -118,13 +118,13 @@ namespace TorannMagic
 
         private void DetermineHediff()
         {           
-            CompAbilityUserMight comp = this.Pawn.GetCompAbilityUserMight();
+            CompAbilityUserMight comp = Pawn.GetCompAbilityUserMight();
             if (parent.def == TorannMagicDefOf.TM_ProvisionerAuraHD && comp != null)
             {
                 pwrVal = comp.MightData.MightPowerSkill_ProvisionerAura.FirstOrDefault((MightPowerSkill x) => x.label == "TM_ProvisionerAura_pwr").level;
                 verVal = comp.MightData.MightPowerSkill_ProvisionerAura.FirstOrDefault((MightPowerSkill x) => x.label == "TM_ProvisionerAura_ver").level;
             }
-            this.radius = 15f + (2f * verVal);
+            radius = 15f + (2f * verVal);
         }
 
         private void ApplyHediff(Pawn p)

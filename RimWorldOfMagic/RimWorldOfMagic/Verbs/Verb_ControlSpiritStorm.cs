@@ -14,28 +14,28 @@ namespace TorannMagic
         public Map map;
         protected override bool TryCastShot()
         {
-            Pawn p = this.CasterPawn;
-            map = this.CasterPawn.Map;
-            CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
+            Pawn p = CasterPawn;
+            map = CasterPawn.Map;
+            CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
             List<FlyingObject_SpiritStorm> storms = GetActiveStorms();
             if(storms != null)
             {
                 foreach(FlyingObject_SpiritStorm ss in storms)
                 {
                     ss.PlayerTargetSet = true;
-                    ss.ManualDestination = this.currentTarget.CenterVector3;
+                    ss.ManualDestination = currentTarget.CenterVector3;
                 }
             }
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return true;
         }
 
 
         private List<FlyingObject_SpiritStorm> GetActiveStorms()
         {
-            if (this.map != null)
+            if (map != null)
             {
-                IEnumerable<FlyingObject_SpiritStorm> storm = from def in this.map.listerThings.AllThings
+                IEnumerable<FlyingObject_SpiritStorm> storm = from def in map.listerThings.AllThings
                                                               where (def.Spawned && def is FlyingObject_SpiritStorm)
                                                               select def as FlyingObject_SpiritStorm;
                 if(storm != null && storm.Count() > 0)

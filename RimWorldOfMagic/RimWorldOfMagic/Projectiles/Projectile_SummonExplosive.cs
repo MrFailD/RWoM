@@ -17,12 +17,12 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            if (this.age >= duration)
+            if (age >= duration)
             {
                 base.Destroy(mode);
             }
@@ -31,7 +31,7 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             Destroy();
             //base.Impact(hitThing);
             ThingDef def = this.def;
@@ -39,7 +39,7 @@ namespace TorannMagic
             Thing item = hitThing as Thing;
             IntVec3 arg_pos_1;
             GenClamor.DoClamor(this, 2.1f, ClamorDefOf.Impact);
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_SummonExplosive.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SummonExplosive_pwr");
             MagicPowerSkill ver = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_SummonExplosive.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_SummonExplosive_ver");
@@ -58,11 +58,11 @@ namespace TorannMagic
                 pwrVal = 3;
                 verVal = 3;
             }
-            CellRect cellRect = CellRect.CenteredOn(base.Position, 1);
+            CellRect cellRect = CellRect.CenteredOn(Position, 1);
             cellRect.ClipInsideMap(map);
             IntVec3 centerCell = cellRect.CenterCell;
 
-            if (!this.primed)
+            if (!primed)
             {
                 duration += (verVal * 7200);
                 duration = (int)(duration * comp.arcaneDmg);
@@ -70,7 +70,7 @@ namespace TorannMagic
 
                 if ((arg_pos_1.IsValid && arg_pos_1.Standable(map)))
                 {
-                    AbilityUser.SpawnThings tempPod = new SpawnThings();
+                    SpawnThings tempPod = new SpawnThings();
                     IntVec3 shiftPos = centerCell;
                     centerCell.x++;
 
@@ -93,7 +93,7 @@ namespace TorannMagic
                     tempPod.spawnCount = 1;
                     try
                     {
-                        Projectile_SummonExplosive.SingleSpawnLoop(tempPod, shiftPos, map, this.launcher, this.duration);
+                        SingleSpawnLoop(tempPod, shiftPos, map, launcher, duration);
                     }
                     catch
                     {
@@ -102,11 +102,11 @@ namespace TorannMagic
                         {
                             comp.Mana.CurLevel += comp.ActualManaCost(TorannMagicDefOf.TM_SummonExplosive);
                         }
-                        this.age = this.duration;
+                        age = duration;
                         return;
                     }
 
-                    this.primed = true;
+                    primed = true;
                 }
                 else
                 {
@@ -115,11 +115,11 @@ namespace TorannMagic
                     {
                         comp.Mana.CurLevel += comp.ActualManaCost(TorannMagicDefOf.TM_SummonExplosive);
                     }
-                    this.duration = 0;
+                    duration = 0;
                 }
             }
 
-            this.age = this.duration;           
+            age = duration;           
         }
 
         public static void SingleSpawnLoop(SpawnThings spawnables, IntVec3 position, Map map, Thing launcher, int duration)
@@ -166,10 +166,10 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_References.Look<Thing>(ref this.placedThing, "placedThing");
-            Scribe_Values.Look<bool>(ref this.primed, "primed", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 7200, false);
+            Scribe_References.Look<Thing>(ref placedThing, "placedThing");
+            Scribe_Values.Look<bool>(ref primed, "primed", false, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 7200, false);
         }
     }
 }

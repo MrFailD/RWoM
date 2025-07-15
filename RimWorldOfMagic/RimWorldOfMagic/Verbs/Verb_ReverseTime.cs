@@ -22,16 +22,16 @@ namespace TorannMagic
         //can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -47,7 +47,7 @@ namespace TorannMagic
 
         private void Initialize()
         {
-            Pawn pawn = this.CasterPawn;
+            Pawn pawn = CasterPawn;
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             //MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_ReverseTime.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_ReverseTime_pwr");
             //MagicPowerSkill ver = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_ReverseTime.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_ReverseTime_ver");
@@ -67,8 +67,8 @@ namespace TorannMagic
             //    pwrVal = 3;
             //    verVal = 3;
             //}
-            pwrVal = TM_Calc.GetSkillPowerLevel(pawn, this.Ability.Def as TMAbilityDef);
-            verVal = TM_Calc.GetSkillVersatilityLevel(pawn, this.Ability.Def as TMAbilityDef);
+            pwrVal = TM_Calc.GetSkillPowerLevel(pawn, Ability.Def as TMAbilityDef);
+            verVal = TM_Calc.GetSkillVersatilityLevel(pawn, Ability.Def as TMAbilityDef);
         }
 
         protected override bool TryCastShot()
@@ -82,15 +82,15 @@ namespace TorannMagic
             bool flagNutrition = false;
             bool flagCorpse = false;
 
-            Pawn targetPawn = this.currentTarget.Thing as Pawn;
+            Pawn targetPawn = currentTarget.Thing as Pawn;
             if (targetPawn == null)
             {
-                this.currentTarget.Cell.GetFirstPawn(this.CasterPawn.Map);
+                currentTarget.Cell.GetFirstPawn(CasterPawn.Map);
             }
 
             if (targetPawn != null)
             {
-                if (targetPawn.Faction != null && targetPawn.Faction == this.CasterPawn.Faction)
+                if (targetPawn.Faction != null && targetPawn.Faction == CasterPawn.Faction)
                 {
                     AgePawn(targetPawn, Mathf.RoundToInt((6 * 2500) * (1 + (.1f * verVal))), false);
                 }
@@ -103,7 +103,7 @@ namespace TorannMagic
 
             if (!flagPawn)
             {
-                List<Thing> thingList = this.currentTarget.Cell.GetThingList(caster.Map);
+                List<Thing> thingList = currentTarget.Cell.GetThingList(caster.Map);
                 Thing ageThing = null;
 
 
@@ -160,16 +160,16 @@ namespace TorannMagic
                 }
             }
             Effecter ReverseEffect = TorannMagicDefOf.TM_TimeReverseEffecter.Spawn();
-            ReverseEffect.Trigger(new TargetInfo(this.currentTarget.Cell, this.CasterPawn.Map, false), new TargetInfo(this.currentTarget.Cell, this.CasterPawn.Map, false));
+            ReverseEffect.Trigger(new TargetInfo(currentTarget.Cell, CasterPawn.Map, false), new TargetInfo(currentTarget.Cell, CasterPawn.Map, false));
             ReverseEffect.Cleanup();
 
-            this.PostCastShot(flag, out flag);
+            PostCastShot(flag, out flag);
             return flag;
         }
 
         private void AgePawn(Pawn pawn, int duration, bool isBad)
         {
-            duration = Mathf.RoundToInt(duration * this.arcaneDmg);
+            duration = Mathf.RoundToInt(duration * arcaneDmg);
             if (!pawn.DestroyedOrNull() && !pawn.Dead && pawn.health != null && pawn.health.hediffSet != null && pawn.Map != null)
             {
                 if (pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_AccelerateTimeHD))
@@ -179,7 +179,7 @@ namespace TorannMagic
                 }
                 else
                 {
-                    if (pawn.Faction == this.CasterPawn.Faction || (Rand.Chance((.5f + verVal) * TM_Calc.GetSpellSuccessChance(this.CasterPawn, pawn, false))))
+                    if (pawn.Faction == CasterPawn.Faction || (Rand.Chance((.5f + verVal) * TM_Calc.GetSpellSuccessChance(CasterPawn, pawn, false))))
                     {
                         if(isBad)
                         {
@@ -219,7 +219,7 @@ namespace TorannMagic
         private void AgeThing(Thing thing)
         {
 
-            thing.HitPoints = Mathf.Clamp(thing.HitPoints + Mathf.RoundToInt((200 + (100 * pwrVal)) * this.arcaneDmg), 0, thing.MaxHitPoints);
+            thing.HitPoints = Mathf.Clamp(thing.HitPoints + Mathf.RoundToInt((200 + (100 * pwrVal)) * arcaneDmg), 0, thing.MaxHitPoints);
             if (thing is Apparel apparelThing)
             {
                 if(apparelThing.WornByCorpse)
@@ -256,9 +256,9 @@ namespace TorannMagic
                         HealthUtility.AdjustSeverity(innerPawn, TorannMagicDefOf.TM_DeathReversalHD, 1f);
                         Projectile_Resurrection.ApplyHealthDefects(innerPawn, .25f, .3f);
                         Projectile_Resurrection.ReduceSkillsOfPawn(innerPawn, Rand.Range(.30f, .40f));
-                        HealthUtility.AdjustSeverity(this.CasterPawn, TorannMagicDefOf.TM_DeathReversalHD, Rand.Range(.4f, .6f));
+                        HealthUtility.AdjustSeverity(CasterPawn, TorannMagicDefOf.TM_DeathReversalHD, Rand.Range(.4f, .6f));
                         //Projectile_Resurrection.ApplyHealthDefects(this.CasterPawn, .15f, .2f);
-                        Projectile_Resurrection.ReduceSkillsOfPawn(this.CasterPawn, Rand.Range(.15f, .25f));
+                        Projectile_Resurrection.ReduceSkillsOfPawn(CasterPawn, Rand.Range(.15f, .25f));
                     }
                 }
                 else
@@ -275,14 +275,14 @@ namespace TorannMagic
         public void TransmutateEffects(IntVec3 position, int intensity)
         {
             Vector3 rndPos = position.ToVector3Shifted();
-            FleckMaker.ThrowHeatGlow(position, this.CasterPawn.Map, 1f);
+            FleckMaker.ThrowHeatGlow(position, CasterPawn.Map, 1f);
             for (int i = 0; i < intensity; i++)
             {
                 rndPos.x += Rand.Range(-.5f, .5f);
                 rndPos.z += Rand.Range(-.5f, .5f);
                 rndPos.y += Rand.Range(.3f, 1.3f);
-                FleckMaker.ThrowSmoke(rndPos, this.CasterPawn.Map, Rand.Range(.7f, 1.1f));
-                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Shadow, position.ToVector3(), this.CasterPawn.Map, Rand.Range(.8f, 1.2f), .1f, .1f, .4f, Rand.RangeInclusive((int)-4, (int)4) * 100, Rand.Range(0, 1), Rand.Range(0, 360), Rand.Range(0, 360));
+                FleckMaker.ThrowSmoke(rndPos, CasterPawn.Map, Rand.Range(.7f, 1.1f));
+                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Shadow, position.ToVector3(), CasterPawn.Map, Rand.Range(.8f, 1.2f), .1f, .1f, .4f, Rand.RangeInclusive((int)-4, (int)4) * 100, Rand.Range(0, 1), Rand.Range(0, 360), Rand.Range(0, 360));
             }
         }
 

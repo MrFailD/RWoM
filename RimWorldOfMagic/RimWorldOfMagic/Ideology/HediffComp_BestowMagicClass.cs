@@ -18,17 +18,17 @@ namespace TorannMagic.Ideology
 
         public override void CompExposeData()
         {
-            Scribe_Values.Look<bool>(ref this.selectableForInspiration, "selectableForInspiration", true);
-            Scribe_Values.Look<bool>(ref this.delayedInspiration, "delayedInspiration", false);
-            Scribe_Values.Look<bool>(ref this.botchedRitual, "botchedRitual", false);
-            Scribe_Values.Look<int>(ref this.ticksTillInspiration, "ticksTillInspiration", 10);
+            Scribe_Values.Look<bool>(ref selectableForInspiration, "selectableForInspiration", true);
+            Scribe_Values.Look<bool>(ref delayedInspiration, "delayedInspiration", false);
+            Scribe_Values.Look<bool>(ref botchedRitual, "botchedRitual", false);
+            Scribe_Values.Look<int>(ref ticksTillInspiration, "ticksTillInspiration", 10);
             base.CompExposeData();
         }
         public string labelCap
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -36,38 +36,38 @@ namespace TorannMagic.Ideology
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
                 
             }
         }
 
-        public override bool CompShouldRemove => base.CompShouldRemove || this.shouldRemove;
+        public override bool CompShouldRemove => base.CompShouldRemove || shouldRemove;
 
         public override void CompPostTick(ref float severityAdjustment)
         {
 
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn.DestroyedOrNull();
+            bool flag = Pawn.DestroyedOrNull();
             if (!flag)
             {
-                if (base.Pawn.Spawned && this.Pawn.needs != null)
+                if (Pawn.Spawned && Pawn.needs != null)
                 {
-                    if(TM_Calc.IsMagicUser(this.Pawn))
+                    if(TM_Calc.IsMagicUser(Pawn))
                     {
-                        this.shouldRemove = true;
+                        shouldRemove = true;
                     }
-                    if (base.Pawn.Dead || base.Pawn.Downed)
+                    if (Pawn.Dead || Pawn.Downed)
                     {
-                        this.shouldRemove = true;
+                        shouldRemove = true;
                     }
                 }
                 if(delayedInspiration)
@@ -76,13 +76,13 @@ namespace TorannMagic.Ideology
                     if(ticksTillInspiration <= 0)
                     {
                         delayedInspiration = false;
-                        this.Pawn.mindState.inspirationHandler.TryStartInspiration(TorannMagicDefOf.ID_ArcanePathways);
+                        Pawn.mindState.inspirationHandler.TryStartInspiration(TorannMagicDefOf.ID_ArcanePathways);
                     }
                 }
                 if(botchedRitual)
                 {
-                    CompUseEffect_LearnMagic.FixTrait(this.Pawn, this.Pawn.story.traits.allTraits);
-                    this.shouldRemove = true;
+                    CompUseEffect_LearnMagic.FixTrait(Pawn, Pawn.story.traits.allTraits);
+                    shouldRemove = true;
                 }
             }
         }

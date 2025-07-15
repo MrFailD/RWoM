@@ -13,7 +13,7 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool flag = false;
-            CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
+            CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
 
             if (comp.IsMagicUser)
             {
@@ -32,7 +32,7 @@ namespace TorannMagic
                 FleckMaker.ThrowLightningGlow(caster.DrawPos, caster.Map, 1.2f);
             }
 
-            this.PostCastShot(flag, out flag);
+            PostCastShot(flag, out flag);
             return flag;
         }
     }

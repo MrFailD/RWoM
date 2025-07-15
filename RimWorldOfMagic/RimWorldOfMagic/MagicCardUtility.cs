@@ -141,33 +141,33 @@ namespace TorannMagic
                 if (flag2)
                 {
                     float x = Text.CalcSize("TM_Header".Translate()).x;
-                    Rect rect2 = new Rect(rect.width / 2f - (x / 2), rect.y, rect.width, MagicCardUtility.HeaderSize);
+                    Rect rect2 = new Rect(rect.width / 2f - (x / 2), rect.y, rect.width, HeaderSize);
                     Text.Font = GameFont.Small;
                     Widgets.Label(rect2, "TM_Header".Translate().CapitalizeFirst());
                     Text.Font = GameFont.Small;
                     Widgets.DrawLineHorizontal(rect.x - 10f, rect2.yMax, rect.width - 15f);
-                    Rect rect9 = new Rect(rect.x, rect2.yMax + MagicCardUtility.Padding, rect2.width, MagicCardUtility.SkillsColumnHeight);
-                    Rect inRect = new Rect(rect9.x, rect9.y + MagicCardUtility.Padding, MagicCardUtility.SkillsColumnDivider, MagicCardUtility.SkillsColumnHeight);
-                    Rect inRect2 = new Rect(rect9.x + MagicCardUtility.SkillsColumnDivider, rect9.y + MagicCardUtility.Padding, rect9.width - MagicCardUtility.SkillsColumnDivider, MagicCardUtility.SkillsColumnHeight);
-                    MagicCardUtility.InfoPane(inRect, pawn.GetCompAbilityUserMagic(), pawn);
+                    Rect rect9 = new Rect(rect.x, rect2.yMax + Padding, rect2.width, SkillsColumnHeight);
+                    Rect inRect = new Rect(rect9.x, rect9.y + Padding, SkillsColumnDivider, SkillsColumnHeight);
+                    Rect inRect2 = new Rect(rect9.x + SkillsColumnDivider, rect9.y + Padding, rect9.width - SkillsColumnDivider, SkillsColumnHeight);
+                    InfoPane(inRect, pawn.GetCompAbilityUserMagic(), pawn);
                     float x5 = Text.CalcSize("TM_Spells".Translate()).x;
-                    Rect rect10 = new Rect(rect.width / 2f - x5 / 2f, rect9.yMax - 60f, rect.width, MagicCardUtility.HeaderSize);
+                    Rect rect10 = new Rect(rect.width / 2f - x5 / 2f, rect9.yMax - 60f, rect.width, HeaderSize);
                     Text.Font = GameFont.Small;
                     Widgets.Label(rect10, "TM_Spells".Translate().CapitalizeFirst());
                     Text.Font = GameFont.Small;
                     Widgets.DrawLineHorizontal(rect.x - 10f, rect10.yMax, rect.width - 15f);
-                    Rect rect11 = new Rect(rect.x, rect10.yMax + MagicCardUtility.SectionOffset, rect10.width, MagicCardUtility.PowersColumnHeight);
+                    Rect rect11 = new Rect(rect.x, rect10.yMax + SectionOffset, rect10.width, PowersColumnHeight);
                     if (comp.customClass != null)
                     {
-                        Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                        MagicCardUtility.CustomPowersHandler(inRect3, comp, comp.MagicData.AllMagicPowersWithSkills, GetAbilityList(comp), TexButton.TMTex_SkillPointUsed);
+                        Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                        CustomPowersHandler(inRect3, comp, comp.MagicData.AllMagicPowersWithSkills, GetAbilityList(comp), TexButton.TMTex_SkillPointUsed);
                     }
                     else
                     {                        
                         if (pawn.story.traits.HasTrait(TorannMagicDefOf.InnerFire))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersIF), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersIF), TexButton.TMTex_SkillPointUsed);
                             //if (pawn.GetCompAbilityUserMagic().spell_Firestorm == true)
                             //{                                
                             //    MagicCardUtility.PowersGUIHandlerTest(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.MagicPowersIF, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_RayofHope, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Firebolt, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Fireclaw, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Fireball, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Firestorm, null, TexButton.TMTex_SkillPointUsed);
@@ -180,8 +180,8 @@ namespace TorannMagic
                         }
                         if (pawn.story.traits.HasTrait(TorannMagicDefOf.HeartOfFrost))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersHoF), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersHoF), TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_Blizzard == true)
                             //{
@@ -194,8 +194,8 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.StormBorn))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersSB), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersSB), TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_EyeOfTheStorm == true)
                             //{
@@ -209,8 +209,8 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.Arcanist))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersA), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersA), TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_FoldReality == true)
                             //{
@@ -223,8 +223,8 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.Paladin))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersP), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersP), TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_HolyWrath == true)
                             //{
@@ -237,8 +237,8 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.Summoner))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersS), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersS), TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_SummonPoppi == true)
                             //{
@@ -251,8 +251,8 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.Druid))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersD), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersD), TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_RegrowLimb == true)
                             //{
@@ -265,10 +265,10 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.Necromancer))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
                             List<TMAbilityDef> necroList = GetAbilityList(comp, comp.MagicData.MagicPowersN);
                             necroList.Remove(TorannMagicDefOf.TM_DeathBolt);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, necroList, TexButton.TMTex_SkillPointUsed);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, necroList, TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_LichForm == true)
                             //{
@@ -281,17 +281,17 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.Lich))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
                             List<TMAbilityDef> necroList = GetAbilityList(comp, comp.MagicData.MagicPowersN);
                             necroList.Remove(TorannMagicDefOf.TM_LichForm);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, necroList, TexButton.TMTex_SkillPointUsed);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, necroList, TexButton.TMTex_SkillPointUsed);
 
                             //MagicCardUtility.PowersGUIHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.MagicPowersN, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_RaiseUndead, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_DeathMark, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_FogOfTorment, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_ConsumeCorpse, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_CorpseExplosion, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_DeathBolt, TexButton.TMTex_SkillPointUsed);
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.Priest))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersPR), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersPR), TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_Resurrection == true)
                             //{
@@ -304,8 +304,8 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.TM_Bard))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersB), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersB), TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_BattleHymn == true)
                             //{
@@ -318,8 +318,8 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.Succubus))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersSD), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersSD), TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_Scorn == true)
                             //{
@@ -332,8 +332,8 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.Warlock))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersWD), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersWD), TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_PsychicShock == true)
                             //{
@@ -346,8 +346,8 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.Geomancer))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersG), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersG), TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_Meteor == true)
                             //{
@@ -360,14 +360,14 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.Technomancer))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);                            
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);                            
                             List<TMAbilityDef> technoList = GetAbilityList(comp, comp.MagicData.MagicPowersT);
 
                             if (comp.MagicData.MagicPowersT.FirstOrDefault<MagicPower>((MagicPower mp) => mp.abilityDef == TorannMagicDefOf.TM_TechnoBit).learned == true)
                             {
                                 technoList.Remove(TorannMagicDefOf.TM_TechnoTurret);
                                 technoList.Remove(TorannMagicDefOf.TM_TechnoWeapon);
-                                MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, technoList, TexButton.TMTex_SkillPointUsed);
+                                CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, technoList, TexButton.TMTex_SkillPointUsed);
 
                                 //if (pawn.GetCompAbilityUserMagic().spell_OrbitalStrike == true)
                                 //{
@@ -382,7 +382,7 @@ namespace TorannMagic
                             {
                                 technoList.Remove(TorannMagicDefOf.TM_TechnoBit);
                                 technoList.Remove(TorannMagicDefOf.TM_TechnoWeapon);
-                                MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, technoList, TexButton.TMTex_SkillPointUsed);
+                                CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, technoList, TexButton.TMTex_SkillPointUsed);
 
                                 //if (pawn.GetCompAbilityUserMagic().spell_OrbitalStrike == true)
                                 //{
@@ -397,7 +397,7 @@ namespace TorannMagic
                             {
                                 technoList.Remove(TorannMagicDefOf.TM_TechnoBit);
                                 technoList.Remove(TorannMagicDefOf.TM_TechnoTurret);
-                                MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, technoList, TexButton.TMTex_SkillPointUsed);
+                                CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, technoList, TexButton.TMTex_SkillPointUsed);
 
                                 //if (pawn.GetCompAbilityUserMagic().spell_OrbitalStrike == true)
                                 //{
@@ -413,7 +413,7 @@ namespace TorannMagic
                                 technoList.Remove(TorannMagicDefOf.TM_TechnoShield);
                                 technoList.Remove(TorannMagicDefOf.TM_Overdrive);
                                 technoList.Remove(TorannMagicDefOf.TM_Sabotage);
-                                MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, technoList, TexButton.TMTex_SkillPointUsed);
+                                CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, technoList, TexButton.TMTex_SkillPointUsed);
 
                                 //if (pawn.GetCompAbilityUserMagic().spell_OrbitalStrike == true)
                                 //{
@@ -427,8 +427,8 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.BloodMage))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersBM), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersBM), TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_BloodMoon == true)
                             //{
@@ -441,8 +441,8 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.Enchanter))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersE), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersE), TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_Shapeshift == true)
                             //{
@@ -455,8 +455,8 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.Chronomancer))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersC), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersC), TexButton.TMTex_SkillPointUsed);
 
                             //if (pawn.GetCompAbilityUserMagic().spell_Recall == true)
                             //{
@@ -469,7 +469,7 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.ChaosMage))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
                             List<MagicPower> CMList = new List<MagicPower>();
                             CMList.Clear();
                             CMList.AddRange(comp.MagicData.MagicPowersCM);
@@ -481,7 +481,7 @@ namespace TorannMagic
                                     CMList.Add(mp);
                                 }
                             }
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, CMList), TexButton.TMTex_SkillPointUsed);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, CMList), TexButton.TMTex_SkillPointUsed);
 
                             //MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.MagicPowersCM, comp.customClass, TexButton.TMTex_SkillPointUsed);
                             //MagicCardUtility.PowersGUIHandler_CM(inRect3, comp, comp.MagicData.AllMagicPowersForChaosMage, comp.MagicData.MagicPowerSkill_ChaosTradition, comp.chaosPowers[0].Skills, comp.chaosPowers[1].Skills, comp.chaosPowers[2].Skills, comp.chaosPowers[3].Skills, comp.chaosPowers[4].Skills, TexButton.TMTex_SkillPointUsed);
@@ -489,15 +489,15 @@ namespace TorannMagic
                         }
                         else if (pawn.story.traits.HasTrait(TorannMagicDefOf.TM_Wanderer))
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersW), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.AllMagicPowersWithSkills, GetAbilityList(comp, comp.MagicData.MagicPowersW), TexButton.TMTex_SkillPointUsed);
 
                             //MagicCardUtility.PowersGUIHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.MagicPowersW, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_WandererCraft, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Cantrips, null, null, null, null, TexButton.TMTex_SkillPointUsed);
                         }
                         else if(comp.AdvancedClasses.Count > 0)
                         {
-                            Rect inRect3 = new Rect(rect.x, rect11.y, MagicCardUtility.PowersColumnWidth, MagicCardUtility.PowersColumnHeight);
-                            MagicCardUtility.CustomPowersHandler(inRect3, comp, comp.MagicData.AllMagicPowersWithSkills, GetAbilityList(comp), TexButton.TMTex_SkillPointUsed);
+                            Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
+                            CustomPowersHandler(inRect3, comp, comp.MagicData.AllMagicPowersWithSkills, GetAbilityList(comp), TexButton.TMTex_SkillPointUsed);
                         }
                     }
                 }
@@ -509,21 +509,21 @@ namespace TorannMagic
 
         public static void InfoPane(Rect inRect, CompAbilityUserMagic compMagic, Pawn pawn)
         {
-            Rect rect = new Rect(inRect.x, inRect.y, inRect.width * 0.7f, MagicCardUtility.TextSize);
+            Rect rect = new Rect(inRect.x, inRect.y, inRect.width * 0.7f, TextSize);
             Text.Font = GameFont.Tiny;
             Widgets.Label(rect, "TM_Level".Translate().CapitalizeFirst() + ": " + compMagic.MagicData.MagicUserLevel.ToString());
             Text.Font = GameFont.Tiny;
             bool godMode = DebugSettings.godMode;
             if (godMode)
             {
-                Rect rect2 = new Rect(rect.xMax, inRect.y, inRect.width * 0.3f, MagicCardUtility.TextSize);
+                Rect rect2 = new Rect(rect.xMax, inRect.y, inRect.width * 0.3f, TextSize);
                 bool flag = Widgets.ButtonText(rect2, "+", true, false, true);
                 if (flag)
                 {
                     compMagic.LevelUp(true);
                 }
 
-                Rect rect22 = new Rect(rect.xMax + 60f, inRect.y, 50f, MagicCardUtility.TextSize * 2);
+                Rect rect22 = new Rect(rect.xMax + 60f, inRect.y, 50f, TextSize * 2);
                 bool flag22 = Widgets.ButtonText(rect22, "Reset Class", true, false, true);
                 if (flag22)
                 {
@@ -536,13 +536,13 @@ namespace TorannMagic
                 //    compMagic.RemoveAbilityUser();
                 //}                
             }
-            Rect rect4 = new Rect(inRect.x, rect.yMax, inRect.width, MagicCardUtility.TextSize);
+            Rect rect4 = new Rect(inRect.x, rect.yMax, inRect.width, TextSize);
             Text.Font = GameFont.Tiny;
             Widgets.Label(rect4, "TM_PointsAvail".Translate() + ": " + compMagic.MagicData.MagicAbilityPoints);
             Text.Font = GameFont.Tiny;            
             if(!godMode)
             {
-                Rect rect6 = new Rect(rect4.xMax + 10f, rect.yMax, inRect.width + 100f, MagicCardUtility.TextSize);
+                Rect rect6 = new Rect(rect4.xMax + 10f, rect.yMax, inRect.width + 100f, TextSize);
                 Widgets.Label(rect6, "TM_LastManaGainPct".Translate(
                     (compMagic.Mana.lastGainPct * 200).ToString("0.000")
                     ));
@@ -581,8 +581,8 @@ namespace TorannMagic
             //            compMagic.Mana.drainManaDrain.ToString("0.000"),
             //            "\nMana sickness: ",
             //            compMagic.Mana.drainManaSickness.ToString("0.000"),
-            Rect rect5 = new Rect(rect4.x, rect4.yMax + 3f, inRect.width + 100f, MagicCardUtility.HeaderSize * 0.6f);
-            MagicCardUtility.DrawLevelBar(rect5, compMagic, pawn, inRect);
+            Rect rect5 = new Rect(rect4.x, rect4.yMax + 3f, inRect.width + 100f, HeaderSize * 0.6f);
+            DrawLevelBar(rect5, compMagic, pawn, inRect);
         }
 
         public static void DrawLevelBar(Rect rect, CompAbilityUserMagic compMagic, Pawn pawn, Rect rectG)
@@ -599,7 +599,7 @@ namespace TorannMagic
             {
                 Widgets.DrawHighlight(rect);
             }
-            TooltipHandler.TipRegion(rect, new TipSignal(() => MagicCardUtility.MagicXPTipString(compMagic), rect.GetHashCode()));
+            TooltipHandler.TipRegion(rect, new TipSignal(() => MagicXPTipString(compMagic), rect.GetHashCode()));
             float num2 = 14f;
             bool flag3 = rect.height < 50f;
             if (flag3)
@@ -610,12 +610,12 @@ namespace TorannMagic
             Rect rect2 = new Rect(rect.x, rect.y + rect.height / 2f, rect.width, rect.height);
             rect2 = new Rect(rect2.x, rect2.y, rect2.width, rect2.height - num2);
             Widgets.FillableBar(rect2, compMagic.XPTillNextLevelPercent, (Texture2D)AccessTools.Field(typeof(Widgets), "BarFullTexHor").GetValue(null), BaseContent.GreyTex, false);
-            Rect rect3 = new Rect(rect2.x + 272f + MagicCardUtility.MagicButtonPointSize, rectG.y, 136f, MagicCardUtility.TextSize);
-            Rect rect31 = new Rect(rect2.x + 272f, rectG.y, MagicCardUtility.MagicButtonPointSize, MagicCardUtility.TextSize);
-            Rect rect4 = new Rect(rect3.x + rect3.width + (MagicCardUtility.MagicButtonPointSize * 2), rectG.y, 136f, MagicCardUtility.TextSize);
-            Rect rect41 = new Rect(rect3.x + rect3.width + MagicCardUtility.MagicButtonPointSize, rectG.y, MagicCardUtility.MagicButtonPointSize, MagicCardUtility.TextSize);
-            Rect rect5 = new Rect(rect2.x + 272f + MagicCardUtility.MagicButtonPointSize, rectG.yMin + 24f, 136f, MagicCardUtility.TextSize);
-            Rect rect51 = new Rect(rect2.x + 272f, rectG.yMin + 24f, MagicCardUtility.MagicButtonPointSize, MagicCardUtility.TextSize);
+            Rect rect3 = new Rect(rect2.x + 272f + MagicButtonPointSize, rectG.y, 136f, TextSize);
+            Rect rect31 = new Rect(rect2.x + 272f, rectG.y, MagicButtonPointSize, TextSize);
+            Rect rect4 = new Rect(rect3.x + rect3.width + (MagicButtonPointSize * 2), rectG.y, 136f, TextSize);
+            Rect rect41 = new Rect(rect3.x + rect3.width + MagicButtonPointSize, rectG.y, MagicButtonPointSize, TextSize);
+            Rect rect5 = new Rect(rect2.x + 272f + MagicButtonPointSize, rectG.yMin + 24f, 136f, TextSize);
+            Rect rect51 = new Rect(rect2.x + 272f, rectG.yMin + 24f, MagicButtonPointSize, TextSize);
 
             List<MagicPowerSkill> skill1 = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_global_regen;
             List<MagicPowerSkill> skill2 = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_global_eff;
@@ -1857,10 +1857,10 @@ namespace TorannMagic
                     }                    
 
                     Text.Font = GameFont.Small;
-                    Rect rect = new Rect(MagicCardUtility.MagicCardSize.x / 2f - MagicCardUtility.MagicButtonSize, num, MagicCardUtility.MagicButtonSize, MagicCardUtility.MagicButtonSize);
+                    Rect rect = new Rect(MagicCardSize.x / 2f - MagicButtonSize, num, MagicButtonSize, MagicButtonSize);
                     if (itnum > 1)
                     {
-                        Widgets.DrawLineHorizontal(0f + 20f, rect.y - 2f, MagicCardUtility.MagicCardSize.x - 40f);
+                        Widgets.DrawLineHorizontal(0f + 20f, rect.y - 2f, MagicCardSize.x - 40f);
                     }
                     if (power.level < power.maxLevel && (power.TMabilityDefs.Count > 1 || TM_Calc.IsIconAbility_02(power.abilityDef)))
                     {
@@ -1889,7 +1889,7 @@ namespace TorannMagic
 
                     float x2 = Text.CalcSize("TM_Effeciency".Translate()).x;
                     float x3 = Text.CalcSize("TM_Versatility".Translate()).x;
-                    Rect rect3 = new Rect(0f + MagicCardUtility.SpacingOffset, rect.y + 2f, MagicCardUtility.MagicCardSize.x, MagicCardUtility.ButtonSize * 1.15f);
+                    Rect rect3 = new Rect(0f + SpacingOffset, rect.y + 2f, MagicCardSize.x, ButtonSize * 1.15f);
 
                     Rect rect5 = new Rect(rect3.x + rect3.width / 2f - x2, rect3.y, (rect3.width - 20f) / 3f, rect3.height);
                     Rect rect6 = new Rect(rect3.width - x3 * 2f, rect3.y, rect3.width / 3f, rect3.height);
@@ -1905,14 +1905,14 @@ namespace TorannMagic
                     {
                         flag999 = false;
                     }
-                    Rect rectLabel = new Rect(0f + 20f, rect.yMin, 350f - 44f, MagicCardUtility.MagicButtonPointSize);
+                    Rect rectLabel = new Rect(0f + 20f, rect.yMin, 350f - 44f, MagicButtonPointSize);
                     //GUI.color = Color.yellow;
                     Widgets.Label(rectLabel, power.abilityDef.LabelCap);
                     //GUI.color = Color.white;
                     if (!power.learned)
                     {
                         Widgets.DrawTextureFitted(rect, power.Icon, 1f);
-                        Rect rectLearn = new Rect(rect.xMin - 44f, rect.yMin, 40f, MagicCardUtility.MagicButtonPointSize);
+                        Rect rectLearn = new Rect(rect.xMin - 44f, rect.yMin, 40f, MagicButtonPointSize);
                         if ((compMagic.MagicData.MagicAbilityPoints >= power.learnCost) && !power.requiresScroll)
                         {
                             Text.Font = GameFont.Tiny;
@@ -1964,7 +1964,7 @@ namespace TorannMagic
                             if (flag999)
                             {
                                 Widgets.DrawTextureFitted(rect, power.Icon, 1f);
-                                Rect rect19 = new Rect(rect.xMax, rect.yMin, x4, MagicCardUtility.TextSize);
+                                Rect rect19 = new Rect(rect.xMax, rect.yMin, x4, TextSize);
                                 Widgets.Label(rect19, " " + enumerator.Current.level + " / " + enumerator.Current.maxLevel);                                
                             }
                             else
@@ -1976,7 +1976,7 @@ namespace TorannMagic
                         {
                             if (flag999)
                             {
-                                Rect rect10 = new Rect(rect.xMax, rect.yMin, x4, MagicCardUtility.TextSize);
+                                Rect rect10 = new Rect(rect.xMax, rect.yMin, x4, TextSize);
                                 bool flag1 = Widgets.ButtonImage(rect, power.Icon) && compMagic.AbilityUser.Faction == Faction.OfPlayer;
                                 Widgets.Label(rect10, " " + power.level + " / " + power.maxLevel);
                                 if (flag1)
@@ -2018,7 +2018,7 @@ namespace TorannMagic
                         CustomSkillHandler(num2, compMagic, power, enumerator, mpsList, rect3);                        
                     }
                     itnum++;
-                    num += MagicCardUtility.MagicButtonSize + MagicCardUtility.TextSize + 4f;//MagicCardUtility.SpacingOffset; //was 4f                    
+                    num += MagicButtonSize + TextSize + 4f;//MagicCardUtility.SpacingOffset; //was 4f                    
                 }
             }
         }
@@ -2029,9 +2029,9 @@ namespace TorannMagic
             {
                 while (enumeratorN.MoveNext())
                 {
-                    Rect rect4 = new Rect(num2 + MagicCardUtility.MagicButtonPointSize, rect3.yMax, MagicCardUtility.MagicCardSize.x / 3f, rect3.height);
-                    Rect rect41 = new Rect(num2, rect4.y, MagicCardUtility.MagicButtonPointSize, MagicCardUtility.MagicButtonPointSize);
-                    Rect rect42 = new Rect(rect41.x, rect4.y, rect4.width - MagicCardUtility.MagicButtonPointSize, rect4.height / 2);
+                    Rect rect4 = new Rect(num2 + MagicButtonPointSize, rect3.yMax, MagicCardSize.x / 3f, rect3.height);
+                    Rect rect41 = new Rect(num2, rect4.y, MagicButtonPointSize, MagicButtonPointSize);
+                    Rect rect42 = new Rect(rect41.x, rect4.y, rect4.width - MagicButtonPointSize, rect4.height / 2);
                     MagicPowerSkill skill = enumeratorN.Current;
                     TooltipHandler.TipRegion(rect42, new TipSignal(() => skill.desc.Translate(), rect4.GetHashCode()));
                     bool flag11 = (skill.level >= skill.levelMax || compMagic.MagicData.MagicAbilityPoints == 0 || !enumerator.Current.learned ||
@@ -2074,7 +2074,7 @@ namespace TorannMagic
                             }
                         }
                     }
-                    num2 += (MagicCardUtility.MagicCardSize.x / 3) - MagicCardUtility.SpacingOffset;
+                    num2 += (MagicCardSize.x / 3) - SpacingOffset;
                 }
             }
         }

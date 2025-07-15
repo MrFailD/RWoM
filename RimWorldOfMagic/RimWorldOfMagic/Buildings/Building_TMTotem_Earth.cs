@@ -21,28 +21,28 @@ namespace TorannMagic
         {
             if(!initialized)
             {
-                this.nextSearch = Find.TickManager.TicksGame + Rand.Range(160, 220);
+                nextSearch = Find.TickManager.TicksGame + Rand.Range(160, 220);
                 initialized = true;
             }
-            else if(Find.TickManager.TicksGame >= this.nextSearch)
+            else if(Find.TickManager.TicksGame >= nextSearch)
             {
-                this.nextSearch = Find.TickManager.TicksGame + Rand.Range(160, 220);               
+                nextSearch = Find.TickManager.TicksGame + Rand.Range(160, 220);               
 
                 ScanForTarget();
                 if (target != null)
                 {
-                    List<IntVec3> targetCells = GenRadial.RadialCellsAround(this.Position, range, false).ToList();
+                    List<IntVec3> targetCells = GenRadial.RadialCellsAround(Position, range, false).ToList();
                     IntVec3 curCell = default(IntVec3);
-                    SoundInfo info = SoundInfo.InMap(new TargetInfo(this.Position, this.Map, false), MaintenanceType.None);
+                    SoundInfo info = SoundInfo.InMap(new TargetInfo(Position, Map, false), MaintenanceType.None);
                     info.pitchFactor = .5f;
                     info.volumeFactor = 1.2f;
                     SoundDefOf.Crunch.PlayOneShot(info);
                     for (int i = 0; i < targetCells.Count(); i++)
                     {
                         curCell = targetCells[i];
-                        if (curCell.IsValid && curCell.InBoundsWithNullCheck(this.Map))
+                        if (curCell.IsValid && curCell.InBoundsWithNullCheck(Map))
                         {
-                            List<Thing> thingList = curCell.GetThingList(this.Map);
+                            List<Thing> thingList = curCell.GetThingList(Map);
                             for (int j = 0; j < thingList.Count(); j++)
                             {
                                 if (thingList[j] is Pawn)
@@ -56,11 +56,11 @@ namespace TorannMagic
                         if(Rand.Chance(.35f))
                         {
                             Find.CameraDriver.shaker.DoShake(4);
-                            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_ThickDust, curCell.ToVector3(), this.Map, Rand.Range(.4f, 1.2f), Rand.Range(.2f, 1f), .3f, 1f, Rand.Range(-30, 30), 1f, 25f, Rand.Range(0, 360));
+                            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_ThickDust, curCell.ToVector3(), Map, Rand.Range(.4f, 1.2f), Rand.Range(.2f, 1f), .3f, 1f, Rand.Range(-30, 30), 1f, 25f, Rand.Range(0, 360));
                         }
                     }
 
-                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_EarthCrack, this.Position.ToVector3Shifted(), this.Map, range+1, .25f, .15f, .75f, 0, 0, 0, Rand.Range(0, 360));
+                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_EarthCrack, Position.ToVector3Shifted(), Map, range+1, .25f, .15f, .75f, 0, 0, 0, Rand.Range(0, 360));
                     
                 }                               
             }
@@ -70,13 +70,13 @@ namespace TorannMagic
         private void ScanForTarget()
         {            
             //Log.Message("totem has faction " + this.Faction);
-            target = TM_Calc.FindNearbyEnemy(this.Position, this.Map, this.Faction, this.range, 0);
+            target = TM_Calc.FindNearbyEnemy(Position, Map, Faction, range, 0);
         }
 
         public override void ExposeData()
         {
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
             base.ExposeData();
         }
     }

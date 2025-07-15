@@ -28,20 +28,20 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", true, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 1800, false);
-            Scribe_Values.Look<int>(ref this.strikeDelay, "strikeDelay", 0, false);
-            Scribe_Values.Look<int>(ref this.strikeNum, "strikeNum", 0, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_References.Look<Pawn>(ref this.pawn, "pawn", false);
-            Scribe_Collections.Look<IntVec3>(ref this.cellList, "cellList", LookMode.Value);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", true, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 1800, false);
+            Scribe_Values.Look<int>(ref strikeDelay, "strikeDelay", 0, false);
+            Scribe_Values.Look<int>(ref strikeNum, "strikeNum", 0, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_References.Look<Pawn>(ref pawn, "pawn", false);
+            Scribe_Collections.Look<IntVec3>(ref cellList, "cellList", LookMode.Value);
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < duration;
+            bool flag = age < duration;
             if (!flag)
             {
                 base.Destroy(mode);
@@ -51,7 +51,7 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
@@ -61,9 +61,9 @@ namespace TorannMagic
             ThingDef def = this.def;
             Pawn victim = null;            
 
-            if (!this.initialized)
+            if (!initialized)
             {
-                this.pawn = this.launcher as Pawn;
+                pawn = launcher as Pawn;
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
                 MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Repulsion.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Repulsion_pwr");
                 MagicPowerSkill ver = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Repulsion.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Repulsion_ver");
@@ -77,38 +77,38 @@ namespace TorannMagic
                     pwrVal = mpwr.level;
                     verVal = mver.level;
                 }
-                this.arcaneDmg = comp.arcaneDmg;
+                arcaneDmg = comp.arcaneDmg;
                 if (ModOptions.Settings.Instance.AIHardMode && !pawn.IsColonist)
                 {
                     pwrVal = 3;
                     verVal = 3;
                 }                
-                this.strikeDelay = this.strikeDelay - verVal;
-                this.radius = this.def.projectile.explosionRadius;
-                this.duration = Mathf.RoundToInt(this.radius * this.strikeDelay);
-                this.initialized = true;
-                this.targets = GenRadial.RadialCellsAround(base.Position, strikeNum, false);
-                this.casterSensitivity = this.pawn.GetStatValue(StatDefOf.PsychicSensitivity, false);
+                strikeDelay = strikeDelay - verVal;
+                radius = this.def.projectile.explosionRadius;
+                duration = Mathf.RoundToInt(radius * strikeDelay);
+                initialized = true;
+                targets = GenRadial.RadialCellsAround(Position, strikeNum, false);
+                casterSensitivity = pawn.GetStatValue(StatDefOf.PsychicSensitivity, false);
                 cellList = targets.ToList<IntVec3>();
             }
 
-            if (Find.TickManager.TicksGame % this.strikeDelay == 0)
+            if (Find.TickManager.TicksGame % strikeDelay == 0)
             {
                 int force = Mathf.RoundToInt((10 + (2 * pwrVal) - strikeNum) * casterSensitivity);
                 IntVec3 curCell;
                 for (int i =0; i < cellList.Count; i++)
                 {
                     curCell = cellList[i];
-                    Vector3 angle = GetVector(base.Position, curCell);
-                    TM_MoteMaker.ThrowArcaneWaveMote(curCell.ToVector3(), this.Map, .3f * (curCell - base.Position).LengthHorizontal, .1f, .05f, .3f, 0, 3, (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat(), (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat());
-                    if (curCell.IsValid && curCell.InBoundsWithNullCheck(this.Map))
+                    Vector3 angle = GetVector(Position, curCell);
+                    TM_MoteMaker.ThrowArcaneWaveMote(curCell.ToVector3(), Map, .3f * (curCell - Position).LengthHorizontal, .1f, .05f, .3f, 0, 3, (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat(), (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat());
+                    if (curCell.IsValid && curCell.InBoundsWithNullCheck(Map))
                     {
-                        victim = curCell.GetFirstPawn(this.Map);
+                        victim = curCell.GetFirstPawn(Map);
                         if (victim != null && !victim.Dead)
                         {
-                            Vector3 launchVector = GetVector(base.Position, victim.Position);
+                            Vector3 launchVector = GetVector(Position, victim.Position);
                             IntVec3 projectedPosition = victim.Position + (force * launchVector).ToIntVec3();
-                            if (projectedPosition.IsValid && projectedPosition.InBoundsWithNullCheck(this.Map))
+                            if (projectedPosition.IsValid && projectedPosition.InBoundsWithNullCheck(Map))
                             {
                                 if (Rand.Chance(TM_Calc.GetSpellSuccessChance(pawn, victim, true)))
                                 {
@@ -120,7 +120,7 @@ namespace TorannMagic
                     }
                 }
                 strikeNum++;
-                IEnumerable<IntVec3> newTargets = GenRadial.RadialCellsAround(base.Position, strikeNum, false);
+                IEnumerable<IntVec3> newTargets = GenRadial.RadialCellsAround(Position, strikeNum, false);
                 try
                 {
                     cellList = newTargets.Except(targets).ToList<IntVec3>();
@@ -162,7 +162,7 @@ namespace TorannMagic
         public void damageEntities(Pawn e, float d, DamageDef type)
         {
             int amt = Mathf.RoundToInt(Rand.Range(.75f, 1.25f) * d);
-            DamageInfo dinfo = new DamageInfo(type, amt, 0, (float)-1, this.pawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
+            DamageInfo dinfo = new DamageInfo(type, amt, 0, (float)-1, pawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
             bool flag = e != null;
             if (flag)
             {

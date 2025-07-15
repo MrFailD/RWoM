@@ -18,7 +18,7 @@ namespace TorannMagic.Enchantment
 
         public override void PostInitialize()
         {
-            this.hediffActionRate = 1200;
+            hediffActionRate = 1200;
         }
 
         public override void HediffActionTick()

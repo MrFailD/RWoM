@@ -16,8 +16,8 @@ namespace TorannMagic
             bool result = false;
             bool arg_40_0;
 
-            Pawn pawn = this.CasterPawn;
-            Map map = this.CasterPawn.Map;
+            Pawn pawn = CasterPawn;
+            Map map = CasterPawn.Map;
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             MagicPowerSkill pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_EnchantedBody.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_EnchantedBody_pwr");            
 
@@ -71,7 +71,7 @@ namespace TorannMagic
             {
                 Log.Warning("failed to TryCastShot");
             }
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
 
             return result;
         }

@@ -39,36 +39,36 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<bool>(ref this.validTarget, "validTarget", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.timeToRaise, "timeToRaise", 1800, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
-            Scribe_Values.Look<IntVec3>(ref this.deadPawnPosition, "deadPawnPosition", default(IntVec3), false);
-            Scribe_References.Look<Pawn>(ref this.deadPawn, "deadPawn", false);
-            Scribe_References.Look<Thing>(ref this.corpseThing, "corpseThing", false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<bool>(ref validTarget, "validTarget", false, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref timeToRaise, "timeToRaise", 1800, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<IntVec3>(ref deadPawnPosition, "deadPawnPosition", default(IntVec3), false);
+            Scribe_References.Look<Pawn>(ref deadPawn, "deadPawn", false);
+            Scribe_References.Look<Thing>(ref corpseThing, "corpseThing", false);
         }
 
         private int TicksLeft
         {
             get
             {
-                return this.timeToRaise - this.age;
+                return timeToRaise - age;
             }
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
 
-            if (!this.initialized)
+            if (!initialized)
             {
-                if (this.launcher is Pawn)
+                if (launcher is Pawn)
                 {
-                    this.caster = this.launcher as Pawn;
+                    caster = launcher as Pawn;
                     CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
                     if (comp != null && comp.MagicData != null)
                     {
@@ -78,11 +78,11 @@ namespace TorannMagic
                         pwrVal = pwr.level;
                     }
                 }
-                this.angle = Rand.Range(-12f, 12f);               
+                angle = Rand.Range(-12f, 12f);               
                 
-                IntVec3 curCell = base.Position;
+                IntVec3 curCell = Position;
 
-                this.CheckSpawnSustainer();
+                CheckSpawnSustainer();
 
                 if (curCell.InBoundsWithNullCheck(map))
                 {
@@ -106,7 +106,7 @@ namespace TorannMagic
                                 {
                                     if (!corpse.IsNotFresh())
                                     {                                        
-                                        this.validTarget = true;
+                                        validTarget = true;
                                         corpse.SetForbidden(true);
                                         break;
                                     }
@@ -119,45 +119,45 @@ namespace TorannMagic
                                 if(TM_Calc.IsUndead(deadPawn))
                                 {
                                     z = thingList.Count;
-                                    this.validTarget = true;
+                                    validTarget = true;
                                 }
                             }
                         }
                         z++;
                     }
                 }
-                this.initialized = true;
+                initialized = true;
             }
 
-            if (validTarget && corpseThing != null && (corpseThing.Position != this.deadPawnPosition || corpseThing.Map == null) && deadPawn.Dead)
+            if (validTarget && corpseThing != null && (corpseThing.Position != deadPawnPosition || corpseThing.Map == null) && deadPawn.Dead)
             {
                 Log.Message("Corpse was moved or destroyed during resurrection process.");
-                this.age = this.timeToRaise;
+                age = timeToRaise;
             }
 
-            if (this.validTarget)
+            if (validTarget)
             {
-                if (this.sustainer != null)
+                if (sustainer != null)
                 {
-                    this.sustainer.info.volumeFactor = this.age / this.timeToRaise;
-                    this.sustainer.Maintain();
-                    if (this.TicksLeft <= 0)
+                    sustainer.info.volumeFactor = age / timeToRaise;
+                    sustainer.Maintain();
+                    if (TicksLeft <= 0)
                     {
-                        this.sustainer.End();
-                        this.sustainer = null;
+                        sustainer.End();
+                        sustainer = null;
                     }
                 }
-                if (this.age+1 == this.timeToRaise)
+                if (age+1 == timeToRaise)
                 {
-                    TM_MoteMaker.MakePowerBeamMoteColor(base.Position, base.Map, this.radius * 3f, 2f, 2f, .1f, 1.5f, colorInt.ToColor);
-                    if (this.deadPawn == null)
+                    TM_MoteMaker.MakePowerBeamMoteColor(Position, Map, radius * 3f, 2f, 2f, .1f, 1.5f, colorInt.ToColor);
+                    if (deadPawn == null)
                     {
                         if (corpseThing != null)
                         {
                             Corpse corpse = corpseThing as Corpse;
                             if (corpse != null)
                             {
-                                this.deadPawn = corpse.InnerPawn;
+                                deadPawn = corpse.InnerPawn;
                             }
                         }
                     }
@@ -167,11 +167,11 @@ namespace TorannMagic
                         {
                             if(deadPawn.RaceProps.Humanlike)
                             {
-                                ExplosionHelper.Explode(base.Position, this.Map, Rand.Range(10, 16), TMDamageDefOf.DamageDefOf.TM_Holy, this.launcher, Mathf.RoundToInt(Rand.Range(20, 32)), 6, TMDamageDefOf.DamageDefOf.TM_Holy.soundExplosion);
+                                ExplosionHelper.Explode(Position, Map, Rand.Range(10, 16), TMDamageDefOf.DamageDefOf.TM_Holy, launcher, Mathf.RoundToInt(Rand.Range(20, 32)), 6, TMDamageDefOf.DamageDefOf.TM_Holy.soundExplosion);
                             }
                             else
                             {
-                                ExplosionHelper.Explode(base.Position, this.Map, Rand.Range(10, 16), TMDamageDefOf.DamageDefOf.TM_Holy, this.launcher, Mathf.RoundToInt(Rand.Range(16, 24)), 3, TMDamageDefOf.DamageDefOf.TM_Holy.soundExplosion);
+                                ExplosionHelper.Explode(Position, Map, Rand.Range(10, 16), TMDamageDefOf.DamageDefOf.TM_Holy, launcher, Mathf.RoundToInt(Rand.Range(16, 24)), 3, TMDamageDefOf.DamageDefOf.TM_Holy.soundExplosion);
                             }
                         }
                         else
@@ -213,49 +213,49 @@ namespace TorannMagic
                 Messages.Message("TM_InvalidResurrection".Translate(
                     caster.LabelShort
                 ), MessageTypeDefOf.RejectInput);
-                this.age = this.timeToRaise;
+                age = timeToRaise;
             }
         }
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
             base.DrawAt(drawLoc, flip);
-            Vector3 drawPos = base.Position.ToVector3Shifted(); // this.parent.DrawPos;
+            Vector3 drawPos = Position.ToVector3Shifted(); // this.parent.DrawPos;
             drawPos.z = drawPos.z - 1.5f;
-            float num = ((float)base.Map.Size.z - drawPos.z) * 1.41421354f;
-            Vector3 a = Vector3Utility.FromAngleFlat(this.angle - 90f);
+            float num = ((float)Map.Size.z - drawPos.z) * 1.41421354f;
+            Vector3 a = Vector3Utility.FromAngleFlat(angle - 90f);
             Vector3 a2 = drawPos + a * num * 0.5f;
             a2.y = Altitudes.AltitudeFor(AltitudeLayer.MetaOverlays);
-            float num2 = Mathf.Min((float)this.age / 10f, 1f);
+            float num2 = Mathf.Min((float)age / 10f, 1f);
             Vector3 b = a * ((1f - num2) * num);
-            float num3 = 0.975f + Mathf.Sin((float)this.age * 0.3f) * 0.025f;
-            if (this.TicksLeft > (this.timeToRaise * .2f))
+            float num3 = 0.975f + Mathf.Sin((float)age * 0.3f) * 0.025f;
+            if (TicksLeft > (timeToRaise * .2f))
             {
-                num3 *= (float)this.age / (this.timeToRaise * .8f);
+                num3 *= (float)age / (timeToRaise * .8f);
             }
             Color arg_50_0 = colorInt.ToColor;
             Color color = arg_50_0;
             color.a *= num3;
-            Projectile_Resurrection.MatPropertyBlock.SetColor(ShaderPropertyIDs.Color, color);
+            MatPropertyBlock.SetColor(ShaderPropertyIDs.Color, color);
             Matrix4x4 matrix = default(Matrix4x4);
-            matrix.SetTRS(a2 + a * this.radius * 0.5f + b, Quaternion.Euler(0f, this.angle, 0f), new Vector3(this.radius, 1f, num));
-            Graphics.DrawMesh(MeshPool.plane10, matrix, Projectile_Resurrection.BeamMat, 0, null, 0, Projectile_Resurrection.MatPropertyBlock);
+            matrix.SetTRS(a2 + a * radius * 0.5f + b, Quaternion.Euler(0f, angle, 0f), new Vector3(radius, 1f, num));
+            Graphics.DrawMesh(MeshPool.plane10, matrix, BeamMat, 0, null, 0, MatPropertyBlock);
             Vector3 pos = drawPos + b;
             pos.y = Altitudes.AltitudeFor(AltitudeLayer.MetaOverlays);
             Matrix4x4 matrix2 = default(Matrix4x4);
-            matrix2.SetTRS(pos, Quaternion.Euler(0f, this.angle, 0f), new Vector3(this.radius, 1f, this.radius));
-            Graphics.DrawMesh(MeshPool.plane10, matrix2, Projectile_Resurrection.BeamEndMat, 0, null, 0, Projectile_Resurrection.MatPropertyBlock);
+            matrix2.SetTRS(pos, Quaternion.Euler(0f, angle, 0f), new Vector3(radius, 1f, radius));
+            Graphics.DrawMesh(MeshPool.plane10, matrix2, BeamEndMat, 0, null, 0, MatPropertyBlock);
         }
 
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < this.timeToRaise;
+            bool flag = age < timeToRaise;
             if (!flag)
             {
                 base.Destroy(mode);
@@ -264,11 +264,11 @@ namespace TorannMagic
 
         private void CheckSpawnSustainer()
         {
-            if (this.TicksLeft >= 0)
+            if (TicksLeft >= 0)
             {
                 LongEventHandler.ExecuteWhenFinished(delegate
                 {
-                    this.sustainer = SoundDef.Named("OrbitalBeam").TrySpawnSustainer(SoundInfo.InMap(this.selectedTarget, MaintenanceType.PerTick));
+                    sustainer = SoundDef.Named("OrbitalBeam").TrySpawnSustainer(SoundInfo.InMap(selectedTarget, MaintenanceType.PerTick));
                 });
             }
         }

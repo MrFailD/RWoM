@@ -24,23 +24,23 @@ namespace TorannMagic
         private int dmgNum = 0;
 
         private static readonly Color cleaveColor = new Color(160f, 160f, 160f);
-        private static readonly Material cleavingMat = MaterialPool.MatFrom("Spells/cleave_straight", ShaderDatabase.Transparent, Verb_Cleave.cleaveColor);
+        private static readonly Material cleavingMat = MaterialPool.MatFrom("Spells/cleave_straight", ShaderDatabase.Transparent, cleaveColor);
 
         protected override bool TryCastShot()
         {
 
             bool flag10 = false;
-            this.TargetsAoE.Clear();
-            this.UpdateTargets();
-            int shotsPerBurst = this.ShotsPerBurst;
-            bool flag2 = this.UseAbilityProps.AbilityTargetCategory != AbilityTargetCategory.TargetAoE && this.TargetsAoE.Count > 1;
+            TargetsAoE.Clear();
+            UpdateTargets();
+            int shotsPerBurst = ShotsPerBurst;
+            bool flag2 = UseAbilityProps.AbilityTargetCategory != AbilityTargetCategory.TargetAoE && TargetsAoE.Count > 1;
             if (flag2)
             {
-                this.TargetsAoE.RemoveRange(0, this.TargetsAoE.Count - 1);
+                TargetsAoE.RemoveRange(0, TargetsAoE.Count - 1);
             }
-            for (int i = 0; i < this.TargetsAoE.Count; i++)
+            for (int i = 0; i < TargetsAoE.Count; i++)
             {
-                bool? flag3 = this.TryLaunchProjectile(this.verbProps.defaultProjectile, this.TargetsAoE[i]);
+                bool? flag3 = TryLaunchProjectile(verbProps.defaultProjectile, TargetsAoE[i]);
                 bool hasValue = flag3.HasValue;
                 if (hasValue)
                 {
@@ -62,13 +62,13 @@ namespace TorannMagic
             cellRect.ClipInsideMap(map);
 
             IntVec3 centerCell = cellRect.CenterCell;
-            CompAbilityUserMight comp = this.CasterPawn.GetCompAbilityUserMight();
+            CompAbilityUserMight comp = CasterPawn.GetCompAbilityUserMight();
             pwr = comp.MightData.MightPowerSkill_Cleave.FirstOrDefault((MightPowerSkill x) => x.label == "TM_Cleave_pwr");
             str = comp.MightData.MightPowerSkill_global_strength.FirstOrDefault((MightPowerSkill x) => x.label == "TM_global_strength_pwr");
             ver = comp.MightData.MightPowerSkill_Cleave.FirstOrDefault((MightPowerSkill x) => x.label == "TM_Cleave_ver");
             int dmgNum = 0;
 
-            if (this.CasterPawn.equipment.Primary != null && !this.CasterPawn.equipment.Primary.def.IsRangedWeapon)
+            if (CasterPawn.equipment.Primary != null && !CasterPawn.equipment.Primary.def.IsRangedWeapon)
             {
                 weaponComp = base.CasterPawn.equipment.Primary;
                 weaponDPS = weaponComp.GetStatValue(StatDefOf.MeleeWeapon_AverageDPS, false) *.7f;
@@ -77,7 +77,7 @@ namespace TorannMagic
                 skillMultiplier = (1.2f + (.025f * str.level));
                 dmgNum = Mathf.RoundToInt(skillMultiplier * dmgMultiplier * (pawnDPS + weaponDPS));
                 
-                if(!this.CasterPawn.IsColonist && ModOptions.Settings.Instance.AIHardMode)
+                if(!CasterPawn.IsColonist && ModOptions.Settings.Instance.AIHardMode)
                 {
                     dmgNum += 10;
                 }
@@ -94,15 +94,15 @@ namespace TorannMagic
                 if (victim != null && base.CasterPawn != null & dmgNum != 0 && victim.Faction != base.CasterPawn.Faction)
                 {
                     
-                    dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_Cleave, dmgNum, 0, (float)-1, this.CasterPawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
-                    ApplyCleaveDamage(dinfo, this.CasterPawn, victim, map, ver.level);
+                    dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_Cleave, dmgNum, 0, (float)-1, CasterPawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
+                    ApplyCleaveDamage(dinfo, CasterPawn, victim, map, ver.level);
                     DrawCleaving(victim, base.CasterPawn, 10);
                     i = 8;
                 }                
             }
             
-            this.burstShotsLeft = 0;
-            this.PostCastShot(flag10, out flag10);
+            burstShotsLeft = 0;
+            PostCastShot(flag10, out flag10);
             return flag10;
         }
 
@@ -164,7 +164,7 @@ namespace TorannMagic
                 Vector3 s = new Vector3(3f, 3f, 5f);
                 Matrix4x4 matrix = default(Matrix4x4);
                 matrix.SetTRS(vector, Quaternion.AngleAxis(angle, Vector3.up), s);
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Verb_Cleave.cleavingMat, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, cleavingMat, 0);
             }
         }  
     }

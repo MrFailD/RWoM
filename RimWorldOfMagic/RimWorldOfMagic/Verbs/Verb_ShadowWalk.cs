@@ -17,7 +17,7 @@ namespace TorannMagic
         {            
             if ( targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     //out of range
                     validTarg = true;
@@ -39,20 +39,20 @@ namespace TorannMagic
             bool result = false;
             bool flag = false;
             
-            if (this.currentTarget != null && base.CasterPawn != null)
+            if (currentTarget != null && base.CasterPawn != null)
             {
-                IntVec3 arg_29_0 = this.currentTarget.Cell;
-                Vector3 vector = this.currentTarget.CenterVector3;
-                flag = this.currentTarget.Cell.IsValid && vector.InBoundsWithNullCheck(base.CasterPawn.Map) && this.currentTarget.Thing != null && this.currentTarget.Thing is Pawn;
+                IntVec3 arg_29_0 = currentTarget.Cell;
+                Vector3 vector = currentTarget.CenterVector3;
+                flag = currentTarget.Cell.IsValid && vector.InBoundsWithNullCheck(base.CasterPawn.Map) && currentTarget.Thing != null && currentTarget.Thing is Pawn;
             }
 
             if (flag)
             {
-                Pawn p = this.CasterPawn;
-                Pawn targetPawn = this.currentTarget.Thing as Pawn;
-                Map map = this.CasterPawn.Map;
-                IntVec3 cell = this.CasterPawn.Position;
-                bool draftFlag = this.CasterPawn.Drafted;
+                Pawn p = CasterPawn;
+                Pawn targetPawn = currentTarget.Thing as Pawn;
+                Map map = CasterPawn.Map;
+                IntVec3 cell = CasterPawn.Position;
+                bool draftFlag = CasterPawn.Drafted;
                 CompAbilityUserMagic comp = p.GetCompAbilityUserMagic();
                 if (comp != null)
                 {
@@ -61,11 +61,11 @@ namespace TorannMagic
                 }
                 try
                 {
-                    if (this.CasterPawn.IsColonist)
+                    if (CasterPawn.IsColonist)
                     {
                         ModOptions.Constants.SetPawnInFlight(true);                            
-                        this.CasterPawn.DeSpawn();
-                        GenSpawn.Spawn(p, this.currentTarget.Cell, map);
+                        CasterPawn.DeSpawn();
+                        GenSpawn.Spawn(p, currentTarget.Cell, map);
                         p.drafter.Drafted = draftFlag;
                         if (ModOptions.Settings.Instance.cameraSnap)
                         {
@@ -76,8 +76,8 @@ namespace TorannMagic
                     else
                     {
                         ModOptions.Constants.SetPawnInFlight(true);
-                        this.CasterPawn.DeSpawn();
-                        GenSpawn.Spawn(p, this.currentTarget.Cell, map);
+                        CasterPawn.DeSpawn();
+                        GenSpawn.Spawn(p, currentTarget.Cell, map);
                         ModOptions.Constants.SetPawnInFlight(false);
                     }
                     if (pwrVal > 0)
@@ -124,7 +124,7 @@ namespace TorannMagic
                 }
                 catch
                 {
-                    if(!this.CasterPawn.Spawned)
+                    if(!CasterPawn.Spawned)
                     {
                         GenSpawn.Spawn(p, cell, map);
                         Log.Message("Exception occured when trying to blink - recovered pawn at position ability was used from.");
@@ -138,7 +138,7 @@ namespace TorannMagic
 
                 Messages.Message("InvalidTargetLocation".Translate(), MessageTypeDefOf.RejectInput);
             }
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return result;
         }
     }

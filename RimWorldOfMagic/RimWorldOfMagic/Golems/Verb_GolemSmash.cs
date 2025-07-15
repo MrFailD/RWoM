@@ -15,11 +15,11 @@ namespace TorannMagic.Golems
         {
             DamageWorker.DamageResult damageResult = new DamageWorker.DamageResult();            
 
-            if (this.CasterPawn.Map != null)
+            if (CasterPawn.Map != null)
             {
                 List<IntVec3> targetCells = GenRadial.RadialCellsAround(target.Cell, 2, true).ToList();
                 IntVec3 curCell = default(IntVec3);
-                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_EarthCrack, target.Cell.ToVector3Shifted(), this.CasterPawn.Map, 2.5f, .25f, .25f, 1.75f, 0, 0, 0, Rand.Range(0, 360));
+                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_EarthCrack, target.Cell.ToVector3Shifted(), CasterPawn.Map, 2.5f, .25f, .25f, 1.75f, 0, 0, 0, Rand.Range(0, 360));
                 Find.CameraDriver.shaker.DoShake(.02f);
                 if (targetCells != null && targetCells.Count > 0)
                 {
@@ -40,12 +40,12 @@ namespace TorannMagic.Golems
                                     {
                                         if (p.Faction.HostileTo(CasterPawn.Faction) || p.Faction == null)
                                         {
-                                            TM_Action.DamageEntities(thingList[j], null, this.tool.power, DamageDefOf.Blunt, CasterPawn);
+                                            TM_Action.DamageEntities(thingList[j], null, tool.power, DamageDefOf.Blunt, CasterPawn);
                                         }
                                     }
                                     else
                                     {
-                                        TM_Action.DamageEntities(thingList[j], null, this.tool.power, DamageDefOf.Blunt, CasterPawn);
+                                        TM_Action.DamageEntities(thingList[j], null, tool.power, DamageDefOf.Blunt, CasterPawn);
                                     }
                                 }
                             }

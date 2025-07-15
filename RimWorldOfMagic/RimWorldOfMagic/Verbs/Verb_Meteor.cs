@@ -15,7 +15,7 @@ namespace TorannMagic
 
         public override bool CanHitTargetFrom(IntVec3 casterPos, LocalTargetInfo targ)
         {
-            bool flag = base.UseAbilityProps.AbilityTargetCategory != AbilityTargetCategory.TargetThing;
+            bool flag = UseAbilityProps.AbilityTargetCategory != AbilityTargetCategory.TargetThing;
             bool result;
             if (flag)
             {
@@ -23,16 +23,16 @@ namespace TorannMagic
             }
             else
             {
-                if( targ.Cell.IsValid && !targ.Cell.Fogged(base.caster.Map))
+                if( targ.Cell.IsValid && !targ.Cell.Fogged(caster.Map))
                 {
-                    if ((casterPos - targ.Cell).LengthHorizontal > this.verbProps.range)
+                    if ((casterPos - targ.Cell).LengthHorizontal > verbProps.range)
                     {
                         result = false;
                     }
                     else
                     {
                         ShootLine shootLine;
-                        result = base.TryFindShootLineFromTo(casterPos, targ, out shootLine);
+                        result = TryFindShootLineFromTo(casterPos, targ, out shootLine);
                     }
                 }
                 else
@@ -47,17 +47,17 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             Map map = base.CasterPawn.Map;
-            IntVec3 centerCell = this.currentTarget.Cell;
+            IntVec3 centerCell = currentTarget.Cell;
 
-            verVal = this.CasterPawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Meteor.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Meteor_ver").level;
-            pwrVal = this.UseAbilityProps.TargetAoEProperties.range;
+            verVal = CasterPawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Meteor.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Meteor_ver").level;
+            pwrVal = UseAbilityProps.TargetAoEProperties.range;
 
             bool result = false;
             bool arg_40_0;
-            if (this.currentTarget != null && base.CasterPawn != null)
+            if (currentTarget != null && base.CasterPawn != null)
             {
-                IntVec3 arg_29_0 = this.currentTarget.Cell;
-                arg_40_0 = this.currentTarget.Cell.IsValid;
+                IntVec3 arg_29_0 = currentTarget.Cell;
+                arg_40_0 = currentTarget.Cell.IsValid;
             }
             else
             {
@@ -92,7 +92,7 @@ namespace TorannMagic
             {
                 Log.Warning("failed to TryCastShot");
             }
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return result;
         }
 

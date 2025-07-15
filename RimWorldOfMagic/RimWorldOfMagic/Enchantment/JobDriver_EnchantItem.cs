@@ -15,7 +15,7 @@ namespace TorannMagic.Enchantment
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return this.pawn.Reserve(this.job.targetA, this.job, 1, -1, null);
+            return pawn.Reserve(job.targetA, job, 1, -1, null);
             throw new NotImplementedException();
         }
 
@@ -64,7 +64,7 @@ namespace TorannMagic.Enchantment
             Toil gotoThing = new Toil();
             gotoThing.initAction = delegate
             {
-                this.pawn.pather.StartPath(this.TargetThingA, PathEndMode.Touch);
+                pawn.pather.StartPath(TargetThingA, PathEndMode.Touch);
             };
             gotoThing.defaultCompleteMode = ToilCompleteMode.PatherArrival;
             gotoThing.FailOnDespawnedNullOrForbidden(TargetIndex.A);

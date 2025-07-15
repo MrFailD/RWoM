@@ -20,16 +20,16 @@ namespace TorannMagic
         {
             get
             {
-                IntVec3 center = this.InteractionCell;
-                if (this.Rotation == Rot4.North)
+                IntVec3 center = InteractionCell;
+                if (Rotation == Rot4.North)
                 {
                     center.z -= 2;
                 }
-                else if (this.Rotation == Rot4.South)
+                else if (Rotation == Rot4.South)
                 {
                     center.z += 2;
                 }
-                else if (this.Rotation == Rot4.West)
+                else if (Rotation == Rot4.West)
                 {
                     center.x += 2;
                 }
@@ -47,7 +47,7 @@ namespace TorannMagic
             {
                 if(MageList.Count > 0)
                 {
-                    return this.MageList[0].CurJob;
+                    return MageList[0].CurJob;
                 }
                 else
                 {
@@ -62,15 +62,15 @@ namespace TorannMagic
             {
                 if(Stuff != null)
                 {
-                    if (this.Stuff == ThingDef.Named("Jade"))
+                    if (Stuff == ThingDef.Named("Jade"))
                     {
                         return .3f;
                     }
-                    else if (this.Stuff == ThingDef.Named("Uranium"))
+                    else if (Stuff == ThingDef.Named("Uranium"))
                     {
                         return .2f;
                     }      
-                    else if(this.Stuff == TorannMagicDefOf.TM_Arcalleum)
+                    else if(Stuff == TorannMagicDefOf.TM_Arcalleum)
                     {
                         return .15f;
                     }
@@ -85,11 +85,11 @@ namespace TorannMagic
             {
                 if (Stuff != null)
                 {
-                    if (this.Stuff == ThingDef.Named("Silver"))
+                    if (Stuff == ThingDef.Named("Silver"))
                     {
                         return .25f;
                     }
-                    else if (this.Stuff == ThingDef.Named("Gold"))
+                    else if (Stuff == ThingDef.Named("Gold"))
                     {
                         return .15f;
                     }
@@ -104,15 +104,15 @@ namespace TorannMagic
             {
                 if (Stuff != null)
                 {
-                    if (this.Stuff == ThingDef.Named("Gold"))
+                    if (Stuff == ThingDef.Named("Gold"))
                     {
                         return .2f;
                     }
-                    else if(this.Stuff == ThingDef.Named("Uranium"))
+                    else if(Stuff == ThingDef.Named("Uranium"))
                     {
                         return .2f;
                     }
-                    else if (this.Stuff == ThingDefOf.Plasteel)
+                    else if (Stuff == ThingDefOf.Plasteel)
                     {
                         return .10f;
                     }
@@ -127,7 +127,7 @@ namespace TorannMagic
             {
                 if (Stuff != null)
                 {
-                    if (this.Stuff == TorannMagicDefOf.TM_Arcalleum)
+                    if (Stuff == TorannMagicDefOf.TM_Arcalleum)
                     {
                         return .25f;
                     }
@@ -142,11 +142,11 @@ namespace TorannMagic
             {
                 if (Stuff != null)
                 {
-                    if (this.Stuff == ThingDef.Named("Gold"))
+                    if (Stuff == ThingDef.Named("Gold"))
                     {
                         return .2f;
                     }
-                    else if(this.Stuff == ThingDefOf.Plasteel)
+                    else if(Stuff == ThingDefOf.Plasteel)
                     {
                         return .15f;
                     }
@@ -158,34 +158,34 @@ namespace TorannMagic
         public override void DoActiveEffecter()
         {
             Effecter CircleED = TorannMagicDefOf.TM_MagicCircleED.Spawn();
-            CircleED.Trigger(new TargetInfo(GetCircleCenter, this.Map, false), new TargetInfo(GetCircleCenter, this.Map, false));
+            CircleED.Trigger(new TargetInfo(GetCircleCenter, Map, false), new TargetInfo(GetCircleCenter, Map, false));
             CircleED.Cleanup();
         }
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {           
-            if (this.IsActive)
+            if (IsActive)
             {
                 Vector3 vector = base.DrawPos;
                 vector.y = Altitudes.AltitudeFor(AltitudeLayer.Blueprint);
                 Vector3 s = new Vector3(matMagnitude, 2*matMagnitude, matMagnitude);
                 Quaternion quaternion = Quaternion.AngleAxis(Rotation.AsAngle, Vector3.up);
                 Matrix4x4 matrix = default(Matrix4x4);
-                float angle = this.ExactRotation;
+                float angle = ExactRotation;
                 matrix.SetTRS(vector, Quaternion.AngleAxis(angle, Vector3.up), s);
-                if (this.Rotation == Rot4.North)
+                if (Rotation == Rot4.North)
                 {
                     Graphics.DrawMesh(MeshPool.plane10, matrix, TM_RenderQueue.mc_north, 0);
                 }
-                else if (this.Rotation == Rot4.South)
+                else if (Rotation == Rot4.South)
                 {
                     Graphics.DrawMesh(MeshPool.plane10, matrix, TM_RenderQueue.mc_south, 0);
                 }
-                else if (this.Rotation == Rot4.East)
+                else if (Rotation == Rot4.East)
                 {
                     Graphics.DrawMesh(MeshPool.plane10, matrix, TM_RenderQueue.mc_east, 0);
                 }
-                else if (this.Rotation == Rot4.West)
+                else if (Rotation == Rot4.West)
                 {
                     Graphics.DrawMesh(MeshPool.plane10, matrix, TM_RenderQueue.mc_west, 0);
                 }
@@ -207,24 +207,24 @@ namespace TorannMagic
             {
                 if (allMages[i] == mage)
                 {
-                    IntVec3 ic = this.InteractionCell;
+                    IntVec3 ic = InteractionCell;
                     if (i == 0)
                     {
                         //always interaction cell
                     }
                     else if (i == 1)
                     {
-                        if (this.Rotation == Rot4.North)
+                        if (Rotation == Rot4.North)
                         {
                             ic.x -= 2;
                             ic.z -= 3;
                         }
-                        else if (this.Rotation == Rot4.South)
+                        else if (Rotation == Rot4.South)
                         {
                             ic.x += 2;
                             ic.z += 3;
                         }
-                        else if (this.Rotation == Rot4.West)
+                        else if (Rotation == Rot4.West)
                         {
                             ic.x += 3;
                             ic.z -= 2;
@@ -237,17 +237,17 @@ namespace TorannMagic
                     }
                     else if (i == 2)
                     {
-                        if (this.Rotation == Rot4.North)
+                        if (Rotation == Rot4.North)
                         {
                             ic.x += 2;
                             ic.z -= 3;
                         }
-                        else if (this.Rotation == Rot4.South)
+                        else if (Rotation == Rot4.South)
                         {
                             ic.x -= 2;
                             ic.z += 3;
                         }
-                        else if (this.Rotation == Rot4.West)
+                        else if (Rotation == Rot4.West)
                         {
                             ic.x += 3;
                             ic.z += 2;
@@ -260,17 +260,17 @@ namespace TorannMagic
                     }
                     else if (i == 3)
                     {
-                        if (this.Rotation == Rot4.North)
+                        if (Rotation == Rot4.North)
                         {
                             ic.x += 0;
                             ic.z -= 4;
                         }
-                        else if (this.Rotation == Rot4.South)
+                        else if (Rotation == Rot4.South)
                         {
                             ic.x -= 0;
                             ic.z += 4;
                         }
-                        else if (this.Rotation == Rot4.West)
+                        else if (Rotation == Rot4.West)
                         {
                             ic.x += 4;
                             ic.z += 0;
@@ -283,17 +283,17 @@ namespace TorannMagic
                     }
                     else if (i == 4)
                     {
-                        if (this.Rotation == Rot4.North)
+                        if (Rotation == Rot4.North)
                         {
                             ic.x -= 2;
                             ic.z -= 1;
                         }
-                        else if (this.Rotation == Rot4.South)
+                        else if (Rotation == Rot4.South)
                         {
                             ic.x += 2;
                             ic.z += 1;
                         }
-                        else if (this.Rotation == Rot4.West)
+                        else if (Rotation == Rot4.West)
                         {
                             ic.x += 1;
                             ic.z -= 2;
@@ -306,17 +306,17 @@ namespace TorannMagic
                     }
                     else if (i == 5)
                     {
-                        if (this.Rotation == Rot4.North)
+                        if (Rotation == Rot4.North)
                         {
                             ic.x += 2;
                             ic.z -= 1;
                         }
-                        else if (this.Rotation == Rot4.South)
+                        else if (Rotation == Rot4.South)
                         {
                             ic.x -= 2;
                             ic.z += 1;
                         }
-                        else if (this.Rotation == Rot4.West)
+                        else if (Rotation == Rot4.West)
                         {
                             ic.x += 1;
                             ic.z += 2;

@@ -20,7 +20,7 @@ namespace TorannMagic
                 }
                 else
                 {
-                    Corpse corpse = base.SelThing as Corpse;
+                    Corpse corpse = SelThing as Corpse;
                     bool flag2 = corpse != null;
                     if (flag2)
                     {
@@ -145,14 +145,14 @@ namespace TorannMagic
 
         public ITab_Pawn_Magic()
         {
-            this.size = MagicCardUtility.MagicCardSize + new Vector2(17f, 17f) * 2f;
-            this.labelKey = "TM_TabMagic";
+            size = MagicCardUtility.MagicCardSize + new Vector2(17f, 17f) * 2f;
+            labelKey = "TM_TabMagic";
         }
 
         protected override void FillTab()
         {
             Rect rect = new Rect(17f, 17f, MagicCardUtility.MagicCardSize.x, MagicCardUtility.MagicCardSize.y);
-            MagicCardUtility.DrawMagicCard(rect, this.PawnToShowInfoAbout);
+            MagicCardUtility.DrawMagicCard(rect, PawnToShowInfoAbout);
             
         }
     }

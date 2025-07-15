@@ -13,7 +13,7 @@ namespace TorannMagic
 
         public CompProperties_AnimalController()
         {
-            this.compClass = typeof(CompAnimalController);
+            compClass = typeof(CompAnimalController);
         }
     }
 }

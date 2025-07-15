@@ -49,19 +49,19 @@ namespace TorannMagic
                 {
                     if (circle != null)
                     {
-                        this.pawn.rotationTracker.FaceTarget(circle.GetCircleCenter);
+                        pawn.rotationTracker.FaceTarget(circle.GetCircleCenter);
                         
                     }
-                    if (this.age > this.durationTicks)
+                    if (age > durationTicks)
                     {
-                        this.EndJobWith(JobCondition.InterruptForced);
+                        EndJobWith(JobCondition.InterruptForced);
                     }
                 },
                 tickAction = () =>
                 {
-                    if (this.circle != null)
+                    if (circle != null)
                     {
-                        this.pawn.rotationTracker.FaceTarget(circle.GetCircleCenter);
+                        pawn.rotationTracker.FaceTarget(circle.GetCircleCenter);
                     }
                     else
                     {
@@ -76,35 +76,35 @@ namespace TorannMagic
                         {
                             if (circle.IsPending)
                             {
-                                this.totalWaitDuration += age;
-                                if(totalWaitDuration >= (15 * this.durationTicks))
+                                totalWaitDuration += age;
+                                if(totalWaitDuration >= (15 * durationTicks))
                                 {
-                                    this.EndJobWith(JobCondition.Incompletable);
+                                    EndJobWith(JobCondition.Incompletable);
                                 }
                                 age = 0;
                             }
                             else
                             {
-                                this.EndJobWith(JobCondition.InterruptForced);
+                                EndJobWith(JobCondition.InterruptForced);
                             }
                         }
                         else
                         {
-                            this.EndJobWith(JobCondition.Succeeded);
+                            EndJobWith(JobCondition.Succeeded);
                         }
                     }
                     age++;
                 },
                 defaultCompleteMode = ToilCompleteMode.Never
             };
-            waitFor.defaultDuration = this.durationTicks;
+            waitFor.defaultDuration = durationTicks;
             waitFor.WithProgressBar(TargetIndex.A, delegate
             {
-                if (this.pawn.DestroyedOrNull() || this.pawn.Dead || this.pawn.Downed)
+                if (pawn.DestroyedOrNull() || pawn.Dead || pawn.Downed)
                 {
                     return 1f;
                 }
-                return (float)((float)age / (float)this.durationTicks); 
+                return (float)((float)age / (float)durationTicks); 
 
             }, false, 0f);
             yield return waitFor;

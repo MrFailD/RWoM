@@ -20,10 +20,10 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
-            pawn = this.launcher as Pawn;
+            pawn = launcher as Pawn;
             Pawn victim = hitThing as Pawn;
             
             try
@@ -31,14 +31,14 @@ namespace TorannMagic
                 CompAbilityUserMight comp = pawn.GetCompAbilityUserMight();
                 
                 verVal = TM_Calc.GetSkillVersatilityLevel(pawn, TorannMagicDefOf.TM_Headshot);
-                CellRect cellRect = CellRect.CenteredOn(base.Position, 1);
+                CellRect cellRect = CellRect.CenteredOn(Position, 1);
                 cellRect.ClipInsideMap(map);
                 int dmg = GetWeaponDmg(pawn);
                 armorPen = pawn.equipment.Primary.def.Verbs.FirstOrDefault().defaultProjectile.projectile.GetArmorPenetration(this);
 
-                if (victim != null && Rand.Chance(this.launcher.GetStatValue(StatDefOf.ShootingAccuracyPawn, true)))
+                if (victim != null && Rand.Chance(launcher.GetStatValue(StatDefOf.ShootingAccuracyPawn, true)))
                 {
-                    this.PenetratingShot(victim, dmg, this.def.projectile.damageDef);
+                    PenetratingShot(victim, dmg, this.def.projectile.damageDef);
                     if (victim.Dead)
                     {
                         comp.Stamina.CurLevel += (.1f * verVal);
@@ -77,21 +77,21 @@ namespace TorannMagic
                 vitalPart = partSearch.FirstOrDefault<BodyPartRecord>((BodyPartRecord x) => x.def.tags.Contains(BodyPartTagDefOf.ConsciousnessSource));
                 if (vitalPart != null)
                 {
-                    this.HitBodyPartOrParent(victim, dmg, dmgType, vitalPart, 0);
+                    HitBodyPartOrParent(victim, dmg, dmgType, vitalPart, 0);
                 }
                 else
                 {
                     vitalPart = partSearch.FirstOrDefault<BodyPartRecord>((BodyPartRecord x) => x.def.tags.Contains(BodyPartTagDefOf.BloodPumpingSource));
                     if (vitalPart != null)
                     {
-                        this.HitBodyPartOrParent(victim, dmg, dmgType, vitalPart, 0);
+                        HitBodyPartOrParent(victim, dmg, dmgType, vitalPart, 0);
                     }
                     else
                     {
                         vitalPart = partSearch.FirstOrDefault<BodyPartRecord>((BodyPartRecord x) => x.def.tags.Contains(BodyPartTagDefOf.Spine));
                         if (vitalPart != null)
                         {
-                            this.HitBodyPartOrParent(victim, dmg, dmgType, vitalPart, 0);
+                            HitBodyPartOrParent(victim, dmg, dmgType, vitalPart, 0);
                         }
                         else
                         {
@@ -108,7 +108,7 @@ namespace TorannMagic
             if (hitPart.parent != null && hitPart.depth == BodyPartDepth.Inside)
             {
                 parentPart = hitPart.parent;
-                dmg = this.HitBodyPartOrParent(victim, dmg, dmgType, parentPart, penetratedParts + 1);
+                dmg = HitBodyPartOrParent(victim, dmg, dmgType, parentPart, penetratedParts + 1);
                 if (penetratedParts == 0)
                 {
                     damageEntities(victim, hitPart, dmg, dmgType, penetratedParts);
@@ -116,7 +116,7 @@ namespace TorannMagic
                 }
                 else
                 {
-                    float maxDmg = this.destroyParentPartPctTo * hitPart.def.GetMaxHealth(victim);
+                    float maxDmg = destroyParentPartPctTo * hitPart.def.GetMaxHealth(victim);
                     if (dmg > maxDmg)
                     {
                         damageEntities(victim, hitPart, (int)maxDmg , dmgType, penetratedParts);
@@ -132,7 +132,7 @@ namespace TorannMagic
             }
             else
             {
-                float maxDmg = (this.destroyParentPartPctTo * hitPart.def.GetMaxHealth(victim));
+                float maxDmg = (destroyParentPartPctTo * hitPart.def.GetMaxHealth(victim));
                 if ( dmg > maxDmg )
                 {
                     damageEntities(victim, hitPart, (int)maxDmg, dmgType, penetratedParts);
@@ -167,7 +167,7 @@ namespace TorannMagic
             //DamageWorker_AddInjury inj = new DamageWorker_AddInjury();
             //inj.Apply(dinfo, victim);
             victim.TakeDamage(dinfo);
-            if (!victim.IsColonist && !victim.IsPrisoner && victim.Faction != null && !victim.Faction.HostileTo(pawn.Faction) && victim.Faction != this.launcher.Faction)
+            if (!victim.IsColonist && !victim.IsPrisoner && victim.Faction != null && !victim.Faction.HostileTo(pawn.Faction) && victim.Faction != launcher.Faction)
             {
                 Faction faction = victim.Faction;
                 faction.TryAffectGoodwillWith(pawn.Faction, -100, true, false, TorannMagicDefOf.TM_OffensiveMagic, null);

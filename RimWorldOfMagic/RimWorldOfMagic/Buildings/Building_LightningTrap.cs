@@ -12,14 +12,14 @@ namespace TorannMagic.Buildings
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.ExtendedTrap, "extendedTrap",false, false);
-            Scribe_Values.Look<bool>(ref this.IceTrap, "iceTrap", false, false);
+            Scribe_Values.Look<bool>(ref ExtendedTrap, "extendedTrap",false, false);
+            Scribe_Values.Look<bool>(ref IceTrap, "iceTrap", false, false);
         }
 
         protected override void Spring(Pawn p)
         {
             base.Spring(p);
-            IntVec3 targetPos = this.Position;
+            IntVec3 targetPos = Position;
             targetPos.z += 2;
             LocalTargetInfo t = targetPos;
             float speed = .8f;
@@ -31,12 +31,12 @@ namespace TorannMagic.Buildings
             {
                 Thing eyeThing = new Thing();
                 eyeThing.def = TorannMagicDefOf.FlyingObject_LightningTrap;
-                FlyingObject_LightningTrap flyingObject = (FlyingObject_LightningTrap)GenSpawn.Spawn(TorannMagicDefOf.FlyingObject_LightningTrap, this.Position, this.Map);
-                flyingObject.Launch(p, this.Position.ToVector3Shifted(), t.Cell, eyeThing, this.Faction, null, speed);
+                FlyingObject_LightningTrap flyingObject = (FlyingObject_LightningTrap)GenSpawn.Spawn(TorannMagicDefOf.FlyingObject_LightningTrap, Position, Map);
+                flyingObject.Launch(p, Position.ToVector3Shifted(), t.Cell, eyeThing, Faction, null, speed);
             }
             if(IceTrap)
             {
-                AddSnowRadial(this.Position, this.Map, 6, 1.1f);
+                AddSnowRadial(Position, Map, 6, 1.1f);
             }
         }
 
@@ -58,12 +58,12 @@ namespace TorannMagic.Buildings
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Destroy(mode);
             InstallBlueprintUtility.CancelBlueprintsFor(this);
             if (mode == DestroyMode.Deconstruct)
             {
-                SoundDef.Named("Building_Deconstructed").PlayOneShot(new TargetInfo(base.Position, map, false));
+                SoundDef.Named("Building_Deconstructed").PlayOneShot(new TargetInfo(Position, map, false));
             }
         }
     }

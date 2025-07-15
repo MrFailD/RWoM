@@ -27,22 +27,22 @@ namespace TorannMagic
             {
                 initAction = () =>
                 {
-                    this.comp = this.pawn.GetCompAbilityUserMagic();
-                    this.markedPawn = comp.soulBondPawn;
+                    comp = pawn.GetCompAbilityUserMagic();
+                    markedPawn = comp.soulBondPawn;
                 },
                 tickAction = () =>
                 {
                     if(!markedPawn.Spawned)
                     {
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                     if (age > durationTicks)
                     {
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                     if (Find.TickManager.TicksGame % 12 == 0)
                     {
-                        TM_MoteMaker.ThrowCastingMote(this.pawn.DrawPos, this.pawn.Map, Rand.Range(1.2f, 2f));
+                        TM_MoteMaker.ThrowCastingMote(pawn.DrawPos, pawn.Map, Rand.Range(1.2f, 2f));
                         TM_MoteMaker.ThrowShadowMote(markedPawn.DrawPos, markedPawn.Map, Rand.Range(.8f, 1.2f), Rand.Range(-200, 200), Rand.Range(1, 2), Rand.Range(1.5f, 2f));
                     }
                     if(Find.TickManager.TicksGame % 6 ==0)
@@ -53,14 +53,14 @@ namespace TorannMagic
                 },
                 defaultCompleteMode = ToilCompleteMode.Never
             };
-            doFor.defaultDuration = this.durationTicks;
+            doFor.defaultDuration = durationTicks;
             doFor.WithProgressBar(TargetIndex.A, delegate
             {
-                if (this.pawn.DestroyedOrNull() || this.pawn.Dead || this.pawn.Downed)
+                if (pawn.DestroyedOrNull() || pawn.Dead || pawn.Downed)
                 {
                     return 1f;
                 }
-                return 1f - (float)doFor.actor.jobs.curDriver.ticksLeftThisToil / this.durationTicks;
+                return 1f - (float)doFor.actor.jobs.curDriver.ticksLeftThisToil / durationTicks;
 
             }, false, 0f);
             yield return doFor;         

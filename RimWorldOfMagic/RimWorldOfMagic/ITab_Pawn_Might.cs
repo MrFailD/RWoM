@@ -19,7 +19,7 @@ namespace TorannMagic
                 }
                 else
                 {
-                    Corpse corpse = base.SelThing as Corpse;
+                    Corpse corpse = SelThing as Corpse;
                     if (corpse != null)
                     {
                         pawn = corpse.InnerPawn;
@@ -107,14 +107,14 @@ namespace TorannMagic
 
         public ITab_Pawn_Might()
         {
-            this.size = MightCardUtility.MightCardSize + new Vector2(17f, 17f) * 2f;
-            this.labelKey = "TM_TabMight";
+            size = MightCardUtility.MightCardSize + new Vector2(17f, 17f) * 2f;
+            labelKey = "TM_TabMight";
         }
 
         protected override void FillTab()
         {
             Rect rect = new Rect(17f, 17f, MightCardUtility.MightCardSize.x, MightCardUtility.MightCardSize.y);
-            MightCardUtility.DrawMightCard(rect, this.PawnToShowInfoAbout);
+            MightCardUtility.DrawMightCard(rect, PawnToShowInfoAbout);
         }
 
     }

@@ -246,7 +246,7 @@ namespace TorannMagic
             }
         }
 
-        private static readonly SimpleCache<string, TraitIconMap.TraitIconValue> ColonistBarColonistDrawerCache = new Utils.SimpleCache<string, TraitIconMap.TraitIconValue>(5);
+        private static readonly SimpleCache<string, TraitIconMap.TraitIconValue> ColonistBarColonistDrawerCache = new SimpleCache<string, TraitIconMap.TraitIconValue>(5);
 
         [HarmonyPatch(typeof(ColonistBarColonistDrawer), "DrawIcons", null)]
         public class ColonistBarColonistDrawer_Patch
@@ -611,7 +611,7 @@ namespace TorannMagic
                                             //}
                                             break;
                                         case int val when rndF > 11:
-                                            TMDefs.TM_CustomClass cFighter = TM_ClassUtility.GetRandomCustomFighter();
+                                            TM_CustomClass cFighter = TM_ClassUtility.GetRandomCustomFighter();
                                             if (!pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(cFighter.classTrait, cFighter.traitDegree)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, cFighter.classTrait) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(cFighter.classTrait)))
                                             {
                                                 pawn.story.traits.GainTrait(new Trait(cFighter.classTrait, cFighter.traitDegree, false));
@@ -854,7 +854,7 @@ namespace TorannMagic
                                             //}
                                             break;
                                         case int val when rndM > 19:
-                                            TMDefs.TM_CustomClass cMage = customMages.RandomElement();
+                                            TM_CustomClass cMage = customMages.RandomElement();
                                             if (!pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(cMage.classTrait, cMage.traitDegree)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, cMage.classTrait) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(cMage.classTrait)))
                                             {
                                                 pawn.story.traits.GainTrait(new Trait(cMage.classTrait, cMage.traitDegree, false));
@@ -1016,7 +1016,7 @@ namespace TorannMagic
                                             //}
                                             break;
                                         case int val when rndF > 11:
-                                            TMDefs.TM_CustomClass cFighter = customFighters.RandomElement();
+                                            TM_CustomClass cFighter = customFighters.RandomElement();
                                             if (!pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(cFighter.classTrait, cFighter.traitDegree)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(cFighter.classTrait)))
                                             {
                                                 pawn.story.traits.GainTrait(new Trait(cFighter.classTrait, cFighter.traitDegree, false));
@@ -1259,7 +1259,7 @@ namespace TorannMagic
                                             //}
                                             break;
                                         case int val when rndM > 19:
-                                            TMDefs.TM_CustomClass cMage = customMages.RandomElement();
+                                            TM_CustomClass cMage = customMages.RandomElement();
                                             if (!pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(cMage.classTrait, cMage.traitDegree)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(cMage.classTrait)))
                                             {
                                                 pawn.story.traits.GainTrait(new Trait(cMage.classTrait, cMage.traitDegree, false));
@@ -1848,14 +1848,14 @@ namespace TorannMagic
             {
                 if (dinfo.Instigator != null && dinfo.Instigator is Pawn && dinfo.Amount != 0 &&
                     dinfo.Weapon != null &&
-                    dinfo.Weapon.HasComp(typeof(TorannMagic.Enchantment.CompEnchantedItem)))
+                    dinfo.Weapon.HasComp(typeof(Enchantment.CompEnchantedItem)))
                 {
                     Pawn instigator = dinfo.Instigator as Pawn;
                     if (instigator.equipment != null && instigator.equipment.Primary != null)
                     {
                         ThingWithComps eq = instigator.equipment.Primary;
-                        TorannMagic.Enchantment.CompEnchantedItem enchantment =
-                            eq.TryGetComp<TorannMagic.Enchantment.CompEnchantedItem>();
+                        Enchantment.CompEnchantedItem enchantment =
+                            eq.TryGetComp<Enchantment.CompEnchantedItem>();
                         if (enchantment != null && enchantment.enchantmentAction != null)
                         {
                             if (enchantment.enchantmentAction.type ==

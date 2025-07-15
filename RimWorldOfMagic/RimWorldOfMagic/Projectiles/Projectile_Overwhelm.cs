@@ -20,7 +20,7 @@ namespace TorannMagic
 
         private void Initialize(Pawn pawn)
         {
-            GenClamor.DoClamor(this.launcher, 5f, ClamorDefOf.Impact);
+            GenClamor.DoClamor(launcher, 5f, ClamorDefOf.Impact);
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             pwr = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Overwhelm.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Overwhelm_pwr");
             ver = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Overwhelm.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Overwhelm_ver");
@@ -34,13 +34,13 @@ namespace TorannMagic
                 pwrVal = mpwr.level;
                 verVal = mver.level;
             }
-            this.arcaneDmg = comp.arcaneDmg;
+            arcaneDmg = comp.arcaneDmg;
             if (ModOptions.Settings.Instance.AIHardMode && !pawn.IsColonist)
             {
                 pwrVal = 3;
                 verVal = 3;
             }
-            this.strikeNum = 1;
+            strikeNum = 1;
             initialized = true;
         }
 
@@ -48,7 +48,7 @@ namespace TorannMagic
         {
             //base.Impact(hitThing);
             
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             Map map = pawn.Map;
             if(!initialized)
             {
@@ -61,7 +61,7 @@ namespace TorannMagic
                 if (Find.TickManager.TicksGame % 3 == 0)
                 {
                     DoBurstExplosion(pawn, map);
-                    this.strikeNum++;
+                    strikeNum++;
                 }
                 if(strikeNum > 3 + verVal)
                 {
@@ -81,12 +81,12 @@ namespace TorannMagic
             List<IntVec3> targets;
             if (strikeNum == 1)
             {
-                targets = GenRadial.RadialCellsAround(pawn.Position, this.strikeNum, false).ToList();
+                targets = GenRadial.RadialCellsAround(pawn.Position, strikeNum, false).ToList();
             }
             else
             {
-                IEnumerable<IntVec3> oldTargets = GenRadial.RadialCellsAround(base.Position, this.strikeNum - 1, false);
-                targets = GenRadial.RadialCellsAround(pawn.Position, this.strikeNum, false).Except(oldTargets).ToList();
+                IEnumerable<IntVec3> oldTargets = GenRadial.RadialCellsAround(Position, strikeNum - 1, false);
+                targets = GenRadial.RadialCellsAround(pawn.Position, strikeNum, false).Except(oldTargets).ToList();
             }
             for (int j = 0; j < targets.Count; j++)
             {
@@ -106,14 +106,14 @@ namespace TorannMagic
         protected void HolyExplosion(int pwr, int ver, IntVec3 pos, Map map, float radius)
         {
             ThingDef def = this.def;
-            Explosion(pwr, pos, map, radius, TMDamageDefOf.DamageDefOf.TM_Overwhelm, this.launcher, null, def, this.equipmentDef, null, 0.4f, 1, false, null, 0f, 1);
+            Explosion(pwr, pos, map, radius, TMDamageDefOf.DamageDefOf.TM_Overwhelm, launcher, null, def, equipmentDef, null, 0.4f, 1, false, null, 0f, 1);
             
             if (ver >= 2)
             {
                 int rnd = Rand.Range(3, 12);
                 if (rnd >= 5)
                 {
-                    Explosion(pwr, pos, map, radius, DamageDefOf.Stun, this.launcher, null, def, this.equipmentDef, null, 0.0f, 1, false, null, 0f, 1);
+                    Explosion(pwr, pos, map, radius, DamageDefOf.Stun, launcher, null, def, equipmentDef, null, 0.0f, 1, false, null, 0f, 1);
                 }
             }
             //MoteMaker.MakeStaticMote(pos, map, ThingDefOf.Mote_HeatGlow, 2f);
@@ -124,7 +124,7 @@ namespace TorannMagic
         {
             System.Random rnd = new System.Random();
             int modDamAmountRand = (pwr * 3) + GenMath.RoundRandom(rnd.Next(5, projectile.projectile.GetDamageAmount(1,null)));
-            modDamAmountRand = Mathf.RoundToInt(modDamAmountRand * this.arcaneDmg);
+            modDamAmountRand = Mathf.RoundToInt(modDamAmountRand * arcaneDmg);
             if (map == null)
             {
                 Log.Warning("Tried to do explosion in a null map.");

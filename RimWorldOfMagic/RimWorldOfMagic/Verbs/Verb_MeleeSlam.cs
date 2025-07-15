@@ -19,11 +19,11 @@ namespace TorannMagic
             HediffDef hediffDef = null;
             float num = verbProps.AdjustedMeleeDamageAmount(this, CasterPawn);
             float armorPenetration = verbProps.AdjustedArmorPenetration(this, CasterPawn);
-            ThingDef source = (base.EquipmentSource == null) ? CasterPawn.def : base.EquipmentSource.def;
+            ThingDef source = (EquipmentSource == null) ? CasterPawn.def : EquipmentSource.def;
             bodyPartGroupDef = verbProps.AdjustedLinkedBodyPartsGroup(tool);
-            DamageInfo dinfo = new DamageInfo(DamageDefOf.Blunt, (num * .6f), armorPenetration, -1f, this.CasterPawn, null, source);            
+            DamageInfo dinfo = new DamageInfo(DamageDefOf.Blunt, (num * .6f), armorPenetration, -1f, CasterPawn, null, source);            
             damageResult.totalDamageDealt = Mathf.Min((float)target.Thing.HitPoints, dinfo.Amount);
-            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_EarthCrack, target.Cell.ToVector3Shifted(), this.CasterPawn.Map, 2.2f, .25f, .25f, 1.75f, 0, 0, 0, Rand.Range(0, 360));
+            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_EarthCrack, target.Cell.ToVector3Shifted(), CasterPawn.Map, 2.2f, .25f, .25f, 1.75f, 0, 0, 0, Rand.Range(0, 360));
             for (int i = 0; i < 8; i++)
             {
                 IntVec3 intVec = target.Cell + GenAdj.AdjacentCells[i];

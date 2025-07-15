@@ -21,16 +21,16 @@ namespace TorannMagic
         private bool validTarg;
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -59,15 +59,15 @@ namespace TorannMagic
 
         protected override bool TryCastShot()
         {            
-            if (this.CasterPawn.equipment.Primary != null && !this.CasterPawn.equipment.Primary.def.IsRangedWeapon)
+            if (CasterPawn.equipment.Primary != null && !CasterPawn.equipment.Primary.def.IsRangedWeapon)
             {
-                CompAbilityUserMight comp = this.CasterPawn.GetCompAbilityUserMight();
+                CompAbilityUserMight comp = CasterPawn.GetCompAbilityUserMight();
                 //MightPowerSkill ver = comp.MightData.MightPowerSkill_SeismicSlash.FirstOrDefault((MightPowerSkill x) => x.label == "TM_SeismicSlash_ver");
                 //MightPowerSkill pwr = comp.MightData.MightPowerSkill_SeismicSlash.FirstOrDefault((MightPowerSkill x) => x.label == "TM_SeismicSlash_pwr");
                 //verVal = TM_Calc.GetMightSkillLevel(this.CasterPawn, comp.MightData.MightPowerSkill_BladeSpin, "TM_BladeSpin", "_ver", true);
                 //pwrVal = TM_Calc.GetMightSkillLevel(this.CasterPawn, comp.MightData.MightPowerSkill_BladeSpin, "TM_BladeSpin", "_pwr", true);
-                verVal = TM_Calc.GetSkillVersatilityLevel(CasterPawn, this.Ability.Def as TMAbilityDef);
-                pwrVal = TM_Calc.GetSkillPowerLevel(CasterPawn, this.Ability.Def as TMAbilityDef);
+                verVal = TM_Calc.GetSkillVersatilityLevel(CasterPawn, Ability.Def as TMAbilityDef);
+                pwrVal = TM_Calc.GetSkillPowerLevel(CasterPawn, Ability.Def as TMAbilityDef);
                 //verVal = ver.level;
                 //pwrVal = pwr.level;
                 //if (base.CasterPawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
@@ -82,27 +82,27 @@ namespace TorannMagic
                 cellRect.ClipInsideMap(map);
 
                 IntVec3 centerCell = cellRect.CenterCell;                
-                TMAbilityDef ad = (TMAbilityDef)this.Ability.Def;
+                TMAbilityDef ad = (TMAbilityDef)Ability.Def;
                 int dmgNum = Mathf.RoundToInt(comp.weaponDamage * ad.weaponDamageFactor);
                 
-                if (!this.CasterPawn.IsColonist && ModOptions.Settings.Instance.AIHardMode)
+                if (!CasterPawn.IsColonist && ModOptions.Settings.Instance.AIHardMode)
                 {
                     dmgNum += 10;
                 }
 
                 SearchForTargets(base.CasterPawn.Position, (2f + (float)(.5f * verVal)), map);
-                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_BladeSweep, this.CasterPawn.DrawPos, this.CasterPawn.Map, 1.6f + .4f * verVal, .04f, 0f, .18f, 1000, 0, 0, Rand.Range(0, 360));
+                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_BladeSweep, CasterPawn.DrawPos, CasterPawn.Map, 1.6f + .4f * verVal, .04f, 0f, .18f, 1000, 0, 0, Rand.Range(0, 360));
             }
             else
             {
                 Messages.Message("MustHaveMeleeWeapon".Translate(
-                    this.CasterPawn.LabelCap
+                    CasterPawn.LabelCap
                 ), MessageTypeDefOf.RejectInput);
                 return false;
             }
 
-            this.burstShotsLeft = 0;
-            this.PostCastShot(flag10, out flag10);
+            burstShotsLeft = 0;
+            PostCastShot(flag10, out flag10);
             return flag10;
 
         }
@@ -133,7 +133,7 @@ namespace TorannMagic
                         if (newTarg)
                         {
                             DrawStrike(center, victim.Position.ToVector3(), map);
-                            damageEntities(victim, null, GetWeaponDmg(this.CasterPawn), DamageDefOf.Cut);
+                            damageEntities(victim, null, GetWeaponDmg(CasterPawn), DamageDefOf.Cut);
                         }
                     }                    
                 }
@@ -159,7 +159,7 @@ namespace TorannMagic
             {
                 float angle = Rand.Range(0, 360);
                 matrix.SetTRS(vector, Quaternion.AngleAxis(angle, Vector3.up), s);
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Verb_BladeSpin.bladeMat, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, bladeMat, 0);
             }
         }
 
@@ -167,7 +167,7 @@ namespace TorannMagic
         {
             DamageInfo dinfo;
             amt = (int)((float)amt * Rand.Range(.7f, 1.3f));
-            dinfo = new DamageInfo(type, amt, 0, (float)-1, this.CasterPawn, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);            
+            dinfo = new DamageInfo(type, amt, 0, (float)-1, CasterPawn, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);            
             dinfo.SetAllowDamagePropagation(false);
             victim.TakeDamage(dinfo);
         }

@@ -27,18 +27,18 @@ namespace TorannMagic
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", true, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<Rot4>(ref this.rotation, "rotation", Rot4.South, false);
-            Scribe_Values.Look<IntVec3>(ref this.sentinelLoc, "sentinelLoc", default(IntVec3), false);
-            Scribe_References.Look<Pawn>(ref this.sustainerPawn, "sustainerPawn", false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", true, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<Rot4>(ref rotation, "rotation", Rot4.South, false);
+            Scribe_Values.Look<IntVec3>(ref sentinelLoc, "sentinelLoc", default(IntVec3), false);
+            Scribe_References.Look<Pawn>(ref sustainerPawn, "sustainerPawn", false);
         }
 
         private Pawn Pawn
         {
             get
             {
-                Pawn pawn = this.parent as Pawn;
+                Pawn pawn = parent as Pawn;
                 bool flag = pawn == null;
                 if (flag)
                 {
@@ -52,79 +52,79 @@ namespace TorannMagic
         {
             get
             {
-                return target == null && this.shouldDespawn;
+                return target == null && shouldDespawn;
             }
         }
 
         public override void CompTick()
         {
-            if (this.age > 0)
+            if (age > 0)
             {
-                if (!this.initialized)
+                if (!initialized)
                 {
-                    this.initialized = true;
+                    initialized = true;
                 }
 
-                if (this.Pawn.Spawned)
+                if (Pawn.Spawned)
                 {
-                    if (!this.Pawn.Downed)
+                    if (!Pawn.Downed)
                     {
                         if (Find.TickManager.TicksGame % 300 == 0)
                         {
-                            if (this.sustainerPawn != null)
+                            if (sustainerPawn != null)
                             {
                                 DetermineThreats();
                                 DetermineSustainerPawn();
 
-                                if (this.ShouldDespawn && this.Pawn.Position != this.sentinelLoc)
+                                if (ShouldDespawn && Pawn.Position != sentinelLoc)
                                 {
-                                    if (sentinelLoc.Walkable(this.Pawn.Map))
+                                    if (sentinelLoc.Walkable(Pawn.Map))
                                     {
                                         //this.Pawn.jobs.ClearQueuedJobs();
                                         //this.Pawn.jobs.EndCurrentJob(JobCondition.InterruptForced, true);
-                                        Job job = new Job(JobDefOf.Goto, this.sentinelLoc);
-                                        this.Pawn.jobs.StartJob(job, JobCondition.InterruptForced);
+                                        Job job = new Job(JobDefOf.Goto, sentinelLoc);
+                                        Pawn.jobs.StartJob(job, JobCondition.InterruptForced);
                                     }
                                     else
                                     {
                                         Messages.Message("TM_SentinelCannotReturn".Translate(
-                                        this.sustainerPawn.LabelShort
+                                        sustainerPawn.LabelShort
                                         ), MessageTypeDefOf.RejectInput, false);
-                                        this.Pawn.Destroy(DestroyMode.Vanish);
+                                        Pawn.Destroy(DestroyMode.Vanish);
                                     }
 
                                 }
 
-                                if(this.target.Thing is Pawn prisonerPawn)
+                                if(target.Thing is Pawn prisonerPawn)
                                 {
                                     if(prisonerPawn.IsPrisoner)
                                     {
                                         Job job = new Job(JobDefOf.AttackMelee, prisonerPawn);
-                                        this.Pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
+                                        Pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
                                     }
                                 }
                             }
                             else
                             {
                                 Log.Message("Sentinel has despawned due to lack of mana to sustain it.");
-                                this.Pawn.Destroy(DestroyMode.Vanish);
+                                Pawn.Destroy(DestroyMode.Vanish);
                             }
                         }
                     }
                     else
                     { 
-                        if (this.killNow > 100)
+                        if (killNow > 100)
                         {
-                            DamageInfo dinfo = new DamageInfo(DamageDefOf.Blunt, 100, 0, (float)-1, this.Pawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
-                            this.Pawn.TakeDamage(dinfo);
+                            DamageInfo dinfo = new DamageInfo(DamageDefOf.Blunt, 100, 0, (float)-1, Pawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
+                            Pawn.TakeDamage(dinfo);
                         }
-                        this.killNow++;
+                        killNow++;
                     }
 
-                    if(this.ShouldDespawn && this.Pawn.Position == this.sentinelLoc)
+                    if(ShouldDespawn && Pawn.Position == sentinelLoc)
                     {
                         SingleSpawnLoop();
-                        this.Pawn.Destroy(DestroyMode.Vanish);
+                        Pawn.Destroy(DestroyMode.Vanish);
                     }
                     
                 }                
@@ -145,7 +145,7 @@ namespace TorannMagic
                 Thing instigatorThing = dinfo.Instigator;
                 if(instigatorThing is Building)
                 {
-                    if (instigatorThing.Faction != null && instigatorThing.Faction != this.Pawn.Faction)
+                    if (instigatorThing.Faction != null && instigatorThing.Faction != Pawn.Faction)
                     {
                         
                     }
@@ -155,41 +155,41 @@ namespace TorannMagic
 
         private void DetermineSustainerPawn()
         {
-            if(this.sustainerPawn.DestroyedOrNull() || this.sustainerPawn.Dead)
+            if(sustainerPawn.DestroyedOrNull() || sustainerPawn.Dead)
             {
-                this.Pawn.Kill(null, null);
+                Pawn.Kill(null, null);
             }
         }
 
         private void DetermineThreats()
         {
-            this.target = null;
+            target = null;
             try
             {                
-                List<Pawn> allPawns = this.Pawn.Map.mapPawns.AllPawnsSpawned.ToList();
+                List<Pawn> allPawns = Pawn.Map.mapPawns.AllPawnsSpawned.ToList();
                 for (int i = 0; i < allPawns.Count(); i++)
                 {
-                    if (!allPawns[i].DestroyedOrNull() && allPawns[i] != this.Pawn)
+                    if (!allPawns[i].DestroyedOrNull() && allPawns[i] != Pawn)
                     {
                         if (!allPawns[i].Dead && !allPawns[i].Downed && !allPawns[i].IsPrisonerInPrisonCell())
                         {
-                            if ((allPawns[i].Position - this.Pawn.Position).LengthHorizontal <= this.threatRange)
+                            if ((allPawns[i].Position - Pawn.Position).LengthHorizontal <= threatRange)
                             {
-                                if (allPawns[i].Faction != null && allPawns[i].Faction != this.Pawn.Faction)
+                                if (allPawns[i].Faction != null && allPawns[i].Faction != Pawn.Faction)
                                 {
-                                    if (FactionUtility.HostileTo(this.Pawn.Faction, allPawns[i].Faction))
+                                    if (FactionUtility.HostileTo(Pawn.Faction, allPawns[i].Faction))
                                     {
                                         if(ModCheck.Validate.PrisonLabor.IsInitialized())
                                         {
                                             if(!allPawns[i].IsPrisoner)
                                             {
-                                                this.target = allPawns[i];
+                                                target = allPawns[i];
                                                 break;
                                             }                                            
                                         }
                                         else
                                         {
-                                            this.target = allPawns[i];
+                                            target = allPawns[i];
                                             break;
                                         }                                      
                                     }
@@ -199,17 +199,17 @@ namespace TorannMagic
                     }
                 }
 
-                if (this.target != null && this.Pawn.meleeVerbs.TryGetMeleeVerb(this.target.Thing) != null)
+                if (target != null && Pawn.meleeVerbs.TryGetMeleeVerb(target.Thing) != null)
                 {
-                    Thing currentTargetThing = this.Pawn.CurJob.targetA.Thing;
+                    Thing currentTargetThing = Pawn.CurJob.targetA.Thing;
                     if (currentTargetThing == null)
                     {
-                        this.Pawn.TryStartAttack(this.target);
+                        Pawn.TryStartAttack(target);
                     }
                 }
                 else
                 {
-                    this.shouldDespawn = true;
+                    shouldDespawn = true;
                 }
             }
             catch(NullReferenceException ex)
@@ -243,13 +243,13 @@ namespace TorannMagic
             {
                 return !targetPawn.Downed;
             }
-            if(target.Position.DistanceToEdge(this.Pawn.Map) < 8)
+            if(target.Position.DistanceToEdge(Pawn.Map) < 8)
             {
                 return false;
             }
             if(target.Faction != null)
             {
-                return target.Faction != this.Pawn.Faction;
+                return target.Faction != Pawn.Faction;
             }
             return true;
         }
@@ -257,7 +257,7 @@ namespace TorannMagic
         public void SingleSpawnLoop()
         {
             Thing spawnedThing = null;
-            AbilityUser.SpawnThings spawnables = new SpawnThings();
+            SpawnThings spawnables = new SpawnThings();
             spawnables.def = ThingDef.Named("TM_Sentinel");
             spawnables.spawnCount = 1;
             if (spawnables.def != null)
@@ -270,16 +270,16 @@ namespace TorannMagic
                     stuff = ThingDef.Named("BlocksGranite");
                 }
                 spawnedThing = ThingMaker.MakeThing(def, stuff);
-                GenSpawn.Spawn(spawnedThing, this.sentinelLoc, this.Pawn.Map, this.rotation, WipeMode.Vanish, false);
+                GenSpawn.Spawn(spawnedThing, sentinelLoc, Pawn.Map, rotation, WipeMode.Vanish, false);
 
-                float healthDeficit = this.Pawn.health.hediffSet.hediffs
+                float healthDeficit = Pawn.health.hediffSet.hediffs
                     .OfType<Hediff_Injury>()
                     .Sum(injury => injury.Severity);
 
-                CompAbilityUserMagic comp = this.sustainerPawn.GetCompAbilityUserMagic();
-                comp.summonedSentinels.Remove(this.Pawn);
+                CompAbilityUserMagic comp = sustainerPawn.GetCompAbilityUserMagic();
+                comp.summonedSentinels.Remove(Pawn);
                 comp.summonedSentinels.Add(spawnedThing);
-                DamageInfo dinfo = new DamageInfo(DamageDefOf.Blunt, 10*healthDeficit, 0, (float)-1, this.Pawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
+                DamageInfo dinfo = new DamageInfo(DamageDefOf.Blunt, 10*healthDeficit, 0, (float)-1, Pawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
                 spawnedThing.TakeDamage(dinfo);
 
             }

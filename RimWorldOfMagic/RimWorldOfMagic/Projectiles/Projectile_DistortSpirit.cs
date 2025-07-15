@@ -19,12 +19,12 @@ namespace TorannMagic
 
 		protected override void Impact(Thing hitThing, bool blockedByShield = false)
 		{            
-            Map map = base.Map;			
+            Map map = Map;			
 			ThingDef def = this.def;
-            this.age++;
-            this.Destroy(DestroyMode.Vanish);
+            age++;
+            Destroy(DestroyMode.Vanish);
             
-            Pawn caster = this.launcher as Pawn;
+            Pawn caster = launcher as Pawn;
             CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
             if (comp != null && comp.IsMagicUser)
             {
@@ -43,7 +43,7 @@ namespace TorannMagic
             for(int i = 0; i < map.mapPawns.AllPawnsSpawned.Count; i++)
             {
                 Pawn p = map.mapPawns.AllPawnsSpawned[i];
-                if((p.Position - this.Position).LengthHorizontal <= radius && p.RaceProps.IsMechanoid && !TM_Calc.IsUndead(p) && !TM_Calc.IsGolem(p))
+                if((p.Position - Position).LengthHorizontal <= radius && p.RaceProps.IsMechanoid && !TM_Calc.IsUndead(p) && !TM_Calc.IsGolem(p))
                 {
                     pawnList.Add(p);             
                     if(pawnList.Count >= maxPawns)
@@ -70,15 +70,15 @@ namespace TorannMagic
                 }
             }
             Effecter effect = TorannMagicDefOf.TM_SpiritDistortionED.Spawn();
-            effect.Trigger(new TargetInfo(base.Position, this.Map, false), new TargetInfo(base.Position, this.Map, false));
+            effect.Trigger(new TargetInfo(Position, Map, false), new TargetInfo(Position, Map, false));
             effect.Cleanup();
-            GenClamor.DoClamor(this.launcher, radius, ClamorDefOf.Impact);
-            this.age = this.duration;
+            GenClamor.DoClamor(launcher, radius, ClamorDefOf.Impact);
+            age = duration;
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {            
-            if (this.age >= this.duration)
+            if (age >= duration)
             {
                 base.Destroy(mode);
             }

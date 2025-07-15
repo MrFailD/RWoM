@@ -9,7 +9,7 @@ namespace TorannMagic
         public virtual string GizmoLabel => Label;
         public virtual float MaxSeverity => def.maxSeverity;
 
-        public override string LabelInBrackets => this.Severity.ToString("F1");
+        public override string LabelInBrackets => Severity.ToString("F1");
 
         public override float Severity
         {

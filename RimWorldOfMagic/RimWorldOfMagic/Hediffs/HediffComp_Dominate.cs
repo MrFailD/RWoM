@@ -24,11 +24,11 @@ namespace TorannMagic
         {
             get
             {
-                return this.effVal;
+                return effVal;
             }
             set
             {
-                this.effVal = value;
+                effVal = value;
             }
         }
 
@@ -36,11 +36,11 @@ namespace TorannMagic
         {
             get
             {
-                return this.verVal;
+                return verVal;
             }
             set
             {
-                this.verVal = value;
+                verVal = value;
             }
         }
 
@@ -48,7 +48,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -56,28 +56,28 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            this.minimumSev = .3f - (.03f * effVal);
-            this.infectionRadius = 3 + verVal;
+            bool spawned = Pawn.Spawned;
+            minimumSev = .3f - (.03f * effVal);
+            infectionRadius = 3 + verVal;
 
             if (spawned)
             {
-                FleckMaker.ThrowLightningGlow(base.Pawn.TrueCenter(), base.Pawn.Map, 1f);
-                if (this.Def.defName == "TM_SDDominateHD_III" || this.Def.defName == "TM_WDDominateHD_III")
+                FleckMaker.ThrowLightningGlow(Pawn.TrueCenter(), Pawn.Map, 1f);
+                if (Def.defName == "TM_SDDominateHD_III" || Def.defName == "TM_WDDominateHD_III")
                 {
                     hediffPwr = 3;
                 }
-                else if (this.Def.defName == "TM_SDDominateHD_II" || this.Def.defName == "TM_WDDominateHD_II")
+                else if (Def.defName == "TM_SDDominateHD_II" || Def.defName == "TM_WDDominateHD_II")
                 {
                     hediffPwr = 2;
                 }
-                else if (this.Def.defName == "TM_SDDominateHD_I" || this.Def.defName == "TM_WDDominateHD_I")
+                else if (Def.defName == "TM_SDDominateHD_I" || Def.defName == "TM_WDDominateHD_I")
                 {
                     hediffPwr = 1;
                 }
@@ -85,10 +85,10 @@ namespace TorannMagic
                 {
                     hediffPwr = 0;
                 }
-                this.infectionRate -= hediffPwr * 40;
+                infectionRate -= hediffPwr * 40;
                 for (int i = 0; i < 4; i++)
                 {
-                    TM_MoteMaker.ThrowShadowMote(base.Pawn.Position.ToVector3(), base.Pawn.Map, Rand.Range(.6f, 1f));
+                    TM_MoteMaker.ThrowShadowMote(Pawn.Position.ToVector3(), Pawn.Map, Rand.Range(.6f, 1f));
                 }
             }
         }
@@ -96,33 +96,33 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            if (base.Pawn != null & base.parent != null)
+            if (Pawn != null & parent != null)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
             }
-            this.age++;
+            age++;
 
             if (Find.TickManager.TicksGame % 60 == 0)
             {
-                HealthUtility.AdjustSeverity(base.Pawn, this.Def, -0.1f);
+                HealthUtility.AdjustSeverity(Pawn, Def, -0.1f);
             }
 
-            if (age > (lastInfection + infectionRate) && this.parent.Severity > this.minimumSev)
+            if (age > (lastInfection + infectionRate) && parent.Severity > minimumSev)
             {
                 bool infectionFlag = false;
-                HealthUtility.AdjustSeverity(base.Pawn, this.Def, -1 * (this.minimumSev));
-                this.lastInfection = this.age;
-                Pawn pawn = base.Pawn as Pawn;
+                HealthUtility.AdjustSeverity(Pawn, Def, -1 * (minimumSev));
+                lastInfection = age;
+                Pawn pawn = Pawn as Pawn;
                 Map map = pawn.Map;
                 if (!pawn.DestroyedOrNull() && pawn.Map != null)
                 {
                     IntVec3 curCell;
                     Pawn victim = null;
-                    IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(pawn.Position, this.infectionRadius, true);
+                    IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(pawn.Position, infectionRadius, true);
                     for (int i = 0; i < targets.Count(); i++)
                     {
                         curCell = targets.ToArray<IntVec3>()[i];
@@ -131,7 +131,7 @@ namespace TorannMagic
                             victim = curCell.GetFirstPawn(map);
                         }
 
-                        if (victim != null && victim.Faction == pawn.Faction && infectionFlag == false && !victim.health.hediffSet.HasHediff(this.Def))
+                        if (victim != null && victim.Faction == pawn.Faction && infectionFlag == false && !victim.health.hediffSet.HasHediff(Def))
                         {
                             //bool hediffFlag = (victim.health.hediffSet.HasHediff(TorannMagicDefOf.TM_SDDominateHD) ||
                             //    victim.health.hediffSet.HasHediff(TorannMagicDefOf.TM_SDDominateHD_I) ||
@@ -143,7 +143,7 @@ namespace TorannMagic
                             //    victim.health.hediffSet.HasHediff(TorannMagicDefOf.TM_WDDominateHD));
                             infectionFlag = true;
                             float angle = GetAngleFromTo(pawn.Position.ToVector3(), victim.Position.ToVector3());
-                            HealthUtility.AdjustSeverity(victim, this.Def, this.parent.Severity);
+                            HealthUtility.AdjustSeverity(victim, Def, parent.Severity);
                             for (int j = 0; j < 3; j++)
                             {
                                 TM_MoteMaker.ThrowShadowMote(pawn.DrawPos, map, Rand.Range(.6f, 1f), Rand.Range(50, 80), Rand.Range(1f, 2f), angle + Rand.Range(-20, 20));
@@ -169,21 +169,21 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.parent.Severity < .1f;
+                return base.CompShouldRemove || parent.Severity < .1f;
             }
         }
 
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", 0, false);
-            Scribe_Values.Look<int>(ref this.infectionRate, "infectionRate", 240, false);
-            Scribe_Values.Look<int>(ref this.lastInfection, "lastInfection", 240, false);
-            Scribe_Values.Look<int>(ref this.hediffPwr, "hediffPwr", 0, false);
-            Scribe_Values.Look<int>(ref this.infectionRadius, "infectionRadius", 3, false);
-            Scribe_Values.Look<int>(ref this.effVal, "effVal", 0, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<int>(ref age, "age", 0, false);
+            Scribe_Values.Look<int>(ref infectionRate, "infectionRate", 240, false);
+            Scribe_Values.Look<int>(ref lastInfection, "lastInfection", 240, false);
+            Scribe_Values.Look<int>(ref hediffPwr, "hediffPwr", 0, false);
+            Scribe_Values.Look<int>(ref infectionRadius, "infectionRadius", 3, false);
+            Scribe_Values.Look<int>(ref effVal, "effVal", 0, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
         }
         
     }

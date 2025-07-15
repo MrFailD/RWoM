@@ -47,7 +47,7 @@ namespace TorannMagic.Enchantment
 
         public static Toil TakeEnchantGem(TargetIndex ind, int count)
         {
-            return Toils_Enchant.TakeEnchantGem(ind, () => count);
+            return TakeEnchantGem(ind, () => count);
         }
 
         public static Toil TakeEnchantGem(TargetIndex ind, Func<int> countGetter)
@@ -57,7 +57,7 @@ namespace TorannMagic.Enchantment
             {
                 Pawn actor = takeThing.actor;
                 Thing thing = actor.CurJob.GetTarget(ind).Thing;
-                Toils_Enchant.ErrorCheck(actor, thing);
+                ErrorCheck(actor, thing);
                 int num = Mathf.Min(1, thing.stackCount);
                 if (num <= 0)
                 {

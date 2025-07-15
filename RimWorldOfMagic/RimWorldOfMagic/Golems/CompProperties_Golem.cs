@@ -6,7 +6,7 @@ namespace TorannMagic.Golems
     {        
         public CompProperties_Golem()
         {
-            this.compClass = typeof(CompGolem);
+            compClass = typeof(CompGolem);
         }
     }
 }

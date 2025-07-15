@@ -18,7 +18,7 @@ namespace TorannMagic.Golems
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<float>(ref this.shieldAmount80, "shieldAmount80");
+            Scribe_Values.Look<float>(ref shieldAmount80, "shieldAmount80");
         }
 
         public override void Apply(LocalTargetInfo target, Pawn caster, TM_GolemAbilityDef ability, float effectLevel = 1f, float effectBonus = 1f)

@@ -13,19 +13,19 @@ namespace TorannMagic.Weapon
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             if (pawn != null)
             {
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
                 if (comp.IsMagicUser)
                 {
-                    this.arcaneDmg = comp.arcaneDmg;
+                    arcaneDmg = comp.arcaneDmg;
                 }
             }
-            Map map = this.launcher.Map;
+            Map map = launcher.Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
-            ExplosionHelper.Explode(base.Position, map, 1, DamageDefOf.Burn, this.launcher, Mathf.RoundToInt(this.def.projectile.GetDamageAmount(1, null) * this.arcaneDmg), 2, SoundDefOf.Crunch, def, this.equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0, true);
+            ExplosionHelper.Explode(Position, map, 1, DamageDefOf.Burn, launcher, Mathf.RoundToInt(this.def.projectile.GetDamageAmount(1, null) * arcaneDmg), 2, SoundDefOf.Crunch, def, equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0, true);
 
             try
             {
@@ -40,7 +40,7 @@ namespace TorannMagic.Weapon
         protected void FireExplosion(IntVec3 pos, Map map, float radius)
         {
             ThingDef def = this.def;
-            Explosion(pos, map, radius, DamageDefOf.Flame, this.launcher, null, def, this.equipmentDef, null, 0.6f, 1, false, null, 0f, 1);            
+            Explosion(pos, map, radius, DamageDefOf.Flame, launcher, null, def, equipmentDef, null, 0.6f, 1, false, null, 0f, 1);            
         }
 
         public static void Explosion(IntVec3 center, Map map, float radius, DamageDef damType, Thing instigator, SoundDef explosionSound = null, ThingDef projectile = null, ThingDef source = null, ThingDef postExplosionSpawnThingDef = null, float postExplosionSpawnChance = 0f, int postExplosionSpawnThingCount = 1, bool applyDamageToExplosionCellsNeighbors = false, ThingDef preExplosionSpawnThingDef = null, float preExplosionSpawnChance = 0f, int preExplosionSpawnThingCount = 1)

@@ -21,15 +21,15 @@ namespace TorannMagic
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
             GenClamor.DoClamor(this, 2.1f, ClamorDefOf.Impact);
-            caster = this.launcher as Pawn;
-            Building existingSentinel = base.Position.GetFirstBuilding(caster.Map);
+            caster = launcher as Pawn;
+            Building existingSentinel = Position.GetFirstBuilding(caster.Map);
             if (existingSentinel != null)
             {
                 if (existingSentinel.def.defName == "TM_Sentinel")
                 {
                     for (int m = 0; m < 5; m++)
                     {
-                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_ThickDust, base.Position.ToVector3Shifted(), caster.Map, Rand.Range(.4f, .7f), Rand.Range(.2f, .3f), .05f, Rand.Range(.4f, .6f), Rand.Range(-20, 20), Rand.Range(.5f, 1f), Rand.Range(0, 360), Rand.Range(0, 360));
+                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_ThickDust, Position.ToVector3Shifted(), caster.Map, Rand.Range(.4f, .7f), Rand.Range(.2f, .3f), .05f, Rand.Range(.4f, .6f), Rand.Range(-20, 20), Rand.Range(.5f, 1f), Rand.Range(0, 360), Rand.Range(0, 360));
                     }
                     existingSentinel.Destroy(DestroyMode.Vanish);
                 }
@@ -59,20 +59,20 @@ namespace TorannMagic
                     }
                 }
 
-                AbilityUser.SpawnThings tempPod = new SpawnThings();
+                SpawnThings tempPod = new SpawnThings();
                 tempPod.def = ThingDef.Named("TM_Sentinel");
                 tempPod.spawnCount = 1;
-                SingleSpawnLoop(tempPod, base.Position, caster.Map);
+                SingleSpawnLoop(tempPod, Position, caster.Map);
 
-                float magnitude = (base.Position.ToVector3Shifted() - Find.Camera.transform.position).magnitude;
+                float magnitude = (Position.ToVector3Shifted() - Find.Camera.transform.position).magnitude;
                 Find.CameraDriver.shaker.DoShake(4 / magnitude);
 
                 for (int m = 0; m < 5; m++)
                 {
-                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_ThickDust, base.Position.ToVector3Shifted(), caster.Map, Rand.Range(.4f, .7f), Rand.Range(.2f, .3f), .05f, Rand.Range(.4f, .6f), Rand.Range(-20, 20), Rand.Range(.5f, 1f), Rand.Range(0, 360), Rand.Range(0, 360));
+                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_ThickDust, Position.ToVector3Shifted(), caster.Map, Rand.Range(.4f, .7f), Rand.Range(.2f, .3f), .05f, Rand.Range(.4f, .6f), Rand.Range(-20, 20), Rand.Range(.5f, 1f), Rand.Range(0, 360), Rand.Range(0, 360));
                 }
 
-                if (this.spawnedThing != null)
+                if (spawnedThing != null)
                 {
                     comp.summonedSentinels.Add(spawnedThing);
                 }
@@ -85,7 +85,7 @@ namespace TorannMagic
             bool flag = spawnables.def != null;
             if (flag)
             {
-                Faction faction = TM_Action.ResolveFaction(this.launcher as Pawn, spawnables, this.launcher.Faction);
+                Faction faction = TM_Action.ResolveFaction(launcher as Pawn, spawnables, launcher.Faction);
                 bool flag2 = spawnables.def.race != null;
                 if (flag2)
                 {
@@ -96,7 +96,7 @@ namespace TorannMagic
                     }
                     else
                     {
-                        TM_Action.SpawnPawn(this.launcher as Pawn, spawnables, faction, position, 0, map);
+                        TM_Action.SpawnPawn(launcher as Pawn, spawnables, faction, position, 0, map);
                     }
                 }
                 else
@@ -109,8 +109,8 @@ namespace TorannMagic
                         stuff = ThingDef.Named("BlocksGranite");
                     }
                     spawnedThing = ThingMaker.MakeThing(def, stuff);
-                    this.caster.rotationTracker.FaceCell(position);
-                    GenSpawn.Spawn(spawnedThing, position, map, this.caster.Rotation, WipeMode.Vanish, false);
+                    caster.rotationTracker.FaceCell(position);
+                    GenSpawn.Spawn(spawnedThing, position, map, caster.Rotation, WipeMode.Vanish, false);
                 }
             }
         }

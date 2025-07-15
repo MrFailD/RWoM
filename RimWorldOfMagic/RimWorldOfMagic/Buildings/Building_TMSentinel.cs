@@ -25,9 +25,9 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_References.Look<Pawn>(ref this.sustainerPawn, "sustainerPawn", false);
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
+            Scribe_References.Look<Pawn>(ref sustainerPawn, "sustainerPawn", false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
         }
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
@@ -38,11 +38,11 @@ namespace TorannMagic
                 
         protected override void Tick()
         {
-            if (this.age > 10)
+            if (age > 10)
             {
                 if (!initialized)
                 {
-                    List<Pawn> mapPawns = this.Map.mapPawns.AllPawnsSpawned.ToList();
+                    List<Pawn> mapPawns = Map.mapPawns.AllPawnsSpawned.ToList();
                     for(int i = 0; i < mapPawns.Count(); i++)
                     {
                         if (!mapPawns[i].DestroyedOrNull() && mapPawns[i].Spawned && !mapPawns[i].Downed && mapPawns[i].RaceProps.Humanlike)
@@ -54,14 +54,14 @@ namespace TorannMagic
                                 {
                                     if(comp.summonedSentinels[j] == this)
                                     {
-                                        this.sustainerPawn = comp.Pawn;
+                                        sustainerPawn = comp.Pawn;
                                         pwrVal = comp.MagicData.MagicPowerSkill_Sentinel.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Sentinel_pwr").level;
                                         break;
                                     }                                        
                                 }
                             }
                         }
-                        if(this.sustainerPawn != null)
+                        if(sustainerPawn != null)
                         {
                             break;
                         }
@@ -69,46 +69,46 @@ namespace TorannMagic
 
                     for (int m = 0; m < 5; m++)
                     {
-                        TM_MoteMaker.ThrowGenericFleck(FleckDefOf.Smoke, base.Position.ToVector3Shifted(), this.Map, Rand.Range(.5f, .8f), Rand.Range(.8f, 1.3f), .05f, Rand.Range(1f, 1.5f), Rand.Range(-20, 20), Rand.Range(1f, 2f), Rand.Range(0, 360), Rand.Range(0, 360));
+                        TM_MoteMaker.ThrowGenericFleck(FleckDefOf.Smoke, Position.ToVector3Shifted(), Map, Rand.Range(.5f, .8f), Rand.Range(.8f, 1.3f), .05f, Rand.Range(1f, 1.5f), Rand.Range(-20, 20), Rand.Range(1f, 2f), Rand.Range(0, 360), Rand.Range(0, 360));
                     }
                     initialized = true;
                 }                
 
                 if (Find.TickManager.TicksGame % 180 == 0)
                 {
-                    if (this.initialized)
+                    if (initialized)
                     {
-                        if (this.sustainerPawn == null || this.sustainerPawn.Destroyed || this.sustainerPawn.Dead)
+                        if (sustainerPawn == null || sustainerPawn.Destroyed || sustainerPawn.Dead)
                         {
                             Messages.Message("TM_SentinelDeSpawn".Translate(
-                                this.def.label
+                                def.label
                             ), MessageTypeDefOf.NegativeEvent, false);
-                            this.sustainerPawn = null;
-                            this.Destroy(DestroyMode.Vanish);
+                            sustainerPawn = null;
+                            Destroy(DestroyMode.Vanish);
                         }
                     }
 
-                    if (this.sustainerPawn != null)
+                    if (sustainerPawn != null)
                     {
-                        if (this.HitPoints < this.MaxHitPoints)
+                        if (HitPoints < MaxHitPoints)
                         {
-                            this.HitPoints += 1;
-                            if (this.HitPoints > this.MaxHitPoints)
+                            HitPoints += 1;
+                            if (HitPoints > MaxHitPoints)
                             {
-                                this.HitPoints = this.MaxHitPoints;
+                                HitPoints = MaxHitPoints;
                             }
                         }
                         else
                         {
-                            this.hostilePawn = SearchForTargets();
+                            hostilePawn = SearchForTargets();
 
                             if (hostilePawn != null)
                             {
                                 SpawnSentinel();
-                                CompAbilityUserMagic comp = this.sustainerPawn.GetCompAbilityUserMagic();
+                                CompAbilityUserMagic comp = sustainerPawn.GetCompAbilityUserMagic();
                                 comp.summonedSentinels.Remove(this);
-                                comp.summonedSentinels.Add(this.newPawn as Thing);
-                                this.Destroy(DestroyMode.Vanish);
+                                comp.summonedSentinels.Add(newPawn as Thing);
+                                Destroy(DestroyMode.Vanish);
                             }
                         }
                     }
@@ -121,18 +121,18 @@ namespace TorannMagic
         {
             Pawn threat = null;
 
-            List<Pawn> allPawns = this.Map.mapPawns.AllPawnsSpawned.ToList();
+            List<Pawn> allPawns = Map.mapPawns.AllPawnsSpawned.ToList();
             for(int i = 0; i < allPawns.Count(); i++)
             {
                 if (!allPawns[i].DestroyedOrNull())
                 {
                     if (!allPawns[i].Dead && !allPawns[i].Downed && !allPawns[i].IsPrisonerInPrisonCell())
                     {
-                        if ((allPawns[i].Position - this.Position).LengthHorizontal <= this.threatRange)
+                        if ((allPawns[i].Position - Position).LengthHorizontal <= threatRange)
                         {
-                            if ((allPawns[i].Faction != null || (allPawns[i].RaceProps.Animal && allPawns[i].InAggroMentalState)) && allPawns[i].Faction != this.sustainerPawn.Faction)
+                            if ((allPawns[i].Faction != null || (allPawns[i].RaceProps.Animal && allPawns[i].InAggroMentalState)) && allPawns[i].Faction != sustainerPawn.Faction)
                             {
-                                if (FactionUtility.HostileTo(this.sustainerPawn.Faction, allPawns[i].Faction) || (allPawns[i].RaceProps.Animal && allPawns[i].InAggroMentalState))
+                                if (FactionUtility.HostileTo(sustainerPawn.Faction, allPawns[i].Faction) || (allPawns[i].RaceProps.Animal && allPawns[i].InAggroMentalState))
                                 {
                                     if(!allPawns[i].IsPrisoner || (allPawns[i].IsPrisoner && allPawns[i].IsFighting()))
                                     { 
@@ -157,7 +157,7 @@ namespace TorannMagic
 
         public void SpawnSentinel()
         {
-            IntVec3 curCell = this.Position;
+            IntVec3 curCell = Position;
             SpawnThings sentinel = new SpawnThings();
             if(pwrVal == 2)
             {
@@ -175,7 +175,7 @@ namespace TorannMagic
                 sentinel.kindDef = PawnKindDef.Named("TM_Lesser_Sentinel");
             }
             sentinel.spawnCount = 1;
-            SingleSpawnLoop(sentinel, curCell, this.Map);
+            SingleSpawnLoop(sentinel, curCell, Map);
         }
 
         public void SingleSpawnLoop(SpawnThings spawnables, IntVec3 position, Map map)
@@ -183,7 +183,7 @@ namespace TorannMagic
             bool flag = spawnables.def != null;
             if (flag)
             {
-                Faction faction = this.sustainerPawn.Faction;
+                Faction faction = sustainerPawn.Faction;
                 bool flag2 = spawnables.def.race != null;
                 if (flag2)
                 {
@@ -211,18 +211,18 @@ namespace TorannMagic
                             }
                             //GenPlace.TryPlaceThing(newPawn, position, map, ThingPlaceMode.Near, null, null);
                             CompSentinel compSentinel = newPawn.TryGetComp<CompSentinel>();
-                            compSentinel.target = this.hostilePawn;
+                            compSentinel.target = hostilePawn;
                             compSentinel.sentinelLoc = position;
-                            compSentinel.rotation = this.Rotation;
-                            compSentinel.sustainerPawn = this.sustainerPawn;
+                            compSentinel.rotation = Rotation;
+                            compSentinel.sustainerPawn = sustainerPawn;
                         }
                         catch
                         {
                             Log.Message("TM_Exception".Translate(
                                 "sentinel building",
-                                this.def.defName
+                                def.defName
                                 ));
-                            this.Destroy(DestroyMode.Vanish);
+                            Destroy(DestroyMode.Vanish);
                         }
 
                         if (newPawn.Faction != null && newPawn.Faction != Faction.OfPlayer)

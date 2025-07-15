@@ -12,16 +12,16 @@ namespace TorannMagic
         private bool validTarg;
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -40,7 +40,7 @@ namespace TorannMagic
             Map map = base.CasterPawn.Map;
             Pawn pawn = base.CasterPawn;
 
-            CellRect cellRect = CellRect.CenteredOn(base.currentTarget.Cell, 1);
+            CellRect cellRect = CellRect.CenteredOn(currentTarget.Cell, 1);
             cellRect.ClipInsideMap(map);
             IntVec3 centerCell = cellRect.CenterCell;
 
@@ -49,9 +49,9 @@ namespace TorannMagic
                 Job job = new Job(TorannMagicDefOf.JobDriver_PlaceLightningTrap, currentTarget);
                 pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);
             }
-            this.Ability.PostAbilityAttempt();
+            Ability.PostAbilityAttempt();
 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return false;
         }
     }

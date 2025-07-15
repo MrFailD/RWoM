@@ -26,13 +26,13 @@ namespace TorannMagic
             //pwrVal = TM_Calc.GetMightSkillLevel(pawn, comp.MightData.MightPowerSkill_60mmMortar, "TM_60mmMortar", "_pwr", true);
             //verVal = TM_Calc.GetMightSkillLevel(pawn, comp.MightData.MightPowerSkill_60mmMortar, "TM_60mmMortar", "_ver", true);
             //effVal = TM_Calc.GetMightSkillLevel(pawn, comp.MightData.MightPowerSkill_60mmMortar, "TM_60mmMortar", "_eff", true);
-            pwrVal = TM_Calc.GetSkillPowerLevel(pawn, this.Ability.Def as TMAbilityDef);
-            verVal = TM_Calc.GetSkillVersatilityLevel(pawn, this.Ability.Def as TMAbilityDef);
-            effVal = TM_Calc.GetSkillEfficiencyLevel(pawn, this.Ability.Def as TMAbilityDef);
+            pwrVal = TM_Calc.GetSkillPowerLevel(pawn, Ability.Def as TMAbilityDef);
+            verVal = TM_Calc.GetSkillVersatilityLevel(pawn, Ability.Def as TMAbilityDef);
+            effVal = TM_Calc.GetSkillEfficiencyLevel(pawn, Ability.Def as TMAbilityDef);
 
             if ((pawn.Position.IsValid && pawn.Position.Standable(map)))
             {
-                AbilityUser.SpawnThings tempPod = new SpawnThings();
+                SpawnThings tempPod = new SpawnThings();
                 IntVec3 shiftPos = TM_Calc.GetEmptyCellForNewBuilding(pawn.Position, map, 1.6f, false, 0);
 
                 tempPod.def = TorannMagicDefOf.TM_60mmMortar_Base;
@@ -42,11 +42,11 @@ namespace TorannMagic
                 {
                     try
                     {
-                        this.mortar = TM_Action.SingleSpawnLoop(pawn, tempPod, shiftPos, map, 1200, true, false, pawn.Faction);
+                        mortar = TM_Action.SingleSpawnLoop(pawn, tempPod, shiftPos, map, 1200, true, false, pawn.Faction);
 
                         for (int i = 0; i < 3; i++)
                         {
-                            Vector3 rndPos = this.mortar.DrawPos;
+                            Vector3 rndPos = mortar.DrawPos;
                             rndPos.x += Rand.Range(-.5f, .5f);
                             rndPos.z += Rand.Range(-.5f, .5f);
                             TM_MoteMaker.ThrowGenericFleck(TorannMagicDefOf.SparkFlash, rndPos, map, Rand.Range(.6f, .8f), .1f, .05f, .05f, 0, 0, 0, Rand.Range(0, 360));
@@ -77,7 +77,7 @@ namespace TorannMagic
 
             if ((mortar != null && mortar.Spawned && mortar.Position.IsValid))
             {
-                this.Ability.PostAbilityAttempt();
+                Ability.PostAbilityAttempt();
                 mortar.def.interactionCellOffset = (caster.Position - mortar.Position);
                 Job job = new Job(JobDefOf.ManTurret, mortar);
                 pawn.jobs.TryTakeOrderedJob(job, JobTag.Misc);

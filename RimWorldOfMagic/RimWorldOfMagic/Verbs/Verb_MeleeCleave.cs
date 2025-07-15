@@ -12,7 +12,7 @@ namespace TorannMagic
     public class Verb_MeleeCleave : Verb_MeleeAttackDamage
     {
         private static readonly Color cleaveColor = new Color(160f, 160f, 160f);
-        private static readonly Material cleavingMat = MaterialPool.MatFrom("Spells/cleave_straight", ShaderDatabase.Transparent, Verb_MeleeCleave.cleaveColor);
+        private static readonly Material cleavingMat = MaterialPool.MatFrom("Spells/cleave_straight", ShaderDatabase.Transparent, cleaveColor);
 
         protected override DamageWorker.DamageResult ApplyMeleeDamageToTarget(LocalTargetInfo target)
         {            
@@ -21,9 +21,9 @@ namespace TorannMagic
             HediffDef hediffDef = null;
             float num = verbProps.AdjustedMeleeDamageAmount(this, CasterPawn);
             float armorPenetration = verbProps.AdjustedArmorPenetration(this, CasterPawn);
-            ThingDef source = (base.EquipmentSource == null) ? CasterPawn.def : base.EquipmentSource.def;
+            ThingDef source = (EquipmentSource == null) ? CasterPawn.def : EquipmentSource.def;
             bodyPartGroupDef = verbProps.AdjustedLinkedBodyPartsGroup(tool);
-            DamageInfo dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_Cleave, (num * .6f), armorPenetration, -1f, this.CasterPawn, null, source);            
+            DamageInfo dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_Cleave, (num * .6f), armorPenetration, -1f, CasterPawn, null, source);            
             damageResult.totalDamageDealt = Mathf.Min((float)target.Thing.HitPoints, dinfo.Amount);
             for (int i = 0; i < 8; i++)
             {
@@ -69,7 +69,7 @@ namespace TorannMagic
                 Vector3 s = new Vector3(3f, 3f, 5f);
                 Matrix4x4 matrix = default(Matrix4x4);
                 matrix.SetTRS(vector, Quaternion.AngleAxis(angle, Vector3.up), s);
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Verb_MeleeCleave.cleavingMat, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, cleavingMat, 0);
             }
         }
     }

@@ -37,18 +37,18 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.hopCount, "hopCount", 0, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref hopCount, "hopCount", 0, false);
             //
-            Scribe_Values.Look<int>(ref this.strikeTick, "strikeTick", 0, false);
-            Scribe_Values.Look<int>(ref this.strikeInt, "strikeInt", 0, false);
-            Scribe_Collections.Look<IntVec3>(ref this.strikeLocs, "strikeLocs", LookMode.Value);
-            Scribe_Values.Look<Vector3>(ref this.direction, "direction", default(Vector3), false);
+            Scribe_Values.Look<int>(ref strikeTick, "strikeTick", 0, false);
+            Scribe_Values.Look<int>(ref strikeInt, "strikeInt", 0, false);
+            Scribe_Collections.Look<IntVec3>(ref strikeLocs, "strikeLocs", LookMode.Value);
+            Scribe_Values.Look<Vector3>(ref direction, "direction", default(Vector3), false);
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
 		{
-            bool flag = (this.strikeInt >= this.maxStrikes) && Find.TickManager.TicksGame >= (lastStrikeTick + strikeDelay);
+            bool flag = (strikeInt >= maxStrikes) && Find.TickManager.TicksGame >= (lastStrikeTick + strikeDelay);
 			if (flag)
 			{
                 base.Destroy(mode);
@@ -67,7 +67,7 @@ namespace TorannMagic
                     //verVal = TM_Calc.GetMagicSkillLevel(p, comp.MagicData.MagicPowerSkill_ChainLightning, "TM_ChainLightning", "_ver", true);
                     pwrVal = TM_Calc.GetSkillPowerLevel(p, TorannMagicDefOf.TM_ChainLightning);
                     verVal = TM_Calc.GetSkillVersatilityLevel(p, TorannMagicDefOf.TM_ChainLightning);
-                    this.arcaneDmg = comp.arcaneDmg;
+                    arcaneDmg = comp.arcaneDmg;
                 }                
             }
             newStrikeLocs = new List<IntVec3>();
@@ -82,22 +82,22 @@ namespace TorannMagic
 
 		protected override void Impact(Thing hitThing, bool blockedByShield = false)
 		{			         
-            Map map = base.Map;
+            Map map = Map;
             IntVec3 strikePos = default(IntVec3);
-            if (!this.launcher.DestroyedOrNull())
+            if (!launcher.DestroyedOrNull())
             {
                 if (!initialized)
                 {
-                    if (hitThing != null && hitThing.Position != base.Position)
+                    if (hitThing != null && hitThing.Position != Position)
                     {
                         strikePos = hitThing.Position;
                     }
                     else
                     {
-                        strikePos = base.Position;
+                        strikePos = Position;
                     }
-                    this.direction = TM_Calc.GetVector(this.launcher.Position, strikePos);
-                    Initialize(this.launcher);
+                    direction = TM_Calc.GetVector(launcher.Position, strikePos);
+                    Initialize(launcher);
                     //SoundInfo info = SoundInfo.InMap(new TargetInfo(base.Position, map, false), MaintenanceType.None);
                     //info.pitchFactor = 1f;
                     //info.volumeFactor = .6f;
@@ -118,20 +118,20 @@ namespace TorannMagic
                     lastStrikeTick = Find.TickManager.TicksGame;
                     if (strikeInt == 0)
                     {
-                        Vector3 dir = this.direction;
+                        Vector3 dir = direction;
                         float angle = (Quaternion.AngleAxis(90, Vector3.up) * dir).ToAngleFlat();
-                        IntVec3 origin = this.launcher.Position;
+                        IntVec3 origin = launcher.Position;
                         strikeLocs.Add(origin);
                         float range = (strikePos - origin).LengthHorizontal;
                         Mesh mesh = RandomBoltMesh(range);
                         strikeMeshes.Add(mesh);
                         lastStrikeTick = Find.TickManager.TicksGame;
                         DrawBolt(mesh, TM_MatPool.standardLightning, origin, angle, GetFadedBrightness);
-                        DamageCell(strikePos, this.launcher);
-                        ExplosionHelper.Explode(strikePos, this.Map, 2f, TMDamageDefOf.DamageDefOf.TM_Lightning, this.launcher, Mathf.RoundToInt(Rand.Range(3 + pwrVal, 6 + pwrVal) * arcaneDmg), 1.2f, null);
+                        DamageCell(strikePos, launcher);
+                        ExplosionHelper.Explode(strikePos, Map, 2f, TMDamageDefOf.DamageDefOf.TM_Lightning, launcher, Mathf.RoundToInt(Rand.Range(3 + pwrVal, 6 + pwrVal) * arcaneDmg), 1.2f, null);
                         newStrikeLocs.Add(strikePos);
                     }
-                    RandomStrikes(base.Position, this.launcher);
+                    RandomStrikes(Position, launcher);
                     strikeInt++;
                 }
             }
@@ -148,13 +148,13 @@ namespace TorannMagic
 
         public void DamageCell(IntVec3 c, Thing caster)
         {
-            if (c != default(IntVec3) && c.IsValid && c.InBoundsWithNullCheck(this.Map))
+            if (c != default(IntVec3) && c.IsValid && c.InBoundsWithNullCheck(Map))
             {
-                FleckMaker.ThrowLightningGlow(c.ToVector3Shifted(), this.Map, 1f);
-                List<Thing> thingList = c.GetThingList(this.Map);
+                FleckMaker.ThrowLightningGlow(c.ToVector3Shifted(), Map, 1f);
+                List<Thing> thingList = c.GetThingList(Map);
                 if (thingList != null && thingList.Count > 0)
                 {
-                    int damage = Mathf.RoundToInt(Mathf.Max(Rand.Range(this.maxStrikes + pwrVal, (5 * maxStrikes) + pwrVal) - (2 * strikeInt) * arcaneDmg, 0));
+                    int damage = Mathf.RoundToInt(Mathf.Max(Rand.Range(maxStrikes + pwrVal, (5 * maxStrikes) + pwrVal) - (2 * strikeInt) * arcaneDmg, 0));
                     for (int i = 0; i < thingList.Count; i++)
                     {
                         Thing t = thingList[i];
@@ -176,19 +176,19 @@ namespace TorannMagic
         public void RandomStrikes(IntVec3 from, Thing caster)
         {
             int rndStrikes = Rand.RangeInclusive(2, 4);
-            if (this.Map != null)
+            if (Map != null)
             {
                 for (int i = 0; i < rndStrikes; i++)
                 {
-                    Vector3 dir = (Quaternion.AngleAxis(Rand.Range(0, 360), Vector3.up) * this.direction);
+                    Vector3 dir = (Quaternion.AngleAxis(Rand.Range(0, 360), Vector3.up) * direction);
                     float range = Rand.Range(2f, 6f);
                     IntVec3 hitCell = from + (dir * range).ToIntVec3();
                     //Log.Message("random strike " + hitCell);
                     //DamageCell(hitCell, caster);
-                    if (hitCell.InBounds(this.Map))
+                    if (hitCell.InBounds(Map))
                     {
-                        ExplosionHelper.Explode(hitCell, this.Map, 1f, TMDamageDefOf.DamageDefOf.TM_Lightning, caster, Mathf.RoundToInt(Rand.Range(3 + pwrVal, 6 + pwrVal) * arcaneDmg), 1.2f, null);
-                        this.Map.weatherManager.eventHandler.AddEvent(new TM_WeatherEvent_MeshGeneric(this.Map, TM_MatPool.thinLightning, from, hitCell, 2f, AltitudeLayer.MoteLow, strikeDelay, strikeDelay, 2));
+                        ExplosionHelper.Explode(hitCell, Map, 1f, TMDamageDefOf.DamageDefOf.TM_Lightning, caster, Mathf.RoundToInt(Rand.Range(3 + pwrVal, 6 + pwrVal) * arcaneDmg), 1.2f, null);
+                        Map.weatherManager.eventHandler.AddEvent(new TM_WeatherEvent_MeshGeneric(Map, TM_MatPool.thinLightning, from, hitCell, 2f, AltitudeLayer.MoteLow, strikeDelay, strikeDelay, 2));
                     }
                 }
             }

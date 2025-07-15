@@ -13,7 +13,7 @@ namespace TorannMagic
     {
 
         private static readonly Color cleaveColor = new Color(160f, 160f, 160f);
-        private static readonly Material cleavingMat = MaterialPool.MatFrom("Spells/cleave", ShaderDatabase.Transparent, FlyingObject_Whirlwind.cleaveColor);
+        private static readonly Material cleavingMat = MaterialPool.MatFrom("Spells/cleave", ShaderDatabase.Transparent, cleaveColor);
 
         private static int verVal;
         private static int pwrVal;
@@ -46,7 +46,7 @@ namespace TorannMagic
         {
             get
             {
-                int num = Mathf.RoundToInt((this.origin - this.destination).magnitude / (this.speed / 100f));
+                int num = Mathf.RoundToInt((origin - destination).magnitude / (speed / 100f));
                 bool flag = num < 1;
                 if (flag)
                 {
@@ -60,7 +60,7 @@ namespace TorannMagic
         {
             get
             {
-                return new IntVec3(this.destination);
+                return new IntVec3(destination);
             }
         }
 
@@ -68,8 +68,8 @@ namespace TorannMagic
         {
             get
             {
-                Vector3 b = (this.destination - this.origin) * (1f - (float)this.ticksToImpact / (float)this.StartingTicksToImpact);
-                return this.origin + b + Vector3.up * this.def.Altitude;
+                Vector3 b = (destination - origin) * (1f - (float)ticksToImpact / (float)StartingTicksToImpact);
+                return origin + b + Vector3.up * def.Altitude;
             }
         }
 
@@ -77,7 +77,7 @@ namespace TorannMagic
         {
             get
             {
-                return Quaternion.LookRotation(this.destination - this.origin);
+                return Quaternion.LookRotation(destination - origin);
             }
         }
 
@@ -85,23 +85,23 @@ namespace TorannMagic
         {
             get
             {
-                return this.ExactPosition;
+                return ExactPosition;
             }
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<Vector3>(ref this.origin, "origin", default(Vector3), false);
-            Scribe_Values.Look<Vector3>(ref this.destination, "destination", default(Vector3), false);
-            Scribe_Values.Look<int>(ref this.ticksToImpact, "ticksToImpact", 0, false);
-            Scribe_Values.Look<int>(ref this.timesToDamage, "timesToDamage", 0, false);
-            Scribe_Values.Look<int>(ref this.weaponDmg, "weaponDmg", 0, false);
-            Scribe_Values.Look<bool>(ref this.damageLaunched, "damageLaunched", true, false);
-            Scribe_Values.Look<bool>(ref this.explosion, "explosion", false, false);
-            Scribe_References.Look<Thing>(ref this.assignedTarget, "assignedTarget", false);
-            Scribe_Deep.Look<Thing>(ref this.flyingThing, "flyingThing", new object[0]);
-            Scribe_References.Look<Pawn>(ref this.pawn, "pawn", false);
+            Scribe_Values.Look<Vector3>(ref origin, "origin", default(Vector3), false);
+            Scribe_Values.Look<Vector3>(ref destination, "destination", default(Vector3), false);
+            Scribe_Values.Look<int>(ref ticksToImpact, "ticksToImpact", 0, false);
+            Scribe_Values.Look<int>(ref timesToDamage, "timesToDamage", 0, false);
+            Scribe_Values.Look<int>(ref weaponDmg, "weaponDmg", 0, false);
+            Scribe_Values.Look<bool>(ref damageLaunched, "damageLaunched", true, false);
+            Scribe_Values.Look<bool>(ref explosion, "explosion", false, false);
+            Scribe_References.Look<Thing>(ref assignedTarget, "assignedTarget", false);
+            Scribe_Deep.Look<Thing>(ref flyingThing, "flyingThing", new object[0]);
+            Scribe_References.Look<Pawn>(ref pawn, "pawn", false);
             //Scribe_Deep.Look<Thing>(ref this.launcher, "launcher", new object[0]);             
             //Scribe_References.Look<Thing>(ref this.launcher, "launcher", false);
             //Scribe_References.Look<Thing>(ref this.flyingThing, "flyingThing", false);
@@ -111,9 +111,9 @@ namespace TorannMagic
         {
             if (pawn != null)
             {
-                FleckMaker.Static(this.origin, this.Map, FleckDefOf.ExplosionFlash, 12f);
+                FleckMaker.Static(origin, Map, FleckDefOf.ExplosionFlash, 12f);
                 SoundDefOf.Ambient_AltitudeWind.sustainFadeoutTime.Equals(30.0f);
-                FleckMaker.ThrowDustPuff(this.origin, this.Map, Rand.Range(1.2f, 1.8f));
+                FleckMaker.ThrowDustPuff(origin, Map, Rand.Range(1.2f, 1.8f));
                 weaponDmg = GetWeaponDmg(pawn);
                 
                 if (!pawn.IsColonist && ModOptions.Settings.Instance.AIHardMode)
@@ -126,12 +126,12 @@ namespace TorannMagic
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing, DamageInfo? impactDamage)
         {
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, impactDamage);
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, impactDamage);
         }
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing)
         {
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, null);
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, null);
         }
 
         public void Launch(Thing launcher, Vector3 origin, LocalTargetInfo targ, Thing flyingThing, DamageInfo? newDamageInfo = null)
@@ -146,47 +146,47 @@ namespace TorannMagic
             ModOptions.Constants.SetPawnInFlight(true);
             //
             this.origin = origin;
-            this.impactDamage = newDamageInfo;
+            impactDamage = newDamageInfo;
             this.flyingThing = flyingThing;
             bool flag = targ.Thing != null;
             if (flag)
             {
-                this.assignedTarget = targ.Thing;
+                assignedTarget = targ.Thing;
             }
-            this.destination = targ.Cell.ToVector3Shifted() + new Vector3(Rand.Range(-0.3f, 0.3f), 0f, Rand.Range(-0.3f, 0.3f));
-            this.ticksToImpact = this.StartingTicksToImpact;
-            this.Initialize();
+            destination = targ.Cell.ToVector3Shifted() + new Vector3(Rand.Range(-0.3f, 0.3f), 0f, Rand.Range(-0.3f, 0.3f));
+            ticksToImpact = StartingTicksToImpact;
+            Initialize();
         }
 
         protected override void Tick()
         {
             //base.Tick();
-            Vector3 exactPosition = this.ExactPosition;
-            this.ticksToImpact--;
-            bool flag = !this.ExactPosition.InBoundsWithNullCheck(base.Map);
+            Vector3 exactPosition = ExactPosition;
+            ticksToImpact--;
+            bool flag = !ExactPosition.InBoundsWithNullCheck(Map);
             if (flag)
             {
-                this.ticksToImpact++;
-                base.Position = this.ExactPosition.ToIntVec3();
-                this.Destroy(DestroyMode.Vanish);
+                ticksToImpact++;
+                Position = ExactPosition.ToIntVec3();
+                Destroy(DestroyMode.Vanish);
             }
             else
             {
-                base.Position = this.ExactPosition.ToIntVec3();
-                FleckMaker.ThrowDustPuff(base.Position, base.Map, Rand.Range(0.8f, 1.2f));
+                Position = ExactPosition.ToIntVec3();
+                FleckMaker.ThrowDustPuff(Position, Map, Rand.Range(0.8f, 1.2f));
                 if (Find.TickManager.TicksGame % 2 == 0)
                 {
                     DoWhirlwindDamage();
                 }
-                bool flag2 = this.ticksToImpact <= 0;
+                bool flag2 = ticksToImpact <= 0;
                 if (flag2)
                 {
-                    bool flag3 = this.DestinationCell.InBoundsWithNullCheck(base.Map);
+                    bool flag3 = DestinationCell.InBoundsWithNullCheck(Map);
                     if (flag3)
                     {
-                        base.Position = this.DestinationCell;
+                        Position = DestinationCell;
                     }
-                    this.ImpactSomething();
+                    ImpactSomething();
                 }
                 
             }
@@ -215,20 +215,20 @@ namespace TorannMagic
                 if (flag2)
                 {
                     int num2 = Mathf.RoundToInt(dinfo.Amount);
-                    bool flag3 = pawn != null && base.Position != default(IntVec3);
+                    bool flag3 = pawn != null && Position != default(IntVec3);
                     if (flag3)
                     {
                         for (int i = 0; i < 8; i++)
                         {
-                            IntVec3 intVec = base.Position + GenAdj.AdjacentCells[i];
-                            if (intVec.InBounds(this.Map))
+                            IntVec3 intVec = Position + GenAdj.AdjacentCells[i];
+                            if (intVec.InBounds(Map))
                             {
                                 Pawn cleaveVictim = new Pawn();
-                                cleaveVictim = intVec.GetFirstPawn(base.Map);
+                                cleaveVictim = intVec.GetFirstPawn(Map);
                                 if (cleaveVictim != null && cleaveVictim.Faction != pawn.Faction)
                                 {
                                     cleaveVictim.TakeDamage(dinfo);
-                                    FleckMaker.ThrowMicroSparks(cleaveVictim.Position.ToVector3(), base.Map);
+                                    FleckMaker.ThrowMicroSparks(cleaveVictim.Position.ToVector3(), Map);
                                     CompAbilityUserMight comp = pawn.GetCompAbilityUserMight();
                                     verVal = TM_Calc.GetSkillVersatilityLevel(pawn, TorannMagicDefOf.TM_Whirlwind);
                                     //verVal = TM_Calc.GetMightSkillLevel(pawn, comp.MightData.MightPowerSkill_Whirlwind, "TM_Whirlwind", "_ver", true);
@@ -245,7 +245,7 @@ namespace TorannMagic
                                     if (rnd < (verVal * 5))
                                     {
                                         cleaveVictim.TakeDamage(dinfo2);
-                                        FleckMaker.ThrowMicroSparks(cleaveVictim.Position.ToVector3(), base.Map);
+                                        FleckMaker.ThrowMicroSparks(cleaveVictim.Position.ToVector3(), Map);
                                     }
                                 }
                             }
@@ -276,32 +276,32 @@ namespace TorannMagic
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            bool flag = this.flyingThing != null;
+            bool flag = flyingThing != null;
             if (flag)
             {
-                bool flag2 = this.flyingThing is Pawn;
+                bool flag2 = flyingThing is Pawn;
                 if (flag2)
                 {
-                    Vector3 arg_2B_0 = this.DrawPos;
+                    Vector3 arg_2B_0 = DrawPos;
                     bool flag3 = false;
                     if (flag3)
                     {
                         return;
                     }
-                    bool flag4 = !this.DrawPos.ToIntVec3().IsValid;
+                    bool flag4 = !DrawPos.ToIntVec3().IsValid;
                     if (flag4)
                     {
                         return;
                     }
-                    Pawn pawn = this.flyingThing as Pawn;
-                    pawn.Drawer.renderer.RenderPawnAt(this.DrawPos);
-                    DrawCleaving(this.DrawPos, 10);
+                    Pawn pawn = flyingThing as Pawn;
+                    pawn.Drawer.renderer.RenderPawnAt(DrawPos);
+                    DrawCleaving(DrawPos, 10);
                 }
                 else
                 {
-                    Graphics.DrawMesh(MeshPool.plane10, this.DrawPos, this.ExactRotation, this.flyingThing.def.DrawMatSingle, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, DrawPos, ExactRotation, flyingThing.def.DrawMatSingle, 0);
                 }
-                base.Comps_PostDraw();
+                Comps_PostDraw();
             }
         }
 
@@ -316,29 +316,29 @@ namespace TorannMagic
                 Vector3 s = new Vector3(3f, 3f, 5f);
                 Matrix4x4 matrix = default(Matrix4x4);
                 matrix.SetTRS(vector, Quaternion.AngleAxis(angle, Vector3.up), s);
-                Graphics.DrawMesh(MeshPool.plane10, matrix, FlyingObject_Whirlwind.cleavingMat, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, cleavingMat, 0);
             }
         }
 
         private void ImpactSomething()
         {
-            bool flag = this.assignedTarget != null;
+            bool flag = assignedTarget != null;
             if (flag)
             {
-                Pawn pawn = this.assignedTarget as Pawn;
-                bool flag2 = pawn != null && pawn.GetPosture() != PawnPosture.Standing && (this.origin - this.destination).MagnitudeHorizontalSquared() >= 20.25f && Rand.Value > 0.2f;
+                Pawn pawn = assignedTarget as Pawn;
+                bool flag2 = pawn != null && pawn.GetPosture() != PawnPosture.Standing && (origin - destination).MagnitudeHorizontalSquared() >= 20.25f && Rand.Value > 0.2f;
                 if (flag2)
                 {
-                    this.Impact(null);
+                    Impact(null);
                 }
                 else
                 {
-                    this.Impact(this.assignedTarget);
+                    Impact(assignedTarget);
                 }
             }
             else
             {
-                this.Impact(null);
+                Impact(null);
             }
         }
 
@@ -348,36 +348,36 @@ namespace TorannMagic
             if (flag)
             {
                 Pawn pawn;
-                bool flag2 = (pawn = (base.Position.GetThingList(base.Map).FirstOrDefault((Thing x) => x == this.assignedTarget) as Pawn)) != null;
+                bool flag2 = (pawn = (Position.GetThingList(Map).FirstOrDefault((Thing x) => x == assignedTarget) as Pawn)) != null;
                 if (flag2)
                 {
                     hitThing = pawn;
                 }
             }
-            bool hasValue = this.impactDamage.HasValue;
+            bool hasValue = impactDamage.HasValue;
             if (hasValue)
             {
-                for (int i = 0; i < this.timesToDamage; i++)
+                for (int i = 0; i < timesToDamage; i++)
                 {
-                    bool flag3 = this.damageLaunched;
+                    bool flag3 = damageLaunched;
                     if (flag3)
                     {
-                        this.flyingThing.TakeDamage(this.impactDamage.Value);
+                        flyingThing.TakeDamage(impactDamage.Value);
                     }
                     else
                     {
-                        hitThing.TakeDamage(this.impactDamage.Value);
+                        hitThing.TakeDamage(impactDamage.Value);
                     }
                 }
-                bool flag4 = this.explosion;
+                bool flag4 = explosion;
                 if (flag4)
                 {
-                    ExplosionHelper.Explode(base.Position, base.Map, 0.9f, DamageDefOf.Stun, this, -1, 0, null, null, null, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
+                    ExplosionHelper.Explode(Position, Map, 0.9f, DamageDefOf.Stun, this, -1, 0, null, null, null, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
                 }
             }
-            GenSpawn.Spawn(this.flyingThing, base.Position, base.Map);
+            GenSpawn.Spawn(flyingThing, Position, Map);
             ModOptions.Constants.SetPawnInFlight(false);
-            Pawn p = this.flyingThing as Pawn;
+            Pawn p = flyingThing as Pawn;
             if(p.IsColonist)
             {
                 p.drafter.Drafted = true;
@@ -386,7 +386,7 @@ namespace TorannMagic
                     CameraJumper.TryJumpAndSelect(p);
                 }
             }
-            this.Destroy(DestroyMode.Vanish);
+            Destroy(DestroyMode.Vanish);
         }
     }
 }

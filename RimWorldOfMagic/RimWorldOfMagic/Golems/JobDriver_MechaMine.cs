@@ -133,14 +133,14 @@ namespace TorannMagic.Golems
                 
                 if (age > durationTicks)
                 {
-                    this.EndJobWith(JobCondition.Succeeded);
+                    EndJobWith(JobCondition.Succeeded);
                 }
             };
             doJob.defaultCompleteMode = ToilCompleteMode.Never;
-            doJob.defaultDuration = this.durationTicks;
+            doJob.defaultDuration = durationTicks;
             doJob.WithProgressBar(TargetIndex.A, delegate
             {
-                if (this.pawn.DestroyedOrNull() || this.pawn.Dead || this.pawn.Downed)
+                if (pawn.DestroyedOrNull() || pawn.Dead || pawn.Downed)
                 {
                     return 1f;
                 }

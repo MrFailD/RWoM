@@ -81,7 +81,7 @@ namespace TorannMagic
                 currentVec = currentVec + (2 *waveDirection);                
                 if(!currentVec.ToIntVec3().InBoundsWithNullCheck(map))
                 {                    
-                    this.age = this.duration;
+                    age = duration;
                 }
             }
 

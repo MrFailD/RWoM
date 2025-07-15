@@ -24,7 +24,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -32,7 +32,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
@@ -44,23 +44,23 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null && base.Pawn.Map != null && this.initializeDelay > 1;
+            bool flag = Pawn != null && Pawn.Map != null && initializeDelay > 1;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
 
-                if (Find.TickManager.TicksGame % this.eventFrequency == 0)
+                if (Find.TickManager.TicksGame % eventFrequency == 0)
                 {
                     severityAdjustment -= Rand.Range(2.5f, 4f);                  
                 }
             }
             else
             {
-                this.initializeDelay++;
+                initializeDelay++;
             }
         }        
 
@@ -68,7 +68,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.removeNow || this.parent.Severity <= .001f;
+                return base.CompShouldRemove || removeNow || parent.Severity <= .001f;
             }
         }        
     }

@@ -19,16 +19,16 @@ namespace TorannMagic
         {
             if(!initialized)
             {
-                this.nextSearch = Find.TickManager.TicksGame + Rand.Range(280, 320);
+                nextSearch = Find.TickManager.TicksGame + Rand.Range(280, 320);
                 initialized = true;
             }
-            if(Find.TickManager.TicksGame >= this.nextSearch)
+            if(Find.TickManager.TicksGame >= nextSearch)
             {
-                this.nextSearch = Find.TickManager.TicksGame + Rand.Range(280, 320);
+                nextSearch = Find.TickManager.TicksGame + Rand.Range(280, 320);
                 if (defensive)
                 {
-                    Pawn e = TM_Calc.FindNearbyEnemy(this.Position, this.Map, this.Faction, 20, 0);
-                    if (e != null && TM_Calc.HasLoSFromTo(this.Position, e, this, 0, 20))
+                    Pawn e = TM_Calc.FindNearbyEnemy(Position, Map, Faction, 20, 0);
+                    if (e != null && TM_Calc.HasLoSFromTo(Position, e, this, 0, 20))
                     {
                         Projectile firebolt = ThingMaker.MakeThing(ThingDef.Named("Projectile_Firebolt"), null) as Projectile;
                         TM_CopyAndLaunchProjectile.CopyAndLaunchProjectile(firebolt, this, e, e, ProjectileHitFlags.All, null);
@@ -36,7 +36,7 @@ namespace TorannMagic
                 }
                 if (buffWarm)
                 {
-                    List<Pawn> pList = TM_Calc.FindAllPawnsAround(this.Map, this.Position, 7, this.Faction, true);
+                    List<Pawn> pList = TM_Calc.FindAllPawnsAround(Map, Position, 7, Faction, true);
                     if (pList != null && pList.Count > 0)
                     {
                         for (int i = 0; i < pList.Count; i++)
@@ -51,7 +51,7 @@ namespace TorannMagic
                 }
                 if (boostJoy)
                 {
-                    List<Pawn> pList = TM_Calc.FindAllPawnsAround(this.Map, this.Position, 7, this.Faction, true);
+                    List<Pawn> pList = TM_Calc.FindAllPawnsAround(Map, Position, 7, Faction, true);
                     if (pList != null && pList.Count > 0)
                     {
                         for (int i = 0; i < pList.Count; i++)
@@ -74,9 +74,9 @@ namespace TorannMagic
 
         public override void ExposeData()
         {
-            Scribe_Values.Look<bool>(ref this.defensive, "defensive", false, false);
-            Scribe_Values.Look<bool>(ref this.boostJoy, "boostJoy", false, false);
-            Scribe_Values.Look<bool>(ref this.buffWarm, "buffWarm", false, false);
+            Scribe_Values.Look<bool>(ref defensive, "defensive", false, false);
+            Scribe_Values.Look<bool>(ref boostJoy, "boostJoy", false, false);
+            Scribe_Values.Look<bool>(ref buffWarm, "buffWarm", false, false);
             base.ExposeData();
         }
     }

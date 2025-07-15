@@ -28,12 +28,12 @@ namespace TorannMagic
 
             CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
             //pwrVal = comp.MagicData.MagicPowerSkill_AlterFate.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_AlterFate_pwr").level;
-            pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef);
+            pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef);
             arcaneDmg = comp.arcaneDmg;
 
             if(comp.predictionIncidentDef != null)
             {
-                if (Rand.Chance((.25f + (.05f * pwrVal))*this.arcaneDmg)) //success end
+                if (Rand.Chance((.25f + (.05f * pwrVal))*arcaneDmg)) //success end
                 {
                     //Log.Message("remove event");
                     List<QueuedIncident> iQue = Traverse.Create(root: Find.Storyteller.incidentQueue).Field(name: "queuedIncidents").GetValue<List<QueuedIncident>>();
@@ -48,15 +48,15 @@ namespace TorannMagic
                                 iQue.Remove(iQue[i]);
                                 if (Rand.Chance(.6f + (.1f * pwrVal)))
                                 {
-                                    this.confident = true;
+                                    confident = true;
                                 }
                                 else if (Rand.Chance(.1f))
                                 {
-                                    this.uneasy = true;
+                                    uneasy = true;
                                 }
                                 else
                                 {
-                                    this.unsure = true;
+                                    unsure = true;
                                 }
                                 break;
                             }
@@ -81,14 +81,14 @@ namespace TorannMagic
                     }
 
                     IEnumerable<IncidentDef> enumerable = from def in DefDatabase<IncidentDef>.AllDefs
-                                                          where (def != comp.predictionIncidentDef && def.TargetAllowed(this.CasterPawn.Map))
+                                                          where (def != comp.predictionIncidentDef && def.TargetAllowed(CasterPawn.Map))
                                                           orderby Rand.ValueSeeded(Find.TickManager.TicksGame)
                                                           select def;
                     foreach(IncidentDef item in enumerable)
                     {
                         //Log.Message("checking incident " + item.defName);
                         IncidentDef localDef = item;
-                        IncidentParms parms = StorytellerUtility.DefaultParmsNow(localDef.category, this.CasterPawn.Map);
+                        IncidentParms parms = StorytellerUtility.DefaultParmsNow(localDef.category, CasterPawn.Map);
                         if(localDef.Worker.CanFireNow(parms))
                         {
                             QueuedIncident iq = new QueuedIncident(new FiringIncident(localDef, null, parms), comp.predictionTick);
@@ -97,15 +97,15 @@ namespace TorannMagic
                             //localDef.Worker.TryExecute(parms);
                             if (Rand.Chance(.6f + (.1f * pwrVal)))
                             {
-                                this.uneasy = true;
+                                uneasy = true;
                             }
                             else if (Rand.Chance(.1f))
                             {
-                                this.confident = true;
+                                confident = true;
                             }
                             else
                             {
-                                this.unsure = true;
+                                unsure = true;
                             }
                             break;
                         }
@@ -115,14 +115,14 @@ namespace TorannMagic
                 {
                     //Log.Message("add event");
                     IEnumerable<IncidentDef> enumerable = from def in DefDatabase<IncidentDef>.AllDefs
-                                                          where (def != comp.predictionIncidentDef && def.TargetAllowed(this.CasterPawn.Map))
+                                                          where (def != comp.predictionIncidentDef && def.TargetAllowed(CasterPawn.Map))
                                                           orderby Rand.ValueSeeded(Find.TickManager.TicksGame)
                                                           select def;
                     foreach (IncidentDef item in enumerable)
                     {
                         //Log.Message("checking incident " + item.defName);
                         IncidentDef localDef = item;
-                        IncidentParms parms = StorytellerUtility.DefaultParmsNow(localDef.category, this.CasterPawn.Map);
+                        IncidentParms parms = StorytellerUtility.DefaultParmsNow(localDef.category, CasterPawn.Map);
                         if (localDef.Worker.CanFireNow(parms))
                         {
                             QueuedIncident iq = new QueuedIncident(new FiringIncident(localDef, null, parms), comp.predictionTick + Rand.Range(-500, 10000));
@@ -132,15 +132,15 @@ namespace TorannMagic
                             //localDef.Worker.TryExecute(parms);
                             if (Rand.Chance(.4f + (.1f * pwrVal)))
                             {
-                                this.uneasy = true;
+                                uneasy = true;
                             }
                             else if (Rand.Chance(.2f))
                             {
-                                this.terrified = true;
+                                terrified = true;
                             }
                             else
                             {
-                                this.unsure = true;
+                                unsure = true;
                             }
                             break;
                         }
@@ -152,14 +152,14 @@ namespace TorannMagic
                     int butterflyCount = 0;
                     //Log.Message("butteryfly event");
                     IEnumerable<IncidentDef> enumerable = from def in DefDatabase<IncidentDef>.AllDefs
-                                                          where (def.TargetAllowed(this.CasterPawn.Map))
+                                                          where (def.TargetAllowed(CasterPawn.Map))
                                                           orderby Rand.ValueSeeded(Find.TickManager.TicksGame)
                                                           select def;
                     foreach (IncidentDef item in enumerable)
                     {                        
                         //Log.Message("checking incident " + item.defName);
                         IncidentDef localDef = item;
-                        IncidentParms parms = StorytellerUtility.DefaultParmsNow(localDef.category, this.CasterPawn.Map);
+                        IncidentParms parms = StorytellerUtility.DefaultParmsNow(localDef.category, CasterPawn.Map);
                         if (localDef.Worker.CanFireNow(parms))
                         {
                             int eventTick = Find.TickManager.TicksGame + Rand.Range(0, 3600);
@@ -172,15 +172,15 @@ namespace TorannMagic
                             {
                                 if (Rand.Chance(.6f + (.1f * pwrVal)))
                                 {
-                                    this.terrified = true;
+                                    terrified = true;
                                 }
                                 else if (Rand.Chance(.3f))
                                 {
-                                    this.uneasy = true;
+                                    uneasy = true;
                                 }
                                 else
                                 {
-                                    this.unsure = true;
+                                    unsure = true;
                                 }
                                 break;
                             }
@@ -192,15 +192,15 @@ namespace TorannMagic
                     //Log.Message("failed event");
                     if (Rand.Chance(.6f + (.1f * pwrVal)))
                     {
-                        this.unsure = true;
+                        unsure = true;
                     }
                     else if (Rand.Chance(.1f))
                     {
-                        this.uneasy = true;
+                        uneasy = true;
                     }
                     else
                     {
-                        this.confident = true;
+                        confident = true;
                     }
                     //Messages.Message("TM_AlterGameConditionFailed".Translate(this.CasterPawn.LabelShort, localGC.Label), MessageTypeDefOf.NeutralEvent);
                 }
@@ -208,17 +208,17 @@ namespace TorannMagic
             }
             else if(pwrVal >= 3)
             {
-                if(this.CasterPawn.Map.GameConditionManager.ActiveConditions.Count > 0)
+                if(CasterPawn.Map.GameConditionManager.ActiveConditions.Count > 0)
                 {
                     GameCondition localGC = null;
-                    foreach(GameCondition activeCondition in this.CasterPawn.Map.GameConditionManager.ActiveConditions)
+                    foreach(GameCondition activeCondition in CasterPawn.Map.GameConditionManager.ActiveConditions)
                     {
                         localGC = activeCondition;
                         if(activeCondition.TicksPassed < (2500 + (250 * pwrVal)))
                         {
                             if(Rand.Chance(.25f + (.05f * pwrVal))) //success
                             {
-                                Messages.Message("TM_EndingGameCondition".Translate(this.CasterPawn.LabelShort, localGC.Label), MessageTypeDefOf.PositiveEvent);
+                                Messages.Message("TM_EndingGameCondition".Translate(CasterPawn.LabelShort, localGC.Label), MessageTypeDefOf.PositiveEvent);
                                 localGC.End();                                
                             }
                             else if(Rand.Chance(.2f - (.02f * pwrVal))) //shifting game condition
@@ -229,7 +229,7 @@ namespace TorannMagic
 
                                 GameConditionDef newGCdef = enumerable.RandomElement();
                                 GameConditionMaker.MakeCondition(newGCdef);
-                                Messages.Message("TM_GameConditionChanged".Translate(this.CasterPawn.LabelShort, localGC.Label, newGCdef.label), MessageTypeDefOf.NeutralEvent);
+                                Messages.Message("TM_GameConditionChanged".Translate(CasterPawn.LabelShort, localGC.Label, newGCdef.label), MessageTypeDefOf.NeutralEvent);
                                 localGC.End();
                             }
                             else if(Rand.Chance(.02f)) //permanent
@@ -244,45 +244,45 @@ namespace TorannMagic
                                                                            select def;
                                 GameConditionDef newGCdef = enumerable.RandomElement();
                                 GameConditionMaker.MakeCondition(newGCdef);
-                                Messages.Message("TM_GameConditionAdded".Translate(this.CasterPawn.LabelShort, newGCdef.label, localGC.Label), MessageTypeDefOf.NeutralEvent);
+                                Messages.Message("TM_GameConditionAdded".Translate(CasterPawn.LabelShort, newGCdef.label, localGC.Label), MessageTypeDefOf.NeutralEvent);
                             }
                             else
                             {
-                                Messages.Message("TM_AlterGameConditionFailed".Translate(this.CasterPawn.LabelShort, localGC.Label), MessageTypeDefOf.NeutralEvent);
+                                Messages.Message("TM_AlterGameConditionFailed".Translate(CasterPawn.LabelShort, localGC.Label), MessageTypeDefOf.NeutralEvent);
                             }
                             break;
                         }
                     }
                 }
             }
-            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_AlterFate, CasterPawn.DrawPos, this.CasterPawn.Map, 1f, .2f, 0, 1f, Rand.Range(-500, 500), 0, 0, Rand.Range(0, 360));
-            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_AlterFate, CasterPawn.DrawPos, this.CasterPawn.Map, 2.5f, .2f, .1f, .8f, Rand.Range(-500, 500), 0, 0, Rand.Range(0, 360));
-            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_AlterFate, CasterPawn.DrawPos, this.CasterPawn.Map, 6f, 0f, .2f, .6f, Rand.Range(-500, 500), 0, 0, Rand.Range(0, 360));
-            this.PostCastShot(flag, out flag);
+            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_AlterFate, CasterPawn.DrawPos, CasterPawn.Map, 1f, .2f, 0, 1f, Rand.Range(-500, 500), 0, 0, Rand.Range(0, 360));
+            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_AlterFate, CasterPawn.DrawPos, CasterPawn.Map, 2.5f, .2f, .1f, .8f, Rand.Range(-500, 500), 0, 0, Rand.Range(0, 360));
+            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_AlterFate, CasterPawn.DrawPos, CasterPawn.Map, 6f, 0f, .2f, .6f, Rand.Range(-500, 500), 0, 0, Rand.Range(0, 360));
+            PostCastShot(flag, out flag);
             return flag;
         } 
 
         private void DisplayConfidence(string incidentName)
         {
-            if (this.confident)
+            if (confident)
             {
-                Messages.Message("TM_PredictionFeelsConfident".Translate(this.CasterPawn.LabelShort, this.CasterPawn.gender.GetPronoun(), incidentName), MessageTypeDefOf.PositiveEvent);
+                Messages.Message("TM_PredictionFeelsConfident".Translate(CasterPawn.LabelShort, CasterPawn.gender.GetPronoun(), incidentName), MessageTypeDefOf.PositiveEvent);
             }
-            else if (this.unsure)
+            else if (unsure)
             {
-                Messages.Message("TM_PredictionFeelsUnsure".Translate(this.CasterPawn.LabelShort, this.CasterPawn.gender.GetPronoun(), incidentName), MessageTypeDefOf.NeutralEvent);
+                Messages.Message("TM_PredictionFeelsUnsure".Translate(CasterPawn.LabelShort, CasterPawn.gender.GetPronoun(), incidentName), MessageTypeDefOf.NeutralEvent);
             }
-            else if (this.uneasy)
+            else if (uneasy)
             {
-                Messages.Message("TM_PredictionUnease".Translate(this.CasterPawn.LabelShort, this.CasterPawn.gender.GetPossessive(), incidentName), MessageTypeDefOf.NeutralEvent);
+                Messages.Message("TM_PredictionUnease".Translate(CasterPawn.LabelShort, CasterPawn.gender.GetPossessive(), incidentName), MessageTypeDefOf.NeutralEvent);
             }
-            else if (this.terrified)
+            else if (terrified)
             {
-                Messages.Message("TM_PredictionTerrified".Translate(this.CasterPawn.LabelShort, this.CasterPawn.gender.GetPronoun()), MessageTypeDefOf.NegativeEvent);
+                Messages.Message("TM_PredictionTerrified".Translate(CasterPawn.LabelShort, CasterPawn.gender.GetPronoun()), MessageTypeDefOf.NegativeEvent);
             }
             else
             {
-                Messages.Message("TM_PredictionFeelsConfident".Translate(this.CasterPawn.LabelShort, this.CasterPawn.gender.GetPronoun(), incidentName), MessageTypeDefOf.PositiveEvent);
+                Messages.Message("TM_PredictionFeelsConfident".Translate(CasterPawn.LabelShort, CasterPawn.gender.GetPronoun(), incidentName), MessageTypeDefOf.PositiveEvent);
             }
         }
 

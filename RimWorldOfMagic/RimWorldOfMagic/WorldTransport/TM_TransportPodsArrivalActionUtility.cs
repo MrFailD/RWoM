@@ -120,7 +120,7 @@ namespace TorannMagic.WorldTransport
                 {
                     result = near;
                 }
-                WorldTransport.TM_DropPodUtility.MakeDropPodAt(result, map, dropPods[i], TorannMagicDefOf.TM_ActiveLightPod, TorannMagicDefOf.TM_LightPodIncoming, draftFlag);
+                TM_DropPodUtility.MakeDropPodAt(result, map, dropPods[i], TorannMagicDefOf.TM_ActiveLightPod, TorannMagicDefOf.TM_LightPodIncoming, draftFlag);
             }
         }
 

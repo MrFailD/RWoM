@@ -14,12 +14,12 @@ namespace TorannMagic
         private float arcaneDmg;
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
             
 
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             Pawn victim = hitThing as Pawn;
             CompAbilityUserMight comp = pawn.GetCompAbilityUserMight();
             MightPowerSkill pwr = pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_Spite.FirstOrDefault((MightPowerSkill x) => x.label == "TM_Spite_pwr");
@@ -33,25 +33,25 @@ namespace TorannMagic
                 pwrVal = mpwr.level;
                 verVal = mver.level;
             }
-            this.arcaneDmg = comp.mightPwr;
+            arcaneDmg = comp.mightPwr;
             if (ModOptions.Settings.Instance.AIHardMode && !pawn.IsColonist)
             {
                 pwrVal = 3;
                 verVal = 3;
             }
 
-            if(victim == null && this.intendedTarget != null && this.intendedTarget.Thing != null && this.intendedTarget.Thing is Pawn)
+            if(victim == null && intendedTarget != null && intendedTarget.Thing != null && intendedTarget.Thing is Pawn)
             {
-                victim = this.intendedTarget.Thing as Pawn;
+                victim = intendedTarget.Thing as Pawn;
             }
             
             if (victim != null)
             {
-                TM_Action.DamageEntities(victim, null, this.def.projectile.GetDamageAmount(1, null) * (1+ .1f * pwrVal) * this.arcaneDmg, this.def.projectile.damageDef, this.launcher);
+                TM_Action.DamageEntities(victim, null, this.def.projectile.GetDamageAmount(1, null) * (1+ .1f * pwrVal) * arcaneDmg, this.def.projectile.damageDef, launcher);
                 if (Rand.Chance(.15f * verVal))
                 {
-                    int dmg = Mathf.RoundToInt(((this.def.projectile.GetDamageAmount(1, null) / 3)) * this.arcaneDmg);  //projectile = 15
-                    TM_Action.DamageEntities(victim, null, dmg, DamageDefOf.Stun, this.launcher);
+                    int dmg = Mathf.RoundToInt(((this.def.projectile.GetDamageAmount(1, null) / 3)) * arcaneDmg);  //projectile = 15
+                    TM_Action.DamageEntities(victim, null, dmg, DamageDefOf.Stun, launcher);
                 }                
             }
         }
@@ -59,7 +59,7 @@ namespace TorannMagic
         public override void Tick()
         {
 
-            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_SpiritFlame, this.DrawPos, this.Map, Rand.Range(.3f, .4f), .05f, 0.05f, .1f, Rand.Range(-300, 300), Rand.Range(.2f, .6f), Rand.Range(0, 360), Rand.Range(0, 360));
+            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_SpiritFlame, DrawPos, Map, Rand.Range(.3f, .4f), .05f, 0.05f, .1f, Rand.Range(-300, 300), Rand.Range(.2f, .6f), Rand.Range(0, 360), Rand.Range(0, 360));
             base.Tick();
         }
 

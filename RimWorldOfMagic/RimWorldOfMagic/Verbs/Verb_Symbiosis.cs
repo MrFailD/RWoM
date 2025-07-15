@@ -20,7 +20,7 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     validTarg = true;
                 }
@@ -40,12 +40,12 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool flag = false;
-            Pawn caster = this.CasterPawn;
-            Pawn hitPawn = this.currentTarget.Thing as Pawn;
+            Pawn caster = CasterPawn;
+            Pawn hitPawn = currentTarget.Thing as Pawn;
             CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
             if (comp != null && comp.MagicData != null)
             {
-                pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef);                
+                pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef);                
             }
 
             if(hitPawn != null && hitPawn.RaceProps != null && hitPawn.RaceProps.Humanlike && !TM_Calc.IsUndead(hitPawn) && hitPawn.Faction == caster.Faction)
@@ -80,10 +80,10 @@ namespace TorannMagic
             }
             else
             {
-                Messages.Message("TM_InvalidTarget".Translate(CasterPawn.LabelShort, this.Ability.Def.label), MessageTypeDefOf.RejectInput);
+                Messages.Message("TM_InvalidTarget".Translate(CasterPawn.LabelShort, Ability.Def.label), MessageTypeDefOf.RejectInput);
             }
 
-            this.PostCastShot(flag, out flag);
+            PostCastShot(flag, out flag);
             return flag;
         }        
     }

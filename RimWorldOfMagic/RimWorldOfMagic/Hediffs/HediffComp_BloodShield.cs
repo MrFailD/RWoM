@@ -31,15 +31,15 @@ namespace TorannMagic
         {
             base.CompExposeData();
             Scribe_References.Look<Pawn>(ref linkedPawn, "linkedPawn", false);
-            Scribe_Values.Look<int>(ref this.bloodshieldVer, "bloodshieldVer", 0, false);
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
+            Scribe_Values.Look<int>(ref bloodshieldVer, "bloodshieldVer", 0, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
         }
 
         public string labelCap
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -47,15 +47,15 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            this.lastSeverity = this.parent.Severity;
-            CompAbilityUserMagic comp = this.linkedPawn.GetCompAbilityUserMagic();
+            bool spawned = Pawn.Spawned;
+            lastSeverity = parent.Severity;
+            CompAbilityUserMagic comp = linkedPawn.GetCompAbilityUserMagic();
             if (spawned && comp != null && comp.IsMagicUser)
             {
                 bloodshieldVer = comp.MagicData.MagicPowerSkill_BloodShield.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_BloodShield_ver").level;
@@ -63,83 +63,83 @@ namespace TorannMagic
             }
             else
             {
-                this.removeNow = true;
+                removeNow = true;
             }
         }        
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null && base.Pawn.Map != null && this.initializeDelay > 1;
+            bool flag = Pawn != null && Pawn.Map != null && initializeDelay > 1;
             if (flag)
             {
-                if (!initialized && this.linkedPawn != null)
+                if (!initialized && linkedPawn != null)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
 
-                if (Find.TickManager.TicksGame % this.eventFrequency == 0)
+                if (Find.TickManager.TicksGame % eventFrequency == 0)
                 {
-                    if(!this.linkedPawn.DestroyedOrNull() && !this.linkedPawn.Dead)
+                    if(!linkedPawn.DestroyedOrNull() && !linkedPawn.Dead)
                     {
 
                         //directionToLinkedPawn = TM_Calc.GetVector(this.Pawn.DrawPos, linkedPawn.DrawPos);
-                        float severityChange = this.lastSeverity - this.parent.Severity;
+                        float severityChange = lastSeverity - parent.Severity;
                         if (severityChange > 0)
                         {
-                            HealWounds((severityChange / 2) * (1 + .15f *this.bloodshieldVer));
+                            HealWounds((severityChange / 2) * (1 + .15f *bloodshieldVer));
                             ReverseHealLinkedPawn(severityChange);
                         }
                         severityAdjustment -= Rand.Range(2.5f, 4f);
-                        this.lastSeverity = this.parent.Severity;
+                        lastSeverity = parent.Severity;
                     }                    
                     else
                     {
-                        this.removeNow = true;
+                        removeNow = true;
                     }
                 }
             }
             else
             {
-                this.initializeDelay++;
+                initializeDelay++;
             }
         }
 
         public void ReverseHealLinkedPawn(float severity)
         {
-            Hediff bloodHediff = this.linkedPawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("TM_BloodHD"), false);
+            Hediff bloodHediff = linkedPawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("TM_BloodHD"), false);
             if(bloodHediff != null)
             {
-                if (this.woundsHealed)
+                if (woundsHealed)
                 {
                     if (bloodHediff.Severity < 1)
                     {
-                        TM_Action.DamageEntities(this.linkedPawn, null, severity, TMDamageDefOf.DamageDefOf.TM_BloodBurn, this.Pawn);
+                        TM_Action.DamageEntities(linkedPawn, null, severity, TMDamageDefOf.DamageDefOf.TM_BloodBurn, Pawn);
                     }
                     else
                     {
                         bloodHediff.Severity -= severity / 3;
-                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_BloodMist, this.linkedPawn.DrawPos, this.Pawn.Map, Rand.Range(.6f, .7f), .2f, 0.05f, 1f, Rand.Range(-50, 50), Rand.Range(1.5f, 2f), (Quaternion.AngleAxis(-90, Vector3.up) * this.directionToLinkedPawn).ToAngleFlat(), Rand.Range(0, 360));
+                        TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_BloodMist, linkedPawn.DrawPos, Pawn.Map, Rand.Range(.6f, .7f), .2f, 0.05f, 1f, Rand.Range(-50, 50), Rand.Range(1.5f, 2f), (Quaternion.AngleAxis(-90, Vector3.up) * directionToLinkedPawn).ToAngleFlat(), Rand.Range(0, 360));
                     }
                 }
             }
             else
             {
-                this.removeNow = true;
+                removeNow = true;
             }
 
             if (severity > 1.25f)
             {
                 Effecter BloodShieldEffect = TorannMagicDefOf.TM_BloodShieldEffecter.Spawn();
-                BloodShieldEffect.Trigger(new TargetInfo(this.linkedPawn.Position, this.linkedPawn.Map, false), new TargetInfo(this.linkedPawn.Position, this.linkedPawn.Map, false));
+                BloodShieldEffect.Trigger(new TargetInfo(linkedPawn.Position, linkedPawn.Map, false), new TargetInfo(linkedPawn.Position, linkedPawn.Map, false));
                 BloodShieldEffect.Cleanup();
             }
         }
 
         public void HealWounds(float healAmount)
         {
-            this.woundsHealed = false;
+            woundsHealed = false;
             Hediff_Injury injuryToHeal = Pawn.health.hediffSet.hediffs
                 .OfType<Hediff_Injury>()
                 .FirstOrDefault(injury => injury.CanHealNaturally());
@@ -163,7 +163,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.removeNow;
+                return base.CompShouldRemove || removeNow;
             }
         }        
     }

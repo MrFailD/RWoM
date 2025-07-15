@@ -17,13 +17,13 @@ namespace TorannMagic
 
         public void Initialize(Map map)
         {
-            pawn = this.launcher as Pawn;
+            pawn = launcher as Pawn;
             initialized = true;
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
             try
@@ -34,7 +34,7 @@ namespace TorannMagic
                     Initialize(map);
                 }
 
-                int dmg = GetWeaponDmg(this.launcher as Pawn);
+                int dmg = GetWeaponDmg(launcher as Pawn);
                 
 
                 if (victim != null && Rand.Chance(GetWeaponAccuracy(pawn)))

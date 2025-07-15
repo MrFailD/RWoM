@@ -14,16 +14,16 @@ namespace TorannMagic
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -40,8 +40,8 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             bool result = false;
-            Pawn pawn = this.CasterPawn;
-            Map map = this.CasterPawn.Map;
+            Pawn pawn = CasterPawn;
+            Map map = CasterPawn.Map;
             CompAbilityUserMight comp = pawn.GetCompAbilityUserMight();
             if (comp != null && comp.Stamina != null)
             {
@@ -60,20 +60,20 @@ namespace TorannMagic
                             ThingDef newProjectile = wpn.def.Verbs.FirstOrDefault().defaultProjectile;
                             int shots = Mathf.Clamp(wpn.def.Verbs.FirstOrDefault().burstShotCount, 1, 5);
                             Type oldThingclass = newProjectile.thingClass;
-                            newProjectile.thingClass = this.Projectile.thingClass;
+                            newProjectile.thingClass = Projectile.thingClass;
                             bool flag = false;
-                            SoundInfo info = SoundInfo.InMap(new TargetInfo(this.CasterPawn.Position, this.CasterPawn.Map, false), MaintenanceType.None);
+                            SoundInfo info = SoundInfo.InMap(new TargetInfo(CasterPawn.Position, CasterPawn.Map, false), MaintenanceType.None);
                             SoundDef.Named(wpn.def.Verbs.FirstOrDefault().soundCast.ToString()).PlayOneShot(info);
-                            bool? flag4 = this.TryLaunchProjectile(newProjectile, this.ShotTarget(pawn));                            
+                            bool? flag4 = TryLaunchProjectile(newProjectile, ShotTarget(pawn));                            
                             for (int i = 1; i < shots; i++)
                             {
-                                this.TryLaunchProjectile(newProjectile, this.ShotTarget(pawn));
+                                TryLaunchProjectile(newProjectile, ShotTarget(pawn));
                             }
                             flag = flag4.HasValue;
-                            this.PostCastShot(flag, out flag);
+                            PostCastShot(flag, out flag);
                             if (!flag)
                             {
-                                this.Ability.Notify_AbilityFailed(this.UseAbilityProps.refundsPointsAfterFailing);
+                                Ability.Notify_AbilityFailed(UseAbilityProps.refundsPointsAfterFailing);
                             }
                             newProjectile.thingClass = oldThingclass;
                         }
@@ -86,12 +86,12 @@ namespace TorannMagic
                     }
                     else
                     {
-                        this.TryLaunchProjectile(this.Projectile, this.currentTarget);
+                        TryLaunchProjectile(Projectile, currentTarget);
                     }
                 }
                 else
                 {
-                    this.TryLaunchProjectile(this.Projectile, this.currentTarget);
+                    TryLaunchProjectile(Projectile, currentTarget);
                 }
             }
             else

@@ -19,8 +19,8 @@ namespace TorannMagic.Golems
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<float>(ref this.maxEnergy, "maxEnergy", 100);
-            Scribe_Values.Look<float>(ref this.energyEfficiency, "energyEfficiency", 1f);
+            Scribe_Values.Look<float>(ref maxEnergy, "maxEnergy", 100);
+            Scribe_Values.Look<float>(ref energyEfficiency, "energyEfficiency", 1f);
         }
 
         public float NeedLoss => needLoss;
@@ -49,7 +49,7 @@ namespace TorannMagic.Golems
         {
             get
             {
-                bool flag = this.CurLevel < 10f;
+                bool flag = CurLevel < 10f;
                 GolemRageCategory result;
                 if (flag)
                 {
@@ -57,12 +57,12 @@ namespace TorannMagic.Golems
                 }
                 else
                 {
-                    bool flag2 = this.CurLevel < 25f;
+                    bool flag2 = CurLevel < 25f;
                     if (flag2)
                     {
                         result = GolemRageCategory.Low;
                     }
-                    else if(this.CurLevel < 75f)
+                    else if(CurLevel < 75f)
                     {
                         result = GolemRageCategory.Medium;
                     }
@@ -81,11 +81,11 @@ namespace TorannMagic.Golems
 
         public Need_GolemRage(Pawn pawn) : base(pawn)
 		{
-            this.lastTick = -999;
-            this.threshPercents = new List<float>();
-            this.threshPercents.Add((10f / this.MaxLevel));
-            this.threshPercents.Add((25f / this.MaxLevel));
-            this.threshPercents.Add((75f / this.MaxLevel));
+            lastTick = -999;
+            threshPercents = new List<float>();
+            threshPercents.Add((10f / MaxLevel));
+            threshPercents.Add((25f / MaxLevel));
+            threshPercents.Add((75f / MaxLevel));
         }
 
         public override void SetInitialLevel()

@@ -44,7 +44,7 @@ namespace TorannMagic
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < duration;
+            bool flag = age < duration;
             if (!flag)
             {
                 base.Destroy(mode);
@@ -54,17 +54,17 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
 
-            Pawn caster = this.launcher as Pawn;
-            if (!this.initialized)
+            Pawn caster = launcher as Pawn;
+            if (!initialized)
             {
                 
                 CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
@@ -78,41 +78,41 @@ namespace TorannMagic
                     pwrVal = mpwr.level;
                     verVal = mver.level;
                 }
-                this.arcaneDmg = comp.arcaneDmg;
+                arcaneDmg = comp.arcaneDmg;
                 if (ModOptions.Settings.Instance.AIHardMode && !caster.IsColonist)
                 {
                     pwrVal = 3;
                     verVal = 3;
                 }
-                SoundInfo info = SoundInfo.InMap(new TargetInfo(base.Position, this.Map, false), MaintenanceType.None);
+                SoundInfo info = SoundInfo.InMap(new TargetInfo(Position, Map, false), MaintenanceType.None);
                 info.pitchFactor = .5f;
                 info.volumeFactor = .8f;
                 SoundDefOf.PsychicPulseGlobal.PlayOneShot(info);
                 Effecter SabotageEffect = TorannMagicDefOf.TM_SabotageExplosion.Spawn();
-                SabotageEffect.Trigger(new TargetInfo(base.Position, this.Map, false), new TargetInfo(base.Position, this.Map, false));
+                SabotageEffect.Trigger(new TargetInfo(Position, Map, false), new TargetInfo(Position, Map, false));
                 SabotageEffect.Cleanup();
                 targetCells = new List<IntVec3>();
                 targetCells.Clear();
-                targetCells = GenRadial.RadialCellsAround(base.Position, this.def.projectile.explosionRadius, true).ToList();
-                this.targetThings = new List<SabotageThing>();
-                this.targetThings.Clear();
-                this.initialized = true;
+                targetCells = GenRadial.RadialCellsAround(Position, this.def.projectile.explosionRadius, true).ToList();
+                targetThings = new List<SabotageThing>();
+                targetThings.Clear();
+                initialized = true;
 
                 Pawn targetPawn = null;
                 Building targetBuilding = null;
 
-                for (int i = 0; i < this.targetCells.Count; i++)
+                for (int i = 0; i < targetCells.Count; i++)
                 {
-                    if (Rand.Chance((.5f + (.1f * verVal)) * this.arcaneDmg))
+                    if (Rand.Chance((.5f + (.1f * verVal)) * arcaneDmg))
                     {
                         float rnd = Rand.Range(0, 1f);
-                        targetPawn = this.targetCells[i].GetFirstPawn(this.Map);
+                        targetPawn = targetCells[i].GetFirstPawn(Map);
                         if (targetPawn != null)
                         {
                             if (TM_Calc.IsRobotPawn(targetPawn))
                             {
-                                TM_Action.DoAction_SabotagePawn(targetPawn, caster, rnd, pwrVal, this.arcaneDmg, this.launcher);
-                                this.age = this.duration;
+                                TM_Action.DoAction_SabotagePawn(targetPawn, caster, rnd, pwrVal, arcaneDmg, launcher);
+                                age = duration;
                             }
                             else
                             {
@@ -121,15 +121,15 @@ namespace TorannMagic
                             }
                         }
 
-                        targetBuilding = this.targetCells[i].GetFirstBuilding(this.Map);
+                        targetBuilding = targetCells[i].GetFirstBuilding(Map);
                         if (targetPawn == null && targetBuilding != null)
                         {
                             CompPower compP = targetBuilding.GetComp<CompPower>();
                             CompPowerTrader cpt = targetBuilding.GetComp<CompPowerTrader>();
                             if (compP != null && compP.Props.PowerConsumption != 0 && cpt != null && cpt.powerOutputInt != 0)
                             {
-                                ExplosionHelper.Explode(targetBuilding.Position, base.Map, 2 + pwrVal + Mathf.RoundToInt(cpt.powerOutputInt / 400), DamageDefOf.Stun, null);
-                                ExplosionHelper.Explode(targetBuilding.Position, base.Map, 1 + pwrVal + Mathf.RoundToInt(cpt.powerOutputInt / 600), TMDamageDefOf.DamageDefOf.TM_ElectricalBurn, null);
+                                ExplosionHelper.Explode(targetBuilding.Position, Map, 2 + pwrVal + Mathf.RoundToInt(cpt.powerOutputInt / 400), DamageDefOf.Stun, null);
+                                ExplosionHelper.Explode(targetBuilding.Position, Map, 1 + pwrVal + Mathf.RoundToInt(cpt.powerOutputInt / 600), TMDamageDefOf.DamageDefOf.TM_ElectricalBurn, null);
                             }
 
                             Building_Battery targetBattery = targetBuilding as Building_Battery;
@@ -143,7 +143,7 @@ namespace TorannMagic
                                 }
                                 else
                                 {
-                                    ExplosionHelper.Explode(targetBattery.Position, base.Map, 2 + pwrVal + Mathf.RoundToInt(compB.StoredEnergy / 200), DamageDefOf.EMP, null);
+                                    ExplosionHelper.Explode(targetBattery.Position, Map, 2 + pwrVal + Mathf.RoundToInt(compB.StoredEnergy / 200), DamageDefOf.EMP, null);
                                     compB.DrawPower(compB.StoredEnergy);
                                 }
 
@@ -158,7 +158,7 @@ namespace TorannMagic
                                 }
                                 else
                                 {
-                                    ExplosionHelper.Explode(targetTurret.Position, base.Map, 2 + pwrVal, TMDamageDefOf.DamageDefOf.TM_ElectricalBurn, null); //20 default damage
+                                    ExplosionHelper.Explode(targetTurret.Position, Map, 2 + pwrVal, TMDamageDefOf.DamageDefOf.TM_ElectricalBurn, null); //20 default damage
                                 }
                             }
                         }
@@ -171,13 +171,13 @@ namespace TorannMagic
                     }
                 }
             }
-            else if(this.targetThings.Count > 0)
+            else if(targetThings.Count > 0)
             {
-                this.age = this.duration;
+                age = duration;
             }
             else
             {
-                this.age = this.duration;
+                age = duration;
             }
 
             
@@ -186,13 +186,13 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", true, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 1800, false);
-            Scribe_Values.Look<int>(ref this.strikeDelay, "shockDelay", 0, false);
-            Scribe_Values.Look<int>(ref this.lastStrike, "lastStrike", 0, false);
-            Scribe_Values.Look<int>(ref this.verVal, "verVal", 0, false);
-            Scribe_Values.Look<int>(ref this.pwrVal, "pwrVal", 0, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", true, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 1800, false);
+            Scribe_Values.Look<int>(ref strikeDelay, "shockDelay", 0, false);
+            Scribe_Values.Look<int>(ref lastStrike, "lastStrike", 0, false);
+            Scribe_Values.Look<int>(ref verVal, "verVal", 0, false);
+            Scribe_Values.Look<int>(ref pwrVal, "pwrVal", 0, false);
         }
     }    
 }

@@ -29,7 +29,7 @@ namespace TorannMagic
                             {
                                 advancedClass = true;
                                 ApplyAdvancedTrait(user, cc);
-                                this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                                parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                             }
                             break;
                         }
@@ -49,7 +49,7 @@ namespace TorannMagic
                             //Unique actions hook
                             ApplyTraitAdjustments(user, cc.classTrait);
                             //
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                             if (comp != null)
                             {
                                 comp.customIndex = i;
@@ -75,38 +75,38 @@ namespace TorannMagic
                     {
                         FixTrait(user, user.story.traits.allTraits);
                         user.story.traits.GainTrait(new Trait(TorannMagicDefOf.Gladiator, 0, false));
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         comp.skill_Sprint = true;
                     }
                     else if (parent.def.defName == "BookOfSniper")
                     {
                         FixTrait(user, user.story.traits.allTraits);
                         user.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Sniper, 0, false));
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfBladedancer")
                     {
                         FixTrait(user, user.story.traits.allTraits);
                         user.story.traits.GainTrait(new Trait(TorannMagicDefOf.Bladedancer, 0, false));
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfRanger")
                     {
                         FixTrait(user, user.story.traits.allTraits);
                         user.story.traits.GainTrait(new Trait(TorannMagicDefOf.Ranger, 0, false));
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfFaceless")
                     {
                         FixTrait(user, user.story.traits.allTraits);
                         user.story.traits.GainTrait(new Trait(TorannMagicDefOf.Faceless, 0, false));
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfDeathKnight")
                     {
                         FixTrait(user, user.story.traits.allTraits);
                         user.story.traits.GainTrait(new Trait(TorannMagicDefOf.DeathKnight, 0, false));
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def.defName == "BookOfPsionic")
                     {
@@ -114,13 +114,13 @@ namespace TorannMagic
                         {
                             FixTrait(user, user.story.traits.allTraits);
                             user.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Psionic, 0, false));
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else if (user.Map.GameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicDrone) || user.Map.GameConditionManager.ConditionIsActive(GameConditionDefOf.PsychicSoothe))
                         {
                             FixTrait(user, user.story.traits.allTraits);
                             user.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Psionic, 0, false));
-                            this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                            parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                         }
                         else
                         {
@@ -133,13 +133,13 @@ namespace TorannMagic
                     {
                         FixTrait(user, user.story.traits.allTraits);
                         user.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Monk, 0, false));
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def == TorannMagicDefOf.BookOfCommander)
                     {
                         FixTrait(user, user.story.traits.allTraits);
                         user.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Commander, 0, false));
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else if (parent.def == TorannMagicDefOf.BookOfSuperSoldier)
                     {
@@ -149,7 +149,7 @@ namespace TorannMagic
                         {
                             HealthUtility.AdjustSeverity(user, TorannMagicDefOf.TM_SS_SerumHD, .1f);
                         }
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                     else
                     {
@@ -168,7 +168,7 @@ namespace TorannMagic
                     }
                     else
                     {
-                        this.parent.SplitOff(1).Destroy(DestroyMode.Vanish);
+                        parent.SplitOff(1).Destroy(DestroyMode.Vanish);
                     }
                 }
                 else if(!customClass && !advancedClass && !user.story.traits.HasTrait(TorannMagicDefOf.PhysicalProdigy))
@@ -177,7 +177,7 @@ namespace TorannMagic
                     {
                         Messages.Message("TM_UnableToLearnAdvancedClass".Translate(
                                 user.LabelShort,
-                                this.parent.def.label,
+                                parent.def.label,
                                 failMessage
                             ), MessageTypeDefOf.RejectInput);
                     }

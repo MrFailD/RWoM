@@ -100,15 +100,15 @@ namespace TorannMagic
             get
             {
                 int dec = 0;
-                if(this.pwrVal > 7)
+                if(pwrVal > 7)
                 {
                     dec--;
-                    if(this.pwrVal > 14)
+                    if(pwrVal > 14)
                     {
                         dec--;
                     }
                 }
-                return (this.actionDelay - dec);
+                return (actionDelay - dec);
             }
         }
 
@@ -141,11 +141,11 @@ namespace TorannMagic
         {
             get
             {
-                return this.lightEnergy;
+                return lightEnergy;
             }
             set
             {
-                this.lightEnergy = Mathf.Clamp(value, 0f, LightEnergyMax);
+                lightEnergy = Mathf.Clamp(value, 0f, LightEnergyMax);
             }
         }
 
@@ -231,7 +231,7 @@ namespace TorannMagic
         {
             get
             {
-                int num = Mathf.RoundToInt((this.origin - this.destination).magnitude / (this.speed / 100f));
+                int num = Mathf.RoundToInt((origin - destination).magnitude / (speed / 100f));
                 bool flag = num < 1;
                 if (flag)
                 {
@@ -245,7 +245,7 @@ namespace TorannMagic
         {
             get
             {
-                return new IntVec3(this.destination);
+                return new IntVec3(destination);
             }
         }
 
@@ -253,8 +253,8 @@ namespace TorannMagic
         {
             get
             {
-                Vector3 b = (this.destination - this.origin) * (1f - (float)this.ticksToImpact / (float)this.StartingTicksToImpact);
-                return this.origin + b + Vector3.up * this.def.Altitude;
+                Vector3 b = (destination - origin) * (1f - (float)ticksToImpact / (float)StartingTicksToImpact);
+                return origin + b + Vector3.up * def.Altitude;
             }
         }
 
@@ -262,7 +262,7 @@ namespace TorannMagic
         {
             get
             {
-                return Quaternion.LookRotation(this.destination - this.origin);
+                return Quaternion.LookRotation(destination - origin);
             }
         }
 
@@ -270,7 +270,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.ExactPosition;
+                return ExactPosition;
             }
         } 
         
@@ -278,7 +278,7 @@ namespace TorannMagic
         {
             get
             {
-                Vector3 casterPos = this.pawn.DrawPos;
+                Vector3 casterPos = pawn.DrawPos;
                 if(solAction == SoLAction.Sleeping)
                 {
                     return casterPos;
@@ -309,138 +309,138 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<Vector3>(ref this.origin, "origin", default(Vector3), false);
-            Scribe_Values.Look<Vector3>(ref this.destination, "destination", default(Vector3), false);
-            Scribe_Values.Look<int>(ref this.ticksToImpact, "ticksToImpact", 0, false);
-            Scribe_Values.Look<int>(ref this.timesToDamage, "timesToDamage", 0, false);
-            Scribe_Values.Look<bool>(ref this.damageLaunched, "damageLaunched", true, false);
-            Scribe_Values.Look<bool>(ref this.explosion, "explosion", false, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<Vector3>(ref origin, "origin", default(Vector3), false);
+            Scribe_Values.Look<Vector3>(ref destination, "destination", default(Vector3), false);
+            Scribe_Values.Look<int>(ref ticksToImpact, "ticksToImpact", 0, false);
+            Scribe_Values.Look<int>(ref timesToDamage, "timesToDamage", 0, false);
+            Scribe_Values.Look<bool>(ref damageLaunched, "damageLaunched", true, false);
+            Scribe_Values.Look<bool>(ref explosion, "explosion", false, false);
             //Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_References.Look<Thing>(ref this.assignedTarget, "assignedTarget", false);
+            Scribe_References.Look<Thing>(ref assignedTarget, "assignedTarget", false);
             //Scribe_References.Look<Thing>(ref this.launcher, "launcher", false);
-            Scribe_References.Look<Pawn>(ref this.pawn, "pawn", false);
-            Scribe_Deep.Look<Thing>(ref this.flyingThing, "flyingThing", new object[0]);
+            Scribe_References.Look<Pawn>(ref pawn, "pawn", false);
+            Scribe_Deep.Look<Thing>(ref flyingThing, "flyingThing", new object[0]);
             Scribe_Values.Look<SoLAction>(ref solAction, "solAction", SoLAction.Pending, false);
             Scribe_Values.Look<SoLAction>(ref queuedAction, "queuedAction", SoLAction.Null, false);
-            Scribe_Values.Look<float>(ref this.lightEnergy, "lightEnergy", 0f, false);
-            Scribe_Values.Look<IntVec3>(ref this.glowCenter, "glowCenter", default(IntVec3), false);
-            Scribe_Values.Look<bool>(ref this.glowing, "glowing", false, false);
+            Scribe_Values.Look<float>(ref lightEnergy, "lightEnergy", 0f, false);
+            Scribe_Values.Look<IntVec3>(ref glowCenter, "glowCenter", default(IntVec3), false);
+            Scribe_Values.Look<bool>(ref glowing, "glowing", false, false);
         }
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            bool flag = this.flyingThing != null;
+            bool flag = flyingThing != null;
             if (flag && solAction != SoLAction.Sleeping && solAction != SoLAction.Limbo)
             {
-                Material mat = FlyingObject_SpiritOfLight.sol_down;
+                Material mat = sol_down;
                 if (drawEnum == 1)
                 {
                     drawEnum = -1;
-                    mat = FlyingObject_SpiritOfLight.sol_up;
+                    mat = sol_up;
                 }
                 else if (drawEnum == 0)
                 {
                     drawEnum = 1;
-                    mat = FlyingObject_SpiritOfLight.sol_side;
+                    mat = sol_side;
                 }
                 else
                 {
                     drawEnum = 0;
                 }
 
-                Vector3 vector = this.DrawPos;
+                Vector3 vector = DrawPos;
                 vector.y = Altitudes.AltitudeFor(AltitudeLayer.MoteOverhead);
                 Vector3 s = new Vector3(.4f, pawn.DrawPos.y, .4f);
                 Matrix4x4 matrix = default(Matrix4x4);
                 Quaternion q = Quaternion.AngleAxis(0f, Vector3.up);
-                if (this.solAction == SoLAction.Attacking || this.solAction == SoLAction.Returning || this.solAction == SoLAction.ChargeAttacking || solAction == SoLAction.Goto || solAction == SoLAction.Circling)
+                if (solAction == SoLAction.Attacking || solAction == SoLAction.Returning || solAction == SoLAction.ChargeAttacking || solAction == SoLAction.Goto || solAction == SoLAction.Circling)
                 {
-                    q = (Vector3Utility.ToAngleFlat(this.DrawPos - this.destination) - 90).ToQuat();
+                    q = (Vector3Utility.ToAngleFlat(DrawPos - destination) - 90).ToQuat();
                 }
-                if(this.solAction == SoLAction.ChargeAttacking)
+                if(solAction == SoLAction.ChargeAttacking)
                 {
                     Matrix4x4 matrix2 = default(Matrix4x4);
-                    float bScale = Mathf.Clamp(.6f + (5f / (float)this.ticksToImpact), .6f, 2.5f);
+                    float bScale = Mathf.Clamp(.6f + (5f / (float)ticksToImpact), .6f, 2.5f);
                     Vector3 s2 = new Vector3(bScale, pawn.DrawPos.y, bScale);
                     matrix2.SetTRS(vector, q, s2);
-                    Graphics.DrawMesh(MeshPool.plane10, matrix2, FlyingObject_SpiritOfLight.sol_blade, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, matrix2, sol_blade, 0);
                 }
-                if(this.solAction == SoLAction.Guarding && this.assignedTarget != null)
+                if(solAction == SoLAction.Guarding && assignedTarget != null)
                 {
-                    Vector3 barrierPos = this.assignedTarget.DrawPos;                    
+                    Vector3 barrierPos = assignedTarget.DrawPos;                    
                     Quaternion barrierRot = Quaternion.AngleAxis(Rand.Range(0, 360), Vector3.up);
                     Matrix4x4 matrix2 = default(Matrix4x4);
                     float bScale = 1.4f;
                     Vector3 s2 = new Vector3(bScale, pawn.DrawPos.y, bScale);
                     matrix2.SetTRS(barrierPos, barrierRot, s2);
-                    Graphics.DrawMesh(MeshPool.plane10, matrix2, FlyingObject_SpiritOfLight.sol_barrier, 0);
+                    Graphics.DrawMesh(MeshPool.plane10, matrix2, sol_barrier, 0);
 
                 }
                 matrix.SetTRS(vector, q, s);
                 Graphics.DrawMesh(MeshPool.plane10, matrix, mat, 0);
             }
             
-            base.Comps_PostDraw();
+            Comps_PostDraw();
         }
 
         public void DrawMotes()
         {
-            this.nextMoteTick = this.age + Rand.Range((int)(55 - Mathf.Clamp((LightEnergy / 2), 0, 55)), (int)(65 - Mathf.Clamp((LightEnergy / 2),0, 60)));
-            Vector3 rndVec = this.ExactPosition;
+            nextMoteTick = age + Rand.Range((int)(55 - Mathf.Clamp((LightEnergy / 2), 0, 55)), (int)(65 - Mathf.Clamp((LightEnergy / 2),0, 60)));
+            Vector3 rndVec = ExactPosition;
             rndVec.x += Rand.Range(-.1f, .1f);
             rndVec.z += Rand.Range(-.1f, .1f);
             //Vector3 angle = TM_Calc.GetVector(rndVec, this.ExactPosition);
             ThingDef mote = TorannMagicDefOf.Mote_Twinkle;
             int directionAngle = 0;
             float moteSpeed = Rand.Range(.25f, .6f);
-            if (this.solAction == SoLAction.Sleeping)
+            if (solAction == SoLAction.Sleeping)
             {
                 directionAngle = Rand.Range(170, 190);
             }
-            if(this.solAction == SoLAction.ChargeAttacking)
+            if(solAction == SoLAction.ChargeAttacking)
             {
-                directionAngle = (int)Vector3Utility.ToAngleFlat(this.DrawPos - this.destination) - 90;
-                TM_MoteMaker.ThrowGenericMote(mote, rndVec, this.Map, Rand.Range(.4f, .6f), Rand.Range(.2f, .4f), Rand.Range(0f, .5f), Rand.Range(.3f, .5f), Rand.Range(-50, 50), moteSpeed, directionAngle, Rand.Range(0, 360));
+                directionAngle = (int)Vector3Utility.ToAngleFlat(DrawPos - destination) - 90;
+                TM_MoteMaker.ThrowGenericMote(mote, rndVec, Map, Rand.Range(.4f, .6f), Rand.Range(.2f, .4f), Rand.Range(0f, .5f), Rand.Range(.3f, .5f), Rand.Range(-50, 50), moteSpeed, directionAngle, Rand.Range(0, 360));
             }
             if(solAction == SoLAction.Guarding)
             {
-                Vector3 barrierPos = this.assignedTarget.DrawPos;
+                Vector3 barrierPos = assignedTarget.DrawPos;
                 barrierPos.x += Rand.Range(-.25f, .25f);
                 barrierPos.z += Rand.Range(-.25f, .25f);
                 TM_MoteMaker.ThrowEnchantingMote(barrierPos, assignedTarget.Map, .25f);
             }
             if(solAction == SoLAction.Circling)
             {
-                directionAngle = (int)Vector3Utility.ToAngleFlat(this.DrawPos - this.assignedTarget.DrawPos) - 90;
-                TM_MoteMaker.ThrowGenericMote(mote, rndVec, this.Map, Rand.Range(.4f, .6f), Rand.Range(.2f, .4f), Rand.Range(0f, .5f), Rand.Range(.3f, .5f), Rand.Range(-50, 50), Rand.Range(1f,2f), directionAngle, Rand.Range(0, 360));
+                directionAngle = (int)Vector3Utility.ToAngleFlat(DrawPos - assignedTarget.DrawPos) - 90;
+                TM_MoteMaker.ThrowGenericMote(mote, rndVec, Map, Rand.Range(.4f, .6f), Rand.Range(.2f, .4f), Rand.Range(0f, .5f), Rand.Range(.3f, .5f), Rand.Range(-50, 50), Rand.Range(1f,2f), directionAngle, Rand.Range(0, 360));
             }
-            TM_MoteMaker.ThrowGenericMote(mote, rndVec, this.Map, Rand.Range(.2f, .3f), Rand.Range(.2f, .4f), Rand.Range(0f, .5f), Rand.Range(.3f, .5f), Rand.Range(-50, 50), moteSpeed, directionAngle, Rand.Range(0, 360));
+            TM_MoteMaker.ThrowGenericMote(mote, rndVec, Map, Rand.Range(.2f, .3f), Rand.Range(.2f, .4f), Rand.Range(0f, .5f), Rand.Range(.3f, .5f), Rand.Range(-50, 50), moteSpeed, directionAngle, Rand.Range(0, 360));
         }
 
         public void StopGlow()
         {
-            if (this.glower != null && glower.parent != null && this.Map != null)
+            if (glower != null && glower.parent != null && Map != null)
             {
-                if (this.glowing)
+                if (glowing)
                 {
                     //this.Map.mapDrawer.MapMeshDirty(glowCenter, MapMeshFlag.Things);
-                    this.Map.glowGrid.DeRegisterGlower(glower);
-                    this.glowing = false;
-                    this.glowCenter = default(IntVec3);
+                    Map.glowGrid.DeRegisterGlower(glower);
+                    glowing = false;
+                    glowCenter = default(IntVec3);
                 }
             }
         }
 
         public void DoGlow()
         {
-            if (this.glower != null && glower.parent != null && this.Map != null)
+            if (glower != null && glower.parent != null && Map != null)
             {
                 //Log.Message("glower not null, glow center " + glowCenter);
-                if (this.glowCenter != default(IntVec3) && this.pawn.Spawned)
+                if (glowCenter != default(IntVec3) && pawn.Spawned)
                 {
-                    this.Map.mapDrawer.MapMeshDirty(glowCenter, MapMeshFlagDefOf.Things);
-                    GlowGrid gg = this.Map.glowGrid;
+                    Map.mapDrawer.MapMeshDirty(glowCenter, MapMeshFlagDefOf.Things);
+                    GlowGrid gg = Map.glowGrid;
                     HashSet<CompGlower> litGlowers = Traverse.Create(root: gg).Field(name: "litGlowers").GetValue<HashSet<CompGlower>>();
                     litGlowers.Add(glower);
                     Traverse.Create(root: gg).Field(name: "litGlowers").SetValue(litGlowers);
@@ -452,7 +452,7 @@ namespace TorannMagic
                         Traverse.Create(root: gg).Field(name: "initialGlowerLocs").SetValue(locs);
                     }
                     //this.Map.glowGrid.RegisterGlower(glower);
-                    this.glowing = true;
+                    glowing = true;
                 }                
             }
         }
@@ -471,21 +471,21 @@ namespace TorannMagic
         {
             if (pawn != null)
             {
-                FleckMaker.Static(this.origin, this.Map, FleckDefOf.ExplosionFlash, 1f);
+                FleckMaker.Static(origin, Map, FleckDefOf.ExplosionFlash, 1f);
                 SoundDefOf.Ambient_AltitudeWind.sustainFadeoutTime.Equals(30.0f);
-                FleckMaker.ThrowDustPuff(this.origin, this.Map, Rand.Range(1.2f, 1.8f));
+                FleckMaker.ThrowDustPuff(origin, Map, Rand.Range(1.2f, 1.8f));
                 UpdateSoLPower();
-                this.glower = new CompGlower();
+                glower = new CompGlower();
                 gProps.glowColor = new ColorInt(255, 255, 180, 1);
                 gProps.glowRadius = 14f;
                 gProps.overlightRadius = 12f;
                 glower.parent = this;
                 glower.Initialize(gProps);
-                this.Map.mapDrawer.MapMeshDirty(base.Position, MapMeshFlagDefOf.Things);
-                this.Map.glowGrid.DeRegisterGlower(glower);
-                this.glowing = false;
+                Map.mapDrawer.MapMeshDirty(Position, MapMeshFlagDefOf.Things);
+                Map.glowGrid.DeRegisterGlower(glower);
+                glowing = false;
                 //this.shouldGlow = false;
-                this.initialized = true;
+                initialized = true;
                 //Log.Message("initializing sol, glowing: " + glowing + " glow center: " + glowCenter);
             }            
         }
@@ -503,19 +503,19 @@ namespace TorannMagic
                     pwrVal = TM_Calc.GetSkillPowerLevel(pawn, TorannMagicDefOf.TM_SpiritOfLight, false);
                     verVal = TM_Calc.GetSkillVersatilityLevel(pawn, TorannMagicDefOf.TM_SpiritOfLight, false);
                     effVal = TM_Calc.GetSkillEfficiencyLevel(pawn, TorannMagicDefOf.TM_SpiritOfLight, false);
-                    this.arcaneDmg = comp.arcaneDmg;
+                    arcaneDmg = comp.arcaneDmg;
                 }
             }
         }
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing, DamageInfo? impactDamage)
         {
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, impactDamage);
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, impactDamage);
         }
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing)
         {
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, null);
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, null);
         }
 
         public void Launch(Thing launcher, Vector3 origin, LocalTargetInfo targ, Thing flyingThing, DamageInfo? newDamageInfo = null)
@@ -527,160 +527,160 @@ namespace TorannMagic
                 flyingThing.DeSpawn();
             }
             this.launcher = launcher;
-            this.Initialize();
+            Initialize();
             this.origin = origin;
-            this.impactDamage = newDamageInfo;
+            impactDamage = newDamageInfo;
             this.flyingThing = flyingThing;
             flyingThing.ThingID += Rand.Range(0, 2147).ToString();
             bool flag = targ.Thing != null;
             if (flag)
             {
-                this.assignedTarget = targ.Thing;
+                assignedTarget = targ.Thing;
             }
             UpdateAction();
-            this.ticksToImpact = this.StartingTicksToImpact;            
+            ticksToImpact = StartingTicksToImpact;            
         }
 
         protected override void Tick()
         {
             age++;
-            Vector3 exactPosition = this.ExactPosition;
-            this.ticksToImpact--;
+            Vector3 exactPosition = ExactPosition;
+            ticksToImpact--;
 
             if(!initialized)
             {
                 Initialize();
-                if(this.glowing && this.glowCenter != default(IntVec3))
+                if(glowing && glowCenter != default(IntVec3))
                 {
-                    this.shouldGlow = true;
+                    shouldGlow = true;
                 }
             }
 
-            if(Find.TickManager.TicksGame % this.chargeFrequency == 0)
+            if(Find.TickManager.TicksGame % chargeFrequency == 0)
             {
                 LightEnergy += ChargeAmount;
             }
 
             bool dFlag = false;
-            if(this.pawn.DestroyedOrNull())
+            if(pawn.DestroyedOrNull())
             {
                 dFlag = true;
-                this.Destroy(DestroyMode.Vanish);
+                Destroy(DestroyMode.Vanish);
             }
-            else if (!this.pawn.Spawned || this.pawn.Map != this.Map || this.pawn.Map == null)
+            else if (!pawn.Spawned || pawn.Map != Map || pawn.Map == null)
             {
                 solAction = SoLAction.Limbo;
                 dFlag = true;
-                this.delayCount++;
+                delayCount++;
                 if (delayCount >= 300)
                 {
                     StopGlow();
-                    this.shouldGlow = false;
-                    this.Destroy(DestroyMode.Vanish);
+                    shouldGlow = false;
+                    Destroy(DestroyMode.Vanish);
                 }            
-                if(this.delayCount == 10)
+                if(delayCount == 10)
                 {
-                    FleckMaker.ThrowLightningGlow(this.ExactPosition, this.Map, 1f);
-                    FleckMaker.ThrowLightningGlow(this.ExactPosition, this.Map, .7f);
-                    FleckMaker.ThrowLightningGlow(this.ExactPosition, this.Map, .4f);
+                    FleckMaker.ThrowLightningGlow(ExactPosition, Map, 1f);
+                    FleckMaker.ThrowLightningGlow(ExactPosition, Map, .7f);
+                    FleckMaker.ThrowLightningGlow(ExactPosition, Map, .4f);
                 }
             }
-            else if(this.shouldDismiss)
+            else if(shouldDismiss)
             {
-                if(this.glowing)
+                if(glowing)
                 {
-                    this.glowCenter = default(IntVec3);
+                    glowCenter = default(IntVec3);
                     StopGlow();
-                    this.Destroy(DestroyMode.Vanish);
+                    Destroy(DestroyMode.Vanish);
                 }
             }
 
             if (!dFlag)
             {                
-                bool flag = !this.ExactPosition.InBoundsWithNullCheck(base.Map);
+                bool flag = !ExactPosition.InBoundsWithNullCheck(Map);
                 if (flag)
                 {
-                    if (!this.pawn.DestroyedOrNull() && this.pawn.Spawned)
+                    if (!pawn.DestroyedOrNull() && pawn.Spawned)
                     {
-                        base.Position = pawn.Position;
-                        this.destination = GetCasterOffset_Exact;
-                        this.speed = speed_dash;
-                        this.ticksToImpact = this.StartingTicksToImpact;
+                        Position = pawn.Position;
+                        destination = GetCasterOffset_Exact;
+                        speed = speed_dash;
+                        ticksToImpact = StartingTicksToImpact;
                     }
-                    this.ticksToImpact++;
-                    base.Position = this.ExactPosition.ToIntVec3();
+                    ticksToImpact++;
+                    Position = ExactPosition.ToIntVec3();
 
                 }
-                else if(this.solAction == SoLAction.Limbo)
+                else if(solAction == SoLAction.Limbo)
                 {
-                    UpdateAction(this.solAction);
+                    UpdateAction(solAction);
                 }
                 else
                 {
-                    base.Position = this.ExactPosition.ToIntVec3();
+                    Position = ExactPosition.ToIntVec3();
                     if(Find.TickManager.TicksGame % ActionDelay == 0)
                     {
                         DoAction();
                     }
-                    bool flag2 = this.ticksToImpact <= 0;
+                    bool flag2 = ticksToImpact <= 0;
                     if (flag2)
                     {
-                        if (this.shouldDismiss)
+                        if (shouldDismiss)
                         {
-                            bool flag3 = this.DestinationCell.InBoundsWithNullCheck(base.Map);
+                            bool flag3 = DestinationCell.InBoundsWithNullCheck(Map);
                             if (flag3)
                             {
-                                base.Position = this.DestinationCell;
+                                Position = DestinationCell;
                             }
-                            this.ImpactSomething();
+                            ImpactSomething();
                         }
                         else
                         {
                             UpdateSoLPower();
-                            if (this.curveVariance > 0)
+                            if (curveVariance > 0)
                             {
-                                if ((this.curvePoints.Count() - 1) > this.destinationCurvePoint)
+                                if ((curvePoints.Count() - 1) > destinationCurvePoint)
                                 {
-                                    this.origin = curvePoints[destinationCurvePoint];
-                                    this.destinationCurvePoint++;
-                                    this.destination = this.curvePoints[this.destinationCurvePoint];
-                                    this.ticksToImpact = this.StartingTicksToImpact;
+                                    origin = curvePoints[destinationCurvePoint];
+                                    destinationCurvePoint++;
+                                    destination = curvePoints[destinationCurvePoint];
+                                    ticksToImpact = StartingTicksToImpact;
                                 }
                                 else
                                 {
-                                    bool flag3 = this.DestinationCell.InBoundsWithNullCheck(base.Map);
+                                    bool flag3 = DestinationCell.InBoundsWithNullCheck(Map);
                                     if (flag3)
                                     {
-                                        base.Position = this.DestinationCell;
+                                        Position = DestinationCell;
                                     }
-                                    this.origin = this.ExactPosition;
+                                    origin = ExactPosition;
                                     solAction = SoLAction.Pending;                                           
                                     UpdateAction(solAction);
                                 }
                             }
                             else
                             {
-                                bool flag3 = this.DestinationCell.InBoundsWithNullCheck(base.Map);
+                                bool flag3 = DestinationCell.InBoundsWithNullCheck(Map);
                                 if (flag3)
                                 {
-                                    base.Position = this.DestinationCell;
+                                    Position = DestinationCell;
                                 }
-                                if (this.solAction == SoLAction.ChargeAttacking)
+                                if (solAction == SoLAction.ChargeAttacking)
                                 {
                                     ActualLightCost(5f);
-                                    int moteAngle = Mathf.RoundToInt(Vector3Utility.ToAngleFlat(this.origin - this.destination) - 90f);
-                                    TM_Action.DamageEntities(this.assignedTarget, null, Rand.Range(10f, 15f) * LightPotency, TMDamageDefOf.DamageDefOf.TM_BurningLight, this.pawn);
-                                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_LightShield, this.ExactPosition, this.Map, 1.5f, .1f, 0f, .2f, 0, 2f, moteAngle, moteAngle);
+                                    int moteAngle = Mathf.RoundToInt(Vector3Utility.ToAngleFlat(origin - destination) - 90f);
+                                    TM_Action.DamageEntities(assignedTarget, null, Rand.Range(10f, 15f) * LightPotency, TMDamageDefOf.DamageDefOf.TM_BurningLight, pawn);
+                                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_LightShield, ExactPosition, Map, 1.5f, .1f, 0f, .2f, 0, 2f, moteAngle, moteAngle);
                                 }
 
-                                this.origin = this.destination;
+                                origin = destination;
                                 solAction = SoLAction.Pending;
                                 UpdateAction(solAction);
                             }                            
                         }
                     }
 
-                    if (this.nextMoteTick <= this.age && solAction != SoLAction.Limbo)
+                    if (nextMoteTick <= age && solAction != SoLAction.Limbo)
                     {
                         DrawMotes();                        
                     }
@@ -690,21 +690,21 @@ namespace TorannMagic
 
         public void DoAction()
         {
-            if(solAction == SoLAction.Attacking && (this.curvePoints.Count - 5) <= this.destinationCurvePoint)
+            if(solAction == SoLAction.Attacking && (curvePoints.Count - 5) <= destinationCurvePoint)
             {
-                if(this.assignedTarget != null && TM_Calc.HasLoSFromTo(base.Position, assignedTarget, this, 0, AttackTarget_MaxRange) && EnergyChance && LightEnergy > 3f)
+                if(assignedTarget != null && TM_Calc.HasLoSFromTo(Position, assignedTarget, this, 0, AttackTarget_MaxRange) && EnergyChance && LightEnergy > 3f)
                 {
                     ActualLightCost(3f);
-                    TM_CopyAndLaunchProjectile.CopyAndLaunchThing(TorannMagicDefOf.Projectile_LightLaser, this, this.assignedTarget, this.assignedTarget, ProjectileHitFlags.All, null);
+                    TM_CopyAndLaunchProjectile.CopyAndLaunchThing(TorannMagicDefOf.Projectile_LightLaser, this, assignedTarget, assignedTarget, ProjectileHitFlags.All, null);
                 }
             }
         }
 
         public void UpdateAction(SoLAction withAction = SoLAction.Pending)
         {
-            SoLAction inAction = this.solAction;
-            Vector3 destTarget = this.ExactPosition;
-            this.curveVariance = 0;
+            SoLAction inAction = solAction;
+            Vector3 destTarget = ExactPosition;
+            curveVariance = 0;
             //Log.Message("action for " + solAction.ToString() + " queued action: " + queuedAction.ToString());
             if(queuedAction != SoLAction.Null)
             {
@@ -713,7 +713,7 @@ namespace TorannMagic
             }
             if (solAction == SoLAction.Pending || solAction == SoLAction.Goto)
             {
-                if (this.pawn.GetPosture() == PawnPosture.LayingInBed || this.pawn.CurJobDef == JobDefOf.LayDown)
+                if (pawn.GetPosture() == PawnPosture.LayingInBed || pawn.CurJobDef == JobDefOf.LayDown)
                 {
                     if (!pawn.Awake() && LightEnergy > 5f)
                     {
@@ -721,12 +721,12 @@ namespace TorannMagic
                     }
                     //pawn injured?
                 }                
-                else if (this.pawn.Drafted)
+                else if (pawn.Drafted)
                 {
-                    this.delayCount++;
-                    if (LightEnergy > 20 && EnergyChance && this.delayCount > 2)
+                    delayCount++;
+                    if (LightEnergy > 20 && EnergyChance && delayCount > 2)
                     {
-                        Pawn p = TM_Calc.FindNearbyEnemy(this.pawn, (int)AttackTarget_ShortRange);
+                        Pawn p = TM_Calc.FindNearbyEnemy(pawn, (int)AttackTarget_ShortRange);
                         if (p != null && TM_Calc.HasLoSFromTo(pawn.Position, p, pawn, 0, AttackTarget_ShortRange))
                         {
                             Action_AttackCharge(p, out destTarget);
@@ -734,9 +734,9 @@ namespace TorannMagic
                         }
                         else
                         {
-                            if (LightEnergy > 30 && this.delayCount > 6)
+                            if (LightEnergy > 30 && delayCount > 6)
                             {
-                                p = TM_Calc.FindNearbyEnemy(this.pawn.Position, this.pawn.Map, this.pawn.Faction, AttackTarget_MaxRange, AttackTarget_ShortRange);
+                                p = TM_Calc.FindNearbyEnemy(pawn.Position, pawn.Map, pawn.Faction, AttackTarget_MaxRange, AttackTarget_ShortRange);
                                 if (p != null && TM_Calc.HasLoSFromTo(pawn.Position, p, pawn, 0, AttackTarget_MaxRange))
                                 {
                                     Action_Attack(p, out destTarget);
@@ -758,50 +758,50 @@ namespace TorannMagic
                         Action_Hover(out destTarget);
                     }
                 }                
-                else if (this.pawn.Downed && this.pawn.health.hediffSet.GetHediffsTendable().Count() > 0 && LightEnergy > 10)
+                else if (pawn.Downed && pawn.health.hediffSet.GetHediffsTendable().Count() > 0 && LightEnergy > 10)
                 {
-                    Action_GotoTarget(this.pawn.DrawPos, speed_jog, out destTarget);
-                    this.assignedTarget = this.pawn;
+                    Action_GotoTarget(pawn.DrawPos, speed_jog, out destTarget);
+                    assignedTarget = pawn;
                     queuedAction = SoLAction.Guarding;
                 }
-                else if (this.shouldGlow)
+                else if (shouldGlow)
                 {
-                    this.shouldGlow = false;
-                    Action_GotoTarget(this.glowCenter.ToVector3Shifted(), this.speed_jog, out destTarget);
+                    shouldGlow = false;
+                    Action_GotoTarget(glowCenter.ToVector3Shifted(), speed_jog, out destTarget);
                     queuedAction = SoLAction.Glow;
                 }
                 else if(LightEnergy > 20 && EnergyChance)
                 {
-                    Pawn p = TM_Calc.FindNearbyInjuredPawnOther(this.pawn, 10, 10f);
-                    this.delayCount++;
-                    if (this.delayCount > 1 && p != null && p.Downed && TM_Calc.HasLoSFromTo(this.pawn.Position, p, this.pawn, 0, 10) && p.health.hediffSet.GetHediffsTendable().Count() > 0)
+                    Pawn p = TM_Calc.FindNearbyInjuredPawnOther(pawn, 10, 10f);
+                    delayCount++;
+                    if (delayCount > 1 && p != null && p.Downed && TM_Calc.HasLoSFromTo(pawn.Position, p, pawn, 0, 10) && p.health.hediffSet.GetHediffsTendable().Count() > 0)
                     {
                         Action_GotoTarget(p.DrawPos, speed_dash, out destTarget);
                         queuedAction = SoLAction.Guarding;
-                        this.assignedTarget = p;
+                        assignedTarget = p;
                     }
                     else if (LightEnergy > 60 && EnergyChance)
                     {                        
-                        if (this.delayCount > 2)
+                        if (delayCount > 2)
                         {
-                            p = TM_Calc.FindNearbyPawn(this.pawn, 10);
-                            if (p != null && p.needs != null && TM_Calc.HasLoSFromTo(this.pawn.Position, p, this.pawn, 0, 10))
+                            p = TM_Calc.FindNearbyPawn(pawn, 10);
+                            if (p != null && p.needs != null && TM_Calc.HasLoSFromTo(pawn.Position, p, pawn, 0, 10))
                             {
-                                if ((this.pawn.CurJobDef.joyKind != null || this.pawn.CurJobDef == JobDefOf.Wait_Wander || this.pawn.CurJobDef == JobDefOf.GotoWander) && this.pawn.needs.joy.CurLevelPercentage < .5f)
+                                if ((pawn.CurJobDef.joyKind != null || pawn.CurJobDef == JobDefOf.Wait_Wander || pawn.CurJobDef == JobDefOf.GotoWander) && pawn.needs.joy.CurLevelPercentage < .5f)
                                 {
-                                    this.delayCount = 0;
-                                    Action_JoyBurst(this.pawn.DrawPos, out destTarget);
+                                    delayCount = 0;
+                                    Action_JoyBurst(pawn.DrawPos, out destTarget);
                                 }
                                 else if (p.needs.joy != null && (p.CurJobDef.joyKind != null || p.CurJobDef == JobDefOf.Wait_Wander || p.CurJobDef == JobDefOf.GotoWander) && p.needs.joy.CurLevelPercentage < .5f)
                                 {
-                                    this.delayCount = 0;
+                                    delayCount = 0;
                                     Action_JoyBurst(p.DrawPos, out destTarget);
                                 }
-                                else if (this.delayCount > 3 && p.needs.mood != null && p.needs.mood.thoughts != null && p.needs.mood.thoughts.memories != null && p.needs.mood.thoughts.memories.GetFirstMemoryOfDef(TorannMagicDefOf.TM_BrightDayTD) == null)
+                                else if (delayCount > 3 && p.needs.mood != null && p.needs.mood.thoughts != null && p.needs.mood.thoughts.memories != null && p.needs.mood.thoughts.memories.GetFirstMemoryOfDef(TorannMagicDefOf.TM_BrightDayTD) == null)
                                 {
-                                    this.delayCount = 0;
+                                    delayCount = 0;
                                     Action_GotoTarget(p.DrawPos, speed_jog, out destTarget);
-                                    this.assignedTarget = p;
+                                    assignedTarget = p;
                                     queuedAction = SoLAction.BrightenDay;
                                     //action circle target
                                 }
@@ -831,23 +831,23 @@ namespace TorannMagic
                 //}                
                 else
                 {
-                    this.delayCount = 0;
+                    delayCount = 0;
                     Action_Hover(out destTarget);
                 }
             }
             else if(solAction == SoLAction.BrightenDay)
             {
-                if(this.assignedTarget != null && this.assignedTarget is Pawn p)
+                if(assignedTarget != null && assignedTarget is Pawn p)
                 {
                     ActualLightCost(6f);
                     p.needs.mood.thoughts.memories.TryGainMemory(TorannMagicDefOf.TM_BrightDayTD);
-                    Action_CircleTarget(this.assignedTarget, out destTarget);
+                    Action_CircleTarget(assignedTarget, out destTarget);
                     queuedAction = SoLAction.Returning;
                 }
             }
             else if(solAction == SoLAction.Glow)
             {
-                if (this.glowing)
+                if (glowing)
                 {
                     StopGlow();
                 }
@@ -863,12 +863,12 @@ namespace TorannMagic
             }
             else if(solAction == SoLAction.Guarding)
             {
-                if(LightEnergy > 10 && this.assignedTarget != null && this.assignedTarget is Pawn)
+                if(LightEnergy > 10 && assignedTarget != null && assignedTarget is Pawn)
                 {
-                    Pawn p = this.assignedTarget as Pawn;
+                    Pawn p = assignedTarget as Pawn;
                     if (p.health.hediffSet.GetHediffsTendable().Count() > 0)
                     {
-                        this.ticksToImpact = 300;
+                        ticksToImpact = 300;
                         ActualLightCost(2f);
                         CauterizeWounds(p);
                         queuedAction = SoLAction.Guarding;
@@ -890,76 +890,76 @@ namespace TorannMagic
 
             if (solAction != SoLAction.Attacking && solAction != SoLAction.Returning && solAction != SoLAction.Guarding && solAction != SoLAction.Circling)
             {
-                this.destination = destTarget;
-                this.ticksToImpact = this.StartingTicksToImpact;
+                destination = destTarget;
+                ticksToImpact = StartingTicksToImpact;
             }
             //Log.Message("ending update action, new action: " + solAction.ToString() + " speed: " + this.speed + " delay action: " + this.delayCount + " light energy: "+ LightEnergy);
 
-            if(this.solAction != inAction && this.solAction != SoLAction.Hovering && this.solAction != SoLAction.Sleeping)
+            if(solAction != inAction && solAction != SoLAction.Hovering && solAction != SoLAction.Sleeping)
             {
-                this.delayCount = 0;
+                delayCount = 0;
             }
         }
 
         public void UpdateDestination()
         {
-            this.origin = this.ExactPosition;
-            Vector3 destTarget = this.destination;
-            if (this.solAction == SoLAction.Hovering)
+            origin = ExactPosition;
+            Vector3 destTarget = destination;
+            if (solAction == SoLAction.Hovering)
             {
                 Action_Hover(out destTarget);
-                this.destination = destTarget;
-                this.ticksToImpact = this.StartingTicksToImpact;
+                destination = destTarget;
+                ticksToImpact = StartingTicksToImpact;
             }
         }
 
         public void Action_Guard(Pawn target, out Vector3 destTarget)
         {
-            this.speed = speed_walk;
-            this.solAction = SoLAction.Guarding;
-            this.assignedTarget = target;
+            speed = speed_walk;
+            solAction = SoLAction.Guarding;
+            assignedTarget = target;
             destTarget = target.DrawPos;           
         }
 
         public void Action_Attack(Pawn target, out Vector3 destTarget)
         {
-            this.speed = speed_jog;
-            this.solAction = SoLAction.Attacking;
-            this.assignedTarget = target;
-            destTarget = TM_Calc.GetVectorBetween(this.origin, target.DrawPos);
-            CalculateCurvePoints(this.origin, destTarget, 40, 10);
-            this.destinationCurvePoint++;
-            this.destination = this.curvePoints[this.destinationCurvePoint];
-            this.ticksToImpact = this.StartingTicksToImpact;
-            this.delayCount = 0;
+            speed = speed_jog;
+            solAction = SoLAction.Attacking;
+            assignedTarget = target;
+            destTarget = TM_Calc.GetVectorBetween(origin, target.DrawPos);
+            CalculateCurvePoints(origin, destTarget, 40, 10);
+            destinationCurvePoint++;
+            destination = curvePoints[destinationCurvePoint];
+            ticksToImpact = StartingTicksToImpact;
+            delayCount = 0;
         }
 
         public void Action_AttackCharge(Pawn target, out Vector3 destTarget)
         {
-            this.speed = speed_dash;
-            this.solAction = SoLAction.ChargeAttacking;
-            this.assignedTarget = target;
+            speed = speed_dash;
+            solAction = SoLAction.ChargeAttacking;
+            assignedTarget = target;
             destTarget = target.DrawPos;
         }
 
         public void Action_Return()
         {
-            this.speed = speed_jog;
-            this.solAction = SoLAction.Returning;
-            CalculateCurvePoints(this.origin, GetCasterOffset_Exact, 20, 10);
-            this.destinationCurvePoint++;
-            this.destination = this.curvePoints[this.destinationCurvePoint];
-            this.ticksToImpact = this.StartingTicksToImpact;
+            speed = speed_jog;
+            solAction = SoLAction.Returning;
+            CalculateCurvePoints(origin, GetCasterOffset_Exact, 20, 10);
+            destinationCurvePoint++;
+            destination = curvePoints[destinationCurvePoint];
+            ticksToImpact = StartingTicksToImpact;
         }
 
         public void Action_Sleeping(out Vector3 destTarget)
         {
-            this.speed = speed_hover;
-            this.solAction = SoLAction.Sleeping;
-            this.delayCount++;
+            speed = speed_hover;
+            solAction = SoLAction.Sleeping;
+            delayCount++;
             if(delayCount > 10 && EnergyChance && pawn.needs.mood != null && pawn.needs.mood.thoughts != null)
             {
-                this.delayCount = 0;
+                delayCount = 0;
                 if (pawn.needs.mood.thoughts.memories.GetFirstMemoryOfDef(TorannMagicDefOf.TM_PleasantDreamsTD) == null)
                 {
                     ActualLightCost(5f);
@@ -976,24 +976,24 @@ namespace TorannMagic
 
         public void Action_FromLimbo(out Vector3 destTarget)
         {
-            this.delayCount = 0;
-            base.Position = pawn.Position;
-            this.origin = GetCasterOffset_Exact;
+            delayCount = 0;
+            Position = pawn.Position;
+            origin = GetCasterOffset_Exact;
             Action_Hover(out destTarget);
             FleckMaker.ThrowLightningGlow(GetCasterOffset_Exact, pawn.Map, .7f);
-            FleckMaker.ThrowLightningGlow(this.ExactPosition, this.Map, 1f);
-            FleckMaker.ThrowLightningGlow(this.ExactPosition, this.Map, .4f);
+            FleckMaker.ThrowLightningGlow(ExactPosition, Map, 1f);
+            FleckMaker.ThrowLightningGlow(ExactPosition, Map, .4f);
         }
 
         public void Action_Hover(out Vector3 destTarget)
         {            
-            this.speed = speed_hover;
-            this.solAction = SoLAction.Hovering;
+            speed = speed_hover;
+            solAction = SoLAction.Hovering;
             destTarget = GetCasterOffset_Rand;
-            if ((this.origin - destTarget).magnitude > .5f)
+            if ((origin - destTarget).magnitude > .5f)
             {
-                this.speed = speed_walk;
-                if((this.origin - destTarget).magnitude > 25f)
+                speed = speed_walk;
+                if((origin - destTarget).magnitude > 25f)
                 {
                     Action_FromLimbo(out destTarget);
                 }
@@ -1008,16 +1008,16 @@ namespace TorannMagic
                 Vector3 motePos = center;
                 motePos.x += Rand.Range(-5f, 5f);
                 motePos.z += Rand.Range(-5f, 5f);
-                if (motePos.InBoundsWithNullCheck(this.Map))
+                if (motePos.InBoundsWithNullCheck(Map))
                 {
-                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Twinkle, motePos, this.Map, Rand.Range(.3f, .4f), Rand.Range(.3f, .6f), Rand.Range(0f, .3f), Rand.Range(.4f, .6f), Rand.Range(-50, 50), Rand.Range(2f, 4f), 0, Rand.Range(0, 360));
+                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Twinkle, motePos, Map, Rand.Range(.3f, .4f), Rand.Range(.3f, .6f), Rand.Range(0f, .3f), Rand.Range(.4f, .6f), Rand.Range(-50, 50), Rand.Range(2f, 4f), 0, Rand.Range(0, 360));
                 }
             }
-            SoundInfo info = SoundInfo.InMap(new TargetInfo(center.ToIntVec3(), this.Map, false), MaintenanceType.None);
+            SoundInfo info = SoundInfo.InMap(new TargetInfo(center.ToIntVec3(), Map, false), MaintenanceType.None);
             info.pitchFactor = 1.5f;
             info.volumeFactor = .8f;
             TorannMagicDefOf.TM_Gong.PlayOneShot(info);
-            List<Pawn> affectedPawns = TM_Calc.FindAllPawnsAround(this.Map, center.ToIntVec3(), 5f, pawn.Faction, true);
+            List<Pawn> affectedPawns = TM_Calc.FindAllPawnsAround(Map, center.ToIntVec3(), 5f, pawn.Faction, true);
             if(affectedPawns != null && affectedPawns.Count > 0)
             {
                 for(int i = 0; i < affectedPawns.Count; i++)
@@ -1038,8 +1038,8 @@ namespace TorannMagic
             Vector3 rndDir = Vector3Utility.FromAngleFlat(Rand.Range(0, 360));
             Vector3 startPos = drawCenter + (rndDir * 3f);
             Vector3 endPos = drawCenter + (rndDir * -3f);
-            this.speed = speed_jog;
-            this.solAction = SoLAction.Circling;
+            speed = speed_jog;
+            solAction = SoLAction.Circling;
             destTarget = startPos;
             doublesidedVariance = 1;
             if(Rand.Chance(.5f))
@@ -1049,27 +1049,27 @@ namespace TorannMagic
             List<Vector3> totalCircle = new List<Vector3>();
             totalCircle.Clear();
             CalculateCurvePoints(startPos, endPos, 90, 10);
-            totalCircle.AddRange(this.curvePoints);
+            totalCircle.AddRange(curvePoints);
             CalculateCurvePoints(endPos, startPos, 90, 10);
-            totalCircle.AddRange(this.curvePoints);
-            this.curvePoints = totalCircle;
-            this.destinationCurvePoint++;
-            this.destination = this.curvePoints[this.destinationCurvePoint];
-            this.ticksToImpact = this.StartingTicksToImpact;
-            this.delayCount = 0;
-            this.doublesidedVariance = 0;
+            totalCircle.AddRange(curvePoints);
+            curvePoints = totalCircle;
+            destinationCurvePoint++;
+            destination = curvePoints[destinationCurvePoint];
+            ticksToImpact = StartingTicksToImpact;
+            delayCount = 0;
+            doublesidedVariance = 0;
         }
 
         public void Action_GotoTarget(Vector3 target, float speed, out Vector3 destTarget)
         {
             destTarget = target;
             this.speed = speed;
-            this.solAction = SoLAction.Goto;
+            solAction = SoLAction.Goto;
         }
 
         public void Action_Clean(out Vector3 destTarget)
         {
-            List<Thing> filthList = this.Map.listerFilthInHomeArea.FilthInHomeArea;
+            List<Thing> filthList = Map.listerFilthInHomeArea.FilthInHomeArea;
             Thing closestDirt = null;
             float dirtPos = 0;
             for (int i = 0; i < filthList.Count; i++)
@@ -1102,20 +1102,20 @@ namespace TorannMagic
 
         private void ImpactSomething()
         {
-            this.Impact(null);            
+            Impact(null);            
         }
 
         protected new void Impact(Thing hitThing)
         {
-            this.Destroy(DestroyMode.Vanish);
+            Destroy(DestroyMode.Vanish);
         }
 
 
         public void CalculateCurvePoints(Vector3 start, Vector3 end, float variance, int variancePoints)
         {
-            this.curvePoints.Clear();
-            this.curveVariance = variance;
-            this.destinationCurvePoint = 0;
+            curvePoints.Clear();
+            curveVariance = variance;
+            destinationCurvePoint = 0;
             Vector3 initialVector = GetVector(start, end);
             initialVector.y = 0;
             float initialAngle = (initialVector).ToAngleFlat(); //Quaternion.AngleAxis(90, Vector3.up) *
@@ -1136,10 +1136,10 @@ namespace TorannMagic
 
             float incrementalDistance = p / variancePoints;
             float incrementalAngle = (curveAngle / variancePoints) * 2f;
-            this.curvePoints.Add(start);
+            curvePoints.Add(start);
             for (int i = 1; i <= (variancePoints + 1); i++)
             {
-                this.curvePoints.Add(this.curvePoints[i - 1] + ((Quaternion.AngleAxis(curveAngle, Vector3.up) * initialVector) * incrementalDistance)); //(Quaternion.AngleAxis(curveAngle, Vector3.up) *
+                curvePoints.Add(curvePoints[i - 1] + ((Quaternion.AngleAxis(curveAngle, Vector3.up) * initialVector) * incrementalDistance)); //(Quaternion.AngleAxis(curveAngle, Vector3.up) *
                 curveAngle -= incrementalAngle;
             }
             

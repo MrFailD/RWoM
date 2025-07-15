@@ -62,7 +62,7 @@ namespace TorannMagic
                 else if ((actor.needs.rest == null || actor.needs.rest.CurLevel >= WakeThreshold(actor)))
                 {
                     actor.mindState.priorityWork.ClearPrioritizedWorkAndJobQueue();
-                    this.EndJobWith(JobCondition.Incompletable);
+                    EndJobWith(JobCondition.Incompletable);
                 }
 
                 if (curDriver.asleep && actor.needs.rest != null)
@@ -73,7 +73,7 @@ namespace TorannMagic
                     {
                         curDriver.asleep = false;
                         actor.mindState.priorityWork.ClearPrioritizedWorkAndJobQueue();
-                        this.EndJobWith(JobCondition.Succeeded);
+                        EndJobWith(JobCondition.Succeeded);
                     }
                 }
 

@@ -627,14 +627,14 @@ namespace TorannMagic
                             }
                             if (friendlyFire || p.Faction != caster.Faction)
                             {                                
-                                TM_Action.DamageEntities(p, hitPart, amt, armorPen, type, caster);
+                                DamageEntities(p, hitPart, amt, armorPen, type, caster);
                             }
                         }
                     }
                 }
                 else
                 {
-                    TM_Action.DamageEntities(target, hitPart, amt, armorPen, type, caster);
+                    DamageEntities(target, hitPart, amt, armorPen, type, caster);
                 }
             }
         }
@@ -703,7 +703,7 @@ namespace TorannMagic
             {
                 if (rnd <= .33f)
                 {
-                    TM_Action.DamageEntities(targetPawn, null, (Rand.Range(8, 15) + pwrVal) * arcaneDmg, TMDamageDefOf.DamageDefOf.TM_ElectricalBurn, instigator);
+                    DamageEntities(targetPawn, null, (Rand.Range(8, 15) + pwrVal) * arcaneDmg, TMDamageDefOf.DamageDefOf.TM_ElectricalBurn, instigator);
                 }
                 else if (rnd <= .66f)
                 {
@@ -721,7 +721,7 @@ namespace TorannMagic
                     int rndCount = Rand.Range(2, 5);
                     for (int j = 0; j < rndCount; j++)
                     {
-                        TM_Action.DamageEntities(targetPawn, null, (Rand.Range(3, 5) + pwrVal) * arcaneDmg, TMDamageDefOf.DamageDefOf.TM_ElectricalBurn, instigator);
+                        DamageEntities(targetPawn, null, (Rand.Range(3, 5) + pwrVal) * arcaneDmg, TMDamageDefOf.DamageDefOf.TM_ElectricalBurn, instigator);
                     }
                 }
             }
@@ -792,7 +792,7 @@ namespace TorannMagic
                 Faction faction = spawnableFaction;
                 if (hasFaction)
                 {
-                    faction = TM_Action.ResolveFaction(caster, spawnables, spawnableFaction, hostile);
+                    faction = ResolveFaction(caster, spawnables, spawnableFaction, hostile);
                 }
                 bool flag2 = spawnables.def.race != null;
                 if (flag2)
@@ -804,7 +804,7 @@ namespace TorannMagic
                     }
                     else
                     {
-                        thing = TM_Action.SpawnPawn(caster, spawnables, faction, position, duration, map);
+                        thing = SpawnPawn(caster, spawnables, faction, position, duration, map);
                     }
                 }
                 else
@@ -1058,7 +1058,7 @@ namespace TorannMagic
             {
                 newSpirit.surroundings.Clear();
             }
-            TM_Action.AssignSpiritEffecters(newSpirit);
+            AssignSpiritEffecters(newSpirit);
             return newSpirit;
         }
         
@@ -1140,7 +1140,7 @@ namespace TorannMagic
 
                 CompAbilityUserMagic spiritComp = spirit.GetCompAbilityUserMagic();
                 MagicData toData = spiritComp.MagicData;
-                TMDefs.TM_CustomClass cc = TM_ClassUtility.GetCustomClassOfTrait(TorannMagicDefOf.TM_Possessed);
+                TM_CustomClass cc = TM_ClassUtility.GetCustomClassOfTrait(TorannMagicDefOf.TM_Possessed);
                 int spiritLevelChange = 0;
                 if (fromData != null)
                 {
@@ -1314,7 +1314,7 @@ namespace TorannMagic
 
             if (original.health.hediffSet.HasHediff(HediffDef.Named("TM_SoulBondPhysicalHD")) || original.health.hediffSet.HasHediff(HediffDef.Named("TM_SoulBondMentalHD")))
             {
-                TM_Action.TransferSoulBond(original, polymorphPawn);
+                TransferSoulBond(original, polymorphPawn);
             }
             if (polymorphPawn.Faction != null && polymorphPawn.Faction != Faction.OfPlayer)
             {
@@ -1429,7 +1429,7 @@ namespace TorannMagic
             }
             SoundInfo info = SoundInfo.InMap(new TargetInfo(undead.Position, undead.Map, false), MaintenanceType.None);
             TorannMagicDefOf.TM_FireWooshSD.PlayOneShot(info);
-            TM_Action.DoEffecter(TorannMagicDefOf.TM_HolyImplosion, undead.Position, undead.Map);
+            DoEffecter(TorannMagicDefOf.TM_HolyImplosion, undead.Position, undead.Map);
             undead.TakeDamage(dinfo);
         }
 
@@ -1787,7 +1787,7 @@ namespace TorannMagic
                         {
                             for (int i = 0; i < nearPawns.Count; i++)
                             {
-                                TM_Action.DoAction_HealPawn(p, nearPawns[i], 1, 10);
+                                DoAction_HealPawn(p, nearPawns[i], 1, 10);
                             }
                         }
                         TM_MoteMaker.MakePowerBeamMote(p.Position, p.Map, 4 * 6f, 1.2f, 2f, .3f, 1f);
@@ -1841,7 +1841,7 @@ namespace TorannMagic
                         break;
                     case 2:
                         HealthUtility.AdjustSeverity(p, TorannMagicDefOf.TM_MuteHD, Rand.Range(5, 8));
-                        TM_Action.TransmutateEffects(p.Position, p);
+                        TransmutateEffects(p.Position, p);
                         surgeText = "Muted";
                         break;
                     case 3:
@@ -2108,7 +2108,7 @@ namespace TorannMagic
                     Traverse.Create(root: aThing).Field(name: "wornByCorpseInt").SetValue(false);
                 }
 
-                TM_Action.TransmutateEffects(transmutateThing.Position, caster);
+                TransmutateEffects(transmutateThing.Position, caster);
 
             }
             else if (flagRawResource)
@@ -2169,7 +2169,7 @@ namespace TorannMagic
                 if (thing != null)
                 {
                     GenPlace.TryPlaceThing(thing, transmutateThing.Position, caster.Map, ThingPlaceMode.Near, null);
-                    TM_Action.TransmutateEffects(transmutateThing.Position, caster);
+                    TransmutateEffects(transmutateThing.Position, caster);
                 }
             }
             else if (flagStuffItem)
@@ -2231,7 +2231,7 @@ namespace TorannMagic
                         thing.Destroy(DestroyMode.Vanish);
                         Messages.Message("TM_TransmutationLostCohesion".Translate(thing.def.label), MessageTypeDefOf.NeutralEvent);
                     }
-                    TM_Action.TransmutateEffects(transmutateThing.Position, caster);
+                    TransmutateEffects(transmutateThing.Position, caster);
                 }
             }
             else if (flagNutrition)
@@ -2269,7 +2269,7 @@ namespace TorannMagic
                     if (thing != null)
                     {
                         GenPlace.TryPlaceThing(thing, transmutateThing.Position, caster.Map, ThingPlaceMode.Near, null);
-                        TM_Action.TransmutateEffects(transmutateThing.Position, caster);
+                        TransmutateEffects(transmutateThing.Position, caster);
                     }
                 }
                 else
@@ -2315,7 +2315,7 @@ namespace TorannMagic
                                     if (thing != null)
                                     {
                                         GenPlace.TryPlaceThing(thing, transmutateThing.Position, caster.Map, ThingPlaceMode.Near, null);
-                                        TM_Action.TransmutateEffects(transmutateThing.Position, caster);
+                                        TransmutateEffects(transmutateThing.Position, caster);
                                     }
                                 }
                             }
@@ -2338,7 +2338,7 @@ namespace TorannMagic
                                 }
 
                             }
-                            TM_Action.TransmutateEffects(transmutateThing.Position, caster);
+                            TransmutateEffects(transmutateThing.Position, caster);
                         }
                     }
                 }
@@ -2401,7 +2401,7 @@ namespace TorannMagic
                         {
                             if (friendlyFire || (victim.Faction != faction || victim == pawn))
                             {
-                                TM_Action.DamageEntities(victim, null, Rand.Range(12, 20), 1f, TMDamageDefOf.DamageDefOf.TM_Arcane, pawn);
+                                DamageEntities(victim, null, Rand.Range(12, 20), 1f, TMDamageDefOf.DamageDefOf.TM_Arcane, pawn);
                             }
                         }
                         victim = null;
@@ -2514,7 +2514,7 @@ namespace TorannMagic
                     }
                     break;
                 case 5: //mana mine trap
-                    AbilityUser.SpawnThings tempPod = new SpawnThings();
+                    SpawnThings tempPod = new SpawnThings();
                     tempPod.def = ThingDef.Named("TM_ManaMine_III");
                     tempPod.spawnCount = 1;                    
                     Projectile_SummonExplosive.SingleSpawnLoop(tempPod, pos, pawn.Map, pawn, 15000);
@@ -2532,7 +2532,7 @@ namespace TorannMagic
                             {
                                 if (pawns[i].Faction == pawn.Faction)
                                 {
-                                    TM_Action.DoAction_HealPawn(pawn, pawns[i], 3, 25);
+                                    DoAction_HealPawn(pawn, pawns[i], 3, 25);
                                 }
                             }
                         }
@@ -2640,7 +2640,7 @@ namespace TorannMagic
                         GenSpawn.Spawn(yayo, pawn.Position, pawn.Map, WipeMode.Vanish);
                         yayo.Ingested(pawn, 0f);
                     }
-                    TM_Action.DoAction_HealPawn(pawn, pawn, 2, 10f);
+                    DoAction_HealPawn(pawn, pawn, 2, 10f);
                     break;
             }
             if (ModOptions.Settings.Instance.deathRetaliationIsLethal && rnd < 4)
@@ -3338,7 +3338,7 @@ namespace TorannMagic
                     {
                         foreach (MagicPower mp in comp.MagicData.MagicPowersCustomAll)
                         {
-                            if (mp.autocasting != null && mp.autocasting.type != TMDefs.AutocastType.Null && (mp.autocasting.drafted || mp.autocasting.undrafted))
+                            if (mp.autocasting != null && mp.autocasting.type != AutocastType.Null && (mp.autocasting.drafted || mp.autocasting.undrafted))
                             {
                                 if (mp.TMabilityDefs.Contains(com.pawnAbility.Def))
                                 {
@@ -3361,7 +3361,7 @@ namespace TorannMagic
                     {
                         foreach (MightPower mp in mightComp.MightData.MightPowersCustomAll)
                         {
-                            if (mp.autocasting != null && mp.autocasting.type != TMDefs.AutocastType.Null && (mp.autocasting.drafted || mp.autocasting.undrafted))
+                            if (mp.autocasting != null && mp.autocasting.type != AutocastType.Null && (mp.autocasting.drafted || mp.autocasting.undrafted))
                             {
                                 if (mp.TMabilityDefs.Contains(com.pawnAbility.Def))
                                 {
@@ -3724,7 +3724,7 @@ namespace TorannMagic
                     CompAbilityUserMagic branderComp = hdc.BranderPawn.GetCompAbilityUserMagic();
                     if (branderComp != null)
                     {
-                        TMDefs.TM_Branding tmpBranding = null;
+                        TM_Branding tmpBranding = null;
                         for(int i = 0; i < branderComp.BrandPawns.Count; i++)
                         {
                             if(branderComp.BrandPawns[i] == hitPawn && branderComp.BrandDefs[i] == brandDef)

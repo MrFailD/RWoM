@@ -61,30 +61,30 @@ namespace TorannMagic.Enchantment
 
         public void ExposeData()
         {
-            Scribe_Values.Look<float>(ref this.maxMP, "maxMP", 0, false);
-            Scribe_Values.Look<float>(ref this.mpRegenRate, "mpRegenRateP", 0, false);
-            Scribe_Values.Look<float>(ref this.coolDown, "coolDown", 0, false);
-            Scribe_Values.Look<float>(ref this.mpCost, "mpCost", 0, false);
-            Scribe_Values.Look<float>(ref this.xpGain, "xpGain", 0, false);
-            Scribe_Values.Look<float>(ref this.arcaneRes, "arcaneRes", 0, false);
-            Scribe_Values.Look<float>(ref this.arcaneDmg, "arcaneDmg", 0, false);
-            Scribe_Values.Look<bool>(ref this.arcaneSpectre, "arcaneSpectre", false, false);
-            Scribe_Values.Look<bool>(ref this.phantomShift, "phantomShift", false, false);
-            Scribe_Values.Look<float>(ref this.arcalleumCooldown, "arcalleumCooldown", 0f, false);
-            Scribe_Values.Look<EnchantmentTier>(ref this.maxMPTier, "maxMPTier", (EnchantmentTier)0, false);
-            Scribe_Values.Look<EnchantmentTier>(ref this.mpRegenRateTier, "mpRegenRateTier", (EnchantmentTier)0, false);
-            Scribe_Values.Look<EnchantmentTier>(ref this.coolDownTier, "coolDownTier", (EnchantmentTier)0, false);
-            Scribe_Values.Look<EnchantmentTier>(ref this.mpCostTier, "mpCostTier", (EnchantmentTier)0, false);
-            Scribe_Values.Look<EnchantmentTier>(ref this.xpGainTier, "xpGainTier", (EnchantmentTier)0, false);
-            Scribe_Values.Look<EnchantmentTier>(ref this.arcaneResTier, "arcaneResTier", (EnchantmentTier)0, false);
-            Scribe_Values.Look<EnchantmentTier>(ref this.arcaneDmgTier, "arcaneDmgTier", (EnchantmentTier)0, false);
-            Scribe_Values.Look<bool>(ref this.hasEnchantment, "hasEnchantment", false, false);
+            Scribe_Values.Look<float>(ref maxMP, "maxMP", 0, false);
+            Scribe_Values.Look<float>(ref mpRegenRate, "mpRegenRateP", 0, false);
+            Scribe_Values.Look<float>(ref coolDown, "coolDown", 0, false);
+            Scribe_Values.Look<float>(ref mpCost, "mpCost", 0, false);
+            Scribe_Values.Look<float>(ref xpGain, "xpGain", 0, false);
+            Scribe_Values.Look<float>(ref arcaneRes, "arcaneRes", 0, false);
+            Scribe_Values.Look<float>(ref arcaneDmg, "arcaneDmg", 0, false);
+            Scribe_Values.Look<bool>(ref arcaneSpectre, "arcaneSpectre", false, false);
+            Scribe_Values.Look<bool>(ref phantomShift, "phantomShift", false, false);
+            Scribe_Values.Look<float>(ref arcalleumCooldown, "arcalleumCooldown", 0f, false);
+            Scribe_Values.Look<EnchantmentTier>(ref maxMPTier, "maxMPTier", (EnchantmentTier)0, false);
+            Scribe_Values.Look<EnchantmentTier>(ref mpRegenRateTier, "mpRegenRateTier", (EnchantmentTier)0, false);
+            Scribe_Values.Look<EnchantmentTier>(ref coolDownTier, "coolDownTier", (EnchantmentTier)0, false);
+            Scribe_Values.Look<EnchantmentTier>(ref mpCostTier, "mpCostTier", (EnchantmentTier)0, false);
+            Scribe_Values.Look<EnchantmentTier>(ref xpGainTier, "xpGainTier", (EnchantmentTier)0, false);
+            Scribe_Values.Look<EnchantmentTier>(ref arcaneResTier, "arcaneResTier", (EnchantmentTier)0, false);
+            Scribe_Values.Look<EnchantmentTier>(ref arcaneDmgTier, "arcaneDmgTier", (EnchantmentTier)0, false);
+            Scribe_Values.Look<bool>(ref hasEnchantment, "hasEnchantment", false, false);
         }
 
         public CompProperties_EnchantedItem()
         {
-            this.compClass = typeof(CompEnchantedItem);
-            this.AbilityUserClass = typeof(GenericCompAbilityUser);
+            compClass = typeof(CompEnchantedItem);
+            AbilityUserClass = typeof(GenericCompAbilityUser);
         }
     }
 }

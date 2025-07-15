@@ -14,16 +14,16 @@ namespace TorannMagic
     {
         protected override bool TryCastShot()
         {
-            if (TM_Calc.IsUsingRanged(this.CasterPawn))
+            if (TM_Calc.IsUsingRanged(CasterPawn))
             {
-                Thing wpn = this.CasterPawn.equipment.Primary;
+                Thing wpn = CasterPawn.equipment.Primary;
                 ThingDef newProjectile = wpn.def.Verbs.FirstOrDefault().defaultProjectile;
                 Type oldThingclass = newProjectile.thingClass;
-                newProjectile.thingClass = this.Projectile.thingClass;
+                newProjectile.thingClass = Projectile.thingClass;
                 bool flag = false;
-                SoundInfo info = SoundInfo.InMap(new TargetInfo(this.CasterPawn.Position, this.CasterPawn.Map, false), MaintenanceType.None);
+                SoundInfo info = SoundInfo.InMap(new TargetInfo(CasterPawn.Position, CasterPawn.Map, false), MaintenanceType.None);
                 SoundDef.Named(wpn.def.Verbs.FirstOrDefault().soundCast.ToString()).PlayOneShot(info);
-                bool? flag4 = this.TryLaunchProjectile(newProjectile, this.currentTarget);
+                bool? flag4 = TryLaunchProjectile(newProjectile, currentTarget);
                 bool hasValue = flag4.HasValue;
                 if (hasValue)
                 {
@@ -38,20 +38,20 @@ namespace TorannMagic
                         flag = false;
                     }
                 }
-                this.PostCastShot(flag, out flag);
+                PostCastShot(flag, out flag);
                 bool flag7 = !flag;
                 if (flag7)
                 {
-                    this.Ability.Notify_AbilityFailed(this.UseAbilityProps.refundsPointsAfterFailing);
+                    Ability.Notify_AbilityFailed(UseAbilityProps.refundsPointsAfterFailing);
                 }
                 newProjectile.thingClass = oldThingclass;
-                this.burstShotsLeft = 0;
+                burstShotsLeft = 0;
                 return flag;  
             }
             else
             {
                 Messages.Message("MustHaveRangedWeapon".Translate(
-                    this.CasterPawn.LabelCap
+                    CasterPawn.LabelCap
                 ), MessageTypeDefOf.RejectInput);
                 return false;
             }

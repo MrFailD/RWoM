@@ -20,7 +20,7 @@ namespace TorannMagic
 
         public HediffCompProperties_AbilityResource()
         {
-            this.compClass = typeof(HediffComp_AbilityResource);
+            compClass = typeof(HediffComp_AbilityResource);
         }
 
     }
@@ -34,36 +34,36 @@ namespace TorannMagic
 
         private int eventFrequency = 300;
 
-        private HediffCompProperties_AbilityResource Props { get => this.props as HediffCompProperties_AbilityResource; }
+        private HediffCompProperties_AbilityResource Props { get => props as HediffCompProperties_AbilityResource; }
 
         private string maximumCachedUpgradeName;
         private float maximumCached;
         private string regenPerTickCachedUpgradeName;
         private float regenPerTickCached;
 
-        public override string CompLabelInBracketsExtra => string.Concat(this.parent.Severity.ToString("0."), "/", maximumCached.ToString("0."));
-        public override bool CompShouldRemove => this.removeNow || base.CompShouldRemove;
+        public override string CompLabelInBracketsExtra => string.Concat(parent.Severity.ToString("0."), "/", maximumCached.ToString("0."));
+        public override bool CompShouldRemove => removeNow || base.CompShouldRemove;
 
         private void Initialize()
         {
             UpdateCachedValues();
-            this.initialized = true;
+            initialized = true;
         }
 
         private void UpdateCachedValues()
         {
-            CompAbilityUserMight comp = this.Pawn.GetCompAbilityUserMight();
+            CompAbilityUserMight comp = Pawn.GetCompAbilityUserMight();
             if (comp != null)
             {
                 int lvlMax = 0;
-                MightPowerSkill mps = TM_ClassUtility.GetMightPowerSkillFromLabel(comp, this.Props.maximumUpgradeName);
+                MightPowerSkill mps = TM_ClassUtility.GetMightPowerSkillFromLabel(comp, Props.maximumUpgradeName);
                 if (mps != null)
                 {
                     lvlMax = mps.level;
                 }
                 maximumCached = Props.maximumBase + (Props.maximumPerUpgrade * lvlMax);
                 int lvlRegen = 0;
-                mps = TM_ClassUtility.GetMightPowerSkillFromLabel(comp, this.Props.regenPerTickUpgradeName);
+                mps = TM_ClassUtility.GetMightPowerSkillFromLabel(comp, Props.regenPerTickUpgradeName);
                 if (mps != null)
                 {
                     lvlRegen = mps.level;
@@ -75,23 +75,23 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null && base.Pawn.Map != null;
+            bool flag = Pawn != null && Pawn.Map != null;
             if (flag)
             {
-                if (!this.initialized)
+                if (!initialized)
                 {
                     Initialize();
                 }
 
-                if (Find.TickManager.TicksGame % this.eventFrequency == 3)
+                if (Find.TickManager.TicksGame % eventFrequency == 3)
                 {
-                    this.UpdateCachedValues();
+                    UpdateCachedValues();
                 }
 
-                if (Find.TickManager.TicksGame % this.eventFrequency == 3)
+                if (Find.TickManager.TicksGame % eventFrequency == 3)
                 {
-                    float newValue = this.parent.Severity + eventFrequency * regenPerTickCached;
-                    this.parent.Severity = Mathf.Clamp(newValue, 0f, maximumCached);
+                    float newValue = parent.Severity + eventFrequency * regenPerTickCached;
+                    parent.Severity = Mathf.Clamp(newValue, 0f, maximumCached);
                 }
             }
         }

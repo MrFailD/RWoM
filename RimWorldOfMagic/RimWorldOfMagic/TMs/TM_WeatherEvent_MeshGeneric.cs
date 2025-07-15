@@ -31,7 +31,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.age > (this.durationSolid + fadeOutTicks);
+                return age > (durationSolid + fadeOutTicks);
             }
         }
 
@@ -65,28 +65,28 @@ namespace TorannMagic
 
         public override void FireEvent()
         {
-            if (this.meshStart != default(Vector3))
+            if (meshStart != default(Vector3))
             {
-                GetVector(this.meshStart, this.meshEnd);
+                GetVector(meshStart, meshEnd);
             }
-            this.boltMesh = this.RandomBoltMesh;
+            boltMesh = RandomBoltMesh;
         }
 
         public override void WeatherEventDraw()
         {
-            if (this.meshStart != default(Vector3))
+            if (meshStart != default(Vector3))
             {
-                Graphics.DrawMesh(this.boltMesh, this.meshStart, Quaternion.Euler(0f, this.angle, 0f), FadedMaterialPool.FadedVersionOf(this.meshMat, this.MeshBrightness), 0);
+                Graphics.DrawMesh(boltMesh, meshStart, Quaternion.Euler(0f, angle, 0f), FadedMaterialPool.FadedVersionOf(meshMat, MeshBrightness), 0);
             }
             else
             {
-                Graphics.DrawMesh(this.boltMesh, this.meshEnd, Quaternion.identity, FadedMaterialPool.FadedVersionOf(this.meshMat, this.MeshBrightness), 0);
+                Graphics.DrawMesh(boltMesh, meshEnd, Quaternion.identity, FadedMaterialPool.FadedVersionOf(meshMat, MeshBrightness), 0);
             }
         }
 
         public override void WeatherEventTick()
         {
-            this.age++;
+            age++;
         }
 
         public Mesh RandomBoltMesh
@@ -94,23 +94,23 @@ namespace TorannMagic
             get
             {
                 Mesh result;
-                if (TM_WeatherEvent_MeshGeneric.boltMeshes.Count < this.boltMaxCount)
+                if (boltMeshes.Count < boltMaxCount)
                 {
                     Mesh mesh;
-                    if (this.meshStart != default(Vector3))
+                    if (meshStart != default(Vector3))
                     {
-                        mesh = TM_MeshMaker.NewBoltMesh(Vector3.Distance(this.meshStart, this.meshEnd), this.meshContortionMagnitude);
+                        mesh = TM_MeshMaker.NewBoltMesh(Vector3.Distance(meshStart, meshEnd), meshContortionMagnitude);
                     }
                     else
                     {
-                        mesh = TM_MeshMaker.NewBoltMesh(200, this.meshContortionMagnitude);
+                        mesh = TM_MeshMaker.NewBoltMesh(200, meshContortionMagnitude);
                     }
-                    TM_WeatherEvent_MeshGeneric.boltMeshes.Add(mesh);
+                    boltMeshes.Add(mesh);
                     result = mesh;
                 }
                 else
                 {
-                    result = TM_WeatherEvent_MeshGeneric.boltMeshes.RandomElement<Mesh>();
+                    result = boltMeshes.RandomElement<Mesh>();
                 }
                 return result;
             }
@@ -121,17 +121,17 @@ namespace TorannMagic
             get
             {
                 float result;
-                if (this.age <= this.fadeInTicks)
+                if (age <= fadeInTicks)
                 {
-                    result = (float)this.age / this.fadeInTicks;
+                    result = (float)age / fadeInTicks;
                 }
-                else if (this.age < durationSolid)
+                else if (age < durationSolid)
                 {
                     result = 1f;
                 }
                 else
                 {
-                    result = 1f - (float)(this.age - this.durationSolid) / (float)this.fadeOutTicks;
+                    result = 1f - (float)(age - durationSolid) / (float)fadeOutTicks;
                 }
                 return result;
             }
@@ -142,7 +142,7 @@ namespace TorannMagic
             Vector3 heading = (end - start);
             float distance = heading.magnitude;
             Vector3 direction = heading / distance;
-            this.angle = (Quaternion.AngleAxis(90, Vector3.up) * direction).ToAngleFlat();
+            angle = (Quaternion.AngleAxis(90, Vector3.up) * direction).ToAngleFlat();
             return direction;
         }
 
@@ -150,7 +150,7 @@ namespace TorannMagic
         {
             get
             {
-                return new SkyTarget(1f, TM_WeatherEvent_MeshGeneric.MeshSkyColors, 1f, 0f);
+                return new SkyTarget(1f, MeshSkyColors, 1f, 0f);
             }
         }
 
@@ -158,7 +158,7 @@ namespace TorannMagic
         {
             get
             {
-                return new Vector2?(this.shadowVector);
+                return new Vector2?(shadowVector);
             }
         }
     }

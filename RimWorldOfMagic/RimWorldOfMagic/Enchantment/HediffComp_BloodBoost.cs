@@ -14,26 +14,26 @@ namespace TorannMagic.Enchantment
 
         public override void CompExposeData()
         {
-            Scribe_Values.Look<float>(ref this.maxSeverity, "maxSeverity", 0, false);
+            Scribe_Values.Look<float>(ref maxSeverity, "maxSeverity", 0, false);
             base.CompExposeData();            
         }
 
         public override void PostInitialize()
         {
-            this.hediffActionRate = 300;            
+            hediffActionRate = 300;            
         }
 
         public override void HediffActionTick()
         {
             float pawnDownCount = 0;
             float pawnKillCount = 0;
-            if (this.Pawn.records != null)
+            if (Pawn.records != null)
             {
-                pawnDownCount = this.Pawn.records.GetValue(RecordDefOf.PawnsDownedHumanlikes);
-                pawnKillCount = this.Pawn.records.GetValue(RecordDefOf.KillsHumanlikes);
+                pawnDownCount = Pawn.records.GetValue(RecordDefOf.PawnsDownedHumanlikes);
+                pawnKillCount = Pawn.records.GetValue(RecordDefOf.KillsHumanlikes);
             }
-            this.maxSeverity = Mathf.Min((2 * pawnKillCount) + pawnDownCount, 100);
-            this.parent.Severity = this.maxSeverity;
+            maxSeverity = Mathf.Min((2 * pawnKillCount) + pawnDownCount, 100);
+            parent.Severity = maxSeverity;
         }
 
     }

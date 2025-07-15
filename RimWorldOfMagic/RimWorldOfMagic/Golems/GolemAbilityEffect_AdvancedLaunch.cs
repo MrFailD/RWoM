@@ -55,7 +55,7 @@ namespace TorannMagic.Golems
                 {
                     tmpTarget = TM_Calc.FindValidCellWithinRange(tmpTarget.Cell, launcher.Map, missRadius);
                 }
-                FlyingObject_Advanced flyingObject = (FlyingObject_Advanced)GenSpawn.Spawn(this.projectileDef, launcher.Position, launcher.Map);
+                FlyingObject_Advanced flyingObject = (FlyingObject_Advanced)GenSpawn.Spawn(projectileDef, launcher.Position, launcher.Map);
                 flyingObject.AdvancedLaunch(launcher, projectileDef.projectile.preExplosionSpawnThingDef, projectileDef.projectile.preExplosionSpawnThingCount, Mathf.Clamp(Rand.Range(varianceMin, varianceMax), 
                     0, tmpTarget.Cell.DistanceToEdge(launcher.Map)), false, launcher.DrawPos, tmpTarget, launchedThing, Rand.Range(flySpeedMin, flySpeedMax), explosionRadius > 0, Rand.Range(damageMin, damageMax), 
                     explosionRadius, damageType, null, 0, flyOverhead, moteEffectSize: projectileDef.projectile.preExplosionSpawnChance);

@@ -18,8 +18,8 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_References.Look<Pawn>(ref this.bonderPawn, "bonderPawn", false);
-            Scribe_References.Look<Pawn>(ref this.polyHost, "polyHost", false);
+            Scribe_References.Look<Pawn>(ref bonderPawn, "bonderPawn", false);
+            Scribe_References.Look<Pawn>(ref polyHost, "polyHost", false);
         }
 
         public override string CompLabelInBracketsExtra => BonderPawn != null ? BonderPawn.LabelShort + "[-]" + base.CompLabelInBracketsExtra : base.CompLabelInBracketsExtra;
@@ -28,11 +28,11 @@ namespace TorannMagic
         {
             get
             {
-                return this.bonderPawn;
+                return bonderPawn;
             }
             set
             {
-                this.bonderPawn = value;
+                bonderPawn = value;
             }
         }
 
@@ -40,11 +40,11 @@ namespace TorannMagic
         {
             get
             {
-                if (this.BonderPawn != null)
+                if (BonderPawn != null)
                 {
-                    return base.Def.LabelCap + "(" + this.BonderPawn.LabelShort + ")";
+                    return Def.LabelCap + "(" + BonderPawn.LabelShort + ")";
                 }
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -52,22 +52,22 @@ namespace TorannMagic
         {
             get
             {
-                if (this.BonderPawn != null)
+                if (BonderPawn != null)
                 {
-                    return base.Def.label + "(" + this.BonderPawn.LabelShort + ")";
+                    return Def.label + "(" + BonderPawn.LabelShort + ")";
                 }
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    TM_MoteMaker.ThrowArcaneMote(this.Pawn.DrawPos, this.Pawn.Map, Rand.Range(.6f, 1f));
+                    TM_MoteMaker.ThrowArcaneMote(Pawn.DrawPos, Pawn.Map, Rand.Range(.6f, 1f));
                 }
             }            
         }
@@ -75,13 +75,13 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);            
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
             }
             bool flag4 = Find.TickManager.TicksGame % 600 == 0;
@@ -93,7 +93,7 @@ namespace TorannMagic
                 }
                 else
                 {
-                    this.soulPawnRemove = true;
+                    soulPawnRemove = true;
                 }
             }
         }
@@ -102,7 +102,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.soulPawnRemove;
+                return base.CompShouldRemove || soulPawnRemove;
             }
         }
     }

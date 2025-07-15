@@ -24,11 +24,11 @@ namespace TorannMagic.ModOptions
 
         public ChangeOffsetWindow()
         {
-            base.closeOnCancel = true;
-            base.doCloseButton = true;
-            base.doCloseX = true;
-            base.absorbInputAroundWindow = true;
-            base.forcePause = true;
+            closeOnCancel = true;
+            doCloseButton = true;
+            doCloseX = true;
+            absorbInputAroundWindow = true;
+            forcePause = true;
         }
 
         public override void DoWindowContents(Rect inRect)
@@ -51,7 +51,7 @@ namespace TorannMagic.ModOptions
             apply = Widgets.ButtonText(rowRect99, "Apply", true, false, true);
             if (apply)
             {
-                ModOptions.Settings.Instance.offsetMultiLayerClothingAmount = float.Parse(currentOffset);
+                Settings.Instance.offsetMultiLayerClothingAmount = float.Parse(currentOffset);
             }
             Rect rowRect99ShiftRight = GetRowRect(rect1, num);
             rowRect99ShiftRight.x += 120f;
@@ -59,7 +59,7 @@ namespace TorannMagic.ModOptions
             if (reset)
             {
                 currentOffset = "-.025387f";
-                ModOptions.Settings.Instance.offsetMultiLayerClothingAmount = -.025387f;
+                Settings.Instance.offsetMultiLayerClothingAmount = -.025387f;
             }
             GUI.EndScrollView();
         }

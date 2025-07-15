@@ -381,7 +381,7 @@ namespace TorannMagic
             return false;            
         }
 
-        public static bool HasAdvancedMageRequirements(Pawn p, TMDefs.TM_CustomClass cc, out string failMessage)
+        public static bool HasAdvancedMageRequirements(Pawn p, TM_CustomClass cc, out string failMessage)
         {
             bool hasReqTrait = true; 
             failMessage = "";
@@ -393,7 +393,7 @@ namespace TorannMagic
                 //    failMessage = "null magic comp"; //this should never happen
                 //    return false;
                 //}
-                if (cc.advancedClassOptions.requiresBaseClass && !TM_Calc.IsMagicUser(p) && !(cc.advancedClassOptions.allowAnyBaseClass && TM_Calc.IsMightUser(p)))
+                if (cc.advancedClassOptions.requiresBaseClass && !IsMagicUser(p) && !(cc.advancedClassOptions.allowAnyBaseClass && IsMightUser(p)))
                 {
                     failMessage = "TM_LearnFail_NotClass".Translate();
                     return false;
@@ -439,7 +439,7 @@ namespace TorannMagic
             return hasReqTrait;
         }
 
-        public static bool HasAdvancedFighterRequirements(Pawn p, TMDefs.TM_CustomClass cc, out string failMessage)
+        public static bool HasAdvancedFighterRequirements(Pawn p, TM_CustomClass cc, out string failMessage)
         {
             bool hasReqTrait = true;
             failMessage = "";
@@ -861,7 +861,7 @@ namespace TorannMagic
             {
                 if(p.health.hediffSet.HasHediff(TorannMagicDefOf.TM_MagicSeverenceHD))
                 {
-                    TorannMagic.Ideology.HediffComp_MagicSeverence hd_ms = p.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_MagicSeverenceHD).TryGetComp<TorannMagic.Ideology.HediffComp_MagicSeverence>();
+                    Ideology.HediffComp_MagicSeverence hd_ms = p.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_MagicSeverenceHD).TryGetComp<Ideology.HediffComp_MagicSeverence>();
                     if(hd_ms.selectableForRetaliation)
                     {
                         pawn = p;
@@ -882,7 +882,7 @@ namespace TorannMagic
             {
                 if (p.health.hediffSet.HasHediff(TorannMagicDefOf.TM_BestowMagicClassHD))
                 {
-                    TorannMagic.Ideology.HediffComp_BestowMagicClass hd_ms = p.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_BestowMagicClassHD).TryGetComp<TorannMagic.Ideology.HediffComp_BestowMagicClass>();
+                    Ideology.HediffComp_BestowMagicClass hd_ms = p.health.hediffSet.GetFirstHediffOfDef(TorannMagicDefOf.TM_BestowMagicClassHD).TryGetComp<Ideology.HediffComp_BestowMagicClass>();
                     if (hd_ms.selectableForInspiration)
                     {
                         hd_ms.selectableForInspiration = false;
@@ -944,7 +944,7 @@ namespace TorannMagic
 
         public static Vector3 GetVectorBetween(Vector3 v1, Vector3 v2)
         {
-            Vector3 vectorBetween = v1 + ((v1 - v2).magnitude * .5f * TM_Calc.GetVector(v1, v2));
+            Vector3 vectorBetween = v1 + ((v1 - v2).magnitude * .5f * GetVector(v1, v2));
             return vectorBetween;
         }
 
@@ -1108,7 +1108,7 @@ namespace TorannMagic
                         if (pawn != targetPawn && targetPawn.HostileTo(pawn.Faction) && (pawn.Position - targetPawn.Position).LengthHorizontal <= radius)
                         {
                             CompAbilityUserMagic targetComp = targetPawn.GetCompAbilityUserMagic();
-                            if (targetComp != null && targetComp.IsMagicUser && !TM_Calc.IsCrossClass(targetPawn, true))
+                            if (targetComp != null && targetComp.IsMagicUser && !IsCrossClass(targetPawn, true))
                             {
                                 pawnList.Add(targetPawn);
                             }
@@ -1119,7 +1119,7 @@ namespace TorannMagic
                         if (pawn != targetPawn && !targetPawn.HostileTo(pawn.Faction) && (pawn.Position - targetPawn.Position).LengthHorizontal <= radius)
                         {
                             CompAbilityUserMagic targetComp = targetPawn.GetCompAbilityUserMagic();
-                            if (targetComp != null && targetComp.IsMagicUser && !TM_Calc.IsCrossClass(targetPawn, true))
+                            if (targetComp != null && targetComp.IsMagicUser && !IsCrossClass(targetPawn, true))
                             {
                                 pawnList.Add(targetPawn);                                
                             }
@@ -1165,11 +1165,11 @@ namespace TorannMagic
                     {
                         continue;
                     }
-                    if(!TM_Calc.IsMagicUser(targetPawn))
+                    if(!IsMagicUser(targetPawn))
                     {
                         continue;
                     }
-                    if(TM_Calc.IsCrossClass(targetPawn, true))
+                    if(IsCrossClass(targetPawn, true))
                     {
                         continue;
                     }
@@ -1195,7 +1195,7 @@ namespace TorannMagic
                         if (targetPawn.HostileTo(pawn.Faction) && (pawn.Position - targetPawn.Position).LengthHorizontal <= radius)
                         {
                             CompAbilityUserMight targetComp = targetPawn.GetCompAbilityUserMight();
-                            if (targetComp != null && targetComp.IsMightUser && !TM_Calc.IsCrossClass(targetPawn, false))
+                            if (targetComp != null && targetComp.IsMightUser && !IsCrossClass(targetPawn, false))
                             {
                                 pawnList.Add(targetPawn);
                             }
@@ -1206,7 +1206,7 @@ namespace TorannMagic
                         if (pawn != targetPawn && !targetPawn.HostileTo(pawn.Faction) && (pawn.Position - targetPawn.Position).LengthHorizontal <= radius)
                         {
                             CompAbilityUserMight targetComp = targetPawn.GetCompAbilityUserMight();
-                            if (targetComp != null && targetComp.IsMightUser && !TM_Calc.IsCrossClass(targetPawn, false))
+                            if (targetComp != null && targetComp.IsMightUser && !IsCrossClass(targetPawn, false))
                             {
                                 pawnList.Add(targetPawn);
                             }
@@ -1233,7 +1233,7 @@ namespace TorannMagic
             for (int i = 0; i < mapPawns.Count; i++)
             {
                 Pawn targetPawn = mapPawns[i];
-                if (targetPawn != null && !targetPawn.Dead && !targetPawn.Destroyed && !TM_Calc.IsUndead(targetPawn) && targetPawn.Faction != null && targetPawn.Faction == fac)
+                if (targetPawn != null && !targetPawn.Dead && !targetPawn.Destroyed && !IsUndead(targetPawn) && targetPawn.Faction != null && targetPawn.Faction == fac)
                 {
                     
                     if ((targetPawn.RaceProps.Humanlike || ModOptions.Settings.Instance.autocastAnimals || includeAnimals) && (center - targetPawn.Position).LengthHorizontal <= radius)
@@ -1276,7 +1276,7 @@ namespace TorannMagic
             for (int i = 0; i < mapPawns.Count; i++)
             {
                 Pawn targetPawn = mapPawns[i];
-                if (targetPawn != null && !targetPawn.Dead && !targetPawn.Destroyed && !TM_Calc.IsUndead(targetPawn) && targetPawn.Faction != null && targetPawn.Faction == pawn.Faction)
+                if (targetPawn != null && !targetPawn.Dead && !targetPawn.Destroyed && !IsUndead(targetPawn) && targetPawn.Faction != null && targetPawn.Faction == pawn.Faction)
                 {
                     
                     if ((targetPawn.RaceProps.Humanlike || ModOptions.Settings.Instance.autocastAnimals) && (pawn.Position - targetPawn.Position).LengthHorizontal <= radius && targetPawn != pawn)
@@ -1314,7 +1314,7 @@ namespace TorannMagic
             for (int i = 0; i < mapPawns.Count; i++)
             {
                 Pawn targetPawn = mapPawns[i];
-                if (targetPawn != null && !targetPawn.Dead && !targetPawn.Destroyed && !TM_Calc.IsUndead(targetPawn) && targetPawn.Faction != null && targetPawn.Faction == pawn.Faction)
+                if (targetPawn != null && !targetPawn.Dead && !targetPawn.Destroyed && !IsUndead(targetPawn) && targetPawn.Faction != null && targetPawn.Faction == pawn.Faction)
                 {
                     
                     if ((targetPawn.RaceProps.Humanlike || ModOptions.Settings.Instance.autocastAnimals) && (pawn.Position - targetPawn.Position).LengthHorizontal <= radius)
@@ -1590,7 +1590,7 @@ namespace TorannMagic
                     //Log.Message("pawn faction is " + targetPawn.Faction);
                     //Log.Message("pawn position is " + targetPawn.Position);
                     //Log.Message("pawn is robot: " + TM_Calc.IsRobotPawn(targetPawn));
-                    if (targetPawn.Faction != null && targetPawn.Faction == pawn.Faction && (pawn.Position - targetPawn.Position).LengthHorizontal <= radius && TM_Calc.IsRobotPawn(targetPawn))
+                    if (targetPawn.Faction != null && targetPawn.Faction == pawn.Faction && (pawn.Position - targetPawn.Position).LengthHorizontal <= radius && IsRobotPawn(targetPawn))
                     {
                         float injurySeverity = targetPawn.health.hediffSet.hediffs
                             .OfType<Hediff_Injury>()
@@ -1754,7 +1754,7 @@ namespace TorannMagic
                 foreach(Thing t in mapBuildings)
                 {
                     Building b = t as Building;
-                    if(TM_Calc.IsWall(t))
+                    if(IsWall(t))
                     {
                         if(faction != null)
                         {
@@ -1850,7 +1850,7 @@ namespace TorannMagic
                 tmp.z += Rand.Range(-radius, radius);
                 if (tmp.InBoundsWithNullCheck(pawn.Map) && tmp.IsValid && tmp.Walkable(pawn.Map) && tmp.DistanceToEdge(pawn.Map) > 8)
                 {
-                    List<Pawn> threatCount = TM_Calc.FindPawnsNearTarget(pawn, 4, tmp, true);
+                    List<Pawn> threatCount = FindPawnsNearTarget(pawn, 4, tmp, true);
                     if (threatCount != null)
                     {
                         if (threatCount.Count <= maxThreats)
@@ -1986,8 +1986,8 @@ namespace TorannMagic
         public static float GetSpellSuccessChance(Pawn caster, Pawn victim, bool usePsychicSensitivity = true)
         {
             float successChance;
-            float penetration = TM_Calc.GetSpellPenetration(caster);
-            float resistance = TM_Calc.GetArcaneResistance(victim, usePsychicSensitivity);
+            float penetration = GetSpellPenetration(caster);
+            float resistance = GetArcaneResistance(victim, usePsychicSensitivity);
             successChance = 1f + penetration - resistance;
             return successChance;
         }
@@ -2038,7 +2038,7 @@ namespace TorannMagic
             }
 
             // Don't serialize a null object, simply return the default for that object
-            if (System.Object.ReferenceEquals(source, null))
+            if (ReferenceEquals(source, null))
             {
                 return default(T);
             }
@@ -3362,8 +3362,8 @@ namespace TorannMagic
         public static int GetSkillLevel(Pawn caster, TMAbilityDef ability, string suffix, bool canCopy = true)
         {
             int level = 0;
-            bool flagMagic = TM_Calc.IsMagicUser(caster);
-            bool flagMight = TM_Calc.IsMightUser(caster);            
+            bool flagMagic = IsMagicUser(caster);
+            bool flagMight = IsMightUser(caster);            
             
             if(flagMagic && flagMight)
             {
@@ -3593,7 +3593,7 @@ namespace TorannMagic
 
         public static bool IsIconAbility_03(AbilityUser.AbilityDef def)
         {
-            if(TM_Calc.IsIconAbility_02(def))
+            if(IsIconAbility_02(def))
             {
                 return true;
             }
@@ -3674,12 +3674,12 @@ namespace TorannMagic
                     p.learned = true;
                     comp.chaosPowers.Add(new TM_ChaosPowers((TMAbilityDef)p.abilityDef, TM_ClassUtility.GetAssociatedMagicPowerSkill(comp, p)));
                     comp.AddPawnAbility(p.abilityDef);
-                    p = TM_Calc.GetRandomMagicPower(comp);
+                    p = GetRandomMagicPower(comp);
                     comp.chaosPowers.Add(new TM_ChaosPowers((TMAbilityDef)p.abilityDef, null));
                 }
                 for (int i = 0; i < 5; i++)
                 {
-                    MagicPower power = TM_Calc.GetRandomMagicPower(comp);
+                    MagicPower power = GetRandomMagicPower(comp);
                     if (i < count)
                     {
                         power.learned = true;
@@ -3765,7 +3765,7 @@ namespace TorannMagic
         public static bool IsUsingPistol(Pawn p)
         {
             bool result = false;
-            if (TM_Calc.IsUsingRanged(p))
+            if (IsUsingRanged(p))
             {
                 Thing wpn = p.equipment.Primary;
                 CompAbilityUserMight mightComp = p.GetCompAbilityUserMight();
@@ -4249,7 +4249,7 @@ namespace TorannMagic
                     {
                         if (requireLoS)
                         {
-                            if (TM_Calc.HasLoSFromTo(cell, t, p, 0, 5f))
+                            if (HasLoSFromTo(cell, t, p, 0, 5f))
                             {
                                 bestCell = cell;
                             }
@@ -4512,7 +4512,7 @@ namespace TorannMagic
             //lastList.Clear();
             //lastList.Add(start);
             IEnumerable<Building> allThings = from def in map.listerThings.AllThings
-                                       where (def is Building && TM_Calc.IsWall(def) && (def.Position - start.Position).LengthHorizontal <= maxDistanceFromStart)
+                                       where (def is Building && IsWall(def) && (def.Position - start.Position).LengthHorizontal <= maxDistanceFromStart)
                                        select def as Building;
             List <Building> addedBuilding = new List<Building>();
             for (int i = 0; i < 200; i++)

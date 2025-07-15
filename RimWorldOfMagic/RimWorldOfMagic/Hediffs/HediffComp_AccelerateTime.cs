@@ -23,18 +23,18 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<bool>(ref this.isBad, "isBad", false, false);
-            Scribe_Values.Look<int>(ref this.durationTicks, "durationTicks", 6000, false);
-            Scribe_Values.Look<int>(ref this.currentAge, "currentAge", 1, false);
-            Scribe_Values.Look<int>(ref this.tickEffect, "tickEffect", 300, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<bool>(ref isBad, "isBad", false, false);
+            Scribe_Values.Look<int>(ref durationTicks, "durationTicks", 6000, false);
+            Scribe_Values.Look<int>(ref currentAge, "currentAge", 1, false);
+            Scribe_Values.Look<int>(ref tickEffect, "tickEffect", 300, false);
         }
 
         public string labelCap
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -42,82 +42,82 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            if (spawned && base.Pawn.Map != null)
+            bool spawned = Pawn.Spawned;
+            if (spawned && Pawn.Map != null)
             {
-                FleckMaker.ThrowLightningGlow(base.Pawn.TrueCenter(), base.Pawn.Map, 3f);
+                FleckMaker.ThrowLightningGlow(Pawn.TrueCenter(), Pawn.Map, 3f);
             }
-            this.currentAge = base.Pawn.ageTracker.AgeBiologicalYears;
-            this.tickEffect = Mathf.RoundToInt(this.durationTicks / 25);
+            currentAge = Pawn.ageTracker.AgeBiologicalYears;
+            tickEffect = Mathf.RoundToInt(durationTicks / 25);
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
             }           
 
             if (Find.TickManager.TicksGame % 60 == 0)
             {
-                if (this.Pawn.RaceProps != null && this.Pawn.RaceProps.lifeExpectancy != 0)
+                if (Pawn.RaceProps != null && Pawn.RaceProps.lifeExpectancy != 0)
                 {
-                    maxAge = this.Pawn.RaceProps.lifeExpectancy;
+                    maxAge = Pawn.RaceProps.lifeExpectancy;
                 }
-                int roundedYearAging = Mathf.RoundToInt(this.Pawn.ageTracker.AgeBiologicalYears / 100);
+                int roundedYearAging = Mathf.RoundToInt(Pawn.ageTracker.AgeBiologicalYears / 100);
                 if (isBad)
                 {                    
-                    if (this.Pawn.ageTracker.AgeBiologicalYears >= 100)
+                    if (Pawn.ageTracker.AgeBiologicalYears >= 100)
                     {
-                        this.Pawn.ageTracker.AgeBiologicalTicks += roundedYearAging * 3600000;
+                        Pawn.ageTracker.AgeBiologicalTicks += roundedYearAging * 3600000;
                     }
                     else
                     {
-                        this.Pawn.ageTracker.AgeBiologicalTicks = Mathf.RoundToInt(this.Pawn.ageTracker.AgeBiologicalTicks * (1.02f + (.002f * this.parent.Severity)));
+                        Pawn.ageTracker.AgeBiologicalTicks = Mathf.RoundToInt(Pawn.ageTracker.AgeBiologicalTicks * (1.02f + (.002f * parent.Severity)));
                     }                    
                 }
                 else
                 {
-                    if(this.Pawn.ageTracker.AgeBiologicalYears >= 200)
+                    if(Pawn.ageTracker.AgeBiologicalYears >= 200)
                     {
-                        this.Pawn.ageTracker.AgeBiologicalTicks += roundedYearAging * 3600000;
+                        Pawn.ageTracker.AgeBiologicalTicks += roundedYearAging * 3600000;
                     }
                     else
                     {
-                        this.Pawn.ageTracker.AgeBiologicalTicks = Mathf.RoundToInt(this.Pawn.ageTracker.AgeBiologicalTicks * 1.00001f) + 2500;
+                        Pawn.ageTracker.AgeBiologicalTicks = Mathf.RoundToInt(Pawn.ageTracker.AgeBiologicalTicks * 1.00001f) + 2500;
                     }                    
                 }
-                if(this.Pawn.ageTracker.AgeBiologicalYears > this.currentAge)
+                if(Pawn.ageTracker.AgeBiologicalYears > currentAge)
                 {
-                    this.currentAge = this.Pawn.ageTracker.AgeBiologicalYears;                    
-                    if (Rand.Chance(this.currentAge / this.maxAge))
+                    currentAge = Pawn.ageTracker.AgeBiologicalYears;                    
+                    if (Rand.Chance(currentAge / maxAge))
                     {
-                        BirthdayBiological(this.Pawn, this.currentAge);
+                        BirthdayBiological(Pawn, currentAge);
                     }
-                    if (this.isBad)
+                    if (isBad)
                     {
-                        RaceAgainstTime(this.Pawn, this.currentAge);
+                        RaceAgainstTime(Pawn, currentAge);
                     }
                 }
 
-                AccelerateHediff(this.Pawn, 60);
-                this.durationTicks -= 60;
+                AccelerateHediff(Pawn, 60);
+                durationTicks -= 60;
 
-                if(Find.TickManager.TicksGame % this.tickEffect ==0)
+                if(Find.TickManager.TicksGame % tickEffect ==0)
                 {
-                    AccelerateEffects(this.Pawn, 1);
+                    AccelerateEffects(Pawn, 1);
                 }
             }
         }
@@ -179,7 +179,7 @@ namespace TorannMagic
                 }
                 else
                 {
-                    HealthUtility.AdjustSeverity(pawn, HediffDef.Named("HeartArteryBlockage"), Rand.Range(.0095f * this.parent.Severity, .0195f * this.parent.Severity));
+                    HealthUtility.AdjustSeverity(pawn, HediffDef.Named("HeartArteryBlockage"), Rand.Range(.0095f * parent.Severity, .0195f * parent.Severity));
                 }
             }
         }
@@ -200,7 +200,7 @@ namespace TorannMagic
                             float immuneSevDay = immuneComp.Def.CompProps<HediffCompProperties_Immunizable>().severityPerDayNotImmune;
                             if (immuneSevDay != 0 && !rec.FullyImmune())
                             {
-                                rec.Severity += ((immuneSevDay * ticks * this.parent.Severity)/(24*2500));
+                                rec.Severity += ((immuneSevDay * ticks * parent.Severity)/(24*2500));
                             }
                         }
                     }
@@ -212,7 +212,7 @@ namespace TorannMagic
                             float sevDay = sevDayComp.Def.CompProps<HediffCompProperties_SeverityPerDay>().severityPerDay;
                             if (sevDay != 0)
                             {
-                                rec.Severity += ((sevDay * ticks * this.parent.Severity)/(24*2500));
+                                rec.Severity += ((sevDay * ticks * parent.Severity)/(24*2500));
                             }
                         }
                     }
@@ -222,22 +222,22 @@ namespace TorannMagic
                         int ticksToDisappear = Traverse.Create(root: tickComp).Field(name: "ticksToDisappear").GetValue<int>();
                         if (ticksToDisappear != 0)
                         {
-                            Traverse.Create(root: tickComp).Field(name: "ticksToDisappear").SetValue(ticksToDisappear - (Mathf.RoundToInt(60 * this.parent.Severity)));                            
+                            Traverse.Create(root: tickComp).Field(name: "ticksToDisappear").SetValue(ticksToDisappear - (Mathf.RoundToInt(60 * parent.Severity)));                            
                         }
                     }
-                    Hediff_Pregnant hdp = this.Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("Pregnant")) as Hediff_Pregnant;
+                    Hediff_Pregnant hdp = Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("Pregnant")) as Hediff_Pregnant;
                     if(hdp != null)
                     {
-                        hdp.Severity += (1f / (this.Pawn.RaceProps.gestationPeriodDays * (2500f /this.parent.Severity)));
+                        hdp.Severity += (1f / (Pawn.RaceProps.gestationPeriodDays * (2500f /parent.Severity)));
                     }
-                    CompEggLayer eggComp = this.Pawn.TryGetComp<CompEggLayer>();
+                    CompEggLayer eggComp = Pawn.TryGetComp<CompEggLayer>();
                     if (eggComp != null)
                     {
                         float eggProgress = Traverse.Create(root: eggComp).Field(name: "eggProgress").GetValue<float>();
                         bool isActive = Active(eggComp);
                         if (isActive)
                         {
-                            eggProgress += (1f / (eggComp.Props.eggLayIntervalDays * (2500f / this.parent.Severity)));
+                            eggProgress += (1f / (eggComp.Props.eggLayIntervalDays * (2500f / parent.Severity)));
                             Traverse.Create(root: eggComp).Field(name: "eggProgress").SetValue(eggProgress);
                         }
                     }
@@ -254,7 +254,7 @@ namespace TorannMagic
                     //        Traverse.Create(root: gatherComp).Field(name: "fullness").SetValue(gatherProgress);
                     //    }
                     //}
-                    CompMilkable milkComp = this.Pawn.TryGetComp<CompMilkable>();
+                    CompMilkable milkComp = Pawn.TryGetComp<CompMilkable>();
                     if (milkComp != null)
                     {
                         float milkProgress = milkComp.Fullness;
@@ -262,7 +262,7 @@ namespace TorannMagic
                         bool isActive = Active(milkComp);
                         if (isActive)
                         {
-                            milkProgress += (1f / ((float)(rate * (2500f / this.parent.Severity))));
+                            milkProgress += (1f / ((float)(rate * (2500f / parent.Severity))));
                             Traverse.Create(root: milkComp).Field(name: "fullness").SetValue(milkProgress);
                         }
                     }
@@ -273,7 +273,7 @@ namespace TorannMagic
                 }
                 if(totalBleedRate != 0)
                 {
-                    HealthUtility.AdjustSeverity(pawn, HediffDefOf.BloodLoss, (totalBleedRate * 60 * this.parent.Severity) / (24 * 2500));
+                    HealthUtility.AdjustSeverity(pawn, HediffDefOf.BloodLoss, (totalBleedRate * 60 * parent.Severity) / (24 * 2500));
                 }
             }
         }
@@ -314,11 +314,11 @@ namespace TorannMagic
 
         public bool Active()
         {
-            if (this.Pawn.Faction == null)
+            if (Pawn.Faction == null)
             {
                 return false;
             }
-            if (this.Pawn.Suspended)
+            if (Pawn.Suspended)
             {
                 return false;
             }
@@ -329,7 +329,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.durationTicks <= 0;
+                return base.CompShouldRemove || durationTicks <= 0;
             }
         }
 

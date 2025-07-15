@@ -29,11 +29,11 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
 
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             Pawn victim = hitThing as Pawn;
             try
             {
@@ -60,9 +60,9 @@ namespace TorannMagic
                 //}
                 verVal = TM_Calc.GetSkillVersatilityLevel(pawn, TorannMagicDefOf.TM_AntiArmor);
                 pwrVal = TM_Calc.GetSkillPowerLevel(pawn, TorannMagicDefOf.TM_AntiArmor);
-                this.Initialize(base.Position, pawn);
+                Initialize(Position, pawn);
 
-                if (victim != null && !victim.Dead && Rand.Chance(this.launcher.GetStatValue(StatDefOf.ShootingAccuracyPawn, true)))
+                if (victim != null && !victim.Dead && Rand.Chance(launcher.GetStatValue(StatDefOf.ShootingAccuracyPawn, true)))
                 {
                     int dmg = GetWeaponDmg(pawn);
                     bool flagFleshType = victim.RaceProps.FleshType != FleshTypeDefOf.Normal;
@@ -77,10 +77,10 @@ namespace TorannMagic
                         FleckMaker.ThrowMicroSparks(victim.Position.ToVector3(), map);
                         for (int i = 0; i < 1 + verVal; i++)
                         {
-                            ExplosionHelper.Explode(newPos, map, Rand.Range((.1f) * (1 + verVal), (.3f) * (1 + verVal)), DamageDefOf.Bomb, this.launcher, (this.def.projectile.GetDamageAmount(1, null) / 4) * (1 + verVal), .4f, SoundDefOf.MetalHitImportant, def, this.equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0f, true);
-                            ExplosionHelper.Explode(newPos, map, Rand.Range((.2f) * (1 + verVal), (.4f) * (1 + verVal)), DamageDefOf.Stun, this.launcher, (this.def.projectile.GetDamageAmount(1, null) / 2) * (1 + verVal), .4f, SoundDefOf.MetalHitImportant, def, this.equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0f, true);
+                            ExplosionHelper.Explode(newPos, map, Rand.Range((.1f) * (1 + verVal), (.3f) * (1 + verVal)), DamageDefOf.Bomb, launcher, (this.def.projectile.GetDamageAmount(1, null) / 4) * (1 + verVal), .4f, SoundDefOf.MetalHitImportant, def, equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0f, true);
+                            ExplosionHelper.Explode(newPos, map, Rand.Range((.2f) * (1 + verVal), (.4f) * (1 + verVal)), DamageDefOf.Stun, launcher, (this.def.projectile.GetDamageAmount(1, null) / 2) * (1 + verVal), .4f, SoundDefOf.MetalHitImportant, def, equipmentDef, null, null, 0f, 1, null, false, null, 0f, 1, 0f, true);
                             newPos = GetNewPos(newPos, pawn.Position.x <= victim.Position.x, pawn.Position.z <= victim.Position.z, false, 0, 0, xProb, 1 - xProb);
-                            FleckMaker.ThrowMicroSparks(victim.Position.ToVector3(), base.Map);
+                            FleckMaker.ThrowMicroSparks(victim.Position.ToVector3(), Map);
                             FleckMaker.ThrowDustPuff(newPos, map, Rand.Range(1.2f, 2.4f));
                         }
                         DestroyArmor(victim, 4, 100);
@@ -150,11 +150,11 @@ namespace TorannMagic
             amt = (int)((float)amt * Rand.Range(.5f, 1.5f));
             if ( hitPart != null)
             {
-                dinfo = new DamageInfo(type, amt, 0, (float)-1, this.launcher as Pawn, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);
+                dinfo = new DamageInfo(type, amt, 0, (float)-1, launcher as Pawn, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);
             }
             else
             {
-                dinfo = new DamageInfo(type, amt, 0, this.ExactRotation.eulerAngles.y, this.launcher as Pawn, null, this.equipmentDef, DamageInfo.SourceCategory.ThingOrUnknown);                
+                dinfo = new DamageInfo(type, amt, 0, ExactRotation.eulerAngles.y, launcher as Pawn, null, equipmentDef, DamageInfo.SourceCategory.ThingOrUnknown);                
             }
             victim.TakeDamage(dinfo);
         }

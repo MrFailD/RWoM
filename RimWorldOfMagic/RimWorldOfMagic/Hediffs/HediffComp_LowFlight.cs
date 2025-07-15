@@ -22,7 +22,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -30,7 +30,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
@@ -38,7 +38,7 @@ namespace TorannMagic
         {
             get
             {
-                if (this.parent.Severity > 1f)
+                if (parent.Severity > 1f)
                 {
                     return _nakedGraphicActive;
                 }
@@ -49,11 +49,11 @@ namespace TorannMagic
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            if (base.Pawn != null & base.parent != null && !base.Pawn.Dead && !base.Pawn.Downed && base.Pawn.Map != null)
+            if (Pawn != null & parent != null && !Pawn.Dead && !Pawn.Downed && Pawn.Map != null)
             {
                 if (!initialized)
                 {
-                    if(this.Pawn.def == TorannMagicDefOf.TM_SpiritCrowR)
+                    if(Pawn.def == TorannMagicDefOf.TM_SpiritCrowR)
                     {
                         _nakedGraphicCycle.Clear();
                         _nakedGraphicCycle.Add(Pawn.kindDef.lifeStages[0].bodyGraphicData.Graphic);
@@ -65,30 +65,30 @@ namespace TorannMagic
                     initialized = true;
                 }
 
-                if (this._nakedGraphicActive != null && this._nakedGraphicCycle != null && this._nakedGraphicCycle.Count > 0)
+                if (_nakedGraphicActive != null && _nakedGraphicCycle != null && _nakedGraphicCycle.Count > 0)
                 {
                     if (Find.TickManager.TicksGame % 31 == 0)
                     {
-                        if (this.Pawn.jobs != null && this.Pawn.CurJobDef != JobDefOf.Wait_Wander && this.Pawn.CurJobDef != JobDefOf.Wait && this.Pawn.CurJobDef != JobDefOf.GotoWander)
+                        if (Pawn.jobs != null && Pawn.CurJobDef != JobDefOf.Wait_Wander && Pawn.CurJobDef != JobDefOf.Wait && Pawn.CurJobDef != JobDefOf.GotoWander)
                         {
-                            Thing carriedThing = this.Pawn.carryTracker.CarriedThing;
-                            LocalTargetInfo target = this.Pawn.CurJob.targetA;
+                            Thing carriedThing = Pawn.carryTracker.CarriedThing;
+                            LocalTargetInfo target = Pawn.CurJob.targetA;
                             if (carriedThing != null)
                             {
-                                target = this.Pawn.CurJob.targetB;
+                                target = Pawn.CurJob.targetB;
                             }
-                            if (target != null && (target.Cell - this.Pawn.Position).LengthHorizontal > this.minDistanceToFly)
+                            if (target != null && (target.Cell - Pawn.Position).LengthHorizontal > minDistanceToFly)
                             {
-                                this.parent.Severity = 1.5f;
+                                parent.Severity = 1.5f;
                             }
                             else
                             {
-                                this.parent.Severity = .5f;
+                                parent.Severity = .5f;
                             }
                         }
                         else
                         {
-                            this.parent.Severity = .5f;
+                            parent.Severity = .5f;
                         }
                     }
 

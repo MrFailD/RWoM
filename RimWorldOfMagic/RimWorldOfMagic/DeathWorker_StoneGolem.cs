@@ -29,7 +29,7 @@ namespace TorannMagic
 
         public void SingleSpawnLoop(IntVec3 position, Map map, Building_TMGolemStone building)
         {
-            AbilityUser.SpawnThings spawnables = new SpawnThings();
+            SpawnThings spawnables = new SpawnThings();
             if (building.madeFromChunk != null)
             {
                 spawnables.def = building.madeFromChunk;

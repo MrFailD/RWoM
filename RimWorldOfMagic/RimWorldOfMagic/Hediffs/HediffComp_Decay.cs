@@ -16,14 +16,14 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_References.Look(ref this.hediffInstigator, "hediffInstigator");
+            Scribe_References.Look(ref hediffInstigator, "hediffInstigator");
         }
 
         public string labelCap
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -31,14 +31,14 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
                 
@@ -47,12 +47,12 @@ namespace TorannMagic
 
         public override void CompPostTick(ref float severityAdjustment)
         {
-            bool flag = base.Pawn.DestroyedOrNull();
+            bool flag = Pawn.DestroyedOrNull();
             if (!flag)
             {
-                if (base.Pawn.Spawned)
+                if (Pawn.Spawned)
                 {
-                    if (Find.TickManager.TicksGame % tickAction == 0 && !base.Pawn.Dead && this.parent.Part != null && Pawn.health.hediffSet.GetPartHealth(this.parent.Part) > 0)
+                    if (Find.TickManager.TicksGame % tickAction == 0 && !Pawn.Dead && parent.Part != null && Pawn.health.hediffSet.GetPartHealth(parent.Part) > 0)
                     {
                         severityAdjustment -= Rand.Range(.05f, .1f);
                         if(Pawn.RaceProps != null)
@@ -65,7 +65,7 @@ namespace TorannMagic
                                     Apparel p = Pawn.apparel.WornApparel[i] as Apparel;
                                     if(p != null)
                                     {                                        
-                                        if(p.def.apparel.CoversBodyPart(this.parent.Part) && p.HitPoints > 0)
+                                        if(p.def.apparel.CoversBodyPart(parent.Part) && p.HitPoints > 0)
                                         {
                                             p.HitPoints = Mathf.Clamp(p.HitPoints - Rand.Range(30, 40), 0, p.MaxHitPoints);
                                             damageArmor = true;
@@ -78,16 +78,16 @@ namespace TorannMagic
                             }
                             if(!damageArmor)
                             {
-                                TM_Action.DamageEntities(Pawn, this.parent.Part, 10f, TMDamageDefOf.DamageDefOf.TM_DecayDD, hediffInstigator);
+                                TM_Action.DamageEntities(Pawn, parent.Part, 10f, TMDamageDefOf.DamageDefOf.TM_DecayDD, hediffInstigator);
                                 TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_BlackSmoke, Pawn.DrawPos, Pawn.Map, Rand.Range(.2f, .5f), 1f, .1f, 2f, Rand.Range(-20, 20), Rand.Range(.25f, .5f), 0, Rand.Range(0, 360));
                                 TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Disease, Pawn.DrawPos, Pawn.Map, Rand.Range(.2f, .5f), 1f, .1f, 2f, Rand.Range(-20, 20), Rand.Range(.25f, .5f), Rand.Range(0,360), Rand.Range(0, 360));
                             }                           
                         }
                     }
 
-                    if (Pawn.health.hediffSet.GetPartHealth(this.parent.Part) <= 0)
+                    if (Pawn.health.hediffSet.GetPartHealth(parent.Part) <= 0)
                     {
-                        this.shouldRemove = true;
+                        shouldRemove = true;
                     }
                 } 
             }

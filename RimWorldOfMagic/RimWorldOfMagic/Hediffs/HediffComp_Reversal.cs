@@ -15,7 +15,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -23,36 +23,36 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
-                this.age = 60;
+                age = 60;
             }
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
-                if(this.age <=0)
+                if(age <=0)
                 {
                     severityAdjustment--;
-                    this.age = 60;
+                    age = 60;
                 }
-                this.age--;
+                age--;
             }
         }
 
@@ -60,7 +60,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.parent.Severity < .1f;
+                return base.CompShouldRemove || parent.Severity < .1f;
             }
         }
     }

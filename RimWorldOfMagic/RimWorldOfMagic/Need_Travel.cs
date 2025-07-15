@@ -17,7 +17,7 @@ namespace TorannMagic
         {
             get
             {
-                bool flag = this.CurLevel < 0.3f;
+                bool flag = CurLevel < 0.3f;
                 TravelCategory result;
                 if (flag)
                 {
@@ -25,7 +25,7 @@ namespace TorannMagic
                 }
                 else
                 {
-                    bool flag2 = this.CurLevel < 0.7f;
+                    bool flag2 = CurLevel < 0.7f;
                     if (flag2)
                     {
                         result = TravelCategory.Complacent;
@@ -45,10 +45,10 @@ namespace TorannMagic
 
         public Need_Travel(Pawn pawn) : base(pawn)
 		{
-            this.lastTravelTick = -999;
-            this.threshPercents = new List<float>();
-            this.threshPercents.Add((0.3f / this.MaxLevel));
-            this.threshPercents.Add((0.7f / this.MaxLevel));       
+            lastTravelTick = -999;
+            threshPercents = new List<float>();
+            threshPercents.Add((0.3f / MaxLevel));
+            threshPercents.Add((0.7f / MaxLevel));       
         }
 
         public override void SetInitialLevel()
@@ -60,13 +60,13 @@ namespace TorannMagic
         {
             if(!base.IsFrozen)
             {
-                if(InCaravan(this.pawn))
+                if(InCaravan(pawn))
                 {
-                    CurLevel += this.needGain;
+                    CurLevel += needGain;
                 }
                 else
                 {
-                    CurLevel -= this.needLoss;
+                    CurLevel -= needLoss;
                 }
             }
         }       

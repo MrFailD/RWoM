@@ -27,7 +27,7 @@ namespace TorannMagic
 
         public CompProperties_AIController()
         {
-            this.compClass = typeof(CompAIController);
+            compClass = typeof(CompAIController);
         }
     }
 }

@@ -18,16 +18,16 @@ namespace TorannMagic.Weapon
         private bool validTarg;
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -44,33 +44,33 @@ namespace TorannMagic.Weapon
         {
             Map map = base.CasterPawn.Map;
 
-            IntVec3 destinationRPos = this.currentTarget.Cell;
-            IntVec3 destinationLPos = this.currentTarget.Cell;
-            currentPosL = this.currentTarget.Cell;
-            currentPosR = this.currentTarget.Cell;
-            IntVec3 angleVec = (this.currentTarget.Cell - this.CasterPawn.Position).RotatedBy(Rot4.FromAngleFlat(90));
+            IntVec3 destinationRPos = currentTarget.Cell;
+            IntVec3 destinationLPos = currentTarget.Cell;
+            currentPosL = currentTarget.Cell;
+            currentPosR = currentTarget.Cell;
+            IntVec3 angleVec = (currentTarget.Cell - CasterPawn.Position).RotatedBy(Rot4.FromAngleFlat(90));
             destinationRPos.x += angleVec.x;
             destinationRPos.z += angleVec.z;
-            xProbR = CalculateAngles(this.currentTarget.Cell, destinationRPos);
-            angleVec = (this.currentTarget.Cell - this.CasterPawn.Position).RotatedBy(Rot4.FromAngleFlat(-90));
+            xProbR = CalculateAngles(currentTarget.Cell, destinationRPos);
+            angleVec = (currentTarget.Cell - CasterPawn.Position).RotatedBy(Rot4.FromAngleFlat(-90));
             destinationLPos.x += angleVec.x;
             destinationLPos.z += angleVec.z;
-            xProbL = CalculateAngles(this.currentTarget.Cell, destinationLPos);
+            xProbL = CalculateAngles(currentTarget.Cell, destinationLPos);
 
-            AbilityUser.SpawnThings tempPod = new SpawnThings();
+            SpawnThings tempPod = new SpawnThings();
             tempPod.def = ThingDef.Named("TM_ArcaneBarrier");
             tempPod.spawnCount = 1;
 
-            SingleSpawnLoop(tempPod, this.currentTarget.Cell, this.CasterPawn.Map);
-            FleckMaker.ThrowHeatGlow(this.currentTarget.Cell, map, 1f);
+            SingleSpawnLoop(tempPod, currentTarget.Cell, CasterPawn.Map);
+            FleckMaker.ThrowHeatGlow(currentTarget.Cell, map, 1f);
 
             for (int i = 0; i < 5; i++)
             {
-                currentPosR = GetNewPos(currentPosR, this.currentTarget.Cell.x <= destinationRPos.x, this.currentTarget.Cell.z <= destinationRPos.z, false, 0, 0, xProbR, 1 - xProbR);
-                if(currentPosR.IsValid && currentPosR.InBoundsWithNullCheck(this.CasterPawn.Map) && !currentPosR.Impassable(this.CasterPawn.Map) && this.currentPosR.Walkable(this.CasterPawn.Map))
+                currentPosR = GetNewPos(currentPosR, currentTarget.Cell.x <= destinationRPos.x, currentTarget.Cell.z <= destinationRPos.z, false, 0, 0, xProbR, 1 - xProbR);
+                if(currentPosR.IsValid && currentPosR.InBoundsWithNullCheck(CasterPawn.Map) && !currentPosR.Impassable(CasterPawn.Map) && currentPosR.Walkable(CasterPawn.Map))
                 {
                     bool flag = true;
-                    foreach (Thing current in currentPosR.GetThingList(this.CasterPawn.Map))
+                    foreach (Thing current in currentPosR.GetThingList(CasterPawn.Map))
                     {
                         if(current.def.altitudeLayer == AltitudeLayer.Building || current.def.altitudeLayer == AltitudeLayer.Item || current.def.altitudeLayer == AltitudeLayer.ItemImportant)
                         {
@@ -79,15 +79,15 @@ namespace TorannMagic.Weapon
                     }
                     if (flag)
                     {
-                        SingleSpawnLoop(tempPod, currentPosR, this.CasterPawn.Map);
+                        SingleSpawnLoop(tempPod, currentPosR, CasterPawn.Map);
                         FleckMaker.ThrowHeatGlow(currentPosR, map, .6f);
                     }
                 }
-                currentPosL = GetNewPos(currentPosL, this.currentTarget.Cell.x <= destinationLPos.x, this.currentTarget.Cell.z <= destinationLPos.z, false, 0, 0, xProbL, 1 - xProbL);
-                if (currentPosL.IsValid && currentPosL.InBoundsWithNullCheck(this.CasterPawn.Map) && !currentPosL.Impassable(this.CasterPawn.Map) && this.currentPosL.Walkable(this.CasterPawn.Map))
+                currentPosL = GetNewPos(currentPosL, currentTarget.Cell.x <= destinationLPos.x, currentTarget.Cell.z <= destinationLPos.z, false, 0, 0, xProbL, 1 - xProbL);
+                if (currentPosL.IsValid && currentPosL.InBoundsWithNullCheck(CasterPawn.Map) && !currentPosL.Impassable(CasterPawn.Map) && currentPosL.Walkable(CasterPawn.Map))
                 {
                     bool flag = true;
-                    foreach (Thing current in currentPosL.GetThingList(this.CasterPawn.Map))
+                    foreach (Thing current in currentPosL.GetThingList(CasterPawn.Map))
                     {
                         if (current.def.altitudeLayer == AltitudeLayer.Building || current.def.altitudeLayer == AltitudeLayer.Item || current.def.altitudeLayer == AltitudeLayer.ItemImportant)
                         {
@@ -96,12 +96,12 @@ namespace TorannMagic.Weapon
                     }
                     if (flag)
                     { 
-                        SingleSpawnLoop(tempPod, currentPosL, this.CasterPawn.Map);
+                        SingleSpawnLoop(tempPod, currentPosL, CasterPawn.Map);
                         FleckMaker.ThrowHeatGlow(currentPosL, map, .6f);
                     }
                 }
             }
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return true;
         }
 
@@ -118,7 +118,7 @@ namespace TorannMagic.Weapon
             bool flag = spawnables.def != null;
             if (flag)
             {
-                Faction faction = this.CasterPawn.Faction;
+                Faction faction = CasterPawn.Faction;
                 ThingDef def = spawnables.def;
                 ThingDef stuff = null;
                 bool madeFromStuff = def.MadeFromStuff;

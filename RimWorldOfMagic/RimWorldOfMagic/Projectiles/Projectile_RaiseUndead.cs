@@ -17,12 +17,12 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
             int raisedPawns = 0;
 
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             Pawn victim = hitThing as Pawn;
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             pwr = comp.MagicData.MagicPowerSkill_RaiseUndead.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_RaiseUndead_pwr");
@@ -31,7 +31,7 @@ namespace TorannMagic
             Thing corpseThing = null;
             
             IntVec3 curCell;
-            IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(base.Position, this.def.projectile.explosionRadius, true);
+            IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(Position, this.def.projectile.explosionRadius, true);
             for (int i = 0; i < targets.Count(); i++)
             {
                 curCell = targets.ToArray<IntVec3>()[i];

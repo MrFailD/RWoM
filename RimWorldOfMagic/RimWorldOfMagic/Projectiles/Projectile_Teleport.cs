@@ -23,7 +23,7 @@ namespace TorannMagic
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < destructTimer;
+            bool flag = age < destructTimer;
             if (!flag)
             {
                 Messages.Message("PortalCollapseFinal".Translate(), MessageTypeDefOf.SilentInput);                
@@ -33,7 +33,7 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             GenClamor.DoClamor(this, 2.1f, ClamorDefOf.Impact);
             //base.Impact(hitThing);
             string msg;
@@ -44,13 +44,13 @@ namespace TorannMagic
             IntVec3 arg_pos_2;
             IntVec3 arg_pos_3;
 
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
             MagicPowerSkill pwr = comp.MagicData.MagicPowerSkill_Teleport.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Teleport_pwr");
             MagicPowerSkill ver = comp.MagicData.MagicPowerSkill_Teleport.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Teleport_ver");
             pwrVal = pwr.level;
             verVal = ver.level;
-            CellRect cellRect = CellRect.CenteredOn(base.Position, 1);
+            CellRect cellRect = CellRect.CenteredOn(Position, 1);
             cellRect.ClipInsideMap(map);
             IntVec3 centerCell = cellRect.CenterCell;
             if (pawn.story.traits.HasTrait(TorannMagicDefOf.TM_Wanderer) || (comp.customClass != null && comp.customClass.classMageAbilities.Contains(TorannMagicDefOf.TM_Cantrips)))
@@ -60,7 +60,7 @@ namespace TorannMagic
                 pwrVal = (tmpPwrVal > pwrVal) ? tmpPwrVal : pwrVal;
                 verVal = (tmpVerVal > verVal) ? tmpVerVal : verVal;
             }
-            if (this.primed != false)
+            if (primed != false)
             {
                 destructTimer = Mathf.RoundToInt((4800 + (pwrVal * 1200) + (pwrVal * 1200)) * comp.arcaneDmg);
                 arg_pos_1 = centerCell;
@@ -72,7 +72,7 @@ namespace TorannMagic
 
                 if ((arg_pos_1.IsValid && arg_pos_1.Standable(map)) && (arg_pos_2.IsValid && arg_pos_2.Standable(map)) && (arg_pos_3.IsValid && arg_pos_3.Standable(map)))
                 {
-                    AbilityUser.SpawnThings tempPod = new SpawnThings();
+                    SpawnThings tempPod = new SpawnThings();
                     IntVec3 shiftPos = centerCell;
                     centerCell.x++;
 
@@ -95,7 +95,7 @@ namespace TorannMagic
                     tempPod.spawnCount = 1;
                     try
                     {
-                        this.SingleSpawnLoop(tempPod, shiftPos, map);
+                        SingleSpawnLoop(tempPod, shiftPos, map);
                         Building teleporter = shiftPos.GetFirstBuilding(map);                        
                         int num = teleporter.TryGetComp<CompRefuelable>().GetFuelCountToFullyRefuel();
                         teleporter.TryGetComp<CompRefuelable>().Refuel(num);
@@ -109,7 +109,7 @@ namespace TorannMagic
                         {
                             comp.Mana.CurLevel += comp.ActualManaCost(TorannMagicDefOf.TM_Teleport);                            
                         }
-                        this.age = this.destructTimer;
+                        age = destructTimer;
                         return;
                     }
                     
@@ -135,7 +135,7 @@ namespace TorannMagic
                     centerCell.z++;
                     try
                     {
-                        this.SingleSpawnLoop(tempPod, shiftPos, map);
+                        SingleSpawnLoop(tempPod, shiftPos, map);
 
                     }
                     catch
@@ -146,7 +146,7 @@ namespace TorannMagic
                         {
                             comp.Mana.CurLevel += comp.ActualManaCost(TorannMagicDefOf.TM_Teleport);
                         }
-                        this.age = this.destructTimer;
+                        age = destructTimer;
                         return;
                     }
 
@@ -175,16 +175,16 @@ namespace TorannMagic
                     //    }
                     //}
 
-                    msg = "PortalCollapseIn".Translate( ((destructTimer - this.age) / 60).ToString()
+                    msg = "PortalCollapseIn".Translate( ((destructTimer - age) / 60).ToString()
                         );
                     Messages.Message(msg, MessageTypeDefOf.NeutralEvent);
-                    this.primed = false;
+                    primed = false;
                 }
                 else
                 {
                     Messages.Message("InvalidPortal".Translate(), MessageTypeDefOf.RejectInput);
                     comp.Mana.GainNeed(comp.ActualManaCost(TorannMagicDefOf.TM_Teleport));
-                    this.destructTimer = 0;
+                    destructTimer = 0;
                 }
             }
             //foreach (SpawnThings current in this.localSpawnThings)
@@ -195,28 +195,28 @@ namespace TorannMagic
 
             //}
 
-            if (this.age < this.destructTimer)
+            if (age < destructTimer)
             {
-                if (this.age == (destructTimer * 0.5))
+                if (age == (destructTimer * 0.5))
                 {
                     msg = "PortalCollapseIn".Translate( 
-                        ((destructTimer - this.age) / 60).ToString()
+                        ((destructTimer - age) / 60).ToString()
                         );
                     Messages.Message(msg, MessageTypeDefOf.NeutralEvent);
                 }
-                if (this.age == (destructTimer * 0.75))
+                if (age == (destructTimer * 0.75))
                 {
                     msg = "PortalCollapseIn".Translate(
-                        ((destructTimer - this.age) / 60).ToString()
+                        ((destructTimer - age) / 60).ToString()
                         );
                     Messages.Message(msg, MessageTypeDefOf.NeutralEvent);
                 }
-                if (this.age == (destructTimer * 0.95))
+                if (age == (destructTimer * 0.95))
                 {
                     //msg = "Portal collapses in " + ((destructTimer - this.age) / 60) + " seconds!!";
                     //Messages.Message(msg, MessageTypeDefOf.ThreatBig);
                     msg = "PortalCollapseIn".Translate(
-                        ((destructTimer - this.age) / 60).ToString()
+                        ((destructTimer - age) / 60).ToString()
                         );
                     Messages.Message(msg, MessageTypeDefOf.NeutralEvent);
                 }
@@ -224,7 +224,7 @@ namespace TorannMagic
             else
             {
                 //age expired, destroy teleport
-                this.PortalCollapse(centerCell, map, 3);
+                PortalCollapse(centerCell, map, 3);
             }
             Destroy();
         }
@@ -232,7 +232,7 @@ namespace TorannMagic
         protected void PortalCollapse(IntVec3 pos, Map map, float radius)
         {
             ThingDef def = this.def;
-            Explosion(pos, map, radius, DamageDefOf.Bomb, this.launcher, null, def, this.equipmentDef, TorannMagicDefOf.Mote_Base_Smoke, 0.4f, 1, false, null, 0f, 1);
+            Explosion(pos, map, radius, DamageDefOf.Bomb, launcher, null, def, equipmentDef, TorannMagicDefOf.Mote_Base_Smoke, 0.4f, 1, false, null, 0f, 1);
 
         }
 
@@ -269,7 +269,7 @@ namespace TorannMagic
             bool flag = spawnables.def != null;
             if (flag)
             {
-                Faction faction = TM_Action.ResolveFaction(this.launcher as Pawn, spawnables, this.launcher.Faction);
+                Faction faction = TM_Action.ResolveFaction(launcher as Pawn, spawnables, launcher.Faction);
                 bool flag2 = spawnables.def.race != null;
                 if (flag2)
                 {
@@ -280,7 +280,7 @@ namespace TorannMagic
                     }
                     else
                     {
-                        TM_Action.SpawnPawn(this.launcher as Pawn, spawnables, faction, position, 0, map);
+                        TM_Action.SpawnPawn(launcher as Pawn, spawnables, faction, position, 0, map);
                     }
                 }
                 else
@@ -305,15 +305,15 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.primed, "primed", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.destructTimer, "destructTimer", 3600, false);
+            Scribe_Values.Look<bool>(ref primed, "primed", false, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref destructTimer, "destructTimer", 3600, false);
         }
 
 

@@ -43,7 +43,7 @@ namespace TorannMagic
         {
             if (billDoer != null)
             {
-                if (base.CheckSurgeryFail(billDoer, pawn, ingredients, part, bill) || this.CheckDruidSurgeryFail(billDoer, pawn, ingredients, part, bill))
+                if (CheckSurgeryFail(billDoer, pawn, ingredients, part, bill) || CheckDruidSurgeryFail(billDoer, pawn, ingredients, part, bill))
                 {
                     return;
                 }
@@ -94,7 +94,7 @@ namespace TorannMagic
                         reason = "TM_InsufficientManaForSurgery".Translate();
                         Find.LetterStack.ReceiveLetter("LetterLabelRegrowthSurgeryFail".Translate(), "LetterRegrowthSurgeryFail".Translate(
                             surgeon.LabelCap,
-                            this.recipe.defName,
+                            recipe.defName,
                             patient.Label,
                             reason,
                             surgeon.LabelShort
@@ -120,7 +120,7 @@ namespace TorannMagic
                     reason = "TM_NoRegrowthSpell".Translate();
                     Find.LetterStack.ReceiveLetter("LetterLabelRegrowthSurgeryFail".Translate(), "LetterRegrowthSurgeryFail".Translate(
                         surgeon.LabelCap,
-                        this.recipe.defName,
+                        recipe.defName,
                         patient.Label,
                         reason,
                         surgeon.LabelShort
@@ -131,7 +131,7 @@ namespace TorannMagic
             reason = "TM_NotMagicUser".Translate();
             Find.LetterStack.ReceiveLetter("LetterLabelRegrowthSurgeryFail".Translate(), "LetterRegrowthSurgeryFail".Translate(
                         surgeon.LabelCap,
-                        this.recipe.defName,
+                        recipe.defName,
                         patient.Label,
                         reason,
                         surgeon.LabelShort

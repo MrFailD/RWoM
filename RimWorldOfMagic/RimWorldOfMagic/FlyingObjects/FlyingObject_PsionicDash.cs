@@ -47,7 +47,7 @@ namespace TorannMagic
         {
             get
             {
-                int num = Mathf.RoundToInt((this.origin - this.destination).magnitude / (this.speed / 100f));
+                int num = Mathf.RoundToInt((origin - destination).magnitude / (speed / 100f));
                 bool flag = num < 1;
                 if (flag)
                 {
@@ -61,7 +61,7 @@ namespace TorannMagic
         {
             get
             {
-                return new IntVec3(this.destination);
+                return new IntVec3(destination);
             }
         }
 
@@ -69,8 +69,8 @@ namespace TorannMagic
         {
             get
             {
-                Vector3 b = (this.destination - this.origin) * (1f - (float)this.ticksToImpact / (float)this.StartingTicksToImpact);
-                return this.origin + b + Vector3.up * this.def.Altitude;
+                Vector3 b = (destination - origin) * (1f - (float)ticksToImpact / (float)StartingTicksToImpact);
+                return origin + b + Vector3.up * def.Altitude;
             }
         }
 
@@ -78,7 +78,7 @@ namespace TorannMagic
         {
             get
             {
-                return Quaternion.LookRotation(this.destination - this.origin);
+                return Quaternion.LookRotation(destination - origin);
             }
         }
 
@@ -86,35 +86,35 @@ namespace TorannMagic
         {
             get
             {
-                return this.ExactPosition;
+                return ExactPosition;
             }
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<Vector3>(ref this.origin, "origin", default(Vector3), false);
-            Scribe_Values.Look<Vector3>(ref this.destination, "destination", default(Vector3), false);
-            Scribe_Values.Look<Vector3>(ref this.trueOrigin, "trueOrigin", default(Vector3), false);
-            Scribe_Values.Look<Vector3>(ref this.trueDestination, "trueDestination", default(Vector3), false);            
-            Scribe_Values.Look<int>(ref this.ticksToImpact, "ticksToImpact", 0, false);
-            Scribe_Values.Look<int>(ref this.weaponDmg, "weaponDmg", 0, false);
-            Scribe_Values.Look<int>(ref this.dashStep, "dashStep", 0, false);
-            Scribe_Values.Look<float>(ref this.trueAngle, "trueAngle", 0, false);
-            Scribe_Values.Look<bool>(ref this.damageLaunched, "damageLaunched", true, false);
-            Scribe_Values.Look<bool>(ref this.explosion, "explosion", false, false);
-            Scribe_References.Look<Thing>(ref this.assignedTarget, "assignedTarget", false);
-            Scribe_References.Look<Pawn>(ref this.pawn, "pawn", false);
-            Scribe_Deep.Look<Thing>(ref this.flyingThing, "flyingThing", new object[0]);
+            Scribe_Values.Look<Vector3>(ref origin, "origin", default(Vector3), false);
+            Scribe_Values.Look<Vector3>(ref destination, "destination", default(Vector3), false);
+            Scribe_Values.Look<Vector3>(ref trueOrigin, "trueOrigin", default(Vector3), false);
+            Scribe_Values.Look<Vector3>(ref trueDestination, "trueDestination", default(Vector3), false);            
+            Scribe_Values.Look<int>(ref ticksToImpact, "ticksToImpact", 0, false);
+            Scribe_Values.Look<int>(ref weaponDmg, "weaponDmg", 0, false);
+            Scribe_Values.Look<int>(ref dashStep, "dashStep", 0, false);
+            Scribe_Values.Look<float>(ref trueAngle, "trueAngle", 0, false);
+            Scribe_Values.Look<bool>(ref damageLaunched, "damageLaunched", true, false);
+            Scribe_Values.Look<bool>(ref explosion, "explosion", false, false);
+            Scribe_References.Look<Thing>(ref assignedTarget, "assignedTarget", false);
+            Scribe_References.Look<Pawn>(ref pawn, "pawn", false);
+            Scribe_Deep.Look<Thing>(ref flyingThing, "flyingThing", new object[0]);
         }
 
         private void Initialize()
         {
             if (pawn != null)
             {
-                FleckMaker.Static(this.origin, this.Map, FleckDefOf.ExplosionFlash, 12f);
+                FleckMaker.Static(origin, Map, FleckDefOf.ExplosionFlash, 12f);
                 SoundDefOf.Ambient_AltitudeWind.sustainFadeoutTime.Equals(30.0f);
-                FleckMaker.ThrowDustPuff(this.origin, this.Map, Rand.Range(1.2f, 1.8f));
+                FleckMaker.ThrowDustPuff(origin, Map, Rand.Range(1.2f, 1.8f));
                 CompAbilityUserMight comp = pawn.GetCompAbilityUserMight();
                 verVal = TM_Calc.GetSkillVersatilityLevel(pawn, TorannMagicDefOf.TM_PsionicDash, false);
                 pwrVal = TM_Calc.GetSkillPowerLevel(pawn, TorannMagicDefOf.TM_PsionicDash, false);
@@ -122,7 +122,7 @@ namespace TorannMagic
                 //pwrVal = TM_Calc.GetMightSkillLevel(pawn, comp.MightData.MightPowerSkill_PsionicDash, "TM_PsionicDash", "_pwr", true);
                 //this.pwrVal = comp.MightData.MightPowerSkill_PsionicDash.FirstOrDefault((MightPowerSkill x) => x.label == "TM_PsionicDash_pwr").level;
                 //this.verVal = comp.MightData.MightPowerSkill_PsionicDash.FirstOrDefault((MightPowerSkill x) => x.label == "TM_PsionicDash_ver").level;
-                this.arcaneDmg = comp.mightPwr;
+                arcaneDmg = comp.mightPwr;
                 //if (pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless))
                 //{
                 //    this.pwrVal = comp.MightData.MightPowerSkill_Mimic.FirstOrDefault((MightPowerSkill x) => x.label == "TM_Mimic_pwr").level;
@@ -134,12 +134,12 @@ namespace TorannMagic
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing, DamageInfo? impactDamage)
         {
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, impactDamage);
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, impactDamage);
         }
 
         public void Launch(Thing launcher, LocalTargetInfo targ, Thing flyingThing)
         {
-            this.Launch(launcher, base.Position.ToVector3Shifted(), targ, flyingThing, null);
+            Launch(launcher, Position.ToVector3Shifted(), targ, flyingThing, null);
         }
 
         public void Launch(Thing launcher, Vector3 origin, LocalTargetInfo targ, Thing flyingThing, DamageInfo? newDamageInfo = null)
@@ -148,7 +148,7 @@ namespace TorannMagic
             pawn = launcher as Pawn;
             if (pawn.Drafted)
             {
-                this.drafted = true;
+                drafted = true;
             }
             if (spawned)
             {
@@ -158,62 +158,62 @@ namespace TorannMagic
             ModOptions.Constants.SetPawnInFlight(true);
             //
             this.origin = origin;
-            this.trueOrigin = origin;
-            this.impactDamage = newDamageInfo;
+            trueOrigin = origin;
+            impactDamage = newDamageInfo;
             this.flyingThing = flyingThing;
             bool flag = targ.Thing != null;
             if (flag)
             {
-                this.assignedTarget = targ.Thing;
+                assignedTarget = targ.Thing;
             }
-            this.speed = 15;
-            this.trueDestination = targ.Cell.ToVector3Shifted();            
-            this.direction = GetVector(this.trueOrigin.ToIntVec3(), targ.Cell);
-            this.trueAngle = (Quaternion.AngleAxis(90, Vector3.up) * this.direction).ToAngleFlat();
-            this.destination = this.origin + (this.direction * 3f);         
-            this.ticksToImpact = this.StartingTicksToImpact;
-            this.Initialize();
+            speed = 15;
+            trueDestination = targ.Cell.ToVector3Shifted();            
+            direction = GetVector(trueOrigin.ToIntVec3(), targ.Cell);
+            trueAngle = (Quaternion.AngleAxis(90, Vector3.up) * direction).ToAngleFlat();
+            destination = this.origin + (direction * 3f);         
+            ticksToImpact = StartingTicksToImpact;
+            Initialize();
         }
 
         protected override void Tick()
         {
             //base.Tick();
-            this.drawTicks--;
-            if(this.drawTicks <= 0)
+            drawTicks--;
+            if(drawTicks <= 0)
             {
-                this.shouldDrawPawn = false;
+                shouldDrawPawn = false;
             }
-            Vector3 exactPosition = this.ExactPosition;
-            this.ticksToImpact--;
-            bool flag = !this.ExactPosition.InBoundsWithNullCheck(base.Map);
+            Vector3 exactPosition = ExactPosition;
+            ticksToImpact--;
+            bool flag = !ExactPosition.InBoundsWithNullCheck(Map);
             //if (flag)
             //{
             //    this.ticksToImpact++;
             //    base.Position = this.ExactPosition.ToIntVec3();
             //    this.Destroy(DestroyMode.Vanish);
             //}
-            if (flag || !this.ExactPosition.ToIntVec3().Walkable(base.Map) || this.ExactPosition.ToIntVec3().DistanceToEdge(base.Map) <= 1)
+            if (flag || !ExactPosition.ToIntVec3().Walkable(Map) || ExactPosition.ToIntVec3().DistanceToEdge(Map) <= 1)
             {
-                this.earlyImpact = true;
-                this.ImpactSomething();
+                earlyImpact = true;
+                ImpactSomething();
             }
             else
             {
-                base.Position = this.ExactPosition.ToIntVec3();
-                FleckMaker.ThrowDustPuff(base.Position, base.Map, Rand.Range(0.8f, 1.2f));
+                Position = ExactPosition.ToIntVec3();
+                FleckMaker.ThrowDustPuff(Position, Map, Rand.Range(0.8f, 1.2f));
                 if (Find.TickManager.TicksGame % 4 == 0)
                 {
                     ApplyDashDamage();
                 }
-                bool flag2 = this.ticksToImpact <= 0;
+                bool flag2 = ticksToImpact <= 0;
                 if (flag2)
                 {
-                    bool flag3 = this.DestinationCell.InBoundsWithNullCheck(base.Map);
+                    bool flag3 = DestinationCell.InBoundsWithNullCheck(Map);
                     if (flag3)
                     {
-                        base.Position = this.DestinationCell;
+                        Position = DestinationCell;
                     }
-                    this.ImpactSomething();
+                    ImpactSomething();
                 }
                 
             }
@@ -221,169 +221,169 @@ namespace TorannMagic
 
         private void ImpactSomething()
         {
-            if (this.dashStep == 0 && !this.earlyImpact) //1
+            if (dashStep == 0 && !earlyImpact) //1
             {
-                this.shouldDrawPawn = false;
-                this.speed = 30;
-                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_PsiCurrent, this.ExactPosition, this.Map, Rand.Range(.3f, .5f), .1f, 0f, .1f, 0, 4f, this.trueAngle, this.trueAngle);
-                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_PsiCurrent, this.ExactPosition, this.Map, Rand.Range(.5f, .6f), .1f, .04f, .1f, 0, 7f, this.trueAngle, this.trueAngle);
-                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_PsiCurrent, this.ExactPosition, this.Map, Rand.Range(.7f, .8f), .1f, .08f, .1f, 0, 10f, this.trueAngle, this.trueAngle);
-                this.origin = this.ExactPosition;
-                this.destination = this.origin + (this.direction * 2f);
-                this.ticksToImpact = this.StartingTicksToImpact;
-                this.dashStep = 1;
+                shouldDrawPawn = false;
+                speed = 30;
+                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_PsiCurrent, ExactPosition, Map, Rand.Range(.3f, .5f), .1f, 0f, .1f, 0, 4f, trueAngle, trueAngle);
+                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_PsiCurrent, ExactPosition, Map, Rand.Range(.5f, .6f), .1f, .04f, .1f, 0, 7f, trueAngle, trueAngle);
+                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_PsiCurrent, ExactPosition, Map, Rand.Range(.7f, .8f), .1f, .08f, .1f, 0, 10f, trueAngle, trueAngle);
+                origin = ExactPosition;
+                destination = origin + (direction * 2f);
+                ticksToImpact = StartingTicksToImpact;
+                dashStep = 1;
             }
-            else if (this.dashStep == 1 && !this.earlyImpact) //2
+            else if (dashStep == 1 && !earlyImpact) //2
             {
-                ExplosiveStep(this.explosiveMagnitude);
-                this.dashStep = 2;
+                ExplosiveStep(explosiveMagnitude);
+                dashStep = 2;
             }
-            else if (this.dashStep == 2 && !this.earlyImpact) //3
+            else if (dashStep == 2 && !earlyImpact) //3
             {
-                SideStep(90, this.sideMagnitude/2, this.sideForwardMagnitude);
-                this.dashStep = 3;
+                SideStep(90, sideMagnitude/2, sideForwardMagnitude);
+                dashStep = 3;
 
             }
-            else if (this.dashStep == 3 && !this.earlyImpact) //4
+            else if (dashStep == 3 && !earlyImpact) //4
             {
-                ExplosiveStep(this.explosiveMagnitude);
-                this.dashStep = 4;
+                ExplosiveStep(explosiveMagnitude);
+                dashStep = 4;
             }
-            else if (this.dashStep == 4 && !this.earlyImpact) //5
+            else if (dashStep == 4 && !earlyImpact) //5
             {
-                SideStep(-90, this.sideMagnitude, this.sideForwardMagnitude);
-                this.dashStep = 5;
+                SideStep(-90, sideMagnitude, sideForwardMagnitude);
+                dashStep = 5;
             }
-            else if (this.dashStep == 5 && !this.earlyImpact) //6 - check for skill upgrades
+            else if (dashStep == 5 && !earlyImpact) //6 - check for skill upgrades
             {
-                ExplosiveStep(this.explosiveMagnitude); 
-                if (this.verVal > 0)
+                ExplosiveStep(explosiveMagnitude); 
+                if (verVal > 0)
                 {
-                    this.dashStep = 6;
+                    dashStep = 6;
                 }
                 else
                 {
-                    this.dashStep = 20;
+                    dashStep = 20;
                 }
             }
-            else if(this.dashStep == 6 && !this.earlyImpact) //skill step 1
+            else if(dashStep == 6 && !earlyImpact) //skill step 1
             {
-                SideStep(90, this.sideMagnitude, this.sideForwardMagnitude);
-                this.dashStep = 7;
+                SideStep(90, sideMagnitude, sideForwardMagnitude);
+                dashStep = 7;
 
             }
-            else if (this.dashStep == 7 && !this.earlyImpact)
+            else if (dashStep == 7 && !earlyImpact)
             {
-                ExplosiveStep(this.explosiveMagnitude);
-                if (this.verVal > 1)
+                ExplosiveStep(explosiveMagnitude);
+                if (verVal > 1)
                 {
-                    this.dashStep = 8;
+                    dashStep = 8;
                 }
                 else
                 {
-                    this.dashStep = 21;
+                    dashStep = 21;
                 }
             }
-            else if (this.dashStep == 8 && !this.earlyImpact) //skill step 2
+            else if (dashStep == 8 && !earlyImpact) //skill step 2
             {
-                SideStep(-90, this.sideMagnitude, this.sideForwardMagnitude);
-                this.dashStep = 9;
+                SideStep(-90, sideMagnitude, sideForwardMagnitude);
+                dashStep = 9;
 
             }
-            else if (this.dashStep == 9 && !this.earlyImpact)
+            else if (dashStep == 9 && !earlyImpact)
             {
-                ExplosiveStep(this.explosiveMagnitude);
-                if (this.verVal > 2)
+                ExplosiveStep(explosiveMagnitude);
+                if (verVal > 2)
                 {
-                    this.dashStep = 10;
+                    dashStep = 10;
                 }
                 else
                 {
-                    this.dashStep = 20;
+                    dashStep = 20;
                 }
             }
-            else if (this.dashStep == 10 && !this.earlyImpact) //skill step 3
+            else if (dashStep == 10 && !earlyImpact) //skill step 3
             {
-                SideStep(90, this.sideMagnitude, this.sideForwardMagnitude);
-                this.dashStep = 11;
+                SideStep(90, sideMagnitude, sideForwardMagnitude);
+                dashStep = 11;
 
             }
-            else if (this.dashStep == 11 && !this.earlyImpact)
+            else if (dashStep == 11 && !earlyImpact)
             {
-                ExplosiveStep(this.explosiveMagnitude);
-                this.dashStep = 21;
+                ExplosiveStep(explosiveMagnitude);
+                dashStep = 21;
             }
-            else if (this.dashStep == 20 && !this.earlyImpact) //Recenter
+            else if (dashStep == 20 && !earlyImpact) //Recenter
             {
-                SideStep(90, this.sideMagnitude / 2, this.sideForwardMagnitude);
-                this.dashStep = 22;
+                SideStep(90, sideMagnitude / 2, sideForwardMagnitude);
+                dashStep = 22;
             }
-            else if(this.dashStep == 21 && !this.earlyImpact)
+            else if(dashStep == 21 && !earlyImpact)
             {
-                SideStep(-90, this.sideMagnitude / 2, this.sideForwardMagnitude);
-                this.dashStep = 22;
+                SideStep(-90, sideMagnitude / 2, sideForwardMagnitude);
+                dashStep = 22;
             }
-            else if (this.dashStep == 22 && !this.earlyImpact) //End
+            else if (dashStep == 22 && !earlyImpact) //End
             {
-                ExplosiveStepFinal(this.explosiveMagnitude/2f);
-                this.dashStep = 50;
+                ExplosiveStepFinal(explosiveMagnitude/2f);
+                dashStep = 50;
             }
             else
             {
-                bool flag = this.assignedTarget != null;
+                bool flag = assignedTarget != null;
                 if (flag)
                 {
-                    Pawn pawn = this.assignedTarget as Pawn;
-                    bool flag2 = pawn != null && pawn.GetPosture() != PawnPosture.Standing && (this.origin - this.destination).MagnitudeHorizontalSquared() >= 20.25f && Rand.Value > 0.2f;
+                    Pawn pawn = assignedTarget as Pawn;
+                    bool flag2 = pawn != null && pawn.GetPosture() != PawnPosture.Standing && (origin - destination).MagnitudeHorizontalSquared() >= 20.25f && Rand.Value > 0.2f;
                     if (flag2)
                     {
-                        this.Impact(null);
+                        Impact(null);
                     }
                     else
                     {
-                        this.Impact(this.assignedTarget);
+                        Impact(assignedTarget);
                     }
                 }
                 else
                 {
-                    this.Impact(null);
+                    Impact(null);
                 }
             }
         }
 
         private void SideStep(float angle, float sideMagnitude, float forwardMagnitude)
         {
-            this.shouldDrawPawn = false;
-            this.speed = 60;
-            this.origin = this.ExactPosition + ((Quaternion.AngleAxis(angle, Vector3.up) * this.direction) * sideMagnitude);
-            this.destination = this.origin + (this.direction * forwardMagnitude);
-            this.ticksToImpact = this.StartingTicksToImpact;            
+            shouldDrawPawn = false;
+            speed = 60;
+            origin = ExactPosition + ((Quaternion.AngleAxis(angle, Vector3.up) * direction) * sideMagnitude);
+            destination = origin + (direction * forwardMagnitude);
+            ticksToImpact = StartingTicksToImpact;            
         }
 
         private void ExplosiveStep(float forwardMagnitude)
         {
-            this.drawTicks = 120;
-            this.speed = 40;
-            TM_MoteMaker.MakePowerBeamMotePsionic(base.Position, this.Map, 10f, 2f, .7f, .1f, .6f);
-            ExplosionHelper.Explode(base.Position, this.Map, 1.7f, TMDamageDefOf.DamageDefOf.TM_PsionicInjury, this.pawn, Mathf.RoundToInt(Rand.Range(8, 14) * (1+ .1f * pwrVal) * this.arcaneDmg), 0, this.def.projectile.soundExplode, def, null, null, null, 0f, 1, null, false, null, 0f, 1, 0.0f, false);
-            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_PsiCurrent, this.ExactPosition, this.Map, Rand.Range(.3f, .5f), .1f, 0f, .1f, 0, 4f, this.trueAngle, this.trueAngle);
-            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_PsiCurrent, this.ExactPosition, this.Map, Rand.Range(.5f, .6f), .1f, .04f, .1f, 0, 7f, this.trueAngle, this.trueAngle);
-            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_PsiCurrent, this.ExactPosition, this.Map, Rand.Range(.7f, .8f), .1f, .08f, .1f, 0, 10f, this.trueAngle, this.trueAngle);
-            this.origin = this.ExactPosition;
-            this.destination = this.origin + (this.direction * forwardMagnitude);
-            this.ticksToImpact = this.StartingTicksToImpact;
+            drawTicks = 120;
+            speed = 40;
+            TM_MoteMaker.MakePowerBeamMotePsionic(Position, Map, 10f, 2f, .7f, .1f, .6f);
+            ExplosionHelper.Explode(Position, Map, 1.7f, TMDamageDefOf.DamageDefOf.TM_PsionicInjury, pawn, Mathf.RoundToInt(Rand.Range(8, 14) * (1+ .1f * pwrVal) * arcaneDmg), 0, def.projectile.soundExplode, def, null, null, null, 0f, 1, null, false, null, 0f, 1, 0.0f, false);
+            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_PsiCurrent, ExactPosition, Map, Rand.Range(.3f, .5f), .1f, 0f, .1f, 0, 4f, trueAngle, trueAngle);
+            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_PsiCurrent, ExactPosition, Map, Rand.Range(.5f, .6f), .1f, .04f, .1f, 0, 7f, trueAngle, trueAngle);
+            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_PsiCurrent, ExactPosition, Map, Rand.Range(.7f, .8f), .1f, .08f, .1f, 0, 10f, trueAngle, trueAngle);
+            origin = ExactPosition;
+            destination = origin + (direction * forwardMagnitude);
+            ticksToImpact = StartingTicksToImpact;
         }
 
         private void ExplosiveStepFinal(float forwardMagnitude)
         {
-            this.shouldDrawPawn = true;
-            this.drawTicks = 60;
-            this.speed = 20;
-            TM_MoteMaker.MakePowerBeamMotePsionic(base.Position, this.Map, 10f, 2f, .7f, .1f, .6f);
-            ExplosionHelper.Explode(base.Position, this.Map, 1.7f, TMDamageDefOf.DamageDefOf.TM_PsionicInjury, this.pawn, Mathf.RoundToInt(Rand.Range(10, 16) * (1 + .1f * pwrVal) * this.arcaneDmg), 0, this.def.projectile.soundExplode, def, null, null, null, 0f, 1, null, false, null, 0f, 1, 0.0f, false);
-            this.origin = this.ExactPosition;
-            this.destination = this.origin + (this.direction * forwardMagnitude);
-            this.ticksToImpact = this.StartingTicksToImpact;
+            shouldDrawPawn = true;
+            drawTicks = 60;
+            speed = 20;
+            TM_MoteMaker.MakePowerBeamMotePsionic(Position, Map, 10f, 2f, .7f, .1f, .6f);
+            ExplosionHelper.Explode(Position, Map, 1.7f, TMDamageDefOf.DamageDefOf.TM_PsionicInjury, pawn, Mathf.RoundToInt(Rand.Range(10, 16) * (1 + .1f * pwrVal) * arcaneDmg), 0, def.projectile.soundExplode, def, null, null, null, 0f, 1, null, false, null, 0f, 1, 0.0f, false);
+            origin = ExactPosition;
+            destination = origin + (direction * forwardMagnitude);
+            ticksToImpact = StartingTicksToImpact;
         }
 
         protected new void Impact(Thing hitThing)
@@ -392,31 +392,31 @@ namespace TorannMagic
             if (flag)
             {
                 Pawn pawn;
-                bool flag2 = (pawn = (base.Position.GetThingList(base.Map).FirstOrDefault((Thing x) => x == this.assignedTarget) as Pawn)) != null;
+                bool flag2 = (pawn = (Position.GetThingList(Map).FirstOrDefault((Thing x) => x == assignedTarget) as Pawn)) != null;
                 if (flag2)
                 {
                     hitThing = pawn;
                 }
             }
-            bool hasValue = this.impactDamage.HasValue;
+            bool hasValue = impactDamage.HasValue;
             if (hasValue)
             {
-                bool flag3 = this.damageLaunched;
+                bool flag3 = damageLaunched;
                 if (flag3)
                 {
-                    hitThing.TakeDamage(this.impactDamage.Value);
+                    hitThing.TakeDamage(impactDamage.Value);
                 }
                 
-                bool flag4 = this.explosion;
+                bool flag4 = explosion;
                 if (flag4)
                 {
-                    ExplosionHelper.Explode(base.Position, base.Map, 0.9f, DamageDefOf.Stun, this, -1, 0, null, null, null, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
+                    ExplosionHelper.Explode(Position, Map, 0.9f, DamageDefOf.Stun, this, -1, 0, null, null, null, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
                 }
             }
-            GenSpawn.Spawn(this.flyingThing, base.Position, base.Map);
+            GenSpawn.Spawn(flyingThing, Position, Map);
             ModOptions.Constants.SetPawnInFlight(false);
-            Pawn p = this.flyingThing as Pawn;
-            if (p.IsColonist && this.drafted)
+            Pawn p = flyingThing as Pawn;
+            if (p.IsColonist && drafted)
             {
                 p.drafter.Drafted = true;
                 if (ModOptions.Settings.Instance.cameraSnap)
@@ -424,25 +424,25 @@ namespace TorannMagic
                     CameraJumper.TryJumpAndSelect(p);
                 }
             }
-            this.Destroy(DestroyMode.Vanish);
+            Destroy(DestroyMode.Vanish);
         }
 
         public void ApplyDashDamage()
         {
-            DamageInfo dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_PsionicInjury, Rand.Range(6,10) * (1 + .1f * pwrVal) * this.arcaneDmg, 0, (float)-1, pawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
+            DamageInfo dinfo = new DamageInfo(TMDamageDefOf.DamageDefOf.TM_PsionicInjury, Rand.Range(6,10) * (1 + .1f * pwrVal) * arcaneDmg, 0, (float)-1, pawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
 
-            bool flag3 = base.Position != default(IntVec3);
+            bool flag3 = Position != default(IntVec3);
             if (flag3)
             {
                 for (int i = 0; i < 8; i++)
                 {
-                    IntVec3 intVec = base.Position + GenAdj.AdjacentCells[i];
+                    IntVec3 intVec = Position + GenAdj.AdjacentCells[i];
                     Pawn cleaveVictim = new Pawn();
-                    cleaveVictim = intVec.GetFirstPawn(base.Map);
+                    cleaveVictim = intVec.GetFirstPawn(Map);
                     if (cleaveVictim != null && cleaveVictim.Faction != pawn.Faction)
                     {
                         cleaveVictim.TakeDamage(dinfo);
-                        FleckMaker.ThrowMicroSparks(cleaveVictim.Position.ToVector3(), base.Map);
+                        FleckMaker.ThrowMicroSparks(cleaveVictim.Position.ToVector3(), Map);
       
                         //System.Random random = new System.Random();
                         //int rnd = GenMath.RoundRandom(random.Next(0, 100));
@@ -459,33 +459,33 @@ namespace TorannMagic
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            bool flag = this.flyingThing != null;
+            bool flag = flyingThing != null;
             if (flag)
             {
-                if (this.shouldDrawPawn)
+                if (shouldDrawPawn)
                 {
-                    bool flag2 = this.flyingThing is Pawn;
+                    bool flag2 = flyingThing is Pawn;
                     if (flag2)
                     {
-                        Vector3 arg_2B_0 = this.DrawPos;
+                        Vector3 arg_2B_0 = DrawPos;
                         bool flag3 = false;
                         if (flag3)
                         {
                             return;
                         }
-                        bool flag4 = !this.DrawPos.ToIntVec3().IsValid;
+                        bool flag4 = !DrawPos.ToIntVec3().IsValid;
                         if (flag4)
                         {
                             return;
                         }
-                        Pawn pawn = this.flyingThing as Pawn;
-                        pawn.Drawer.renderer.RenderPawnAt(this.DrawPos);
+                        Pawn pawn = flyingThing as Pawn;
+                        pawn.Drawer.renderer.RenderPawnAt(DrawPos);
                     }
                     else
                     {
-                        Graphics.DrawMesh(MeshPool.plane10, this.DrawPos, this.ExactRotation, this.flyingThing.def.DrawMatSingle, 25);
+                        Graphics.DrawMesh(MeshPool.plane10, DrawPos, ExactRotation, flyingThing.def.DrawMatSingle, 25);
                     }
-                    base.Comps_PostDraw();
+                    Comps_PostDraw();
                 }
             }
         }

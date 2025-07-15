@@ -19,7 +19,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -27,68 +27,68 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
-                FleckMaker.ThrowLightningGlow(base.Pawn.TrueCenter(), base.Pawn.Map, 1f);
-                if (base.Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_PossessionHD) || base.Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_PossessionHD_I) || base.Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_PossessionHD_II) || base.Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_PossessionHD_III))
+                FleckMaker.ThrowLightningGlow(Pawn.TrueCenter(), Pawn.Map, 1f);
+                if (Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_PossessionHD) || Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_PossessionHD_I) || Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_PossessionHD_II) || Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_PossessionHD_III))
                 {
-                    this.hasPossess = true;
+                    hasPossess = true;
                 }
-                if (base.Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD) || base.Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_I) || base.Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_II) || base.Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_III))
+                if (Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD) || Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_I) || Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_II) || Pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_III))
                 {
-                    this.hasDisguise = true;
+                    hasDisguise = true;
                 }
-                if (this.parent.def.defName == "TM_DisguiseHD" || this.parent.def.defName == "TM_DisguiseHD_I" || this.parent.def.defName == "TM_DisguiseHD_II" || this.parent.def.defName == "TM_DisguiseHD_III")
+                if (parent.def.defName == "TM_DisguiseHD" || parent.def.defName == "TM_DisguiseHD_I" || parent.def.defName == "TM_DisguiseHD_II" || parent.def.defName == "TM_DisguiseHD_III")
                 {
-                    this.disguiseFlag = true;
+                    disguiseFlag = true;
                 }
-                if (this.parent.def.defName == "TM_PossessionHD" || this.parent.def.defName == "TM_PossessionHD_I" || this.parent.def.defName == "TM_PossessionHD_II" || this.parent.def.defName == "TM_PossessionHD_III")
+                if (parent.def.defName == "TM_PossessionHD" || parent.def.defName == "TM_PossessionHD_I" || parent.def.defName == "TM_PossessionHD_II" || parent.def.defName == "TM_PossessionHD_III")
                 {
-                    this.possessFlag = true;
+                    possessFlag = true;
                 }
             }
-            this.age = 60;
+            age = 60;
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
-                Vector3 drawOverhead = base.Pawn.DrawPos;
+                Vector3 drawOverhead = Pawn.DrawPos;
                 drawOverhead.z += .9f;
                 drawOverhead.x += .2f;
-                if(this.hasPossess)
+                if(hasPossess)
                 {
-                    if(this.possessFlag)
+                    if(possessFlag)
                     {
-                        TM_MoteMaker.ThrowTextMote(drawOverhead, base.Pawn.Map, Mathf.RoundToInt(this.parent.Severity).ToString(), Color.white, 1f / 66f, -1f);
+                        TM_MoteMaker.ThrowTextMote(drawOverhead, Pawn.Map, Mathf.RoundToInt(parent.Severity).ToString(), Color.white, 1f / 66f, -1f);
                     }
                 }
                 else
                 {
-                    TM_MoteMaker.ThrowTextMote(drawOverhead, base.Pawn.Map, Mathf.RoundToInt(this.parent.Severity).ToString(), Color.white, 1f / 66f, -1f);
+                    TM_MoteMaker.ThrowTextMote(drawOverhead, Pawn.Map, Mathf.RoundToInt(parent.Severity).ToString(), Color.white, 1f / 66f, -1f);
                 }                
 
-                if (this.age <=0)
+                if (age <=0)
                 {
                     severityAdjustment--;
-                    this.age = 60;                    
+                    age = 60;                    
                 }
-                this.age--;                
+                age--;                
             }
         }
 
@@ -96,17 +96,17 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.parent.Severity < .1f;
+                return base.CompShouldRemove || parent.Severity < .1f;
             }
         }
 
         public override void CompExposeData()
         {
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<bool>(ref this.disguiseFlag, "disguiseFlag", false, false);
-            Scribe_Values.Look<bool>(ref this.possessFlag, "possessFlag", false, false);
-            Scribe_Values.Look<bool>(ref this.hasPossess, "hasPossess", false, false);
-            Scribe_Values.Look<bool>(ref this.hasDisguise, "hasDisguise", false, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<bool>(ref disguiseFlag, "disguiseFlag", false, false);
+            Scribe_Values.Look<bool>(ref possessFlag, "possessFlag", false, false);
+            Scribe_Values.Look<bool>(ref hasPossess, "hasPossess", false, false);
+            Scribe_Values.Look<bool>(ref hasDisguise, "hasDisguise", false, false);
         }
     }
 }

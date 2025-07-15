@@ -17,7 +17,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -25,19 +25,19 @@ namespace TorannMagic
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
-                MagicPowerSkill pwr = this.Pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Inspire.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Inspire_pwr");
-                MagicPowerSkill ver = this.Pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Inspire.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Inspire_ver");
-                this.pwrVal = pwr.level;
-                this.verVal = ver.level;
+                MagicPowerSkill pwr = Pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Inspire.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Inspire_pwr");
+                MagicPowerSkill ver = Pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Inspire.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Inspire_ver");
+                pwrVal = pwr.level;
+                verVal = ver.level;
             }
         }
 
@@ -49,26 +49,26 @@ namespace TorannMagic
             if (initializing)
             {
                 initializing = false;
-                this.Initialize();
+                Initialize();
             }
             
             if(Find.TickManager.TicksGame % 600 == 0)
             {
-                MagicPowerSkill pwr = this.Pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Inspire.First((MagicPowerSkill x) => x.label == "TM_Inspire_pwr");
-                MagicPowerSkill ver = this.Pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Inspire.First((MagicPowerSkill x) => x.label == "TM_Inspire_ver");
-                this.pwrVal = pwr.level;
-                this.verVal = ver.level;
+                MagicPowerSkill pwr = Pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Inspire.First((MagicPowerSkill x) => x.label == "TM_Inspire_pwr");
+                MagicPowerSkill ver = Pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Inspire.First((MagicPowerSkill x) => x.label == "TM_Inspire_ver");
+                pwrVal = pwr.level;
+                verVal = ver.level;
             }
-            Map map = base.Pawn.Map;
+            Map map = Pawn.Map;
             int tickTimer = 1000 - (pwrVal * 100);
             if (Find.TickManager.TicksGame % tickTimer == 0 && map != null)
             {
-                CellRect cellRect = CellRect.CenteredOn(base.Pawn.Position, 3);
+                CellRect cellRect = CellRect.CenteredOn(Pawn.Position, 3);
                 cellRect.ClipInsideMap(map);
 
                 IntVec3 curCell = cellRect.RandomCell;
                 Pawn inspiredPawn = curCell.GetFirstPawn(map);
-                if(inspiredPawn != null && inspiredPawn.IsColonist && inspiredPawn.RaceProps.Humanlike && !inspiredPawn.Inspired && inspiredPawn != this.Pawn && inspiredPawn.story != null && inspiredPawn.story.traits != null && inspiredPawn.workSettings != null)
+                if(inspiredPawn != null && inspiredPawn.IsColonist && inspiredPawn.RaceProps.Humanlike && !inspiredPawn.Inspired && inspiredPawn != Pawn && inspiredPawn.story != null && inspiredPawn.story.traits != null && inspiredPawn.workSettings != null)
                 {
                     InspirationDef id = TM_Calc.GetRandomAvailableInspirationDef(inspiredPawn);
                     if (id != null)

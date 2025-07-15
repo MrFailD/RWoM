@@ -21,7 +21,7 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             Pawn caster = base.CasterPawn;
-            Pawn pawn = this.currentTarget.Thing as Pawn;
+            Pawn pawn = currentTarget.Thing as Pawn;
 
             bool flag = pawn != null && !pawn.Dead;
             if (flag)
@@ -30,14 +30,14 @@ namespace TorannMagic
                 CompAbilityUserMight comp = caster.GetCompAbilityUserMight();
                 //int verVal = TM_Calc.GetMightSkillLevel(caster, comp.MightData.MightPowerSkill_Custom, "TM_Taunt", "_ver", true);
                 //int pwrVal = TM_Calc.GetMightSkillLevel(caster, comp.MightData.MightPowerSkill_Custom, "TM_Taunt", "_pwr", true);
-                int verVal = TM_Calc.GetSkillVersatilityLevel(caster, this.Ability.Def as TMAbilityDef);
-                int pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef);
+                int verVal = TM_Calc.GetSkillVersatilityLevel(caster, Ability.Def as TMAbilityDef);
+                int pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef);
                 radius += (2f * verVal);
                 tauntChance += (pwrVal * .05f);
                 targetsMax += pwrVal;
 
                 SoundInfo info = SoundInfo.InMap(new TargetInfo(caster.Position, caster.Map, false), MaintenanceType.None);
-                if(this.CasterPawn.gender == Gender.Female)
+                if(CasterPawn.gender == Gender.Female)
                 {
                     info.pitchFactor = Rand.Range(1.1f, 1.3f); 
                 }
@@ -49,7 +49,7 @@ namespace TorannMagic
                 Effecter RageWave = TorannMagicDefOf.TM_RageWaveED.Spawn();
                 RageWave.Trigger(new TargetInfo(caster.Position, caster.Map, false), new TargetInfo(caster.Position, caster.Map, false));
                 RageWave.Cleanup();
-                TM_Action.SearchAndTaunt(caster, this.radius, targetsMax, tauntChance);                
+                TM_Action.SearchAndTaunt(caster, radius, targetsMax, tauntChance);                
             }
 
             return true;

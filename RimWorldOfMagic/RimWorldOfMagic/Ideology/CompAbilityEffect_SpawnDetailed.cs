@@ -28,7 +28,7 @@ namespace TorannMagic.Ideology
 				spawnables.spawnCount = Props.spawnCount;
 				spawnables.temporary = Props.temporary;		
 
-				Building_TMElementalRift_Defenders thing = (Building_TMElementalRift_Defenders)TM_Action.SingleSpawnLoop(this.parent.pawn, spawnables, target.Cell, this.parent.pawn.Map, Props.durationTicks, Props.temporary, false, this.parent.pawn.Faction, false, ThingDef.Named("BlocksMarble"));
+				Building_TMElementalRift_Defenders thing = (Building_TMElementalRift_Defenders)TM_Action.SingleSpawnLoop(parent.pawn, spawnables, target.Cell, parent.pawn.Map, Props.durationTicks, Props.temporary, false, parent.pawn.Faction, false, ThingDef.Named("BlocksMarble"));
 				thing.duration = Props.durationTicks;
 			}
 		}
@@ -47,7 +47,7 @@ namespace TorannMagic.Ideology
 				}
 				return false;
 			}
-			if (Props.requiresLineOfSight && !GenSight.LineOfSight(this.parent.pawn.Position, target.Cell, parent.pawn.Map))
+			if (Props.requiresLineOfSight && !GenSight.LineOfSight(parent.pawn.Position, target.Cell, parent.pawn.Map))
 			{
 				return false;
 			}

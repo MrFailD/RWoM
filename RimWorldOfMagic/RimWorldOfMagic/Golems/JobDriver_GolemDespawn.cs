@@ -28,10 +28,10 @@ namespace TorannMagic.Golems
                 },
                 tickAction = () =>
                 {
-                    CompGolem cg = this.pawn.TryGetComp<CompGolem>();
+                    CompGolem cg = pawn.TryGetComp<CompGolem>();
                     if(cg != null && cg.dormantPosition != TargetA.Cell)
                     {
-                        this.EndJobWith(JobCondition.InterruptForced);
+                        EndJobWith(JobCondition.InterruptForced);
                     }
                 },
                 defaultCompleteMode = ToilCompleteMode.PatherArrival

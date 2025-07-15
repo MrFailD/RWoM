@@ -23,7 +23,7 @@ namespace TorannMagic
 
         public void SingleSpawnLoop(IntVec3 position, Map map)
         {
-            AbilityUser.SpawnThings spawnables = new SpawnThings();
+            SpawnThings spawnables = new SpawnThings();
             spawnables.def = ThingDef.Named("ChunkGranite");
             spawnables.spawnCount = 1;
             bool flag = spawnables.def != null;

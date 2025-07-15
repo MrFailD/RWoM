@@ -35,7 +35,7 @@ namespace TorannMagic
 
         public virtual void Effect()
         {
-            LocalTargetInfo t = this.TargetsAoE[0];
+            LocalTargetInfo t = TargetsAoE[0];
             bool flag = t.Cell != default(IntVec3);
             if (flag)
             {
@@ -48,8 +48,8 @@ namespace TorannMagic
 
                 LongEventHandler.QueueLongEvent(delegate
                 {
-                    FlyingObject_PsionicStorm flyingObject = (FlyingObject_PsionicStorm)GenSpawn.Spawn(ThingDef.Named("FlyingObject_PsionicStorm"), this.CasterPawn.Position, this.CasterPawn.Map);
-                    flyingObject.Launch(this.CasterPawn, t.Cell, this.CasterPawn, this);
+                    FlyingObject_PsionicStorm flyingObject = (FlyingObject_PsionicStorm)GenSpawn.Spawn(ThingDef.Named("FlyingObject_PsionicStorm"), CasterPawn.Position, CasterPawn.Map);
+                    flyingObject.Launch(CasterPawn, t.Cell, CasterPawn, this);
                 }, "LaunchingFlyer", false, null);
             }
         }
@@ -58,7 +58,7 @@ namespace TorannMagic
         {
             if (inResult)
             {
-                this.Effect();
+                Effect();
                 outResult = true;
             }
             outResult = inResult;

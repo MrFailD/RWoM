@@ -19,7 +19,7 @@ namespace TorannMagic.Enchantment
         {
             get
             {
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -27,7 +27,7 @@ namespace TorannMagic.Enchantment
         {
             get
             {
-                return base.Def.label;
+                return Def.label;
             }
         }
 
@@ -67,46 +67,46 @@ namespace TorannMagic.Enchantment
             }
         }
 
-        public override string CompLabelInBracketsExtra => this.enchantment;
+        public override string CompLabelInBracketsExtra => enchantment;
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
+            bool spawned = Pawn.Spawned;
             if (spawned)
             {
                 //FleckMaker.ThrowLightningGlow(base.Pawn.TrueCenter(), base.Pawn.Map, 3f);
             }
         }
 
-        public override bool CompShouldRemove => base.CompShouldRemove || this.removeNow;
+        public override bool CompShouldRemove => base.CompShouldRemove || removeNow;
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (initializing)
                 {
                     initializing = false;
-                    this.Initialize();
+                    Initialize();
                 }
             }
             if(Find.TickManager.TicksGame % 120 == 0)
             {
-                compMagic = this.Pawn.GetCompAbilityUserMagic();
-                compMight = this.Pawn.GetCompAbilityUserMight();
+                compMagic = Pawn.GetCompAbilityUserMagic();
+                compMight = Pawn.GetCompAbilityUserMight();
                 DetermineEnchantments();
             }
-            if(Find.TickManager.TicksGame % 480 == 0 && this.enchantment == "unknown")
+            if(Find.TickManager.TicksGame % 480 == 0 && enchantment == "unknown")
             {
-                this.removeNow = true;
+                removeNow = true;
             }
         }
 
         private void DetermineEnchantments()
         {
-            if (this.parent.def.defName == "TM_HediffEnchantment_maxEnergy")
+            if (parent.def.defName == "TM_HediffEnchantment_maxEnergy")
             {
                 if (IsDualClass)
                 {
@@ -122,10 +122,10 @@ namespace TorannMagic.Enchantment
                 }
                 else
                 {
-                    this.removeNow = true;
+                    removeNow = true;
                 }
             }
-            else if (this.parent.def.defName == "TM_HediffEnchantment_coolDown")
+            else if (parent.def.defName == "TM_HediffEnchantment_coolDown")
             {
                 if (IsDualClass)
                 {
@@ -141,10 +141,10 @@ namespace TorannMagic.Enchantment
                 }
                 else
                 {
-                    this.removeNow = true;
+                    removeNow = true;
                 }
             }
-            else if (this.parent.def.defName == "TM_HediffEnchantment_energyCost")
+            else if (parent.def.defName == "TM_HediffEnchantment_energyCost")
             {
                 if (IsDualClass)
                 {
@@ -160,10 +160,10 @@ namespace TorannMagic.Enchantment
                 }
                 else
                 {
-                    this.removeNow = true;
+                    removeNow = true;
                 }
             }
-            else if (this.parent.def.defName == "TM_HediffEnchantment_energyRegen")
+            else if (parent.def.defName == "TM_HediffEnchantment_energyRegen")
             {
                 if (IsDualClass)
                 {
@@ -179,10 +179,10 @@ namespace TorannMagic.Enchantment
                 }
                 else
                 {
-                    this.removeNow = true;
+                    removeNow = true;
                 }
             }
-            else if (this.parent.def.defName == "TM_HediffEnchantment_xpGain")
+            else if (parent.def.defName == "TM_HediffEnchantment_xpGain")
             {
                 if (IsDualClass)
                 {
@@ -198,10 +198,10 @@ namespace TorannMagic.Enchantment
                 }
                 else
                 {
-                    this.removeNow = true;
+                    removeNow = true;
                 }
             }
-            else if (this.parent.def.defName == "TM_HediffEnchantment_dmgResistance")
+            else if (parent.def.defName == "TM_HediffEnchantment_dmgResistance")
             {
                 if (IsDualClass)
                 {
@@ -217,10 +217,10 @@ namespace TorannMagic.Enchantment
                 }
                 else
                 {
-                    this.removeNow = true;
+                    removeNow = true;
                 }
             }
-            else if (this.parent.def.defName == "TM_HediffEnchantment_dmgBonus")
+            else if (parent.def.defName == "TM_HediffEnchantment_dmgBonus")
             {
                 if (IsDualClass)
                 {
@@ -236,10 +236,10 @@ namespace TorannMagic.Enchantment
                 }
                 else
                 {
-                    this.removeNow = true;
+                    removeNow = true;
                 }
             }
-            else if (this.parent.def.defName == "TM_HediffEnchantment_arcalleumCooldown")
+            else if (parent.def.defName == "TM_HediffEnchantment_arcalleumCooldown")
             {
                 if (IsDualClass)
                 {
@@ -255,21 +255,21 @@ namespace TorannMagic.Enchantment
                 }
                 else
                 {
-                    this.removeNow = true;
+                    removeNow = true;
                 }
             }
-            else if (this.parent.def.defName == "TM_HediffEnchantment_arcaneSpectre")
+            else if (parent.def.defName == "TM_HediffEnchantment_arcaneSpectre")
             {
-                this.enchantment = "TM_ArcaneSpectre".Translate();
+                enchantment = "TM_ArcaneSpectre".Translate();
             }
-            else if (this.parent.def.defName == "TM_HediffEnchantment_phantomShift")
+            else if (parent.def.defName == "TM_HediffEnchantment_phantomShift")
             {
-                this.enchantment = "TM_PhantomShift".Translate();
+                enchantment = "TM_PhantomShift".Translate();
             }
             else
             {
                 Log.Message("enchantment unknkown");
-                this.enchantment = "unknown";
+                enchantment = "unknown";
             }           
 
         }
@@ -292,21 +292,21 @@ namespace TorannMagic.Enchantment
             {
                 if (magVal != mitVal)
                 { 
-                    this.enchantment = txtMagic + " | " + txtMight;
+                    enchantment = txtMagic + " | " + txtMight;
                 }
                 else
                 {
-                    this.enchantment = txtMagic;
+                    enchantment = txtMagic;
                 }
             }
             else
             {
-                this.enchantment = txtMagic + txtMight;
+                enchantment = txtMagic + txtMight;
             }
             
-            if(this.enchantment == "")
+            if(enchantment == "")
             {
-                this.removeNow = true;
+                removeNow = true;
             }
         }
     }

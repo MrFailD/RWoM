@@ -19,13 +19,13 @@ namespace TorannMagic
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     return true;
                 }
@@ -43,16 +43,16 @@ namespace TorannMagic
 
         protected override bool TryCastShot()
         {
-            Pawn caster = this.CasterPawn;
+            Pawn caster = CasterPawn;
             //Pawn pawn = this.currentTarget.Thing as Pawn;
             CompAbilityUserMagic comp = caster.GetCompAbilityUserMagic();
-            verVal = TM_Calc.GetSkillVersatilityLevel(caster, this.Ability.Def as TMAbilityDef);
-            pwrVal = TM_Calc.GetSkillPowerLevel(caster, this.Ability.Def as TMAbilityDef);
+            verVal = TM_Calc.GetSkillVersatilityLevel(caster, Ability.Def as TMAbilityDef);
+            pwrVal = TM_Calc.GetSkillPowerLevel(caster, Ability.Def as TMAbilityDef);
             //verVal = TM_Calc.GetMagicSkillLevel(caster, comp.MagicData.MagicPowerSkill_LivingWall, "TM_LivingWall", "_ver", true);
             //pwrVal = TM_Calc.GetMagicSkillLevel(caster, comp.MagicData.MagicPowerSkill_LivingWall, "TM_LivingWall", "_pwr", true);
             if(comp != null)
             {
-                List<Thing> tList = this.currentTarget.Cell.GetThingList(caster.Map);
+                List<Thing> tList = currentTarget.Cell.GetThingList(caster.Map);
                 if(tList != null && tList.Count > 0)
                 {
                     bool wallDetected = false;
@@ -70,7 +70,7 @@ namespace TorannMagic
                                 def = TorannMagicDefOf.FlyingObject_LivingWall
                             };
                             Pawn casterPawn = base.CasterPawn;                            
-                            FlyingObject_LivingWall flyingObject = (FlyingObject_LivingWall)GenSpawn.Spawn(TorannMagicDefOf.FlyingObject_LivingWall, t.Position, this.CasterPawn.Map);
+                            FlyingObject_LivingWall flyingObject = (FlyingObject_LivingWall)GenSpawn.Spawn(TorannMagicDefOf.FlyingObject_LivingWall, t.Position, CasterPawn.Map);
                             List<Vector3> path = new List<Vector3>();
                             Vector3 newVec = t.Position.ToVector3Shifted();
                             path.Add(newVec);

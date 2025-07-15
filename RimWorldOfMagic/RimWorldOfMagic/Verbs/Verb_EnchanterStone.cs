@@ -19,7 +19,7 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     validTarg = true;
                 }
@@ -38,13 +38,13 @@ namespace TorannMagic
 
         protected override bool TryCastShot()
         {
-            CompAbilityUserMagic comp = this.CasterPawn.GetCompAbilityUserMagic();
+            CompAbilityUserMagic comp = CasterPawn.GetCompAbilityUserMagic();
             MagicPowerSkill eff = base.CasterPawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_EnchanterStone.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_EnchanterStone_eff");
             MagicPowerSkill ver = base.CasterPawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_EnchanterStone.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_EnchanterStone_ver");
             effVal = eff.level;
             verVal = ver.level;
 
-            List<Thing> thingList = this.currentTarget.Cell.GetThingList(this.CasterPawn.Map);
+            List<Thing> thingList = currentTarget.Cell.GetThingList(CasterPawn.Map);
             Thing newThing = null;
             if (thingList != null && thingList.Count > 0)
             {
@@ -65,7 +65,7 @@ namespace TorannMagic
                                 else
                                 {
                                     Messages.Message("TM_CannotCreateStone".Translate(
-                                        this.CasterPawn.LabelShort,
+                                        CasterPawn.LabelShort,
                                         thing.def.label
                                     ), MessageTypeDefOf.RejectInput);
                                 }
@@ -90,7 +90,7 @@ namespace TorannMagic
                                 else
                                 {
                                     Messages.Message("TM_CannotCreateStone".Translate(
-                                        this.CasterPawn.LabelShort,
+                                        CasterPawn.LabelShort,
                                         thing.def.label
                                     ), MessageTypeDefOf.RejectInput);
                                 }
@@ -115,7 +115,7 @@ namespace TorannMagic
                                 else
                                 {
                                     Messages.Message("TM_CannotCreateStone".Translate(
-                                        this.CasterPawn.LabelShort,
+                                        CasterPawn.LabelShort,
                                         thing.def.label
                                     ), MessageTypeDefOf.RejectInput);
                                 }
@@ -140,7 +140,7 @@ namespace TorannMagic
                                 else
                                 {
                                     Messages.Message("TM_CannotCreateStone".Translate(
-                                        this.CasterPawn.LabelShort,
+                                        CasterPawn.LabelShort,
                                         thing.def.label
                                     ), MessageTypeDefOf.RejectInput);
                                 }
@@ -165,7 +165,7 @@ namespace TorannMagic
                                 else
                                 {
                                     Messages.Message("TM_CannotCreateStone".Translate(
-                                        this.CasterPawn.LabelShort,
+                                        CasterPawn.LabelShort,
                                         thing.def.label
                                     ), MessageTypeDefOf.RejectInput);
                                 }
@@ -190,7 +190,7 @@ namespace TorannMagic
                                 else
                                 {
                                     Messages.Message("TM_CannotCreateStone".Translate(
-                                        this.CasterPawn.LabelShort,
+                                        CasterPawn.LabelShort,
                                         thing.def.label
                                     ), MessageTypeDefOf.RejectInput);
                                 }
@@ -215,7 +215,7 @@ namespace TorannMagic
                                 else
                                 {
                                     Messages.Message("TM_CannotCreateStone".Translate(
-                                        this.CasterPawn.LabelShort,
+                                        CasterPawn.LabelShort,
                                         thing.def.label
                                     ), MessageTypeDefOf.RejectInput);
                                 }
@@ -240,7 +240,7 @@ namespace TorannMagic
                                 else
                                 {
                                     Messages.Message("TM_CannotCreateStone".Translate(
-                                        this.CasterPawn.LabelShort,
+                                        CasterPawn.LabelShort,
                                         thing.def.label
                                     ), MessageTypeDefOf.RejectInput);
                                 }
@@ -289,8 +289,8 @@ namespace TorannMagic
             else
             {
                 Messages.Message("TM_InvalidTarget".Translate(
-                    this.CasterPawn.LabelShort,
-                    this.verbProps.label
+                    CasterPawn.LabelShort,
+                    verbProps.label
                 ), MessageTypeDefOf.RejectInput);
             }
 
@@ -301,13 +301,13 @@ namespace TorannMagic
                     comp.enchanterStones = new List<Thing>();
                     comp.enchanterStones.Clear();
                 }
-                GenPlace.TryPlaceThing(newThing, this.currentTarget.Cell, this.CasterPawn.Map, ThingPlaceMode.Near);
+                GenPlace.TryPlaceThing(newThing, currentTarget.Cell, CasterPawn.Map, ThingPlaceMode.Near);
                 comp.enchanterStones.Add(newThing);
 
-                TM_Action.TransmutateEffects(this.currentTarget.Cell, this.CasterPawn);
+                TM_Action.TransmutateEffects(currentTarget.Cell, CasterPawn);
             }
 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return false;
         }
     }

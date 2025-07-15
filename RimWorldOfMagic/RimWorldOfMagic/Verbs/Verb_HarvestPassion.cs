@@ -13,16 +13,16 @@ namespace TorannMagic
         private bool validTarg;
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
-            if (targ.Thing != null && targ.Thing == this.caster)
+            if (targ.Thing != null && targ.Thing == caster)
             {
-                return this.verbProps.targetParams.canTargetSelf;
+                return verbProps.targetParams.canTargetSelf;
             }
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     ShootLine shootLine;
-                    validTarg = this.TryFindShootLineFromTo(root, targ, out shootLine);
+                    validTarg = TryFindShootLineFromTo(root, targ, out shootLine);
                 }
                 else
                 {
@@ -39,7 +39,7 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
             Map map = base.CasterPawn.Map;
-            Pawn hitPawn = (Pawn)this.currentTarget;
+            Pawn hitPawn = (Pawn)currentTarget;
             Pawn caster = base.CasterPawn;
 
             bool flag = hitPawn != null && !hitPawn.Dead && !hitPawn.RaceProps.Animal && hitPawn.skills != null && hitPawn.health != null && hitPawn.health.hediffSet != null;
@@ -58,19 +58,19 @@ namespace TorannMagic
                 else
                 {
                     Messages.Message("TM_MustHaveInspiration".Translate(
-                    this.CasterPawn.LabelShort,
-                    this.Ability.Def.label
+                    CasterPawn.LabelShort,
+                    Ability.Def.label
                 ), MessageTypeDefOf.RejectInput);
                 }
             }
             else
             {
                 Messages.Message("TM_InvalidTarget".Translate(
-                    this.CasterPawn.LabelShort,
-                    this.Ability.Def.label
+                    CasterPawn.LabelShort,
+                    Ability.Def.label
                 ), MessageTypeDefOf.RejectInput);
             }
-            this.PostCastShot(flag, out flag);
+            PostCastShot(flag, out flag);
             return false;
         }
     }

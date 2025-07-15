@@ -40,7 +40,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.age > this.duration;
+                return age > duration;
             }
         }
 
@@ -48,7 +48,7 @@ namespace TorannMagic
         {
             get
             {
-                return new SkyTarget(1f, TM_WeatherEvent_MeshFlash.MeshFlashColors, 1f, 1f);
+                return new SkyTarget(1f, MeshFlashColors, 1f, 1f);
             }
         }
 
@@ -56,7 +56,7 @@ namespace TorannMagic
         {
             get
             {
-                return new Vector2?(this.shadowVector);
+                return new Vector2?(shadowVector);
             }
         }
 
@@ -64,7 +64,7 @@ namespace TorannMagic
         {
             get
             {
-                return this.LightningBrightness;
+                return LightningBrightness;
             }
         }
 
@@ -73,13 +73,13 @@ namespace TorannMagic
             get
             {
                 float result;
-                if (this.age <= 3)
+                if (age <= 3)
                 {
-                    result = (float)this.age / 3f;
+                    result = (float)age / 3f;
                 }
                 else
                 {
-                    result = 1f - (float)this.age / (float)this.duration;
+                    result = 1f - (float)age / (float)duration;
                 }
                 return result;
             }
@@ -87,60 +87,60 @@ namespace TorannMagic
 
         public TM_WeatherEvent_MeshFlash(Map map, IntVec3 forcedStrikeLoc, Material meshMat) : base(map)
 		{
-            this.weatherMeshMat = meshMat;
-            this.strikeLoc = forcedStrikeLoc;
-            this.duration = Rand.Range(15, 60);
-            this.shadowVector = new Vector2(Rand.Range(-5f, 5f), Rand.Range(-5f, 0f));            
+            weatherMeshMat = meshMat;
+            strikeLoc = forcedStrikeLoc;
+            duration = Rand.Range(15, 60);
+            shadowVector = new Vector2(Rand.Range(-5f, 5f), Rand.Range(-5f, 0f));            
         }
 
         public TM_WeatherEvent_MeshFlash(Map map, IntVec3 forcedStrikeLoc, Material meshMat, DamageDef dmgType, Thing instigator, int dmgAmt, float averageRad, float _soundVol = 1f, float _soundPitch = 1f) : base(map)
         {
-            this.weatherMeshMat = meshMat;
-            this.strikeLoc = forcedStrikeLoc;
-            this.duration = Rand.Range(15, 60);
-            this.shadowVector = new Vector2(Rand.Range(-5f, 5f), Rand.Range(-5f, 0f));
-            this.damageType = dmgType;
-            this.damageAmount = dmgAmt;
-            this.averageRadius = averageRad;
+            weatherMeshMat = meshMat;
+            strikeLoc = forcedStrikeLoc;
+            duration = Rand.Range(15, 60);
+            shadowVector = new Vector2(Rand.Range(-5f, 5f), Rand.Range(-5f, 0f));
+            damageType = dmgType;
+            damageAmount = dmgAmt;
+            averageRadius = averageRad;
             this.instigator = instigator;
-            this.soundVolume = _soundVol;
-            this.soundPitch = _soundPitch;
+            soundVolume = _soundVol;
+            soundPitch = _soundPitch;
         }
 
         public override void FireEvent()
         {
             //SoundDefOf.Thunder_OffMap.PlayOneShotOnCamera(this.map);
-            if (!this.strikeLoc.IsValid)
+            if (!strikeLoc.IsValid)
             {
-                this.strikeLoc = CellFinderLoose.RandomCellWith((IntVec3 sq) => sq.Standable(this.map) && !this.map.roofGrid.Roofed(sq), this.map, 1000);
+                strikeLoc = CellFinderLoose.RandomCellWith((IntVec3 sq) => sq.Standable(map) && !map.roofGrid.Roofed(sq), map, 1000);
             }
-            this.boltMesh = RandomBoltMesh;
-            if (!this.strikeLoc.Fogged(this.map))
+            boltMesh = RandomBoltMesh;
+            if (!strikeLoc.Fogged(map))
             {
                 SoundDef exp = TorannMagicDefOf.TM_FireBombSD;
-                ExplosionHelper.Explode(this.strikeLoc, this.map, (Rand.Range(.8f, 1.2f) * this.averageRadius), this.damageType, instigator, this.damageAmount, -1f, exp, null, null, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
-                Vector3 loc = this.strikeLoc.ToVector3Shifted();
+                ExplosionHelper.Explode(strikeLoc, map, (Rand.Range(.8f, 1.2f) * averageRadius), damageType, instigator, damageAmount, -1f, exp, null, null, null, null, 0f, 1, null, false, null, 0f, 1, 0f, false);
+                Vector3 loc = strikeLoc.ToVector3Shifted();
                 for (int i = 0; i < 4; i++)
                 {
-                    FleckMaker.ThrowSmoke(loc, this.map, 1.3f);
-                    FleckMaker.ThrowMicroSparks(loc, this.map);
-                    FleckMaker.ThrowLightningGlow(loc, this.map, 1.2f);
+                    FleckMaker.ThrowSmoke(loc, map, 1.3f);
+                    FleckMaker.ThrowMicroSparks(loc, map);
+                    FleckMaker.ThrowLightningGlow(loc, map, 1.2f);
                 }
             }
-            SoundInfo info = SoundInfo.InMap(new TargetInfo(this.strikeLoc, this.map, false), MaintenanceType.None);
-            info.volumeFactor = this.soundVolume;
-            info.pitchFactor = this.soundPitch;
+            SoundInfo info = SoundInfo.InMap(new TargetInfo(strikeLoc, map, false), MaintenanceType.None);
+            info.volumeFactor = soundVolume;
+            info.pitchFactor = soundPitch;
             TorannMagicDefOf.TM_Thunder_OnMap.PlayOneShot(info);
         }
 
         public override void WeatherEventDraw()
         {
-            Graphics.DrawMesh(this.boltMesh, this.strikeLoc.ToVector3ShiftedWithAltitude(AltitudeLayer.Weather), Quaternion.identity, FadedMaterialPool.FadedVersionOf(weatherMeshMat, this.LightningBrightness), 0);
+            Graphics.DrawMesh(boltMesh, strikeLoc.ToVector3ShiftedWithAltitude(AltitudeLayer.Weather), Quaternion.identity, FadedMaterialPool.FadedVersionOf(weatherMeshMat, LightningBrightness), 0);
         }
 
         public override void WeatherEventTick()
         {
-            this.age++;
+            age++;
         }
 
         public static Mesh RandomBoltMesh
@@ -148,15 +148,15 @@ namespace TorannMagic
             get
             {
                 Mesh result;
-                if (TM_WeatherEvent_MeshFlash.boltMeshes.Count < 20)
+                if (boltMeshes.Count < 20)
                 {
                     Mesh mesh = TM_MeshMaker.NewBoltMesh(200f, 20);
-                    TM_WeatherEvent_MeshFlash.boltMeshes.Add(mesh);
+                    boltMeshes.Add(mesh);
                     result = mesh;
                 }
                 else
                 {
-                    result = TM_WeatherEvent_MeshFlash.boltMeshes.RandomElement<Mesh>();
+                    result = boltMeshes.RandomElement<Mesh>();
                 }
                 return result;
             }

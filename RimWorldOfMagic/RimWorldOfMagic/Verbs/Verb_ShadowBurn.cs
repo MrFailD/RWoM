@@ -14,13 +14,13 @@ namespace TorannMagic
         protected override DamageWorker.DamageResult ApplyMeleeDamageToTarget(LocalTargetInfo target)
         {
             DamageWorker.DamageResult damageResult = new DamageWorker.DamageResult();
-            DamageInfo dinfo = new DamageInfo(this.maneuver.verb.meleeDamageDef, (int)(this.tool.power), 2, (float)-1, this.CasterPawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
+            DamageInfo dinfo = new DamageInfo(maneuver.verb.meleeDamageDef, (int)(tool.power), 2, (float)-1, CasterPawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
             damageResult.hitThing = target.Thing;
             damageResult.totalDamageDealt = Mathf.Min((float)target.Thing.HitPoints, dinfo.Amount);
-            float angle = (Quaternion.AngleAxis(90, Vector3.up)*GetVector(this.CasterPawn.Position, target.Thing.Position)).ToAngleFlat();
-            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Shadow, this.CasterPawn.DrawPos, target.Thing.Map, Rand.Range(.8f, 1f), .15f, .05f, .1f, 0, 5, (angle + Rand.Range(-20,20)), Rand.Range(0,360));
-            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Shadow, this.CasterPawn.DrawPos, target.Thing.Map, Rand.Range(.8f, 1f), .15f, .05f, .1f, 0, 5, (angle + Rand.Range(-20, 20)), Rand.Range(0, 360));
-            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Shadow, this.CasterPawn.DrawPos, target.Thing.Map, Rand.Range(.8f, 1f), .15f, .05f, .1f, 0, 5, (angle + Rand.Range(-20, 20)), Rand.Range(0, 360));
+            float angle = (Quaternion.AngleAxis(90, Vector3.up)*GetVector(CasterPawn.Position, target.Thing.Position)).ToAngleFlat();
+            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Shadow, CasterPawn.DrawPos, target.Thing.Map, Rand.Range(.8f, 1f), .15f, .05f, .1f, 0, 5, (angle + Rand.Range(-20,20)), Rand.Range(0,360));
+            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Shadow, CasterPawn.DrawPos, target.Thing.Map, Rand.Range(.8f, 1f), .15f, .05f, .1f, 0, 5, (angle + Rand.Range(-20, 20)), Rand.Range(0, 360));
+            TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Shadow, CasterPawn.DrawPos, target.Thing.Map, Rand.Range(.8f, 1f), .15f, .05f, .1f, 0, 5, (angle + Rand.Range(-20, 20)), Rand.Range(0, 360));
             target.Thing.TakeDamage(dinfo);
             return damageResult;  
         }

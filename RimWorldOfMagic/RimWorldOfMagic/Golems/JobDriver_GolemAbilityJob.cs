@@ -47,7 +47,7 @@ namespace TorannMagic.Golems
                     {
                         ability = pg.Golem.ActiveAbility;
                     }
-                    this.duration = (int)((ability.golemAbilityDef.jobDuration * pg.Golem.DurationModifier) + (ability.golemAbilityDef.jobBurstCount * ability.golemAbilityDef.jobTicksBetweenBursts));
+                    duration = (int)((ability.golemAbilityDef.jobDuration * pg.Golem.DurationModifier) + (ability.golemAbilityDef.jobBurstCount * ability.golemAbilityDef.jobTicksBetweenBursts));
                     if(duration > 0)
                     {
                         pg.stances.SetStance(new Stance_Warmup(duration, targetThing, null));
@@ -56,24 +56,24 @@ namespace TorannMagic.Golems
                 }
                 else
                 {
-                    this.EndJobWith(JobCondition.Incompletable);
+                    EndJobWith(JobCondition.Incompletable);
                 }
 
                 if (targetThing == null)
                 {
-                    this.EndJobWith(JobCondition.Incompletable);
+                    EndJobWith(JobCondition.Incompletable);
                 }
                 else if ( (targetThing.DestroyedOrNull() || targetThing.Map == null))
                 {
-                    this.EndJobWith(JobCondition.Incompletable);
+                    EndJobWith(JobCondition.Incompletable);
                 }
                 if (age > duration)
                 {
-                    this.EndJobWith(JobCondition.Succeeded);
+                    EndJobWith(JobCondition.Succeeded);
                 }
                 if (targetThing != null)
                 {
-                    this.pawn.rotationTracker.FaceTarget(targetThing);
+                    pawn.rotationTracker.FaceTarget(targetThing);
                 }
             };
             doSpell.tickAction = delegate
@@ -84,7 +84,7 @@ namespace TorannMagic.Golems
                 }
                 if (targetThing != null && (targetThing.DestroyedOrNull() || targetThing.Map == null))
                 {
-                    this.EndJobWith(JobCondition.Incompletable);
+                    EndJobWith(JobCondition.Incompletable);
                 }
                 age++;
                 ticksLeftThisToil = duration - age;
@@ -114,11 +114,11 @@ namespace TorannMagic.Golems
 
                 if (age > duration)
                 {
-                    this.EndJobWith(JobCondition.Succeeded);
+                    EndJobWith(JobCondition.Succeeded);
                 }
             };
             doSpell.defaultCompleteMode = ToilCompleteMode.Never;
-            doSpell.defaultDuration = this.duration;
+            doSpell.defaultDuration = duration;
             doSpell.AddFinishAction(delegate
             {
                 //if (ability != null && ability.golemAbilityDef.jobEffect != null)

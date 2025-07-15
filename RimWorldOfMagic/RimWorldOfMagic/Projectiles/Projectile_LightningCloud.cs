@@ -36,7 +36,7 @@ namespace TorannMagic
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < duration;
+            bool flag = age < duration;
             if (!flag)
             {
                 base.Destroy(mode);
@@ -45,13 +45,13 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             
             base.Impact(hitThing);
             ThingDef def = this.def;
             Pawn victim = hitThing as Pawn;
 
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             
             
             
@@ -61,7 +61,7 @@ namespace TorannMagic
                 MightPowerSkill mver = pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_Mimic.FirstOrDefault((MightPowerSkill x) => x.label == "TM_Mimic_ver");
                 pwrVal = mpwr.level;
                 verVal = mver.level;
-                this.arcaneDmg = pawn.GetCompAbilityUserMight().mightPwr;
+                arcaneDmg = pawn.GetCompAbilityUserMight().mightPwr;
             }
             else
             {
@@ -70,7 +70,7 @@ namespace TorannMagic
                 ver = pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_LightningCloud.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_LightningCloud_ver");
                 pwrVal = pwr.level;
                 verVal = ver.level;
-                this.arcaneDmg = comp.arcaneDmg;
+                arcaneDmg = comp.arcaneDmg;
             }
             
             if (ModOptions.Settings.Instance.AIHardMode && !pawn.IsColonist)
@@ -80,15 +80,15 @@ namespace TorannMagic
             }
             radius = (int)this.def.projectile.explosionRadius + (1 * verVal);
 
-            CellRect cellRect = CellRect.CenteredOn(base.Position, radius - 3);
+            CellRect cellRect = CellRect.CenteredOn(Position, radius - 3);
             cellRect.ClipInsideMap(map);
             IntVec3 randomCell = cellRect.RandomCell;
 
             duration = 900 + (verVal * 120);
 
-            if (this.primed == true)
+            if (primed == true)
             {
-                if (((this.shockDelay + this.lastStrike) < this.age))
+                if (((shockDelay + lastStrike) < age))
                 {
                     for (int i = 0; i < 3; i++)
                     {
@@ -100,13 +100,13 @@ namespace TorannMagic
                             {
                                 if (Rand.Chance(TM_Calc.GetSpellSuccessChance(pawn, victim) - .3f))
                                 {
-                                    damageEntities(victim, Mathf.RoundToInt((this.def.projectile.GetDamageAmount(1, null) + pwrVal) * this.arcaneDmg));
+                                    damageEntities(victim, Mathf.RoundToInt((this.def.projectile.GetDamageAmount(1, null) + pwrVal) * arcaneDmg));
                                 }
                             }
                         }
                     }
 
-                    Vector3 loc2 = base.Position.ToVector3Shifted();
+                    Vector3 loc2 = Position.ToVector3Shifted();
                     Vector3 loc = randomCell.ToVector3Shifted();
 
                     bool rand1 = Rand.Range(0, 100) < 3;
@@ -125,13 +125,13 @@ namespace TorannMagic
                     FleckMaker.ThrowLightningGlow(loc, map, 2f);
 
                     strikeInt++;
-                    this.lastStrike = this.age;
-                    this.shockDelay = Rand.Range(1, 5);
+                    lastStrike = age;
+                    shockDelay = Rand.Range(1, 5);
 
-                    bool flag1 = this.age <= duration;
+                    bool flag1 = age <= duration;
                     if (!flag1)
                     {
-                        this.primed = false;
+                        primed = false;
                     }
                 }
             }
@@ -159,9 +159,9 @@ namespace TorannMagic
         protected void LightningBlast(IntVec3 pos, Map map, float radius)
         {
             ThingDef def = this.def;
-            Explosion(pos, map, radius, DamageDefOf.EMP, this.launcher, null, def, this.equipmentDef, ThingDefOf.Spark, 3f, 1, false, null, 0f, 1);
-            Explosion(pos, map, radius, DamageDefOf.Stun, this.launcher, null, def, this.equipmentDef, ThingDefOf.Mote_Stun, 2f, 1, false, null, 0f, 1);
-            Explosion(pos, map, radius, TMDamageDefOf.DamageDefOf.TM_LightningCloud, this.launcher, null, def, this.equipmentDef, TorannMagicDefOf.Mote_Base_Smoke, 0.4f, 1, false, null, 0f, 1);
+            Explosion(pos, map, radius, DamageDefOf.EMP, launcher, null, def, equipmentDef, ThingDefOf.Spark, 3f, 1, false, null, 0f, 1);
+            Explosion(pos, map, radius, DamageDefOf.Stun, launcher, null, def, equipmentDef, ThingDefOf.Mote_Stun, 2f, 1, false, null, 0f, 1);
+            Explosion(pos, map, radius, TMDamageDefOf.DamageDefOf.TM_LightningCloud, launcher, null, def, equipmentDef, TorannMagicDefOf.Mote_Base_Smoke, 0.4f, 1, false, null, 0f, 1);
 
         }
 
@@ -200,19 +200,19 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.primed, "primed", true, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 900, false);
-            Scribe_Values.Look<int>(ref this.shockDelay, "shockDelay", 0, false);
-            Scribe_Values.Look<int>(ref this.lastStrike, "lastStrike", 0, false);
-            Scribe_Values.Look<int>(ref this.strikeInt, "strikeInt", 0, false);
-            Scribe_Values.Look<int>(ref this.radius, "radius", 6, false);
+            Scribe_Values.Look<bool>(ref primed, "primed", true, false);
+            Scribe_Values.Look<int>(ref age, "age", -1, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 900, false);
+            Scribe_Values.Look<int>(ref shockDelay, "shockDelay", 0, false);
+            Scribe_Values.Look<int>(ref lastStrike, "lastStrike", 0, false);
+            Scribe_Values.Look<int>(ref strikeInt, "strikeInt", 0, false);
+            Scribe_Values.Look<int>(ref radius, "radius", 6, false);
 
         }
     }

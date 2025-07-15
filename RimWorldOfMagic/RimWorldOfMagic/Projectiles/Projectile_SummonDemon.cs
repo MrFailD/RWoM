@@ -35,39 +35,39 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<int>(ref this.age, "age", 0, false);
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<bool>(ref this.summoning, "summoning", false, false);
-            Scribe_Values.Look<bool>(ref this.summoningComplete, "summoningComplete", false, false);
-            Scribe_Values.Look<bool>(ref this.destroyed, "destroyed", false, false);
-            Scribe_References.Look<Pawn>(ref this.demonPawn, "demonPawn", false);
-            Scribe_References.Look<Pawn>(ref this.sacrificedPawn, "sacrificedPawn", false);
-            Scribe_Collections.Look<IntVec3>(ref this.summoningCircle, "summoningCircle", LookMode.Value);
+            Scribe_Values.Look<int>(ref age, "age", 0, false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<bool>(ref summoning, "summoning", false, false);
+            Scribe_Values.Look<bool>(ref summoningComplete, "summoningComplete", false, false);
+            Scribe_Values.Look<bool>(ref destroyed, "destroyed", false, false);
+            Scribe_References.Look<Pawn>(ref demonPawn, "demonPawn", false);
+            Scribe_References.Look<Pawn>(ref sacrificedPawn, "sacrificedPawn", false);
+            Scribe_Collections.Look<IntVec3>(ref summoningCircle, "summoningCircle", LookMode.Value);
         }
 
         public override void Tick()
         {
             base.Tick();
-            if(this.demonPawn != null)
+            if(demonPawn != null)
             {
-                if (this.demonPawn.Destroyed || this.demonPawn.Dead)
+                if (demonPawn.Destroyed || demonPawn.Dead)
                 {
-                    this.age = this.duration + this.summoningDuration + 1;
-                    this.Destroy(DestroyMode.Vanish);
+                    age = duration + summoningDuration + 1;
+                    Destroy(DestroyMode.Vanish);
                 }
             }
-            this.age++;
+            age++;
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < (duration + summoningDuration);
+            bool flag = age < (duration + summoningDuration);
             if (!flag)
             {
-                if (this.sacrificedPawn != null)
+                if (sacrificedPawn != null)
                 {
-                    GenPlace.TryPlaceThing(this.sacrificedPawn, this.summoningCircle[0], this.Map, ThingPlaceMode.Near, null, null);
-                    HealthUtility.AdjustSeverity(this.sacrificedPawn, HediffDef.Named("TM_DemonicPriceHD"), 2f);
+                    GenPlace.TryPlaceThing(sacrificedPawn, summoningCircle[0], Map, ThingPlaceMode.Near, null, null);
+                    HealthUtility.AdjustSeverity(sacrificedPawn, HediffDef.Named("TM_DemonicPriceHD"), 2f);
                 }
                 base.Destroy(mode);
             }
@@ -75,61 +75,61 @@ namespace TorannMagic
 
         private void Initialize()
         {
-            this.casterPawn = this.launcher as Pawn;
-            this.comp = this.casterPawn.GetCompAbilityUserMagic();
-            this.sacrificedPawn = comp.soulBondPawn;
-            this.sacrificedPawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 50, 50, -1, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, this.sacrificedPawn));
-            HealthUtility.AdjustSeverity(this.sacrificedPawn, HediffDef.Named("TM_HediffTimedInvulnerable"), 2);
-            this.summoningCircle = new List<IntVec3>();
-            this.summoningCircle.Clear();
-            this.summoningCircle = GenRadial.RadialCellsAround(this.sacrificedPawn.Position, 5, false).ToList();
-            this.age = 0;
-            this.summoning = true;
-            this.initialized = true;
+            casterPawn = launcher as Pawn;
+            comp = casterPawn.GetCompAbilityUserMagic();
+            sacrificedPawn = comp.soulBondPawn;
+            sacrificedPawn.TakeDamage(new DamageInfo(DamageDefOf.Stun, 50, 50, -1, null, null, null, DamageInfo.SourceCategory.ThingOrUnknown, sacrificedPawn));
+            HealthUtility.AdjustSeverity(sacrificedPawn, HediffDef.Named("TM_HediffTimedInvulnerable"), 2);
+            summoningCircle = new List<IntVec3>();
+            summoningCircle.Clear();
+            summoningCircle = GenRadial.RadialCellsAround(sacrificedPawn.Position, 5, false).ToList();
+            age = 0;
+            summoning = true;
+            initialized = true;
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             //base.Impact(hitThing);
 
             if (!initialized)
             {
                 Initialize();
-                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_SummoningCircle, this.summoningCircle[0].ToVector3Shifted(), this.Map, 3f, 2f, 1f, 2f, 0, 0, 0, Rand.Range(0, 360));
+                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_SummoningCircle, summoningCircle[0].ToVector3Shifted(), Map, 3f, 2f, 1f, 2f, 0, 0, 0, Rand.Range(0, 360));
             }
 
             if (summoning)
             {
                 if(Find.TickManager.TicksGame % 2 ==0)
                 {
-                    IntVec3 randomCircleCell = this.summoningCircle.RandomElement();
-                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Demon_Flame, randomCircleCell.ToVector3(), this.sacrificedPawn.Map, Rand.Range(.5f, .9f), Rand.Range(.2f, .3f), .05f, Rand.Range(.2f, .4f), Rand.Range(-400, 400), Rand.Range(.8f, 1.2f) * (randomCircleCell - this.sacrificedPawn.Position).LengthHorizontal, (Quaternion.AngleAxis(90, Vector3.up) * GetVector(randomCircleCell, this.sacrificedPawn.Position)).ToAngleFlat(), Rand.Range(0, 359));
+                    IntVec3 randomCircleCell = summoningCircle.RandomElement();
+                    TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Demon_Flame, randomCircleCell.ToVector3(), sacrificedPawn.Map, Rand.Range(.5f, .9f), Rand.Range(.2f, .3f), .05f, Rand.Range(.2f, .4f), Rand.Range(-400, 400), Rand.Range(.8f, 1.2f) * (randomCircleCell - sacrificedPawn.Position).LengthHorizontal, (Quaternion.AngleAxis(90, Vector3.up) * GetVector(randomCircleCell, sacrificedPawn.Position)).ToAngleFlat(), Rand.Range(0, 359));
                 }
 
-                if(this.nextBlackLightning < this.age)
+                if(nextBlackLightning < age)
                 {
                     DoLightningStrike();
-                    this.nextBlackLightning = this.age + Rand.Range(45,70);
-                    this.lightingCount++;
+                    nextBlackLightning = age + Rand.Range(45,70);
+                    lightingCount++;
                 }
             }
 
-            if(!this.summoningComplete && this.age > this.summoningDuration)
+            if(!summoningComplete && age > summoningDuration)
             {
                 for (int i = 0; i < 3; i++)
                 {
                     DoLightningStrike();
                 }
-                IntVec3 centerCell = this.sacrificedPawn.Position;
+                IntVec3 centerCell = sacrificedPawn.Position;
                 SpawnThings spawnThing = new SpawnThings();
                 spawnThing.factionDef = TorannMagicDefOf.TM_SummonedFaction;
                 spawnThing.spawnCount = 1;
                 spawnThing.temporary = false;
                 spawnThing.def = TorannMagicDefOf.TM_DemonR;
                 spawnThing.kindDef = PawnKindDef.Named("TM_Demon");
-                map = this.Map;
-                this.sacrificedPawn.DeSpawn();                
+                map = Map;
+                sacrificedPawn.DeSpawn();                
                 SingleSpawnLoop(spawnThing, centerCell, map);
 
                 FleckMaker.ThrowSmoke(centerCell.ToVector3(), map, 2);
@@ -140,15 +140,15 @@ namespace TorannMagic
                 info.pitchFactor = 1.3f;
                 info.volumeFactor = 1.6f;
                 TorannMagicDefOf.TM_DemonDeath.PlayOneShot(info);
-                this.summoningComplete = true;
-                this.summoning = false;
+                summoningComplete = true;
+                summoning = false;
             }
             Destroy();
         }
 
         public void DoLightningStrike()
         {
-            Map.weatherManager.eventHandler.AddEvent(new TM_WeatherEvent_MeshFlash(this.Map, this.summoningCircle.RandomElement(), TM_MatPool.redLightning));
+            Map.weatherManager.eventHandler.AddEvent(new TM_WeatherEvent_MeshFlash(Map, summoningCircle.RandomElement(), TM_MatPool.redLightning));
         }
 
         public void SingleSpawnLoop(SpawnThings spawnables, IntVec3 position, Map map)
@@ -156,7 +156,7 @@ namespace TorannMagic
             bool flag = spawnables.def != null;
             if (flag)
             {
-                Faction faction = this.launcher.Faction;
+                Faction faction = launcher.Faction;
                 bool flag2 = spawnables.def.race != null;
                 if (flag2)
                 {
@@ -170,9 +170,9 @@ namespace TorannMagic
                         TMPawnSummoned newPawn = new TMPawnSummoned();
                         newPawn = (TMPawnSummoned)PawnGenerator.GeneratePawn(spawnables.kindDef, faction);
                         newPawn.validSummoning = true;
-                        newPawn.Spawner = this.casterPawn;
+                        newPawn.Spawner = casterPawn;
                         newPawn.Temporary = true;
-                        newPawn.TicksToDestroy = this.duration;
+                        newPawn.TicksToDestroy = duration;
                         try
                         {
                             Pawn p = (Pawn)GenSpawn.Spawn(newPawn, position, map);
@@ -181,16 +181,16 @@ namespace TorannMagic
                                 p.playerSettings.hostilityResponse = HostilityResponseMode.Attack;
                                 p.playerSettings.medCare = MedicalCareCategory.NoCare;
                             }
-                            this.demonPawn = newPawn;
+                            demonPawn = newPawn;
                         }
                         catch
                         {
-                            this.age = this.duration;
+                            age = duration;
                             Log.Message("TM_Exception".Translate(
-                                this.casterPawn.LabelShort,
-                                this.def.defName
+                                casterPawn.LabelShort,
+                                def.defName
                                 ));
-                            this.Destroy(DestroyMode.Vanish);
+                            Destroy(DestroyMode.Vanish);
                         }
                         if (newPawn.Faction != null && newPawn.Faction != Faction.OfPlayer)
                         {

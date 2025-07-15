@@ -42,7 +42,7 @@ namespace TorannMagic
         public override void CompExposeData()
         {
             base.CompExposeData();
-            Scribe_References.Look<Pawn>(ref this.branderPawn, "branderPawn");
+            Scribe_References.Look<Pawn>(ref branderPawn, "branderPawn");
         }
         //public string GetCompLabel
         //{
@@ -68,9 +68,9 @@ namespace TorannMagic
             {
                 if(branderPawn != null)
                 {
-                    return base.Def.LabelCap + "(" + branderPawn.LabelShort + ")";
+                    return Def.LabelCap + "(" + branderPawn.LabelShort + ")";
                 }
-                return base.Def.LabelCap;
+                return Def.LabelCap;
             }
         }
 
@@ -80,41 +80,41 @@ namespace TorannMagic
             {
                 if (branderPawn != null)
                 {
-                    return base.Def.label + "(" + branderPawn.LabelShort + ")";
+                    return Def.label + "(" + branderPawn.LabelShort + ")";
                 }
-                return base.Def.label;
+                return Def.label;
             }
         }
 
         private void Initialize()
         {
-            bool spawned = base.Pawn.Spawned;
-            this.nextUpdateTick = Find.TickManager.TicksGame + Mathf.RoundToInt(Rand.Range(.8f, 1.2f) * AverageUpdateTick); ;
+            bool spawned = Pawn.Spawned;
+            nextUpdateTick = Find.TickManager.TicksGame + Mathf.RoundToInt(Rand.Range(.8f, 1.2f) * AverageUpdateTick); ;
             if (spawned)
             {
-                Vector3 rndPos = base.Pawn.DrawPos;
+                Vector3 rndPos = Pawn.DrawPos;
                 rndPos.x += Rand.Range(-.3f, .3f);
                 rndPos.z += Rand.Range(-.3f, .3f);
-                FleckMaker.ThrowLightningGlow(rndPos, base.Pawn.Map, Rand.Range(.2f, .4f));
+                FleckMaker.ThrowLightningGlow(rndPos, Pawn.Map, Rand.Range(.2f, .4f));
             }            
         }
 
         public override void CompPostTick(ref float severityAdjustment)
         {
             base.CompPostTick(ref severityAdjustment);            
-            bool flag = base.Pawn != null;
+            bool flag = Pawn != null;
             if (flag)
             {
                 if (!initialized)
                 {
                     initialized = true;
-                    this.Initialize();
+                    Initialize();
                 }
             }
-            if (Find.TickManager.TicksGame >= this.nextUpdateTick)
+            if (Find.TickManager.TicksGame >= nextUpdateTick)
             {
-                this.nextUpdateTick = Find.TickManager.TicksGame + Mathf.RoundToInt(Rand.Range(.8f, 1.2f) * AverageUpdateTick);
-                Pawn pawn = base.Pawn;
+                nextUpdateTick = Find.TickManager.TicksGame + Mathf.RoundToInt(Rand.Range(.8f, 1.2f) * AverageUpdateTick);
+                Pawn pawn = Pawn;
                 CompAbilityUserMagic comp = null;
                 if(branderPawn != null)
                 {
@@ -144,47 +144,47 @@ namespace TorannMagic
                             {
                                 pwrVal = TM_Calc.GetSkillPowerLevel(BranderPawn, TorannMagicDefOf.TM_SigilDrain);
                                 verVal = TM_Calc.GetSkillVersatilityLevel(BranderPawn, TorannMagicDefOf.TM_SigilDrain);
-                                this.parent.Severity = .05f;
-                                HealthUtility.AdjustSeverity(branderPawn, this.Def, brandSeverity * .2f);
-                                HealthUtility.AdjustSeverity(base.Pawn, TorannMagicDefOf.TM_SigilPainHD, (.4f - (.04f * verVal)));
+                                parent.Severity = .05f;
+                                HealthUtility.AdjustSeverity(branderPawn, Def, brandSeverity * .2f);
+                                HealthUtility.AdjustSeverity(Pawn, TorannMagicDefOf.TM_SigilPainHD, (.4f - (.04f * verVal)));
                             }
                             else
                             {
-                                this.parent.Severity = brandSeverity;
+                                parent.Severity = brandSeverity;
                             }
                             DoSigilAction(comp.sigilSurging, comp.sigilDraining);
                         }
                         else
                         {
-                            this.parent.Severity = .05f;
+                            parent.Severity = .05f;
                         }  
                         if(Rand.Chance(.05f))
                         {
                             bool non = false;
                             for(int i =0; i < comp.BrandPawns.Count; i++)
                             {
-                                if(comp.BrandPawns[i] == this.Pawn && comp.BrandDefs[i] == this.parent.def)
+                                if(comp.BrandPawns[i] == Pawn && comp.BrandDefs[i] == parent.def)
                                 {
                                     non = true;
                                 }
                             }
                             if(!non)
                             {
-                                this.shouldRemove = true;
+                                shouldRemove = true;
                             }
                         }
                     }
                     else
                     {
-                        this.shouldRemove = true;
+                        shouldRemove = true;
                     }
                 }
                 else
                 {
-                    severityAdjustment += -(.02f + .3f*this.parent.Severity);
+                    severityAdjustment += -(.02f + .3f*parent.Severity);
                     if(parent.Severity < .01f)
                     {
-                        this.shouldRemove = true;
+                        shouldRemove = true;
                     }
                 }
             }
@@ -199,7 +199,7 @@ namespace TorannMagic
         {
             get
             {
-                return base.CompShouldRemove || this.shouldRemove;
+                return base.CompShouldRemove || shouldRemove;
             }
         }
     }

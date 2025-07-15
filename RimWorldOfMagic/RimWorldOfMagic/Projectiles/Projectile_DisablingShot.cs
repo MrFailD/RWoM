@@ -17,11 +17,11 @@ namespace TorannMagic
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
 
-            Pawn pawn = this.launcher as Pawn;
+            Pawn pawn = launcher as Pawn;
             Pawn victim = hitThing as Pawn;
             try
             {
@@ -41,12 +41,12 @@ namespace TorannMagic
                 //{
                 //    verVal = 3;
                 //}
-                if (victim != null && !victim.Dead && Rand.Chance(this.launcher.GetStatValue(StatDefOf.ShootingAccuracyPawn, true)))
+                if (victim != null && !victim.Dead && Rand.Chance(launcher.GetStatValue(StatDefOf.ShootingAccuracyPawn, true)))
                 {
                     int dmg = (this.def.projectile.GetDamageAmount(1, null));
                     if (victim.RaceProps.IsFlesh)
                     {
-                        System.Random rnd = new System.Random();
+                        Random rnd = new Random();
                         if (verVal > 0 && victim.needs.food != null)
                         {
                             int randomTranqSev = GenMath.RoundRandom(rnd.Next((int)(verVal * .5f * str.level), (int)((verVal + .5f * str.level) * 3)));
@@ -83,18 +83,18 @@ namespace TorannMagic
                 
                 if (vitalPart != null)
                 {
-                    this.damageEntities(victim, vitalPart, dmg, dmgType);
+                    damageEntities(victim, vitalPart, dmg, dmgType);
                 }
                 else
                 {
                     vitalPart = partSearch.FirstOrDefault<BodyPartRecord>((BodyPartRecord x) => x.def.tags.Contains(BodyPartTagDefOf.MovingLimbSegment));
                     if (vitalPart != null)
                     {
-                        this.damageEntities(victim, vitalPart, dmg, dmgType);
+                        damageEntities(victim, vitalPart, dmg, dmgType);
                     }
                     else
                     {
-                        this.damageEntities(victim, vitalPart, dmg, null);
+                        damageEntities(victim, vitalPart, dmg, null);
                     }
                 }
             }
@@ -105,18 +105,18 @@ namespace TorannMagic
             DamageInfo dinfo;
             if (victim != null && hitPart != null)
             {
-                dinfo = new DamageInfo(type, amt, 0, (float)-1, this.launcher as Pawn, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);             
+                dinfo = new DamageInfo(type, amt, 0, (float)-1, launcher as Pawn, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);             
             }
             else
             {
-                dinfo = new DamageInfo(type, amt, 0, (float)-1, this.launcher as Pawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
+                dinfo = new DamageInfo(type, amt, 0, (float)-1, launcher as Pawn, null, null, DamageInfo.SourceCategory.ThingOrUnknown);
             }
             victim.TakeDamage(dinfo);
 
-            if (!victim.IsColonist && !victim.IsPrisoner && !victim.Faction.HostileTo(this.launcher.Faction) && victim.Faction != null && victim.Faction != this.launcher.Faction)
+            if (!victim.IsColonist && !victim.IsPrisoner && !victim.Faction.HostileTo(launcher.Faction) && victim.Faction != null && victim.Faction != launcher.Faction)
             {
                 Faction faction = victim.Faction;
-                faction.TryAffectGoodwillWith(this.launcher.Faction, -40, true, false, TorannMagicDefOf.TM_OffensiveMagic, null);
+                faction.TryAffectGoodwillWith(launcher.Faction, -40, true, false, TorannMagicDefOf.TM_OffensiveMagic, null);
             }           
 
         }

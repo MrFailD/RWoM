@@ -29,22 +29,22 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.initialized, "initialized", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", 0, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 2700, false);
-            Scribe_Values.Look<int>(ref this.lastPoison, "lastPoison", 0, false);
-            Scribe_Values.Look<int>(ref this.poisonRate, "poisonRate", 270, false);
-            Scribe_Values.Look<IntVec3>(ref this.oldPosition, "oldPosition", default(IntVec3), false);
-            Scribe_References.Look<Pawn>(ref this.hitPawn, "hitPawn", false);
+            Scribe_Values.Look<bool>(ref initialized, "initialized", false, false);
+            Scribe_Values.Look<int>(ref age, "age", 0, false);
+            Scribe_Values.Look<int>(ref duration, "duration", 2700, false);
+            Scribe_Values.Look<int>(ref lastPoison, "lastPoison", 0, false);
+            Scribe_Values.Look<int>(ref poisonRate, "poisonRate", 270, false);
+            Scribe_Values.Look<IntVec3>(ref oldPosition, "oldPosition", default(IntVec3), false);
+            Scribe_References.Look<Pawn>(ref hitPawn, "hitPawn", false);
         }
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
-            Map map = base.Map;
+            Map map = Map;
             base.Impact(hitThing);
             ThingDef def = this.def;
                         
-            caster = this.launcher as Pawn;
+            caster = launcher as Pawn;
             pwr = caster.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Poison.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Poison_pwr");
             ver = caster.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Poison.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Poison_ver");
             
@@ -57,7 +57,7 @@ namespace TorannMagic
                 pwrVal = mpwr.level;
                 verVal = mver.level;
             }
-            this.arcaneDmg = caster.GetCompAbilityUserMagic().arcaneDmg;
+            arcaneDmg = caster.GetCompAbilityUserMagic().arcaneDmg;
             if (ModOptions.Settings.Instance.AIHardMode && !caster.IsColonist)
             {
                 pwrVal = 3;
@@ -83,8 +83,8 @@ namespace TorannMagic
                 else
                 {
                     Log.Message("No target found for poison or target not susceptable to poison.");
-                    this.age = this.duration + 1;
-                    this.Destroy(DestroyMode.Vanish);
+                    age = duration + 1;
+                    Destroy(DestroyMode.Vanish);
                 }
             }
 
@@ -100,27 +100,27 @@ namespace TorannMagic
                             int rndPart = (int)Rand.RangeInclusive(0, 4);
                             damageEntities(hitPawn, vulnerableParts[rndPart], dmg, TMDamageDefOf.DamageDefOf.TM_Poison);
                             TM_MoteMaker.ThrowPoisonMote(hitPawn.Position.ToVector3(), map, 1f);
-                            this.lastPoison = this.age;
+                            lastPoison = age;
                             oldPosition = hitPawn.Position;
                         }
                         else
                         {
                             //no longer poisoned, end
-                            this.age = this.duration + 1;
-                            this.Destroy(DestroyMode.Vanish);
+                            age = duration + 1;
+                            Destroy(DestroyMode.Vanish);
                         }
                     }
                     else
                     {
                         //pawn is dead, end 
-                        this.age = this.duration + 1;
-                        this.Destroy(DestroyMode.Vanish);
+                        age = duration + 1;
+                        Destroy(DestroyMode.Vanish);
                     }
                 }
                 catch
                 {
-                    this.age = this.duration + 1;
-                    this.Destroy(DestroyMode.Vanish);
+                    age = duration + 1;
+                    Destroy(DestroyMode.Vanish);
                 }
             }
             
@@ -136,31 +136,31 @@ namespace TorannMagic
                 vitalPart = partSearch.FirstOrDefault<BodyPartRecord>((BodyPartRecord x) => x.def.tags.Contains(BodyPartTagDefOf.BloodPumpingSource));
                 if (vitalPart != null)
                 {
-                    this.vulnerableParts[0] = vitalPart;
+                    vulnerableParts[0] = vitalPart;
                 }
                 vitalPart = null;
                 vitalPart = partSearch.FirstOrDefault<BodyPartRecord>((BodyPartRecord x) => x.def.tags.Contains(BodyPartTagDefOf.BloodFiltrationKidney));
                 if (vitalPart != null)
                 {
-                    this.vulnerableParts[1] = vitalPart;
+                    vulnerableParts[1] = vitalPart;
                 }
                 vitalPart = null;
                 vitalPart = partSearch.LastOrDefault<BodyPartRecord>((BodyPartRecord x) => x.def.tags.Contains(BodyPartTagDefOf.BloodFiltrationKidney));
                 if (vitalPart != null)
                 {
-                    this.vulnerableParts[2] = vitalPart;
+                    vulnerableParts[2] = vitalPart;
                 }
                 vitalPart = null;
                 vitalPart = partSearch.FirstOrDefault<BodyPartRecord>((BodyPartRecord x) => x.def.tags.Contains(BodyPartTagDefOf.BloodFiltrationLiver));
                 if (vitalPart != null)
                 {
-                    this.vulnerableParts[3] = vitalPart;
+                    vulnerableParts[3] = vitalPart;
                 }
                 vitalPart = null;
                 vitalPart = partSearch.LastOrDefault<BodyPartRecord>((BodyPartRecord x) => x.def.tags.Contains(BodyPartTagDefOf.BloodFiltrationLiver));
                 if (vitalPart != null)
                 {
-                    this.vulnerableParts[4] = vitalPart;
+                    vulnerableParts[4] = vitalPart;
                 }
             }
         }
@@ -168,10 +168,10 @@ namespace TorannMagic
         public void damageEntities(Pawn victim, BodyPartRecord hitPart, int amt, DamageDef type)
         {
             DamageInfo dinfo;
-            amt = Mathf.RoundToInt((float)amt * Rand.Range(.5f, 1.2f) * this.arcaneDmg);
-            if (this.caster != null && victim != null && !victim.Dead && !victim.Downed && hitPart != null)
+            amt = Mathf.RoundToInt((float)amt * Rand.Range(.5f, 1.2f) * arcaneDmg);
+            if (caster != null && victim != null && !victim.Dead && !victim.Downed && hitPart != null)
             {
-                dinfo = new DamageInfo(type, amt, 0, (float)-1, this.caster, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);
+                dinfo = new DamageInfo(type, amt, 0, (float)-1, caster, hitPart, null, DamageInfo.SourceCategory.ThingOrUnknown);
                 dinfo.SetAllowDamagePropagation(false);
                 victim.TakeDamage(dinfo);
             }
@@ -180,12 +180,12 @@ namespace TorannMagic
         public override void Tick()
         {
             base.Tick();
-            this.age++;
+            age++;
         }
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            bool flag = this.age < duration;
+            bool flag = age < duration;
             if (!flag)
             {
                 base.Destroy(mode);

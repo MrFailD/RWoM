@@ -14,7 +14,7 @@ namespace TorannMagic
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))
             {
-                if ((root - targ.Cell).LengthHorizontal < this.verbProps.range)
+                if ((root - targ.Cell).LengthHorizontal < verbProps.range)
                 {
                     //out of range
                     validTarg = true;
@@ -34,8 +34,8 @@ namespace TorannMagic
         protected override bool TryCastShot()
         {
 
-            Pawn pawn = this.CasterPawn;
-            Map map = this.CasterPawn.Map;
+            Pawn pawn = CasterPawn;
+            Map map = CasterPawn.Map;
 
             if (pawn != null && !pawn.Downed)
             {
@@ -44,13 +44,13 @@ namespace TorannMagic
                 {
                     if (!comp.SoL.IsGlowing)
                     {
-                        comp.SoL.glowCenter = this.currentTarget.Cell;
+                        comp.SoL.glowCenter = currentTarget.Cell;
                     }
                     comp.SoL.shouldGlow = true;                    
                 }
             }
                 
-            this.burstShotsLeft = 0;
+            burstShotsLeft = 0;
             return false;
         }
     }
