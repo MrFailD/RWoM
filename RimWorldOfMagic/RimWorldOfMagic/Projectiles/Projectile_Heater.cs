@@ -2,6 +2,7 @@
 using AbilityUser;
 using Verse;
 using System.Linq;
+using TorannMagic.Buildings;
 
 namespace TorannMagic
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RimWorld;
 using AbilityUser;
+using TorannMagic.Buildings;
 using Verse.AI;
 using Verse;
 using UnityEngine;

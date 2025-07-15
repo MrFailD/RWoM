@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RimWorld;
+using TorannMagic.Buildings;
 using Verse;
 using Verse.Sound;
 

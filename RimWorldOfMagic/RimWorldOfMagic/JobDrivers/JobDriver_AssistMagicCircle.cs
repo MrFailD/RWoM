@@ -8,6 +8,7 @@ using Verse.Sound;
 using RimWorld;
 using System;
 using AbilityUser;
+using TorannMagic.Buildings;
 
 namespace TorannMagic
 {

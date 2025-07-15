@@ -1,10 +1,10 @@
-﻿using Verse;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using RimWorld;
-using System.Collections.Generic;
 using TorannMagic.Weapon;
+using UnityEngine;
+using Verse;
 
-namespace TorannMagic
+namespace TorannMagic.Buildings
 {
     [StaticConstructorOnStartup]
     public class Building_TMPowerNode : Building

@@ -1,7 +1,7 @@
-﻿using Verse;
-using UnityEngine;
+﻿using UnityEngine;
+using Verse;
 
-namespace TorannMagic
+namespace TorannMagic.Buildings
 {
     [StaticConstructorOnStartup]
     public class Building_TMTotem_Healing : Building

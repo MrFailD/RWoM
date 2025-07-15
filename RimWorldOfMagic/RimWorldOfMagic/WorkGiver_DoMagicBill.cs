@@ -7,6 +7,7 @@ using Verse.AI;
 using RimWorld;
 using UnityEngine;
 using HarmonyLib;
+using TorannMagic.Buildings;
 
 namespace TorannMagic
 {

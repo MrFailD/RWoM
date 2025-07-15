@@ -1,10 +1,10 @@
-﻿using Verse;
-using RimWorld;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
+using Verse;
 using Verse.Sound;
 
-namespace TorannMagic
+namespace TorannMagic.Buildings
 {
     [StaticConstructorOnStartup]
     public class Building_TMTotem_Earth : Building

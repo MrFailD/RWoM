@@ -1,6 +1,6 @@
 ﻿using Verse;
 
-namespace TorannMagic
+namespace TorannMagic.Buildings
 {
     [StaticConstructorOnStartup]
     public class Building_TMTotem_Lightning : Building

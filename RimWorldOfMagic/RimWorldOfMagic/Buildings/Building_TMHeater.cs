@@ -1,8 +1,8 @@
-﻿using Verse;
+﻿using System.Collections.Generic;
 using RimWorld;
-using System.Collections.Generic;
+using Verse;
 
-namespace TorannMagic
+namespace TorannMagic.Buildings
 {
     [StaticConstructorOnStartup]
     public class Building_TMHeater : Building_WorkTable

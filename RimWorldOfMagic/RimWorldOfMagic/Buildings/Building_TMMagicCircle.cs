@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.AI;
-using System.Diagnostics;
-using UnityEngine;
-using RimWorld;
-using AbilityUser;
 
-
-namespace TorannMagic
+namespace TorannMagic.Buildings
 {
     [StaticConstructorOnStartup]
     public class Building_TMMagicCircle : Building_TMMagicCircleBase

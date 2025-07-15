@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.AI;
-using System.Diagnostics;
-using UnityEngine;
-using RimWorld;
 
-
-namespace TorannMagic
+namespace TorannMagic.Buildings
 {
     [StaticConstructorOnStartup]
     public class Building_TMPortal : Building

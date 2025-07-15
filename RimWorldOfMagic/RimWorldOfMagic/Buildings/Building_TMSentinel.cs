@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Verse;
-using Verse.AI;
-using Verse.AI.Group;
-using System.Diagnostics;
-using UnityEngine;
-using RimWorld;
 using AbilityUser;
+using RimWorld;
+using Verse;
+using Verse.AI.Group;
 
-namespace TorannMagic
+namespace TorannMagic.Buildings
 {
     [StaticConstructorOnStartup]
     public class Building_TMSentinel : Building
