@@ -21,7 +21,7 @@ namespace TorannMagic
                 
                 if(currentTarget.Thing != null && currentTarget.Thing == base.CasterPawn)
                 {
-                    if (comp.mageLightActive == true)
+                    if (comp.mageLightActive)
                     {
                         comp.mageLightActive = false;
                         if (comp.mageLightThing != null)

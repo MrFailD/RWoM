@@ -160,7 +160,7 @@ namespace TorannMagic
                             }
                         }
                     }
-                    if (success == true)
+                    if (success)
                     {                        
                         TM_MoteMaker.ThrowRegenMote(pawn.Position.ToVector3(), pawn.Map, 1.5f);
                         MoteMaker.ThrowText(pawn.DrawPos, pawn.Map, "Cure Disease" + ": " + StringsToTranslate.AU_CastSuccess, -1f);
