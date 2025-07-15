@@ -236,7 +236,7 @@ namespace TorannMagic
                     {
                         Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);
 
-                        if (comp.MightData.MightPowersSS.FirstOrDefault<MightPower>((MightPower mp) => mp.abilityDef == TorannMagicDefOf.TM_PistolSpec).learned == true)
+                        if (comp.MightData.MightPowersSS.FirstOrDefault<MightPower>((MightPower mp) => mp.abilityDef == TorannMagicDefOf.TM_PistolSpec).learned)
                         {
                             List<TMAbilityDef> ssList = GetAbilityList(comp, comp.MightData.MightPowersSS);
                             ssList.Remove(TorannMagicDefOf.TM_RifleSpec);
@@ -245,7 +245,7 @@ namespace TorannMagic
 
                             //MightCardUtility.PowersGUIHandler(inRect3, pawn.GetCompAbilityUserMight(), pawn.GetCompAbilityUserMight().MightData.MightPowersSS, pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_PistolSpec, pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_CQC, pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_FirstAid, pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_60mmMortar, null, null, TexButton.TMTex_SkillPointUsed);
                         }
-                        else if (comp.MightData.MightPowersSS.FirstOrDefault<MightPower>((MightPower mp) => mp.abilityDef == TorannMagicDefOf.TM_RifleSpec).learned == true)
+                        else if (comp.MightData.MightPowersSS.FirstOrDefault<MightPower>((MightPower mp) => mp.abilityDef == TorannMagicDefOf.TM_RifleSpec).learned)
                         {
                             List<TMAbilityDef> ssList = GetAbilityList(comp, comp.MightData.MightPowersSS);
                             ssList.Remove(TorannMagicDefOf.TM_PistolSpec);
@@ -253,7 +253,7 @@ namespace TorannMagic
                             CustomPowersHandler(inRect3, comp, comp.MightData.AllMightPowersWithSkills, ssList, TexButton.TMTex_SkillPointUsed);
                             //MightCardUtility.PowersGUIHandler(inRect3, pawn.GetCompAbilityUserMight(), pawn.GetCompAbilityUserMight().MightData.MightPowersSS, pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_RifleSpec, pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_CQC, pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_FirstAid, pawn.GetCompAbilityUserMight().MightData.MightPowerSkill_60mmMortar, null, null, TexButton.TMTex_SkillPointUsed);
                         }
-                        else if (comp.MightData.MightPowersSS.FirstOrDefault<MightPower>((MightPower mp) => mp.abilityDef == TorannMagicDefOf.TM_ShotgunSpec).learned == true)
+                        else if (comp.MightData.MightPowersSS.FirstOrDefault<MightPower>((MightPower mp) => mp.abilityDef == TorannMagicDefOf.TM_ShotgunSpec).learned)
                         {
                             List<TMAbilityDef> ssList = GetAbilityList(comp, comp.MightData.MightPowersSS);
                             ssList.Remove(TorannMagicDefOf.TM_RifleSpec);

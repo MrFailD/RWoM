@@ -60,7 +60,7 @@ namespace TorannMagic
                 pwrVal = (tmpPwrVal > pwrVal) ? tmpPwrVal : pwrVal;
                 verVal = (tmpVerVal > verVal) ? tmpVerVal : verVal;
             }
-            if (primed != false)
+            if (primed)
             {
                 destructTimer = Mathf.RoundToInt((4800 + (pwrVal * 1200) + (pwrVal * 1200)) * comp.arcaneDmg);
                 arg_pos_1 = centerCell;

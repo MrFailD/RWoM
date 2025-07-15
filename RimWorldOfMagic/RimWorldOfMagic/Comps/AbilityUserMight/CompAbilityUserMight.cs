@@ -1191,67 +1191,67 @@ namespace TorannMagic
             }
             else
             {
-                if (skill_Sprint == true && !abilityUser.story.traits.HasTrait(TorannMagicDefOf.Gladiator))
+                if (skill_Sprint && !abilityUser.story.traits.HasTrait(TorannMagicDefOf.Gladiator))
                 {
                     RemovePawnAbility(TorannMagicDefOf.TM_Sprint);
                     AddPawnAbility(TorannMagicDefOf.TM_Sprint);
                 }
-                if (skill_GearRepair == true)
+                if (skill_GearRepair)
                 {
                     RemovePawnAbility(TorannMagicDefOf.TM_GearRepair);
                     AddPawnAbility(TorannMagicDefOf.TM_GearRepair);
                 }
-                if (skill_InnerHealing == true)
+                if (skill_InnerHealing)
                 {
                     RemovePawnAbility(TorannMagicDefOf.TM_InnerHealing);
                     AddPawnAbility(TorannMagicDefOf.TM_InnerHealing);
                 }
-                if (skill_StrongBack == true)
+                if (skill_StrongBack)
                 {
                     RemovePawnAbility(TorannMagicDefOf.TM_StrongBack);
                     AddPawnAbility(TorannMagicDefOf.TM_StrongBack);
                 }
-                if (skill_HeavyBlow == true)
+                if (skill_HeavyBlow)
                 {
                     RemovePawnAbility(TorannMagicDefOf.TM_HeavyBlow);
                     AddPawnAbility(TorannMagicDefOf.TM_HeavyBlow);
                 }
-                if (skill_ThickSkin == true)
+                if (skill_ThickSkin)
                 {
                     RemovePawnAbility(TorannMagicDefOf.TM_ThickSkin);
                     AddPawnAbility(TorannMagicDefOf.TM_ThickSkin);
                 }
-                if (skill_FightersFocus == true)
+                if (skill_FightersFocus)
                 {
                     RemovePawnAbility(TorannMagicDefOf.TM_FightersFocus);
                     AddPawnAbility(TorannMagicDefOf.TM_FightersFocus);
                 }
-                if (skill_Teach == true)
+                if (skill_Teach)
                 {
                     RemovePawnAbility(TorannMagicDefOf.TM_TeachMight);
                     AddPawnAbility(TorannMagicDefOf.TM_TeachMight);
                 }
-                if (skill_ThrowingKnife == true)
+                if (skill_ThrowingKnife)
                 {
                     RemovePawnAbility(TorannMagicDefOf.TM_ThrowingKnife);
                     AddPawnAbility(TorannMagicDefOf.TM_ThrowingKnife);
                 }
-                if (skill_BurningFury == true)
+                if (skill_BurningFury)
                 {
                     RemovePawnAbility(TorannMagicDefOf.TM_BurningFury);
                     AddPawnAbility(TorannMagicDefOf.TM_BurningFury);
                 }
-                if (skill_PommelStrike == true)
+                if (skill_PommelStrike)
                 {
                     RemovePawnAbility(TorannMagicDefOf.TM_PommelStrike);
                     AddPawnAbility(TorannMagicDefOf.TM_PommelStrike);
                 }
-                if (skill_TempestStrike == true)
+                if (skill_TempestStrike)
                 {
                     RemovePawnAbility(TorannMagicDefOf.TM_TempestStrike);
                     AddPawnAbility(TorannMagicDefOf.TM_TempestStrike);
                 }
-                if (skill_Legion == true)
+                if (skill_Legion)
                 {
                     RemovePawnAbility(TorannMagicDefOf.TM_Legion);
                     AddPawnAbility(TorannMagicDefOf.TM_Legion);
@@ -1298,7 +1298,7 @@ namespace TorannMagic
         public void FixPowers()
         {
             Pawn abilityUser = Pawn;
-            if (mightPowersInitialized == true)
+            if (mightPowersInitialized)
             {
                 bool flag2;
                 flag2 = abilityUser.story.traits.HasTrait(TorannMagicDefOf.Gladiator);
@@ -1393,7 +1393,7 @@ namespace TorannMagic
         public void RemovePowers(bool clearStandalone = false)
         {
             Pawn abilityUser = Pawn;
-            if (mightPowersInitialized == true && MightData != null)
+            if (mightPowersInitialized && MightData != null)
             {
                 bool flag2 = true;
                 if (customClass != null)
@@ -3391,11 +3391,11 @@ namespace TorannMagic
                             _arcaneRes += item.arcaneRes * enchantmentFactor;
                             _arcaneDmg += item.arcaneDmg * enchantmentFactor;
 
-                            if (item.arcaneSpectre == true)
+                            if (item.arcaneSpectre)
                             {
                                 _arcaneSpectre = true;
                             }
-                            if (item.phantomShift == true)
+                            if (item.phantomShift)
                             {
                                 _phantomShift = true;
                             }
@@ -3504,7 +3504,7 @@ namespace TorannMagic
             }
             else
             {
-                if(animalBondingDisabled == true)
+                if(animalBondingDisabled)
                 {
                     AddPawnAbility(TorannMagicDefOf.TM_AnimalFriend);
                     animalBondingDisabled = false;
@@ -3590,7 +3590,7 @@ namespace TorannMagic
                 {
                     HealthUtility.AdjustSeverity(Pawn, HediffDef.Named("TM_HediffEnchantment_arcalleumCooldown"), .5f);
                 }
-                if (_arcaneSpectre == true && !Pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_HediffEnchantment_arcaneSpectre")))
+                if (_arcaneSpectre && !Pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_HediffEnchantment_arcaneSpectre")))
                 {
                     HealthUtility.AdjustSeverity(Pawn, HediffDef.Named("TM_HediffEnchantment_arcaneSpectre"), .5f);
                 }
@@ -3598,7 +3598,7 @@ namespace TorannMagic
                 {
                     Pawn.health.RemoveHediff(Pawn.health.hediffSet.GetFirstHediffOfDef(HediffDef.Named("TM_HediffEnchantment_arcaneSpectre")));
                 }
-                if (_phantomShift == true)
+                if (_phantomShift)
                 {
                     HealthUtility.AdjustSeverity(Pawn, HediffDef.Named("TM_HediffEnchantment_phantomShift"), .5f);
                 }

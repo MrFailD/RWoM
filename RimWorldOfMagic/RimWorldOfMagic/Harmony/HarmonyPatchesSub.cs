@@ -154,7 +154,7 @@ namespace TorannMagic
                                 str2 += enchantedItem.ArcaneDmgLabel + "\n";
                             }
 
-                            if (enchantedItem.arcaneSpectre != false)
+                            if (enchantedItem.arcaneSpectre)
                             {
                                 GUI.color =
                                     Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem.skillTier);
@@ -162,7 +162,7 @@ namespace TorannMagic
                                 str2 += enchantedItem.ArcaneSpectreLabel + "\n";
                             }
 
-                            if (enchantedItem.phantomShift != false)
+                            if (enchantedItem.phantomShift)
                             {
                                 GUI.color =
                                     Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem.skillTier);

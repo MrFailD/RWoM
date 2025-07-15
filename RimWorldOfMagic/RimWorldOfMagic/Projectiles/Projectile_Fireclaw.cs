@@ -157,7 +157,7 @@ namespace TorannMagic
             }
 
 
-            if (primed == true)
+            if (primed)
 			{
 				if (((delay + lastStrike) < age))
 				{

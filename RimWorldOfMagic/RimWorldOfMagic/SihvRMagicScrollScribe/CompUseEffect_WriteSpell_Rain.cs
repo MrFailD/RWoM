@@ -9,7 +9,7 @@ namespace TorannMagic.SihvRMagicScrollScribe
         {
             CompAbilityUserMagic comp = user.GetCompAbilityUserMagic();
 
-            if (parent.def != null && comp.spell_Rain == true)
+            if (parent.def != null && comp.spell_Rain)
             {}
             else
             {

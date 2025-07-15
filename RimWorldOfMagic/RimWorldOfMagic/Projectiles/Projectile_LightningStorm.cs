@@ -74,7 +74,7 @@ namespace TorannMagic
             CellRect cellRect = CellRect.CenteredOn(Position, 8);
 			cellRect.ClipInsideMap(map);
 
-			if (primed == true)
+			if (primed)
 			{
 				if (((boltDelay + lastStrike) < age))
 				{

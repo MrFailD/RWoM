@@ -4156,11 +4156,11 @@ namespace TorannMagic
                 {
                     stringBuilder.AppendInNewLine(enchantedItem.ArcaneDmgLabel);
                 }
-                if (enchantedItem.arcaneSpectre != false)
+                if (enchantedItem.arcaneSpectre)
                 {
                     stringBuilder.AppendInNewLine(enchantedItem.ArcaneSpectreLabel);
                 }
-                if (enchantedItem.phantomShift != false)
+                if (enchantedItem.phantomShift)
                 {
                     stringBuilder.AppendInNewLine(enchantedItem.PhantomShiftLabel);
                 }

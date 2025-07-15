@@ -363,7 +363,7 @@ namespace TorannMagic
                             Rect inRect3 = new Rect(rect.x, rect11.y, PowersColumnWidth, PowersColumnHeight);                            
                             List<TMAbilityDef> technoList = GetAbilityList(comp, comp.MagicData.MagicPowersT);
 
-                            if (comp.MagicData.MagicPowersT.FirstOrDefault<MagicPower>((MagicPower mp) => mp.abilityDef == TorannMagicDefOf.TM_TechnoBit).learned == true)
+                            if (comp.MagicData.MagicPowersT.FirstOrDefault<MagicPower>((MagicPower mp) => mp.abilityDef == TorannMagicDefOf.TM_TechnoBit).learned)
                             {
                                 technoList.Remove(TorannMagicDefOf.TM_TechnoTurret);
                                 technoList.Remove(TorannMagicDefOf.TM_TechnoWeapon);
@@ -378,7 +378,7 @@ namespace TorannMagic
                                 //    MagicCardUtility.PowersGUIHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.MagicPowersT, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_TechnoBit, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_TechnoShield, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Overdrive, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Sabotage, null, null, TexButton.TMTex_SkillPointUsed);
                                 //}
                             }
-                            else if (comp.MagicData.MagicPowersT.FirstOrDefault<MagicPower>((MagicPower mp) => mp.abilityDef == TorannMagicDefOf.TM_TechnoTurret).learned == true)
+                            else if (comp.MagicData.MagicPowersT.FirstOrDefault<MagicPower>((MagicPower mp) => mp.abilityDef == TorannMagicDefOf.TM_TechnoTurret).learned)
                             {
                                 technoList.Remove(TorannMagicDefOf.TM_TechnoBit);
                                 technoList.Remove(TorannMagicDefOf.TM_TechnoWeapon);
@@ -393,7 +393,7 @@ namespace TorannMagic
                                 //    MagicCardUtility.PowersGUIHandler(inRect3, pawn.GetCompAbilityUserMagic(), pawn.GetCompAbilityUserMagic().MagicData.MagicPowersT, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_TechnoTurret, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_TechnoShield, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Overdrive, pawn.GetCompAbilityUserMagic().MagicData.MagicPowerSkill_Sabotage, null, null, TexButton.TMTex_SkillPointUsed);
                                 //}
                             }
-                            else if (comp.MagicData.MagicPowersT.FirstOrDefault<MagicPower>((MagicPower mp) => mp.abilityDef == TorannMagicDefOf.TM_TechnoWeapon).learned == true)
+                            else if (comp.MagicData.MagicPowersT.FirstOrDefault<MagicPower>((MagicPower mp) => mp.abilityDef == TorannMagicDefOf.TM_TechnoWeapon).learned)
                             {
                                 technoList.Remove(TorannMagicDefOf.TM_TechnoBit);
                                 technoList.Remove(TorannMagicDefOf.TM_TechnoTurret);

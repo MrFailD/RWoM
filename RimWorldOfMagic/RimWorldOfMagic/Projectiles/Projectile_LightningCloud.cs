@@ -86,7 +86,7 @@ namespace TorannMagic
 
             duration = 900 + (verVal * 120);
 
-            if (primed == true)
+            if (primed)
             {
                 if (((shockDelay + lastStrike) < age))
                 {

@@ -110,7 +110,7 @@ namespace TorannMagic.Enchantment
                 num++;
             }
             Rect rect8 = GetRowRect(rect72, num);
-            if (enchantedItem.arcaneSpectre != false)
+            if (enchantedItem.arcaneSpectre)
             {
                 GUI.color = GenEnchantmentColor.EnchantmentColor(enchantedItem.skillTier);
                 rectLabel = enchantedItem.ArcaneSpectreLabel;
@@ -118,7 +118,7 @@ namespace TorannMagic.Enchantment
                 num++;
             }
             Rect rect9 = GetRowRect(rect8, num);
-            if (enchantedItem.phantomShift != false)
+            if (enchantedItem.phantomShift)
             {
                 GUI.color = GenEnchantmentColor.EnchantmentColor(enchantedItem.skillTier);
                 rectLabel = enchantedItem.PhantomShiftLabel;
