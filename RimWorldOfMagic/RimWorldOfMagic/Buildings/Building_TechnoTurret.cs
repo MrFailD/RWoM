@@ -6,7 +6,7 @@ using Verse;
 using Verse.Sound;
 
 namespace TorannMagic.Buildings
-{   
+{
     [StaticConstructorOnStartup]
     public class Building_TechnoTurret : Building_TurretGun
     {
@@ -28,9 +28,15 @@ namespace TorannMagic.Buildings
         private int age;
         private int duration = 3600;
 
-        private bool MannedByColonist => mannableComp?.ManningPawn != null && mannableComp.ManningPawn.Faction == Faction.OfPlayer;
-        private bool MannedByNonColonist => mannableComp?.ManningPawn != null && mannableComp.ManningPawn.Faction != Faction.OfPlayer;
-        private bool PlayerControlled => (Faction == Faction.OfPlayer || MannedByColonist) && !MannedByNonColonist;
+        private bool MannedByColonist => mannableComp?.ManningPawn != null &&
+                                         mannableComp.ManningPawn.Faction == Faction.OfPlayer;
+
+        private bool MannedByNonColonist => mannableComp?.ManningPawn != null &&
+                                            mannableComp.ManningPawn.Faction != Faction.OfPlayer;
+
+        private bool PlayerControlled =>
+            (Faction == Faction.OfPlayer || MannedByColonist) && !MannedByNonColonist;
+
         private bool WarmingUp => burstWarmupTicksLeft > 0;
         protected override bool CanSetForcedTarget => mannableComp != null && PlayerControlled;
         private bool CanToggleHoldFire => PlayerControlled;
@@ -43,22 +49,26 @@ namespace TorannMagic.Buildings
         private CompAbilityUserMagic comp;
         public Pawn ManPawn;
 
-        private readonly FieldInfo holdFireField = typeof(Building_TurretGun).GetField("holdFire", BindingFlags.Instance | BindingFlags.NonPublic);
+        private readonly FieldInfo holdFireField =
+            typeof(Building_TurretGun).GetField("holdFire", BindingFlags.Instance | BindingFlags.NonPublic);
 
-        private bool TT_Active
+        private bool TurretActive => ShouldBeActive();
+
+        private bool ShouldBeActive()
         {
-            get
+            if (!((powerComp == null || powerComp.PowerOn) &&
+                  (dormantComp == null || dormantComp.Awake) &&
+                  (initiatableComp == null || initiatableComp.Initiated)))
             {
-                if ((powerComp == null || powerComp.PowerOn) && (dormantComp == null || dormantComp.Awake) && (initiatableComp == null || initiatableComp.Initiated))
-                {
-                    if (interactableComp != null)
-                    {
-                        return burstActivated;
-                    }
-                    return true;
-                }
                 return false;
             }
+
+            if (interactableComp != null)
+            {
+                return burstActivated;
+            }
+
+            return true;
         }
 
         public override AcceptanceReport ClaimableBy(Faction by)
@@ -88,163 +98,237 @@ namespace TorannMagic.Buildings
         {
             base.Tick();
             age++;
-            //if (!manPawn.DestroyedOrNull() && !manPawn.Dead && !manPawn.Downed && manPawn.Position == this.InteractionCell)
-            if (age <= duration)
+
+            if (age > duration)
             {
-                if (!initialized)
-                {
-                    comp = ManPawn.GetCompAbilityUserMagic();
-                    verVal = comp.MagicData.MagicPowerSkill_TechnoTurret.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_TechnoTurret_ver").level;
-                    pwrVal = comp.MagicData.MagicPowerSkill_TechnoTurret.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_TechnoTurret_pwr").level;
-                    effVal = comp.MagicData.MagicPowerSkill_TechnoTurret.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_TechnoTurret_eff").level;
-                    duration = 3600 + (300 * effVal);
-                    if (verVal >= 5)
-                    {
-                        rocketTicksToFire = 600 - ((verVal - 5) * 20);
-                        rocketCount = verVal / 5;
-                        rocketManaCost = .04f - (.001f * effVal);
-                    }
-                    if (verVal >= 10)
-                    {
-                        mortarTicksToFire = 900 - ((verVal - 10) * 40);
-                        mortarMaxRange += ((verVal - 10) * 5);
-                        mortarManaCost = .08f - (.002f * effVal);
-                    }
-                    initialized = true;
-                }
+                HandleExpiryEffects();
+                return;
+            }
 
-                if (!ManPawn.DestroyedOrNull() && !ManPawn.Dead && !ManPawn.Downed && comp != null && comp.Mana != null)
-                {
-                    if (verVal >= 5 && nextRocketFireTick < Find.TickManager.TicksGame && TargetCurrentlyAimingAt != null && comp.Mana.CurLevel >= rocketManaCost)
-                    {
-                        if (TargetCurrentlyAimingAt.Cell.IsValid && TargetCurrentlyAimingAt.Cell.DistanceToEdge(Map) > 5 && (TargetCurrentlyAimingAt.Cell - Position).LengthHorizontal >= RocketMinRange)
-                        {
-                            bool flag = TargetCurrentlyAimingAt.Cell != default(IntVec3);
-                            if (flag)
-                            {
-                                Thing launchedThing = new Thing()
-                                {
-                                    def = ThingDef.Named("FlyingObject_RocketSmall")
-                                };
-                                FlyingObject_Advanced flyingObject = (FlyingObject_Advanced)GenSpawn.Spawn(ThingDef.Named("FlyingObject_RocketSmall"), Position, Map);
-                                flyingObject.AdvancedLaunch(this, TorannMagicDefOf.Mote_Base_Smoke, 1, Rand.Range(5, 25), false, DrawPos, TargetCurrentlyAimingAt.Cell, launchedThing, Rand.Range(32, 38), true, Mathf.RoundToInt(Rand.Range(22f, 30f) * comp.arcaneDmg), 2, TMDamageDefOf.DamageDefOf.TM_PersonnelBombDD, null);
-                                rocketCount--;
-                                SoundInfo info = SoundInfo.InMap(new TargetInfo(Position, Map, false), MaintenanceType.None);
-                                info.pitchFactor = 1.3f;
-                                info.volumeFactor = 1.5f;
-                                TorannMagicDefOf.TM_AirWoosh.PlayOneShot(info);
-                            }
-                            if (rocketCount <= 0)
-                            {
-                                rocketCount = verVal / 5;
-                                nextRocketFireTick = Find.TickManager.TicksGame + (600 - ((verVal - 5) * 20));
-                                comp.Mana.CurLevel -= rocketManaCost;
-                                comp.MagicUserXP += Rand.Range(9, 12);
-                            }
-                            else
-                            {
-                                nextRocketFireTick = Find.TickManager.TicksGame + 20;
-                            }
-                        }
-                    }
+            InitializeIfNeeded();
 
-                    if (verVal >= 10 && mortarTicksToFire < Find.TickManager.TicksGame && comp.Mana.CurLevel >= mortarManaCost)
-                    {
-                        mortarTicksToFire = Find.TickManager.TicksGame + (900 - ((verVal - 10) * 40));
-                        Pawn target = TM_Calc.FindNearbyEnemy(Position, Map, Faction, mortarMaxRange, MortarMinRange);
-                        if (target != null && target.Position.DistanceToEdge(Map) > 8)
-                        {
-                            bool flag = target.Position != default(IntVec3);
-                            if (flag)
-                            {
-                                for (int i = 0; i < 5; i++)
-                                {
-                                    IntVec3 rndTarget = target.Position;
-                                    rndTarget.x += Rand.RangeInclusive(-6, 6);
-                                    rndTarget.z += Rand.RangeInclusive(-6, 6);
-                                    Projectile newProjectile = (Projectile)GenSpawn.Spawn(ThingDef.Named("Bullet_Shell_TechnoTurretExplosive"), Position, Map, WipeMode.Vanish);
-                                    newProjectile.Launch(this, rndTarget, target, ProjectileHitFlags.All, false, null);
-                                }
-                            }
-                            SoundInfo info = SoundInfo.InMap(new TargetInfo(Position, Map, false), MaintenanceType.None);
-                            info.pitchFactor = 1.3f;
-                            info.volumeFactor = .8f;
-                            SoundDef.Named("Mortar_LaunchA").PlayOneShot(info);
-                            comp.Mana.CurLevel -= mortarManaCost;
-                            comp.MagicUserXP += Rand.Range(12, 15);
-                        }
-                    }
+            if (CanManPawnAct())
+            {
+                TryFireRocket();
+                TryFireMortar();
+                HandleShellExtraction();
+                HandleForcedTargetLogic();
+                HandleHoldFireLogic();
+                HandleTargetResetLogic();
+                HandleTurretActiveTick();
+            }
+        }
 
-                    if (CanExtractShell)
-                    {
-                        CompChangeableProjectile compChangeableProjectile = gun.TryGetComp<CompChangeableProjectile>();
-                        if (!compChangeableProjectile.allowedShellsSettings.AllowedToAccept(compChangeableProjectile.LoadedShell))
-                        {
-                            ExtractShell();
-                        }
-                    }
-                    if (forcedTarget.IsValid && !CanSetForcedTarget)
-                    {
-                        ResetForcedTarget();
-                    }
-                    if (!CanToggleHoldFire)
-                    {
-                        holdFireField.SetValue(this, true);
-                    }
-                    if (forcedTarget.ThingDestroyed)
-                    {
-                        ResetForcedTarget();
-                    }
-                    if (TT_Active && !IsStunned && Spawned) //&& (mannableComp == null || mannableComp.MannedNow)
-                    {
-                        GunCompEq.verbTracker.VerbsTick();
-                        if (AttackVerb.state != VerbState.Bursting)
-                        {
-                            burstActivated = false;
-                            if (WarmingUp)
-                            {
-                                burstWarmupTicksLeft--;
-                                if (burstWarmupTicksLeft == 0)
-                                {
-                                    BeginBurst();
-                                }
-                            }
-                            else
-                            {
-                                if (burstCooldownTicksLeft > 0)
-                                {
-                                    burstCooldownTicksLeft--;
-                                }
-                                if (burstCooldownTicksLeft <= 0 && this.IsHashIntervalTick(10))
-                                {
-                                    TryStartShootSomething(canBeginBurstImmediately: true);
-                                }
-                            }
-                            top.TurretTopTick();
-                        }
-                    }
-                    else
-                    {
-                        ResetCurrentTarget();
-                    }
-                }
+        private void InitializeIfNeeded()
+        {
+            if (initialized) return;
+
+            comp = ManPawn.GetCompAbilityUserMagic();
+            verVal = comp.MagicData.MagicPowerSkill_TechnoTurret
+                .FirstOrDefault(x => x.label == "TM_TechnoTurret_ver").level;
+            pwrVal = comp.MagicData.MagicPowerSkill_TechnoTurret
+                .FirstOrDefault(x => x.label == "TM_TechnoTurret_pwr").level;
+            effVal = comp.MagicData.MagicPowerSkill_TechnoTurret
+                .FirstOrDefault(x => x.label == "TM_TechnoTurret_eff").level;
+            duration = 3600 + (300 * effVal);
+
+            if (verVal >= 5)
+            {
+                rocketTicksToFire = 600 - ((verVal - 5) * 20);
+                rocketCount = verVal / 5;
+                rocketManaCost = 0.04f - (0.001f * effVal);
+            }
+
+            if (verVal >= 10)
+            {
+                mortarTicksToFire = 900 - ((verVal - 10) * 40);
+                mortarMaxRange += ((verVal - 10) * 5);
+                mortarManaCost = 0.08f - (0.002f * effVal);
+            }
+
+            initialized = true;
+        }
+
+        private bool CanManPawnAct()
+        {
+            return !ManPawn.DestroyedOrNull() && !ManPawn.Dead && !ManPawn.Downed && comp != null &&
+                   comp.Mana != null;
+        }
+
+        private void TryFireRocket()
+        {
+            bool shouldFireRocket = verVal >= 5 && nextRocketFireTick < Find.TickManager.TicksGame &&
+                                    TargetCurrentlyAimingAt != null && comp.Mana.CurLevel >= rocketManaCost;
+
+            if (!shouldFireRocket) return;
+
+            var cell = TargetCurrentlyAimingAt.Cell;
+            bool targetCellValid = cell.IsValid && cell.DistanceToEdge(Map) > 5 &&
+                                   (cell - Position).LengthHorizontal >= RocketMinRange &&
+                                   cell != default(IntVec3);
+
+            if (!targetCellValid) return;
+
+            var launchedThing = new Thing { def = ThingDef.Named("FlyingObject_RocketSmall") };
+            var flyingObject =
+                (FlyingObject_Advanced)GenSpawn.Spawn(ThingDef.Named("FlyingObject_RocketSmall"), Position,
+                    Map);
+            flyingObject.AdvancedLaunch(this, TorannMagicDefOf.Mote_Base_Smoke, 1, Rand.Range(5, 25), false,
+                DrawPos, cell,
+                launchedThing, Rand.Range(32, 38), true,
+                Mathf.RoundToInt(Rand.Range(22f, 30f) * comp.arcaneDmg), 2,
+                TMDamageDefOf.DamageDefOf.TM_PersonnelBombDD, null);
+
+            rocketCount--;
+            PlayRocketSound();
+
+            if (rocketCount <= 0)
+            {
+                rocketCount = verVal / 5;
+                nextRocketFireTick = Find.TickManager.TicksGame + rocketTicksToFire;
+                comp.Mana.CurLevel -= rocketManaCost;
+                comp.MagicUserXP += Rand.Range(9, 12);
             }
             else
             {
-                for (int i = 0; i < 4; i++)
+                nextRocketFireTick = Find.TickManager.TicksGame + 20;
+            }
+        }
+
+        private void PlayRocketSound()
+        {
+            var info = SoundInfo.InMap(new TargetInfo(Position, Map, false), MaintenanceType.None);
+            info.pitchFactor = 1.3f;
+            info.volumeFactor = 1.5f;
+            TorannMagicDefOf.TM_AirWoosh.PlayOneShot(info);
+        }
+
+        private void TryFireMortar()
+        {
+            if (verVal < 10 || mortarTicksToFire >= Find.TickManager.TicksGame ||
+                comp.Mana.CurLevel < mortarManaCost)
+                return;
+
+            mortarTicksToFire = Find.TickManager.TicksGame + (900 - ((verVal - 10) * 40));
+            Pawn target = TM_Calc.FindNearbyEnemy(Position, Map, Faction, mortarMaxRange, MortarMinRange);
+            if (target == null || target.Position.DistanceToEdge(Map) <= 8) return;
+
+            bool targetCellValid = target.Position != default(IntVec3);
+            if (targetCellValid)
+            {
+                for (int i = 0; i < 5; i++)
                 {
-                    Vector3 rndPos = DrawPos;
-                    rndPos.x += Rand.Range(-.5f, .5f);
-                    rndPos.z += Rand.Range(-.5f, .5f);
-                    TM_MoteMaker.ThrowGenericFleck(TorannMagicDefOf.SparkFlash, rndPos, Map, Rand.Range(.6f, .8f), .1f, .05f, .05f, 0, 0, 0, Rand.Range(0, 360));
-                    FleckMaker.ThrowSmoke(rndPos, Map, Rand.Range(.8f, 1.2f));
-                    rndPos = DrawPos;
-                    rndPos.x += Rand.Range(-.5f, .5f);
-                    rndPos.z += Rand.Range(-.5f, .5f);
-                    TM_MoteMaker.ThrowGenericFleck(TorannMagicDefOf.ElectricalSpark, rndPos, Map, Rand.Range(.4f, .7f), .2f, .05f, .1f, 0, 0, 0, Rand.Range(0, 360));
+                    var rndTarget = target.Position;
+                    rndTarget.x += Rand.RangeInclusive(-6, 6);
+                    rndTarget.z += Rand.RangeInclusive(-6, 6);
+                    var newProjectile = (Projectile)GenSpawn.Spawn(
+                        ThingDef.Named("Bullet_Shell_TechnoTurretExplosive"), Position, Map, WipeMode.Vanish);
+                    newProjectile.Launch(this, rndTarget, target, ProjectileHitFlags.All, false, null);
                 }
-                ExplosionHelper.Explode(Position, Map, 1f, DamageDefOf.EMP, this, 0, 0, SoundDefOf.Crunch, null, null, this, null, 0, 0, null, false, null, 0, 0, 0, false);
-                Destroy(DestroyMode.Vanish);
+            }
+
+            PlayMortarSound();
+            comp.Mana.CurLevel -= mortarManaCost;
+            comp.MagicUserXP += Rand.Range(12, 15);
+        }
+
+        private void PlayMortarSound()
+        {
+            var info = SoundInfo.InMap(new TargetInfo(Position, Map, false), MaintenanceType.None);
+            info.pitchFactor = 1.3f;
+            info.volumeFactor = 0.8f;
+            SoundDef.Named("Mortar_LaunchA").PlayOneShot(info);
+        }
+
+        private void HandleShellExtraction()
+        {
+            if (!CanExtractShell) return;
+            var compChangeableProjectile = gun.TryGetComp<CompChangeableProjectile>();
+            if (!compChangeableProjectile.allowedShellsSettings.AllowedToAccept(compChangeableProjectile
+                    .LoadedShell))
+            {
+                ExtractShell();
+            }
+        }
+
+        private void HandleForcedTargetLogic()
+        {
+            if (forcedTarget.IsValid && !CanSetForcedTarget)
+            {
+                ResetForcedTarget();
+            }
+
+            if (forcedTarget.ThingDestroyed)
+            {
+                ResetForcedTarget();
+            }
+        }
+
+        private void HandleHoldFireLogic()
+        {
+            if (!CanToggleHoldFire)
+            {
+                holdFireField.SetValue(this, true);
+            }
+        }
+
+        private void HandleTargetResetLogic()
+        {
+            if (!(TurretActive && !IsStunned && Spawned))
+            {
+                ResetCurrentTarget();
+            }
+        }
+
+        private void HandleTurretActiveTick()
+        {
+            if (!(TurretActive && !IsStunned && Spawned))
+            {
+                return;
+            }
+
+            GunCompEq.verbTracker.VerbsTick();
+
+            if (AttackVerb.state == VerbState.Bursting)
+            {
+                return;
+            }
+
+            burstActivated = false;
+
+            if (WarmingUp)
+            {
+                burstWarmupTicksLeft--;
+                if (burstWarmupTicksLeft == 0)
+                {
+                    BeginBurst();
+                }
+                return;
+            }
+
+            if (burstCooldownTicksLeft > 0)
+            {
+                burstCooldownTicksLeft--;
+            }
+
+            if (burstCooldownTicksLeft <= 0 && this.IsHashIntervalTick(10))
+            {
+                TryStartShootSomething(canBeginBurstImmediately: true);
+            }
+
+            top.TurretTopTick();
+        }
+
+        private void HandleExpiryEffects()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                Vector3 rndPos = DrawPos;
+                rndPos.x += Rand.Range(-.5f, .5f);
+                rndPos.z += Rand.Range(-.5f, .5f);
+                TM_MoteMaker.ThrowGenericFleck(TorannMagicDefOf.SparkFlash, rndPos, Map, Rand.Range(.6f, .8f),
+                    .1f, .05f, .05f, 0, 0, 0, Rand.Range(0, 360));
+                FleckMaker.ThrowSmoke(rndPos, Map, Rand.Range(.8f, 1.2f));
             }
         }
 
@@ -256,7 +340,8 @@ namespace TorannMagic.Buildings
 
         private void ExtractShell()
         {
-            GenPlace.TryPlaceThing(gun.TryGetComp<CompChangeableProjectile>().RemoveShell(), Position, Map, ThingPlaceMode.Near);
+            GenPlace.TryPlaceThing(gun.TryGetComp<CompChangeableProjectile>().RemoveShell(), Position, Map,
+                ThingPlaceMode.Near);
         }
 
         private void ResetForcedTarget()
@@ -283,6 +368,7 @@ namespace TorannMagic.Buildings
                 {
                     return false;
                 }
+
                 return gun.TryGetComp<CompChangeableProjectile>()?.Loaded ?? false;
             }
         }
@@ -297,7 +383,8 @@ namespace TorannMagic.Buildings
                     TM_Action.DamageEntities(ManPawn, null, Rand.Range(4f, 8f), DamageDefOf.Burn, this);
                 }
             }
-            base.Destroy(mode);            
+
+            base.Destroy(mode);
         }
     }
 }
