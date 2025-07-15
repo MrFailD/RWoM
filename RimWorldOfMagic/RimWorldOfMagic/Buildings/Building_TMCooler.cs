@@ -1,110 +1,133 @@
-﻿using Verse;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using RimWorld;
-using System.Collections.Generic;
+using UnityEngine;
+using Verse;
 
-namespace TorannMagic
+namespace TorannMagic.Buildings
 {
     [StaticConstructorOnStartup]
     public class Building_TMCooler : Building
     {
-
-        private float arcaneEnergyCur = 0;
-        private float arcaneEnergyMax = 1;
-
-        private static readonly Material coolerMat_1 = MaterialPool.MatFrom("Other/cooler", false);
-        private static readonly Material coolerMat_2 = MaterialPool.MatFrom("Other/coolerB", false);
-        private static readonly Material coolerMat_3 = MaterialPool.MatFrom("Other/coolerC", false);
+        private static readonly Material CoolerMat1 = MaterialPool.MatFrom("Other/cooler", false);
+        private static readonly Material CoolerMat2 = MaterialPool.MatFrom("Other/coolerB", false);
+        private static readonly Material CoolerMat3 = MaterialPool.MatFrom("Other/coolerC", false);
 
         private int matRng;
-        private float matMagnitude = 1;
+        private const float MatMagnitude = 1;
         private int nextSearch;
-        public bool defensive;
-        public bool buffCool;
-        public bool buffFresh;
+        public bool Defensive;
+        public bool BuffCool;
+        public bool BuffFresh;
 
         private bool initialized;
 
-        //public override void SpawnSetup(Map map, bool respawningAfterLoad)
-        //{
-        //    base.SpawnSetup(map, respawningAfterLoad);
-        //    //LessonAutoActivator.TeachOpportunity(ConceptDef.Named("TM_Portals"), OpportunityType.GoodToKnow);
-        //}
-
         public override void ExposeData()
         {
-            Scribe_Values.Look<bool>(ref defensive, "defensive", false, false);
-            Scribe_Values.Look<bool>(ref buffCool, "buffCool", false, false);
-            Scribe_Values.Look<bool>(ref buffFresh, "buffFresh", false, false);
+            Scribe_Values.Look<bool>(ref Defensive, "defensive", false, false);
+            Scribe_Values.Look<bool>(ref BuffCool, "buffCool", false, false);
+            Scribe_Values.Look<bool>(ref BuffFresh, "buffFresh", false, false);
             base.ExposeData();
         }
 
         protected override void Tick()
         {
-            if(!initialized)
+            int currentTick = Find.TickManager.TicksGame;
+
+            InitializeTickState(currentTick);
+            UpdateMatRng(currentTick);
+
+            if (currentTick >= nextSearch)
+            {
+                nextSearch = currentTick + Rand.Range(400, 500);
+
+                TryApplyDefensiveEffects();
+                TryApplyBuffCool();
+                TryApplyBuffFresh();
+            }
+
+            base.Tick();
+        }
+
+        private void InitializeTickState(int currentTick)
+        {
+            if (!initialized)
             {
                 initialized = true;
-                nextSearch = Find.TickManager.TicksGame + Rand.Range(400, 500);
+                nextSearch = currentTick + Rand.Range(400, 500);
             }
-            if(Find.TickManager.TicksGame % 8 == 0)
-            {
-                matRng++;
-                if(matRng >= 3)
-                {
-                    matRng = 0;
-                }
-            }
-            if (Find.TickManager.TicksGame >= nextSearch)
-            {
-                nextSearch = Find.TickManager.TicksGame + Rand.Range(400, 500);
-                if (defensive)
-                {
-                    List<Pawn> ePawns = TM_Calc.FindAllPawnsAround(Map, Position, 10, factionInt, false);
-                    if (ePawns != null && ePawns.Count > 0)
-                    {
-                        for (int i = 0; i < ePawns.Count; i++)
-                        {
-                            if (ePawns[i].Faction.HostileTo(Faction))
-                            {
-                                HealthUtility.AdjustSeverity(ePawns[i], TorannMagicDefOf.TM_FrostSlowHD, .4f);
-                                TM_MoteMaker.ThrowGenericMote(TorannMagicDefOf.Mote_Ice, ePawns[i].DrawPos, Map, 1f, .3f, .1f, .8f, Rand.Range(-100, 100), .4f, Rand.Range(0, 35), Rand.Range(0, 360));
-                            }
-                        }
-                    }
-                }
-                if(buffCool)
-                {
-                    List<Pawn> pList = TM_Calc.FindAllPawnsAround(Map, Position, 7, Faction, true);
-                    if(pList != null && pList.Count > 0)
-                    {
-                        for(int i =0; i < pList.Count; i++)
-                        {
-                            Pawn p = pList[i];
-                            if (p.health != null && p.health.hediffSet != null)
-                            {
-                                HealthUtility.AdjustSeverity(p, TorannMagicDefOf.TM_CoolHD, 0.25f);
-                            }
-                        }
-                    }
-                }
-                if(buffFresh)
-                {
-                    List<Pawn> pList = TM_Calc.FindAllPawnsAround(Map, Position, 7, Faction, true);
-                    if (pList != null && pList.Count > 0)
-                    {
-                        for (int i = 0; i < pList.Count; i++)
-                        {
-                            Pawn p = pList[i];
-                            if (p.health != null && p.health.hediffSet != null)
-                            {
-                                HealthUtility.AdjustSeverity(p, TorannMagicDefOf.TM_RefreshedHD, 0.2f);
-                            }
-                        }
-                    }
-                }
-            }
-            base.Tick();
+        }
 
+        private void UpdateMatRng(int currentTick)
+        {
+            if (currentTick % 8 == 0)
+            {
+                matRng = (matRng + 1) % 3;
+            }
+        }
+
+        private void TryApplyDefensiveEffects()
+        {
+            if (!Defensive)
+            {
+                return;
+            }
+
+            List<Pawn> enemyPawns = TM_Calc.FindAllPawnsAround(Map, Position, 10, factionInt, false);
+            if (enemyPawns == null || enemyPawns.Count == 0)
+            {
+                return;
+            }
+
+            foreach (Pawn enemyPawn in enemyPawns)
+            {
+                if (!enemyPawn.Faction.HostileTo(Faction))
+                {
+                    continue;
+                }
+                HealthUtility.AdjustSeverity(enemyPawn, TorannMagicDefOf.TM_FrostSlowHD, .4f);
+                TM_MoteMaker.ThrowGenericMote(
+                    TorannMagicDefOf.Mote_Ice,
+                    enemyPawn.DrawPos,
+                    Map,
+                    1f, .3f, .1f, .8f,
+                    Rand.Range(-100, 100),
+                    .4f,
+                    Rand.Range(0, 35),
+                    Rand.Range(0, 360)
+                );
+            }
+        }
+
+        private void TryApplyBuffCool()
+        {
+            if (!BuffCool) return;
+
+            List<Pawn> friendlyPawns = TM_Calc.FindAllPawnsAround(Map, Position, 7, Faction, true);
+            if (friendlyPawns == null || friendlyPawns.Count == 0) return;
+
+            foreach (Pawn pawn in friendlyPawns)
+            {
+                if (pawn.health?.hediffSet != null)
+                {
+                    HealthUtility.AdjustSeverity(pawn, TorannMagicDefOf.TM_CoolHD, 0.25f);
+                }
+            }
+        }
+
+        private void TryApplyBuffFresh()
+        {
+            if (!BuffFresh) return;
+
+            List<Pawn> friendlyPawns = TM_Calc.FindAllPawnsAround(Map, Position, 7, Faction, true);
+            if (friendlyPawns == null || friendlyPawns.Count == 0) return;
+
+            foreach (Pawn pawn in friendlyPawns)
+            {
+                if (pawn.health?.hediffSet != null)
+                {
+                    HealthUtility.AdjustSeverity(pawn, TorannMagicDefOf.TM_RefreshedHD, 0.2f);
+                }
+            }
         }
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
@@ -112,23 +135,23 @@ namespace TorannMagic
             base.DrawAt(drawLoc, flip);
 
             Vector3 vector = base.DrawPos;
-            vector.y = Altitudes.AltitudeFor(AltitudeLayer.MoteOverhead);
-            Vector3 s = new Vector3(matMagnitude, matMagnitude, matMagnitude);
+            vector.y = AltitudeLayer.MoteOverhead.AltitudeFor();
+            Vector3 s = new Vector3(MatMagnitude, MatMagnitude, MatMagnitude);
             Matrix4x4 matrix = default(Matrix4x4);
             float angle = 0f;
             matrix.SetTRS(vector, Quaternion.AngleAxis(angle, Vector3.up), s);
             if (matRng == 0)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, coolerMat_1, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, CoolerMat1, 0);
             }
             else if (matRng == 1)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, coolerMat_2, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, CoolerMat2, 0);
             }
-            else 
+            else
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, coolerMat_3, 0);
-            }            
+                Graphics.DrawMesh(MeshPool.plane10, matrix, CoolerMat3, 0);
+            }
         }
     }
 }

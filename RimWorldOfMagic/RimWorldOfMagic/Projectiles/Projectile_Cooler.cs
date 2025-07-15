@@ -2,6 +2,7 @@
 using AbilityUser;
 using Verse;
 using System.Linq;
+using TorannMagic.Buildings;
 
 namespace TorannMagic
 {
@@ -101,15 +102,15 @@ namespace TorannMagic
                     {
                         if (comp.MagicData.MagicPowerSkill_Cantrips.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Cantrips_pwr").level >= 12)
                         {
-                            cooler.defensive = true;
+                            cooler.Defensive = true;
                         }
                         if (comp.MagicData.MagicPowerSkill_Cantrips.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Cantrips_ver").level >= 6)
                         {
-                            cooler.buffCool = true;
+                            cooler.BuffCool = true;
                         }
                         if (comp.MagicData.MagicPowerSkill_Cantrips.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Cantrips_ver").level >= 9)
                         {
-                            cooler.buffFresh = true;
+                            cooler.BuffFresh = true;
                         }
                     }
                 }
