@@ -1,30 +1,28 @@
-﻿using System;
-using RimWorld;
-using Verse;
-using Verse.Sound;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using RimWorld;
 using TorannMagic.Weapon;
 using UnityEngine;
-using Verse.AI;
+using Verse;
 using Verse.AI.Group;
+using Verse.Sound;
 
-namespace TorannMagic
+namespace TorannMagic.Buildings
 {
     [StaticConstructorOnStartup]
     public class Building_PoisonTrap : Building_ExplosiveProximityTrap
     {
-        int age = -1;
-        int duration = 480;
-        int strikeDelay = 40;
-        int lastStrike = 0;
-        bool triggered = false;
-        float radius = 3f;
-        int ticksTillReArm = 15000;
-        bool rearming = false;
-        ThingDef fog;
+        private int age = -1;
+        private int duration = 480;
+        private int strikeDelay = 40;
+        private int lastStrike;
+        private bool triggered;
+        private const float Radius = 3f;
+        private const int TicksTillReArm = 15000;
+        private bool rearming;
+        private ThingDef fog;
 
-        public bool destroyAfterUse = false;
+        private bool destroyAfterUse;
 
         private static readonly Material trap_rearming = MaterialPool.MatFrom("Other/PoisonTrap_rearming");
         private static readonly MaterialPropertyBlock MatPropertyBlock = new MaterialPropertyBlock();
@@ -32,15 +30,15 @@ namespace TorannMagic
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Collections.Look<Pawn>(ref this.touchingPawns, "testees", LookMode.Reference, new object[0]);
-            Scribe_Values.Look<bool>(ref this.triggered, "triggered", false, false);
-            Scribe_Values.Look<bool>(ref this.rearming, "rearming", false, false);
-            Scribe_Values.Look<bool>(ref this.destroyAfterUse, "destroyAfterUse", false, false);
-            Scribe_Values.Look<int>(ref this.age, "age", -1, false);
-            Scribe_Values.Look<int>(ref this.duration, "duration", 600, false);
-            Scribe_Values.Look<int>(ref this.strikeDelay, "strikeDelay", 0, false);
-            Scribe_Values.Look<int>(ref this.lastStrike, "lastStrike", 0, false);
-            Scribe_Defs.Look<ThingDef>(ref this.fog, "fog");        
+            Scribe_Collections.Look(ref TouchingPawns, "testees", LookMode.Reference);
+            Scribe_Values.Look(ref triggered, "triggered");
+            Scribe_Values.Look(ref rearming, "rearming");
+            Scribe_Values.Look(ref destroyAfterUse, "destroyAfterUse");
+            Scribe_Values.Look(ref age, "age", -1);
+            Scribe_Values.Look(ref duration, "duration", 600);
+            Scribe_Values.Look(ref strikeDelay, "strikeDelay");
+            Scribe_Values.Look(ref lastStrike, "lastStrike");
+            Scribe_Defs.Look(ref fog, "fog");
         }
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
@@ -48,8 +46,8 @@ namespace TorannMagic
             if (rearming)
             {
                 Matrix4x4 matrix = default(Matrix4x4);
-                matrix.SetTRS(this.DrawPos, Quaternion.identity, new Vector3(1f, 1f, 1f));   //drawer for beam
-                Graphics.DrawMesh(MeshPool.plane10, matrix, Building_PoisonTrap.trap_rearming, 0, null, 0, Building_PoisonTrap.MatPropertyBlock);
+                matrix.SetTRS(DrawPos, Quaternion.identity, new Vector3(1f, 1f, 1f)); //drawer for beam
+                Graphics.DrawMesh(MeshPool.plane10, matrix, trap_rearming, 0, null, 0, MatPropertyBlock);
             }
             else
             {
@@ -59,140 +57,192 @@ namespace TorannMagic
 
         protected override void Tick()
         {
-            if (this.triggered)
+            if (triggered)
             {
-                if(this.age >= this.lastStrike + this.strikeDelay)
-                {
-                    try
-                    {
-                        IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(base.Position, this.radius, true);
-                        foreach (IntVec3 curCell in targets)
-                        {
-                            if (!curCell.InBounds(Map) || !curCell.IsValid) continue;
-
-                            Pawn victim = curCell.GetFirstPawn(base.Map);
-                            if (victim != null && !victim.Dead && victim.RaceProps.IsFlesh)
-                            {
-                                BodyPartRecord bpr = null;
-                                bpr = victim.def.race.body.AllParts.InRandomOrder().FirstOrDefault<BodyPartRecord>((BodyPartRecord x) => x.def.tags.Contains(BodyPartTagDefOf.BreathingSource));
-                                TM_Action.DamageEntities(victim, bpr, Rand.Range(1f, 2f), 2f, TMDamageDefOf.DamageDefOf.TM_Poison, this);
-                            }                            
-                        }
-                    }
-                    catch
-                    {
-                        Log.Message("Debug: poison trap failed to process triggered event - terminating poison trap");
-                        this.Destroy(DestroyMode.Vanish);
-                    }
-                    this.lastStrike = this.age;
-                }
-                this.age++;
-                if(this.age > this.duration)
-                {
-                    CheckForAgent();
-                    if(destroyAfterUse)
-                    {
-                        Destroy();
-                    }
-                    else
-                    {
-                        this.age = 0;
-                        triggered = false;
-                        rearming = true;
-                        this.lastStrike = 0;
-                    }
-                }
+                HandleTriggered();
             }
-            else if(rearming)
+            else if (rearming)
             {
-                this.age++;
-                if(this.age > this.ticksTillReArm)
-                {
-                    this.age = 0;
-                    rearming = false;
-                    triggered = false;
-                }
+                HandleRearming();
             }
             else
             {
                 try
-                { 
-                    if (this.Armed)
-                    {
-                        IEnumerable<IntVec3> targets = GenRadial.RadialCellsAround(base.Position, 2, true);
-                        foreach (IntVec3 curCell in targets)
-                        {
-                            List<Thing> thingList = curCell.GetThingList(base.Map);
-                            for (int j = 0; j < thingList.Count; j++)
-                            {
-                                Pawn pawn = thingList[j] as Pawn;
-                                if (pawn == null
-                                    || pawn.RaceProps.Animal
-                                    || pawn.Faction == null
-                                    || pawn.Faction == Faction
-                                    || !pawn.HostileTo(Faction)
-                                    || touchingPawns.Contains(pawn))
-                                    continue;
-
-                                this.touchingPawns.Add(pawn);
-                                this.CheckSpring(pawn);
-                            }
-                        }
-                    }
-                    for (int j = 0; j < this.touchingPawns.Count; j++)
-                    {
-                        Pawn pawn2 = this.touchingPawns[j];
-                        if (!pawn2.Spawned || pawn2.Position != base.Position)
-                        {
-                            this.touchingPawns.Remove(pawn2);
-                        }
-                    }
+                {
+                    ProcessArmedState();
                 }
                 catch
                 {
                     Log.Message("Debug: poison trap failed to process armed event - terminating poison trap");
-                    this.Destroy(DestroyMode.Vanish);
+                    Destroy();
                 }
             }
-            for(int i = 0; i < AllComps.Count; i++)
-                AllComps[i].CompTick();
+
+            foreach (ThingComp t in AllComps)
+            {
+                t.CompTick();
+            }
         }
+
+        private void HandleTriggered()
+        {
+            if (age >= lastStrike + strikeDelay)
+            {
+                try
+                {
+                    ProcessPoisonArea(Position, Radius);
+                }
+                catch
+                {
+                    Log.Message(
+                        "Debug: poison trap failed to process triggered event - terminating poison trap");
+                    Destroy();
+                    return;
+                }
+
+                lastStrike = age;
+            }
+
+            age++;
+            if (age > duration)
+            {
+                CheckForAgent();
+                if (destroyAfterUse)
+                {
+                    Destroy();
+                }
+                else
+                {
+                    age = 0;
+                    triggered = false;
+                    rearming = true;
+                    lastStrike = 0;
+                }
+            }
+        }
+
+        private void HandleRearming()
+        {
+            age++;
+            if (age > TicksTillReArm)
+            {
+                age = 0;
+                rearming = false;
+                triggered = false;
+            }
+        }
+
+        private void ProcessArmedState()
+        {
+            if (!Armed)
+            {
+                RemoveNonTouchingPawns();
+                return;
+            }
+
+            foreach (var cell in GenRadial.RadialCellsAround(Position, 2, true))
+            {
+                ProcessCellForTouchingPawns(cell);
+            }
+
+            RemoveNonTouchingPawns();
+        }
+
+        private void ProcessCellForTouchingPawns(IntVec3 cell)
+        {
+            List<Thing> thingList = cell.GetThingList(Map);
+            foreach (Thing thing in thingList)
+            {
+                Pawn pawn = thing as Pawn;
+                if (pawn == null
+                    || pawn.RaceProps.Animal
+                    || pawn.Faction == null
+                    || pawn.Faction == Faction
+                    || !pawn.HostileTo(Faction)
+                    || TouchingPawns.Contains(pawn))
+                {
+                    continue;
+                }
+
+                TouchingPawns.Add(pawn);
+                CheckSpring(pawn);
+            }
+        }
+
+
+        private void RemoveNonTouchingPawns()
+        {
+            for (int i = TouchingPawns.Count - 1; i >= 0; i--)
+            {
+                var pawn = TouchingPawns[i];
+                if (!pawn.Spawned || pawn.Position != Position)
+                {
+                    TouchingPawns.RemoveAt(i);
+                }
+            }
+        }
+
+        private void ProcessPoisonArea(IntVec3 center, float radius)
+        {
+            var targets = GenRadial.RadialCellsAround(center, radius, true);
+            foreach (var cell in targets)
+            {
+                if (!cell.InBounds(Map) || !cell.IsValid) continue;
+                var victim = cell.GetFirstPawn(Map);
+                if (victim != null && !victim.Dead && victim.RaceProps.IsFlesh)
+                {
+                    var bodyPart = victim.def.race.body.AllParts
+                        .InRandomOrder()
+                        .FirstOrDefault(part => part.def.tags.Contains(BodyPartTagDefOf.BreathingSource));
+                    TM_Action.DamageEntities(
+                        victim,
+                        bodyPart,
+                        Rand.Range(1f, 2f),
+                        2f,
+                        TMDamageDefOf.DamageDefOf.TM_Poison,
+                        this
+                    );
+                }
+            }
+        }
+
 
         private void CheckForAgent()
         {
-            this.destroyAfterUse = true;
-            List<Pawn> pList = this.Map.mapPawns.AllPawnsSpawned.ToList();
-            if (pList == null || pList.Count <= 0) return;
+            destroyAfterUse = true;
+            List<Pawn> pList = Map.mapPawns.AllPawnsSpawned.ToList();
+            if (pList.Count <= 0) return;
 
-            for (int i = 0; i < pList.Count; i++)
+            foreach (Pawn pawn in pList)
             {
-                Pawn p = pList[i];
-                CompAbilityUserMight comp = p.GetCompAbilityUserMight();
+                CompAbilityUserMight comp = pawn.GetCompAbilityUserMight();
                 if (comp?.combatItems == null || comp.combatItems.Count <= 0) continue;
 
                 if (comp.combatItems.Contains(this))
                 {
-                    this.destroyAfterUse = false;
-                }                
-            }            
+                    destroyAfterUse = false;
+                }
+            }
         }
 
         protected override void CheckSpring(Pawn p)
         {
-            if (Rand.Value < this.SpringChance(p))
+            if (Rand.Value < SpringChance(p))
             {
-                this.Spring(p);
+                Spring(p);
             }
         }
 
-        public override void Spring(Pawn p)
+        protected override void Spring(Pawn p)
         {
-            SoundDef.Named("DeadfallSpring").PlayOneShot(new TargetInfo(base.Position, base.Map, false));
+            SoundDef.Named("DeadfallSpring").PlayOneShot(new TargetInfo(Position, Map));
             fog = TorannMagicDefOf.Fog_Poison;
-            fog.gas.expireSeconds.min = this.duration / 60;
-            fog.gas.expireSeconds.max = this.duration / 60;
-            ExplosionHelper.Explode(base.Position, base.Map, this.radius, TMDamageDefOf.DamageDefOf.TM_Poison, this, 0, 0, SoundDef.Named("TinyBell"), def, null, null, fog, 1f, 1, null, false, null, 0f, 0, 0.0f, false);
-            this.triggered = true;
+            float expiration = duration / 60f;
+            fog.gas.expireSeconds.min = expiration;
+            fog.gas.expireSeconds.max = expiration;
+            ExplosionHelper.Explode(Position, Map, Radius, TMDamageDefOf.DamageDefOf.TM_Poison, this, 0, 0,
+                SoundDef.Named("TinyBell"), def, null, null, fog, 1f, 1, null, false, null, 0f, 0);
+            triggered = true;
         }
 
         protected override float SpringChance(Pawn p)
@@ -202,23 +252,27 @@ namespace TorannMagic
             {
                 num *= 0.1f;
             }
+
             return Mathf.Clamp01(num);
         }
 
         public new bool KnowsOfTrap(Pawn p)
         {
-            if (p.Faction != null && !p.Faction.HostileTo(base.Faction))
+            if (p.Faction != null && !p.Faction.HostileTo(Faction))
             {
                 return true;
             }
+
             if (p.Faction == null && p.RaceProps.Animal && !p.InAggroMentalState)
             {
                 return true;
             }
+
             if (p.guest != null && p.guest.Released)
             {
                 return true;
             }
+
             Lord lord = p.GetLord();
             return p.RaceProps.Humanlike && lord != null && lord.LordJob is LordJob_FormAndSendCaravan;
         }
@@ -226,7 +280,7 @@ namespace TorannMagic
 
         public override bool IsDangerousFor(Pawn p)
         {
-            return this.Armed && this.KnowsOfTrap(p);
+            return Armed && KnowsOfTrap(p);
         }
     }
 }

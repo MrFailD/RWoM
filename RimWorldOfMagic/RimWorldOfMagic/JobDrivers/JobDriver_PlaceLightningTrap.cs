@@ -4,6 +4,7 @@ using RimWorld;
 using Verse;
 using AbilityUser;
 using System.Linq;
+using TorannMagic.Buildings;
 
 
 namespace TorannMagic
@@ -105,8 +106,8 @@ namespace TorannMagic
                         Building_LightningTrap trap = thing as Building_LightningTrap;
                         if(trap != null && thing is Building_LightningTrap)
                         {
-                            trap.iceTrap = true;
-                            trap.extendedTrap = true;
+                            trap.IceTrap = true;
+                            trap.ExtendedTrap = true;
                         }
                     }
                 }

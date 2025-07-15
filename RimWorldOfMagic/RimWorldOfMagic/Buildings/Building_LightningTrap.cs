@@ -1,35 +1,29 @@
-﻿using System;
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 using Verse.Sound;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using Verse.AI;
-using Verse.AI.Group;
 
-namespace TorannMagic
+namespace TorannMagic.Buildings
 {
     public class Building_LightningTrap : Building_ExplosiveProximityTrap
     {
-        public bool extendedTrap = false;
-        public bool iceTrap = false;
+        public bool ExtendedTrap = false;
+        public bool IceTrap = false;
 
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look<bool>(ref this.extendedTrap, "extendedTrap",false, false);
-            Scribe_Values.Look<bool>(ref this.iceTrap, "iceTrap", false, false);
-        }       
+            Scribe_Values.Look<bool>(ref this.ExtendedTrap, "extendedTrap",false, false);
+            Scribe_Values.Look<bool>(ref this.IceTrap, "iceTrap", false, false);
+        }
 
-        public override void Spring(Pawn p)
+        protected override void Spring(Pawn p)
         {
             base.Spring(p);
             IntVec3 targetPos = this.Position;
             targetPos.z += 2;
             LocalTargetInfo t = targetPos;
             float speed = .8f;
-            if(extendedTrap)
+            if(ExtendedTrap)
             {
                 speed = .6f;
             }
@@ -40,7 +34,7 @@ namespace TorannMagic
                 FlyingObject_LightningTrap flyingObject = (FlyingObject_LightningTrap)GenSpawn.Spawn(TorannMagicDefOf.FlyingObject_LightningTrap, this.Position, this.Map);
                 flyingObject.Launch(p, this.Position.ToVector3Shifted(), t.Cell, eyeThing, this.Faction, null, speed);
             }
-            if(iceTrap)
+            if(IceTrap)
             {
                 AddSnowRadial(this.Position, this.Map, 6, 1.1f);
             }
