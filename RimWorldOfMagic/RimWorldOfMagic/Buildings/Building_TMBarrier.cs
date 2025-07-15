@@ -12,7 +12,7 @@ namespace TorannMagic.Buildings
 
             Vector3 vector = base.DrawPos;
             float size = Rand.Range(1.60f, 1.70f);
-            vector.y = Altitudes.AltitudeFor(AltitudeLayer.MoteOverhead);
+            vector.y = AltitudeLayer.MoteOverhead.AltitudeFor();
             Vector3 s = new Vector3(size,size, size);
             Matrix4x4 matrix = default(Matrix4x4);
             float angle = Rand.Range(0, 360);
