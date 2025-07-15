@@ -43,7 +43,7 @@ namespace TorannMagic.Buildings
         private CompAbilityUserMagic comp;
         public Pawn ManPawn;
 
-        readonly FieldInfo holdFireField = typeof(Building_TurretGun).GetField("holdFire", BindingFlags.Instance | BindingFlags.NonPublic);
+        private readonly FieldInfo holdFireField = typeof(Building_TurretGun).GetField("holdFire", BindingFlags.Instance | BindingFlags.NonPublic);
 
         private bool TT_Active
         {
