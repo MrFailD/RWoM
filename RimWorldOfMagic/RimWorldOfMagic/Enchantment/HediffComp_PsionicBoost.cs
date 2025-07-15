@@ -10,7 +10,7 @@ namespace TorannMagic.Enchantment
     public class HediffComp_PsionicBoost : HediffComp_EnchantedItem
     {
 
-        public float maxSeverity = 0;
+        public float maxSeverity;
 
         public override void CompExposeData()
         {

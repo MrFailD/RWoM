@@ -13,7 +13,7 @@ namespace TorannMagic
         private const int NumBoltMeshesMax = 20;
 
         private IntVec3 strikeLoc = IntVec3.Invalid;
-        private Mesh boltMesh = null;
+        private Mesh boltMesh;
 
         private Material weatherMeshMat;
         //SkyColorSet weatherSkyColors;
@@ -21,13 +21,13 @@ namespace TorannMagic
 
         private Vector2 shadowVector;
         public int duration;
-        private int age = 0;
+        private int age;
         private DamageDef damageType = TMDamageDefOf.DamageDefOf.TM_Shadow;
         private float averageRadius = 1.75f;
         private int damageAmount = -1;
         private float soundVolume = 1f;
         private float soundPitch = 1f;
-        private Thing instigator = null;
+        private Thing instigator;
 
         private const int FlashFadeInTicks = 3;
         private const int MinFlashDuration = 15;

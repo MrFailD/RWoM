@@ -8,7 +8,7 @@ namespace TorannMagic
     internal class HediffComp_DurationEffect : HediffComp
     {
 
-        private bool initialized = false;
+        private bool initialized;
         private int effectFrequency;
         private int ticksTillEffect;
         private float severityReduction;
@@ -16,11 +16,11 @@ namespace TorannMagic
         private float scaleAvg = 1f;
         private float fadeIn = .5f;
         private float fadeOut = .5f;
-        private float solidTime = 0;
+        private float solidTime;
         private float velocity = 1f;
-        private float velocityAngle = 0;
-        private float lookAngle = 0;
-        private int rotationRate = 0;
+        private float velocityAngle;
+        private float lookAngle;
+        private int rotationRate;
 
 
         private ThingDef moteDef;

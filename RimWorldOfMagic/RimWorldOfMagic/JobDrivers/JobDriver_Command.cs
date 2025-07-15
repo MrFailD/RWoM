@@ -15,7 +15,7 @@ namespace TorannMagic
         private const TargetIndex caster = TargetIndex.B;
 
         private int age = -1;
-        private int lastEffect = 0;
+        private int lastEffect;
         private int ticksTillEffects = 20;
         public int duration = 545;
         private Vector3 positionBetween = Vector3.zero;

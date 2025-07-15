@@ -11,8 +11,8 @@ namespace TorannMagic
     public class Verb_Regenerate : Verb_UseAbility
     {
         private bool validTarg;
-        private int verVal =0;
-        private int pwrVal =0;
+        private int verVal;
+        private int pwrVal;
         private float arcaneDmg = 1;
         //Used specifically for non-unique verbs that ignore LOS (can be used with shield belt)
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)

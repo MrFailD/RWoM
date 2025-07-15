@@ -11,10 +11,10 @@ namespace TorannMagic
         private static readonly Material sunlightMat_2 = MaterialPool.MatFrom("Other/sunlight2", false);
         private static readonly Material sunlightMat_3 = MaterialPool.MatFrom("Other/sunlight3", false);
 
-        private int matRng = 0;
+        private int matRng;
         private float matMagnitude = 1;
 
-        private bool initialized = false;
+        private bool initialized;
                 
         protected override void Tick()
         {

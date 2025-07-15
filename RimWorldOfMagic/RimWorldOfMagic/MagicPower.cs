@@ -13,12 +13,12 @@ namespace TorannMagic
 
         public int ticksUntilNextCast = -1;
 
-        public int level = 0;
-        public bool learned = false;
-        public bool autocast = false;
+        public int level;
+        public bool learned;
+        public bool autocast;
         public int learnCost = 2;
-        private int interactionTick = 0;
-        public bool requiresScroll = false;
+        private int interactionTick;
+        public bool requiresScroll;
         public int maxLevel = 3;
         public int costToLevel = 1;
         

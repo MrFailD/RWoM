@@ -97,7 +97,7 @@ namespace TorannMagic
             }
         }
         
-        private int deathRetaliationDelayCount = 0;
+        private int deathRetaliationDelayCount;
         public void DoDeathRetaliation()
         {
             if (!this.Pawn.Downed || this.Pawn.Map == null || this.Pawn.IsPrisoner || this.Pawn.Faction == null || !this.Pawn.Faction.HostileTo(Faction.OfPlayerSilentFail))

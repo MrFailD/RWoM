@@ -11,8 +11,8 @@ namespace TorannMagic.TMDefs
     public class TM_Branding : IExposable
     {
 
-        public Pawn brandedPawn = null;
-        public HediffDef brandHediff = null;
+        public Pawn brandedPawn;
+        public HediffDef brandHediff;
 
         public void ExposeData()
         {

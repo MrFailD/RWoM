@@ -8,8 +8,8 @@ namespace TorannMagic
 	public class Projectile_BreachingCharge : Projectile_AbilityBase
 	{
 
-        private bool initialized = false;
-        private int verVal = 0;
+        private bool initialized;
+        private int verVal;
         private float mightPwr = 1f;
         private int ticksToDetonation = 210;
         private int explosionCount = 5;

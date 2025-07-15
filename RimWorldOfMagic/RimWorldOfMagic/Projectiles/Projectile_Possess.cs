@@ -13,17 +13,17 @@ namespace TorannMagic
 {
     public class Projectile_Possess : Projectile_AbilityBase
     {
-        private bool initialized = false;
-        private int age = 0;
+        private bool initialized;
+        private int age;
         private int duration = 1200;
-        private int inventoryCount = 0;
+        private int inventoryCount;
         private IntVec3 oldPosition;
-        private bool possessedFlag = false;
-        private Faction pFaction = null;
-        private Pawn hitPawn = null;
-        private Pawn caster = null;
+        private bool possessedFlag;
+        private Faction pFaction;
+        private Pawn hitPawn;
+        private Pawn caster;
         private List<int> hitPawnWorkSetting = new List<int>();
-        private bool prisoner = false;
+        private bool prisoner;
 
         private Pawn loadPawn = new Pawn();
 

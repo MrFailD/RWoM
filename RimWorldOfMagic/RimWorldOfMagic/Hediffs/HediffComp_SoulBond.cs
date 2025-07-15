@@ -10,8 +10,8 @@ namespace TorannMagic
     internal class HediffComp_SoulBond : HediffComp
     {
         private bool initializing = true;
-        private bool soulPawnRemove = false;
-        private Pawn bondedPawn = null;
+        private bool soulPawnRemove;
+        private Pawn bondedPawn;
 
         public override string CompLabelInBracketsExtra => bondedPawn != null ? bondedPawn.LabelShort + "[+]" + base.CompLabelInBracketsExtra : base.CompLabelInBracketsExtra;
 

@@ -18,7 +18,7 @@ namespace TorannMagic
 
         private static readonly IntRange RawMagicyteRange = new IntRange(8, 16);
 
-        private float collectiveMarketValue = 0;
+        private float collectiveMarketValue;
 
         public List<Thing> Generate(int totalMarketValue, List<Thing> outThings)
         {            

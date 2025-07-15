@@ -21,8 +21,8 @@ namespace TorannMagic
         private int searchDelay = 210;
         private int maxStrikeDelay = 90;
         private int maxStrikeDelayBldg = 50;
-        private int lastStrike = 0;
-        private int lastStrikeBldg = 0;
+        private int lastStrike;
+        private int lastStrikeBldg;
         private int age = -1;
         private float arcaneDmg = 1;
         public Matrix4x4 drawingMatrix = default(Matrix4x4);
@@ -32,8 +32,8 @@ namespace TorannMagic
         private Vector3[] to = new Vector3[10];
         private int[] fadeTimer = new int[10];
 
-        private int pwrVal = 0;
-        private int verVal = 0;
+        private int pwrVal;
+        private int verVal;
 
         protected float speed = 5.5f;
         protected new int ticksToImpact;
@@ -47,7 +47,7 @@ namespace TorannMagic
 
         public bool damageLaunched = true;
 
-        public bool explosion = false;
+        public bool explosion;
 
         public int timesToDamage = 3;
 

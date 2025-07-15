@@ -9,12 +9,12 @@ namespace TorannMagic.Ideology
     public class HediffComp_BestowMagicClass : HediffComp
     {
         public bool selectableForInspiration = true;
-        public bool delayedInspiration = false;
-        public bool botchedRitual = false;
+        public bool delayedInspiration;
+        public bool botchedRitual;
         private int ticksTillInspiration = 10;
 
         //unsaved
-        private bool shouldRemove = false;
+        private bool shouldRemove;
 
         public override void CompExposeData()
         {

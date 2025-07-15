@@ -16,10 +16,10 @@ namespace TorannMagic.Conditions
         public IntVec2 centerLocation;
         public IntVec2 edgeLocation;
         private int areaRadius = 4;
-        private bool initialized = false;
-        private bool disabled = false;
+        private bool initialized;
+        private bool disabled;
         public Thing thing;
-        private int nextEventTick = 0;
+        private int nextEventTick;
         private int ticksBetweenEvents = 4000;
 
         public float geChance = .002f;

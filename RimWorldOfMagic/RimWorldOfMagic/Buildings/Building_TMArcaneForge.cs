@@ -12,15 +12,15 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Building_TMArcaneForge : Building_WorkTable
     {
-        private Thing targetThing = null;
+        private Thing targetThing;
         private LocalTargetInfo infoTarget = null;
 
         private List<RecipeDef> replicatedRecipes = new List<RecipeDef>();
 
         //Saved forge recipe variables
-        private bool hasSavedRecipe = false;
-        private ThingDef copiedThingDef = null;
-        private ThingDef copiedStuffDef = null;
+        private bool hasSavedRecipe;
+        private ThingDef copiedThingDef;
+        private ThingDef copiedStuffDef;
 
         public override void ExposeData()
         {

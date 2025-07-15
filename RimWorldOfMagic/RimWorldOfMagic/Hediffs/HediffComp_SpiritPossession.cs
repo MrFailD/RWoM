@@ -10,11 +10,11 @@ namespace TorannMagic
     public class HediffComp_SpiritPossession : HediffComp, IThingHolder
     {
         private bool initializing = true;
-        private bool shouldRemove = false;
-        private bool shouldUnPossess = false;
-        private int failCheck = 0;
+        private bool shouldRemove;
+        private bool shouldUnPossess;
+        private int failCheck;
 
-        private ThingOwner innerContainer = null;
+        private ThingOwner innerContainer;
 
         //public IThingHolder ParentHolder => ((IThingHolder)SpiritPawn).ParentHolder;
         public IThingHolder ParentHolder => ((IThingHolder)Pawn);
@@ -50,16 +50,16 @@ namespace TorannMagic
             }
         }
 
-        private CompAbilityUserMagic magicComp = null;
+        private CompAbilityUserMagic magicComp;
         private int spiritCheckFrequency = 2500;
-        public int lastSpiritCheckTick = 0;
+        public int lastSpiritCheckTick;
         private int spiritLevel = 5;
         public int SpiritLevel => spiritLevel;
         private float compatibilityRatio = -5f;
-        private float effVal = 0;
-        public float MaxLevelBonus = 0;
+        private float effVal;
+        public float MaxLevelBonus;
         public float CRatio => compatibilityRatio + (.5f * effVal);
-        private int conversionAttempts = 0;
+        private int conversionAttempts;
 
         private void UpdateSpiritCompatibilityRatio()
         {

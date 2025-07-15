@@ -12,8 +12,8 @@ namespace TorannMagic
     public class HediffComp_HTLShield : HediffComp
     {
 
-        private bool initialized = false;
-        private int initializeDelay = 0;
+        private bool initialized;
+        private int initializeDelay;
         private bool removeNow = false;
 
         private int eventFrequency = 180;

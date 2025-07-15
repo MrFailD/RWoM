@@ -13,14 +13,14 @@ namespace TorannMagic
     {
 
         private bool initialized = false;
-        private bool removeNow = false;
+        private bool removeNow;
 
         private int eventFrequency = 500;
         private int burdenFrequency = 30000;
 
-        private int pwrVal = 0;  //chance to allow good emotions increases from 1-3, less chance to acquire a negative thoughts periodically
-        private int verVal = 0;  //increases joy and comfort at higher levels
-        private int effVal = 0;  //radius, level 3 applies to caravans
+        private int pwrVal;  //chance to allow good emotions increases from 1-3, less chance to acquire a negative thoughts periodically
+        private int verVal;  //increases joy and comfort at higher levels
+        private int effVal;  //radius, level 3 applies to caravans
         private float arcaneDmg = 1f;
         private float radius = 35f;
 

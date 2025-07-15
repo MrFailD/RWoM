@@ -10,13 +10,13 @@ namespace TorannMagic
     {
         private int age = -1;
         private int duration = 45;
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private int verVal;
+        private int pwrVal;
         private float arcaneDmg = 1;
         private int strikeDelay = 4;
         private int strikeNum = 1;
         private float radius = 5;
-        private bool initialized = false;
+        private bool initialized;
         private float angle = 0;
         private List<IntVec3> cellList;
         private Pawn pawn;
@@ -26,10 +26,10 @@ namespace TorannMagic
         private Map map;
         private IntVec3 safePos = default(IntVec3);
 
-        private bool launchedFlag = false;
-        private bool pivotFlag = false;
-        private bool landedFlag = false;
-        private bool draftFlag = false;
+        private bool launchedFlag;
+        private bool pivotFlag;
+        private bool landedFlag;
+        private bool draftFlag;
 
         public override void ExposeData()
         {

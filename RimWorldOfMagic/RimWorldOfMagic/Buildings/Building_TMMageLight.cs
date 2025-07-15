@@ -13,11 +13,11 @@ namespace TorannMagic
 
         private int matRng = 0;
         private float matMagnitude = 1;
-        private bool objectFloatingDown = false;
+        private bool objectFloatingDown;
         private Vector3 objectPosition = default(Vector3);
         private float objectOffset = .5f;
 
-        private bool initialized = false;
+        private bool initialized;
                 
         protected override void Tick()
         {

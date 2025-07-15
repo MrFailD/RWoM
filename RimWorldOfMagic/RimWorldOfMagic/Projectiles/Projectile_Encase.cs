@@ -15,12 +15,12 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Projectile_Encase : Projectile_AbilityBase
     {
-        private bool initialized = false;
-        private bool wallActive = false;
+        private bool initialized;
+        private bool wallActive;
         private int age = -1;
         private int duration = 1800;
-        private int pwrVal = 0;
-        private int verVal = 0;
+        private int pwrVal;
+        private int verVal;
         private List<IntVec3> wallPositions = new List<IntVec3>();
         private List<Thing> despawnedThingList = new List<Thing>();
         private List<TerrainDef> terrainList = new List<TerrainDef>();

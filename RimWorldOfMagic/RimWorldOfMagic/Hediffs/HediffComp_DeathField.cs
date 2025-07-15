@@ -11,9 +11,9 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class HediffComp_DeathField : HediffComp
     {
-        private int nextTick = 0;
+        private int nextTick;
         private bool shouldRemove = false;
-        public bool shouldStrike = false;
+        public bool shouldStrike;
         private int lastStrikeTick = 0;
         private int strikeDelay = 6;
 

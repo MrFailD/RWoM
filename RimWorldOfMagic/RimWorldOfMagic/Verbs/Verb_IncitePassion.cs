@@ -39,7 +39,7 @@ namespace TorannMagic
         }
 
         public List<SkillRecord> validSkillPassions = new List<SkillRecord>();
-        private int rotationDegree = 0;
+        private int rotationDegree;
 
         protected override bool TryCastShot()
         {

@@ -14,15 +14,15 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Projectile_WaveOfFear : Projectile_AbilityBase
     {
-        private int pwrVal = 0;
-        private int verVal = 0;
-        private int effVal = 0;
+        private int pwrVal;
+        private int verVal;
+        private int effVal;
         private float arcaneDmg = 1;
-        private Hediff hediff = null;
+        private Hediff hediff;
         private int age = -1;
         private int duration = 1800;
         private float radius = 4;
-        private bool initialized = false;
+        private bool initialized;
         private int waveDelay = 10;
         private int waveRange = 1;
         private Pawn caster;

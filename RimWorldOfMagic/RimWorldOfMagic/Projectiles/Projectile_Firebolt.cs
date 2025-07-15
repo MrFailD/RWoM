@@ -8,7 +8,7 @@ namespace TorannMagic
     internal class Projectile_Firebolt : Projectile_AbilityBase
     {
 
-        private int pwrVal = 0;
+        private int pwrVal;
         private float arcaneDmg = 1f;
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {

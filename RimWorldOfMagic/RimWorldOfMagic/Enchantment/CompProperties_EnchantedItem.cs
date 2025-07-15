@@ -14,7 +14,7 @@ namespace TorannMagic.Enchantment
 
         public Type AbilityUserClass;
 
-        public bool hasEnchantment = false;
+        public bool hasEnchantment;
         public bool hasAbility = false;
 
         public EnchantmentTier maxMPTier;
@@ -26,16 +26,16 @@ namespace TorannMagic.Enchantment
         public EnchantmentTier arcaneDmgTier;
 
         //Magic Stats (%)
-        public float maxMP = 0;
-        public float mpRegenRate = 0;
-        public float coolDown = 0;
-        public float mpCost = 0;
-        public float xpGain = 0;
+        public float maxMP;
+        public float mpRegenRate;
+        public float coolDown;
+        public float mpCost;
+        public float xpGain;
 
-        public float arcaneRes = 0;
-        public float arcaneDmg = 0;
+        public float arcaneRes;
+        public float arcaneDmg;
 
-        public float arcalleumCooldown = 0f;
+        public float arcalleumCooldown;
 
         //Might Stats (%)
 
@@ -45,8 +45,8 @@ namespace TorannMagic.Enchantment
 
         //Special Abilities
         public EnchantmentTier skillTier = EnchantmentTier.Skill;
-        public bool arcaneSpectre = false;
-        public bool phantomShift = false;
+        public bool arcaneSpectre;
+        public bool phantomShift;
 
         public EnchantmentAction enchantedAction = new EnchantmentAction();
 

@@ -18,16 +18,16 @@ namespace TorannMagic
 
 		private int duration = 60;
 		private int delay = 1;
-		private int lastStrike = 0;
+		private int lastStrike;
 
         private bool cflag = true;
         private bool oflag = true;
         private bool primed = true;
 
-        private float hyp = 0;
-        private float angleRad = 0;
-        private float angleDeg = 0;
-        private float xProb = 0;
+        private float hyp;
+        private float angleRad;
+        private float angleDeg;
+        private float xProb;
 
         private int verVal;
         private int pwrVal;
@@ -51,17 +51,17 @@ namespace TorannMagic
         private IntVec3 currentPos4 = IntVec3.Invalid;
         private IntVec3 currentPos5 = IntVec3.Invalid;
 
-        private bool posFlag = false;
-        private bool pos1Flag = false;
-        private bool pos11Flag = false;
-        private bool pos12Flag = false;
-        private bool pos2Flag = false;
-        private bool pos21Flag = false;
-        private bool pos22Flag = false;
-        private bool pos3Flag = false;
-        private bool pos31Flag = false;
-        private bool pos4Flag = false;
-        private bool pos5Flag = false;
+        private bool posFlag;
+        private bool pos1Flag;
+        private bool pos11Flag;
+        private bool pos12Flag;
+        private bool pos2Flag;
+        private bool pos21Flag;
+        private bool pos22Flag;
+        private bool pos3Flag;
+        private bool pos31Flag;
+        private bool pos4Flag;
+        private bool pos5Flag;
 
         private bool posFlagw = true;
         private bool pos1Flagw = true;

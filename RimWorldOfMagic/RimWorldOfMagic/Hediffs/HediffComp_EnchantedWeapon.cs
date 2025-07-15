@@ -12,13 +12,13 @@ namespace TorannMagic
     public class HediffComp_EnchantedWeapon : HediffComp
     {
 
-        private bool initialized = false;
-        private bool removeNow = false;
+        private bool initialized;
+        private bool removeNow;
 
         private int eventFrequency = 60;
 
-        public Pawn enchanterPawn = null;
-        public Thing enchantedWeapon = null;
+        public Pawn enchanterPawn;
+        public Thing enchantedWeapon;
 
         public override void CompExposeData()
         {

@@ -10,8 +10,8 @@ namespace TorannMagic
     internal class HediffComp_HerbalElixir : HediffComp
     {
 
-        public float verVal = 0;
-        public float pwrVal = 0;
+        public float verVal;
+        public float pwrVal;
 
         private bool initializing = true;
 

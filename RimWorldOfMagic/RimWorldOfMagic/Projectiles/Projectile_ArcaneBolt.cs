@@ -9,7 +9,7 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     internal class Projectile_ArcaneBolt : Projectile_AbilityBase
     {
-        private int rotationOffset = 0;
+        private int rotationOffset;
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {

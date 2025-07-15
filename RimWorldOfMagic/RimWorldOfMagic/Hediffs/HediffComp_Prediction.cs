@@ -9,10 +9,10 @@ namespace TorannMagic
 {
     public class HediffComp_Prediction : HediffComp
     {
-        private bool initialized = false;
+        private bool initialized;
 
-        private int pwrVal = 0;
-        public bool removeNow = false;
+        private int pwrVal;
+        public bool removeNow;
 
         public int blurTick = 0;
         private int predictionFrequency = 120;

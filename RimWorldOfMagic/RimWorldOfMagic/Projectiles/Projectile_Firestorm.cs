@@ -7,19 +7,19 @@ namespace TorannMagic
 {
 	public class Projectile_Firestorm : Projectile_AbilityBase
 	{
-        private int age = 0;
+        private int age;
         private int duration = 420;
-        private int lastStrikeTiny = 0;
-        private int lastStrikeSmall = 0;
-        private int lastStrikeLarge = 0;
+        private int lastStrikeTiny;
+        private int lastStrikeSmall;
+        private int lastStrikeLarge;
         private int[] ticksTillHeavy = new int[200];
         private IntVec3[] shrapnelPos = new IntVec3[200];
-        private int heavyCount = 0;
-        private bool initialized = false;
+        private int heavyCount;
+        private bool initialized;
         private CellRect cellRect;
         private Pawn pawn;
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private int verVal;
+        private int pwrVal;
         private MagicPowerSkill pwr;
         private MagicPowerSkill ver;
 

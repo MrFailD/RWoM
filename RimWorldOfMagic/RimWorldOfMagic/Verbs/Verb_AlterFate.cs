@@ -13,13 +13,13 @@ namespace TorannMagic
 {
     public class Verb_AlterFate : Verb_UseAbility
     {        
-        private int pwrVal = 0;
+        private int pwrVal;
         private float arcaneDmg = 1f;
 
-        private bool confident = false;
-        private bool unsure = false;
-        private bool uneasy = false;
-        private bool terrified = false;
+        private bool confident;
+        private bool unsure;
+        private bool uneasy;
+        private bool terrified;
 
         protected override bool TryCastShot()
         {

@@ -11,14 +11,14 @@ namespace TorannMagic
     public class HediffComp_CommanderAura : HediffComp
     {
 
-        private bool initialized = false;
+        private bool initialized;
 
-        private int nextApplyTick = 0;
+        private int nextApplyTick;
         public int nextSpeechTick = 0;
 
-        public int pwrVal = 0;
-        public int verVal = 0;
-        private float radius = 0f;
+        public int pwrVal;
+        public int verVal;
+        private float radius;
 
         public override void CompExposeData()
         {

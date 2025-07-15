@@ -11,14 +11,14 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Hediff_ApothecaryHerbs : HediffWithCompsExtra
     {
-        private bool initialized = false;
+        private bool initialized;
         private bool removeNow = false;
 
         private int eventFrequency = 60;
 
-        private int herbPwr = 0;  //increased maximum hediff value
-        private int herbVer = 0;  //increased amount of herbs found during harvesting
-        private int herbEff = 0;  //reduces expiration rate
+        private int herbPwr;  //increased maximum hediff value
+        private int herbVer;  //increased amount of herbs found during harvesting
+        private int herbEff;  //reduces expiration rate
 
         public override void ExposeData()
         {

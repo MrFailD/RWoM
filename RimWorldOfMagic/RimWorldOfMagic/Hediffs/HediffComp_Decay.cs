@@ -10,8 +10,8 @@ namespace TorannMagic
     internal class HediffComp_Decay : HediffComp
     {
         private int tickAction = 21;
-        private bool shouldRemove = false;
-        private Pawn hediffInstigator = null;
+        private bool shouldRemove;
+        private Pawn hediffInstigator;
 
         public override void CompExposeData()
         {

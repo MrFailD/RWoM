@@ -26,8 +26,8 @@ namespace TorannMagic
             this.duration = Props.duration;
         }
 
-        public bool initialized = false;
-        public bool removeNow = false;
+        public bool initialized;
+        public bool removeNow;
 
         public virtual string labelCap
         {

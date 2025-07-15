@@ -13,12 +13,12 @@ namespace TorannMagic
     {
         private int age = -1;
         private int duration = 300;
-        private int verVal = 0;
-        private bool initialized = false;
+        private int verVal;
+        private bool initialized;
         private IntVec3 startPos;
         private Pawn caster;
         private float weaponDamage = 5f;
-        private float critChance = 0f;
+        private float critChance;
 
         public override void ExposeData()
         {

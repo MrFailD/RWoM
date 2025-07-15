@@ -26,9 +26,9 @@ namespace TorannMagic
         private static readonly Material sol_barrier = MaterialPool.MatFrom("Other/LightBarrier", ShaderDatabase.Transparent, Color.white);
 
         private int age = -1;
-        private int nextMoteTick = 0;
+        private int nextMoteTick;
 
-        private int drawEnum = 0;
+        private int drawEnum;
 
         protected float speed = 9f;
         protected float speed_hover = .25f;
@@ -45,26 +45,26 @@ namespace TorannMagic
         public DamageInfo? impactDamage;
 
         public bool damageLaunched = true;
-        public bool explosion = false;
+        public bool explosion;
         public int timesToDamage = 3;
         public float arcaneDmg = 1f;
-        public int pwrVal = 0;
-        public int verVal = 0;
-        public int effVal = 0;
+        public int pwrVal;
+        public int verVal;
+        public int effVal;
         private int actionDelay = 4;
         private int chargeFrequency = 66;
-        public int delayCount = 0;
-        private int doublesidedVariance = 0;
-        private int destinationCurvePoint = 0;
+        public int delayCount;
+        private int doublesidedVariance;
+        private int destinationCurvePoint;
         public bool spinning = false;
-        public float curveVariance = 0; // 0 = no curve
+        public float curveVariance; // 0 = no curve
         private List<Vector3> curvePoints = new List<Vector3>();
 
         private float lightEnergy = 1f;
-        private bool initialized = false;
+        private bool initialized;
         public bool shouldDismiss = false;
-        public bool shouldGlow = false;
-        private bool glowing = false;
+        public bool shouldGlow;
+        private bool glowing;
 
         public SoLAction solAction = SoLAction.Pending;
         public SoLAction queuedAction = SoLAction.Null;

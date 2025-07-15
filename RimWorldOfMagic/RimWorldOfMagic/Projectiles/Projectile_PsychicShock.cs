@@ -9,8 +9,8 @@ namespace TorannMagic
 {
     internal class Projectile_PsychicShock : Projectile_AbilityBase
 	{
-        private bool initialized = false;
-        private int age = 0;
+        private bool initialized;
+        private int age;
         private int duration = 240; //backstop
         private int verVal;
         private int pwrVal;

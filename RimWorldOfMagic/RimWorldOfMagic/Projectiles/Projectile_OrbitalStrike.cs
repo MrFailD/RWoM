@@ -10,11 +10,11 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Projectile_OrbitalStrike : Projectile_AbilityBase
     {
-        private bool initialized = false;
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private bool initialized;
+        private int verVal;
+        private int pwrVal;
         private float arcaneDmg = 1f;
-        private int beamAge = 0;
+        private int beamAge;
         private int strikeNum;
         private int age = -1;
         private int beamDuration = 120;
@@ -25,7 +25,7 @@ namespace TorannMagic
         private ColorInt colorInt = new ColorInt(153, 0, 0);
         private Sustainer sustainer;
 
-        private float angle = 0;
+        private float angle;
         private float radius = 5;
 
         private static readonly Material BeamMat = MaterialPool.MatFrom("Other/OrbitalBeam", ShaderDatabase.MoteGlow, MapMaterialRenderQueues.OrbitalBeam);

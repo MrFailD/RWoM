@@ -11,14 +11,14 @@ namespace TorannMagic.Golems
 {
     public class TMPawnGolem : TMPawnSummoned
     {
-        public Material frameMatInt = null;
+        public Material frameMatInt;
         public List<DrawMesh> drawQueue = new List<DrawMesh>();
         public List<GolemDrawClass> drawTempMesh = new List<GolemDrawClass>();
 
         public List<GolemVerbTracker> verbList = new List<GolemVerbTracker>();
-        public bool rangedToggle = false;
-        public float maxAvailableRange = 0;
-        public Dictionary<Verb, Command_VerbTarget> verbCommands = null;
+        public bool rangedToggle;
+        public float maxAvailableRange;
+        public Dictionary<Verb, Command_VerbTarget> verbCommands;
         public Command_VerbTarget GetCommandVerbs(Verb verb)
         {
             if (verbCommands == null)
@@ -117,7 +117,7 @@ namespace TorannMagic.Golems
             }
         }
 
-        private TM_GolemDef golemDef = null;
+        private TM_GolemDef golemDef;
         public TM_GolemDef GolemDef
         {
             get
@@ -159,7 +159,7 @@ namespace TorannMagic.Golems
             }
         }
 
-        public bool showDormantPosition = false;
+        public bool showDormantPosition;
         public bool drawTickFlag = false;
         public virtual bool ShouldDrawTick => this.CurJobDef == TorannMagicDefOf.JobDriver_GolemAttackStatic && drawTickFlag;
 
@@ -617,7 +617,7 @@ namespace TorannMagic.Golems
             }
         }
 
-        private List<WorkGiver> workGiversCache = null;
+        private List<WorkGiver> workGiversCache;
 
         public List<WorkGiver> GetWorkGivers()
         {

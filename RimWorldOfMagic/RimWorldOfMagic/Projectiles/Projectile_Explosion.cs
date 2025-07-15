@@ -13,19 +13,19 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Projectile_Explosion : Projectile_AbilityBase
     {
-        private bool initialized = false;
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private bool initialized;
+        private int verVal;
+        private int pwrVal;
         private float arcaneDmg = 1f;
-        private int beamAge = 0;
+        private int beamAge;
         private int age = -1;
         private int duration = 360;
-        private int outerRingAngle = 0;
+        private int outerRingAngle;
         private int middleRingAngle = 120;
         private int innerRingAngle = 240;
-        private int expandingTick = 0;
-        private bool phase2Flag = false;
-        private bool phase3Flag = false;
+        private int expandingTick;
+        private bool phase2Flag;
+        private bool phase3Flag;
         private IntVec3 strikePos = default(IntVec3);
         private List<IntVec3> outerRing = new List<IntVec3>();
         private Pawn caster;

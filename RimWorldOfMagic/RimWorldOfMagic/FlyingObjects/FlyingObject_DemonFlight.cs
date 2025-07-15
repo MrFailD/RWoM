@@ -31,20 +31,20 @@ namespace TorannMagic
 
         public bool damageLaunched = true;
 
-        public bool explosion = false;
+        public bool explosion;
 
         public int timesToDamage = 3;
 
         public int weaponDmg = 0;
 
-        private int wingDelay = 0;
+        private int wingDelay;
         private bool wingDisplay = true;
 
         private IntVec3 expCell1;
         private IntVec3 expCell2;
-        private float hyp = 0;
-        private float angleRad = 0;
-        private float angleDeg = 0;
+        private float hyp;
+        private float angleRad;
+        private float angleDeg;
         private float xProb;
 
         private bool xflag = false;

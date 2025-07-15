@@ -17,24 +17,24 @@ namespace TorannMagic
         private Vector3 direction;
 
         public float speed = 25f;
-        public int spinRate = 0;        //spin rate > 0 makes the object rotate every spinRate Ticks
-        private int rotation = 0;
+        public int spinRate;        //spin rate > 0 makes the object rotate every spinRate Ticks
+        private int rotation;
         protected new int ticksToImpact;
         //protected new Thing launcher;
         protected Thing assignedTarget;
         protected Thing flyingThing;
-        private bool drafted = false;
+        private bool drafted;
 
         public float force = 1f;
 
-        private bool earlyImpact = false;
-        private float impactForce = 0;
+        private bool earlyImpact;
+        private float impactForce;
 
         public DamageInfo? impactDamage;
 
         public bool damageLaunched = true;
 
-        public bool explosion = false;
+        public bool explosion;
 
         public int weaponDmg = 0;
 

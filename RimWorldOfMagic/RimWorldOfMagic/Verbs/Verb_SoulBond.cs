@@ -8,8 +8,8 @@ namespace TorannMagic
 {
     internal class Verb_SoulBond : Verb_UseAbility  
     {
-        private bool flagSD = false;
-        private bool flagWD = false;
+        private bool flagSD;
+        private bool flagWD;
         private new Pawn caster;
         private Pawn pawn;
         private Pawn oldBondPawn;

@@ -11,7 +11,7 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     internal class Verb_ControlSpiritStorm : Verb_BLOS 
     {
-        public Map map = null;
+        public Map map;
         protected override bool TryCastShot()
         {
             Pawn p = this.CasterPawn;

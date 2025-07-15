@@ -13,27 +13,27 @@ namespace TorannMagic
     [Serializable]
     public class CompSkeletonLichController : ThingComp
 	{
-        private bool initialized = false;
+        private bool initialized;
 
         private List<Pawn> threatList = new List<Pawn>();
         private List<Pawn> closeThreats = new List<Pawn>();
         private List<Pawn> farThreats = new List<Pawn>();
         public List<Building> buildingThreats = new List<Building>();
 
-        public int nextRangedAttack = 0;
-        public int nextAoEAttack = 0;
-        public int nextKnockbackAttack = 0;
-        public int nextChargeAttack = 0;
-        public int nextTaunt = 0;
-        public int castingCompleteTick = 0;
+        public int nextRangedAttack;
+        public int nextAoEAttack;
+        public int nextKnockbackAttack;
+        public int nextChargeAttack;
+        public int nextTaunt;
+        public int castingCompleteTick;
 
-        private int rangedBurstShots = 0;
-        private int rangedNextBurst = 0;
+        private int rangedBurstShots;
+        private int rangedNextBurst;
         private LocalTargetInfo rangedTarget = null;
         private LocalTargetInfo flightTarget = null;
-        private bool shouldDoAOEAttack = false;
-        private bool shouldDoKnockBackAttack = false;
-        private bool shouldDoTaunt = false;
+        private bool shouldDoAOEAttack;
+        private bool shouldDoKnockBackAttack;
+        private bool shouldDoTaunt;
         private LocalTargetInfo attackTarget = null;
         public LocalTargetInfo tauntTarget = null;
 
@@ -42,7 +42,7 @@ namespace TorannMagic
         public float geChance = .0023f;
         public float leChance = .011f;
         public float raiseRadius = 4f;
-        public bool shouldAssault = false;
+        public bool shouldAssault;
 
         //private int actionReady = 0;
         //private int actionTick = 0;

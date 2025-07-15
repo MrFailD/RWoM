@@ -14,30 +14,30 @@ namespace TorannMagic.Golems
 {
     public class Building_TMGolemBase : Building_WorkTable, IThingHolder, IAttackTarget, IAttackTargetSearcher
     {
-        private int activationAge = 0;
-		public bool activating = false;
-        private bool initialized = false;
-        private int nextEvaluationTick = 0;
-        private int nextEffectTick = 0;
+        private int activationAge;
+		public bool activating;
+        private bool initialized;
+        private int nextEvaluationTick;
+        private int nextEffectTick;
         public float lastDrawRotation = 0f;
-        public bool holdFire = false;
+        public bool holdFire;
         public float tempGoal = 21f;
         public bool canRegulateTemp = false;
-        public int abilityCharges = 0;
+        public int abilityCharges;
         public List<TM_GolemItemRecipeDef> creationRecipes = new List<TM_GolemItemRecipeDef>();
 
         private LocalTargetInfo threatTarget = null;
         private TargetingParameters targetingParameters = new TargetingParameters();
 
-        public Pawn tmpGolem = null;
+        public Pawn tmpGolem;
 
-        private ThingOwner innerContainer = null;
+        private ThingOwner innerContainer;
 
         private List<GolemWorkstationEffect> activeEffects = new List<GolemWorkstationEffect>();
 
         private CompProperties_Glower glowerProps = new CompProperties_Glower();
-        public CompGlower glower = null;
-        private bool glowingInt = false;
+        public CompGlower glower;
+        private bool glowingInt;
 
         public override bool TransmitsPowerNow => Energy.CanDrawPower;
 
@@ -411,8 +411,8 @@ namespace TorannMagic.Golems
             }
         }
 
-        private int threatOnMapCheckDelay = 0;
-        public int pauseFor = 0;
+        private int threatOnMapCheckDelay;
+        public int pauseFor;
 		protected override void Tick()
 		{
 			base.Tick();
@@ -719,7 +719,7 @@ namespace TorannMagic.Golems
         public virtual ThingDef GetGolemThingDef => TM_GolemUtility.GetGolemDefFromThing(this).golemDef;
         public virtual PawnKindDef GetGolemKindDef => TM_GolemUtility.GetGolemDefFromThing(this).golemKindDef;
 
-        private int drawIteration = 0;
+        private int drawIteration;
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
             base.DrawAt(drawLoc, flip);

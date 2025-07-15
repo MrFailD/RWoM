@@ -11,9 +11,9 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Projectile_Refraction : Projectile_AbilityBase
     {
-        private bool initialized = false;
-        private bool wallActive = false;
-        private float wallLength = 0;
+        private bool initialized;
+        private bool wallActive;
+        private float wallLength;
         private int age = -1;
         private int duration = 300;
         private Vector3 wallStart = default(Vector3);
@@ -24,8 +24,8 @@ namespace TorannMagic
         private Pawn caster;
         public static readonly MaterialPropertyBlock MatPropertyBlock = new MaterialPropertyBlock();
 
-        private int pwrVal = 0;
-        private int verVal = 0;
+        private int pwrVal;
+        private int verVal;
         private float wallEnergy = 1500f;
 
         //unsaved variables

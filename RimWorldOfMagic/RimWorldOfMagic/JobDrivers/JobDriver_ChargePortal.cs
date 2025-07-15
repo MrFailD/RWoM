@@ -18,12 +18,12 @@ namespace TorannMagic
         private CompAbilityUserMagic comp;
 
         private int age = -1;
-        private int chargeAge = 0;
+        private int chargeAge;
         private int ticksTillCharge = 30;
-        private int effectsAge = 0;
+        private int effectsAge;
         private int ticksTillEffects = 12;
         private int duration = 1000;
-        private int xpNum = 0;
+        private int xpNum;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

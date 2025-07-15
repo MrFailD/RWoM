@@ -13,33 +13,33 @@ namespace TorannMagic
         //caching for lists so they're not generated every time
         private const int CacheTime = 60000; // cache for 12 ingame hours
 
-        private static List<ThingDef> _SpellList = null;
-        private static List<ThingDef> _MasterSpellList = null;
-        private static List<ThingDef> _RestrictedAbilities = null;
-        private static List<ThingDef> _RestrictedAbilitiesXML = null;
-        private static List<ThingDef> _StandardSpellList = null;
-        private static List<ThingDef> _StandardSkillList = null;
-        private static List<ThingDef> _FighterBookList = null;
-        private static List<ThingDef> _MageBookList = null;
-        private static List<ThingDef> _AllBooksList = null;
-        private static List<ThingDef> _MageTornScriptList = null;
-        private static List<TraitDef> _MagicTraits = null;
-        private static List<TraitDef> _EnabledMagicTraits = null;
-        private static List<TraitDef> _MightTraits = null;
-        private static List<TraitDef> _AllClassTraits = null;
-        private static List<TraitDef> _AllClassConflictTraits = null;
-        private static List<TMAbilityDef> _BrandList = null;
-        private static List<ThingDef> _MagicFociList = null;
-        private static List<ThingDef> _BowList = null;
-        private static List<ThingDef> _PistolList = null;
-        private static List<ThingDef> _RifleList = null;
-        private static List<ThingDef> _ShotgunList = null;
-        private static List<HediffDef> _AilmentList = null;
-        private static List<HediffDef> _AddictionList = null;
-        private static List<HediffDef> _MechaniteList = null;
-        private static List<HediffDef> _DiseaseList = null;
-        private static IEnumerable<TM_CustomPowerDef> _CustomFighterPowerDefs = null;
-        private static IEnumerable<TM_CustomPowerDef> _CustomMagePowerDefs = null;
+        private static List<ThingDef> _SpellList;
+        private static List<ThingDef> _MasterSpellList;
+        private static List<ThingDef> _RestrictedAbilities;
+        private static List<ThingDef> _RestrictedAbilitiesXML;
+        private static List<ThingDef> _StandardSpellList;
+        private static List<ThingDef> _StandardSkillList;
+        private static List<ThingDef> _FighterBookList;
+        private static List<ThingDef> _MageBookList;
+        private static List<ThingDef> _AllBooksList;
+        private static List<ThingDef> _MageTornScriptList;
+        private static List<TraitDef> _MagicTraits;
+        private static List<TraitDef> _EnabledMagicTraits;
+        private static List<TraitDef> _MightTraits;
+        private static List<TraitDef> _AllClassTraits;
+        private static List<TraitDef> _AllClassConflictTraits;
+        private static List<TMAbilityDef> _BrandList;
+        private static List<ThingDef> _MagicFociList;
+        private static List<ThingDef> _BowList;
+        private static List<ThingDef> _PistolList;
+        private static List<ThingDef> _RifleList;
+        private static List<ThingDef> _ShotgunList;
+        private static List<HediffDef> _AilmentList;
+        private static List<HediffDef> _AddictionList;
+        private static List<HediffDef> _MechaniteList;
+        private static List<HediffDef> _DiseaseList;
+        private static IEnumerable<TM_CustomPowerDef> _CustomFighterPowerDefs;
+        private static IEnumerable<TM_CustomPowerDef> _CustomMagePowerDefs;
 
         private static readonly Dictionary<string, int> CacheTimers = new Dictionary<string, int>();
 

@@ -20,7 +20,7 @@ namespace TorannMagic
         public int duration = 5;
         private Vector3 positionBetween = Vector3.zero;
         public PawnAbility ability = null;
-        private Thing targetThing = null;
+        private Thing targetThing;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

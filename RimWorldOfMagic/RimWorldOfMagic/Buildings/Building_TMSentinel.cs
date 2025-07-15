@@ -14,12 +14,12 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Building_TMSentinel : Building
     {
-        private bool initialized = false;
-        private Pawn sustainerPawn = null;
-        private Pawn hostilePawn = null;
+        private bool initialized;
+        private Pawn sustainerPawn;
+        private Pawn hostilePawn;
         private TMPawnSummoned newPawn = new TMPawnSummoned();
         private int age = -1;
-        private int pwrVal = 0;
+        private int pwrVal;
         private int threatRange = 35;
 
         public override void ExposeData()

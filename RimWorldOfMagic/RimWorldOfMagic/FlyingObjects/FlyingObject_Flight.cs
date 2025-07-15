@@ -12,7 +12,7 @@ namespace TorannMagic
         protected new Vector3 destination;
 
         protected float speed = 20f;
-        private bool drafted = false;
+        private bool drafted;
 
         protected new int ticksToImpact;
 
@@ -23,7 +23,7 @@ namespace TorannMagic
 
         public bool damageLaunched = true;
 
-        public bool explosion = false;
+        public bool explosion;
 
         public int weaponDmg = 0;
 

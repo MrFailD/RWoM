@@ -9,14 +9,14 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     internal class HediffComp_Enrage : HediffComp
     {
-        public bool consumeJoy = false;
+        public bool consumeJoy;
         public float reductionFactor = 1f;
-        private int lastDamageDealt = 0;
-        private bool initialized = false;
+        private int lastDamageDealt;
+        private bool initialized;
 
         //unsaved
         private float reductionAmount = .04f;
-        private bool shouldRemove = false;
+        private bool shouldRemove;
 
         public override void CompExposeData()
         {

@@ -12,7 +12,7 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     internal class Projectile_Spinning : Projectile_AbilityBase
     {
-        private int rotationOffset = 0;
+        private int rotationOffset;
         public int daggerCount = 2;
 
         public override void Tick()

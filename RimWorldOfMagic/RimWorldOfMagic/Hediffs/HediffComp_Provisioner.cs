@@ -13,13 +13,13 @@ namespace TorannMagic
     {
 
         private bool initializing = true;
-        private int nextTickAction = 0;
+        private int nextTickAction;
 
-        public int verVal = 0;
-        public int pwrVal = 0;
+        public int verVal;
+        public int pwrVal;
         public int duration = 1;
 
-        private bool removeNow = false;
+        private bool removeNow;
 
         public override void CompExposeData()
         {

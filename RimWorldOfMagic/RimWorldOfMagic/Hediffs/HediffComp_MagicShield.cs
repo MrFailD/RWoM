@@ -44,7 +44,7 @@ namespace TorannMagic
 
         private bool initializing = true;
 
-        private bool broken = false;
+        private bool broken;
 
         public string labelCap
         {

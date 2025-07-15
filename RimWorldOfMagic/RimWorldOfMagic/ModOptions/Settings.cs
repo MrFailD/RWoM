@@ -13,7 +13,7 @@ namespace TorannMagic.ModOptions
         public float needMultiplier = 1f;        
         public bool AICasting = true;
         public bool AIAggressiveCasting = true;
-        public bool AIHardMode = false;        
+        public bool AIHardMode;        
         public float baseMageChance = 1f;
         public float baseFighterChance = 1f;
         public float advMageChance = 0.5f;
@@ -27,26 +27,26 @@ namespace TorannMagic.ModOptions
         public bool unrestrictedBloodTypes = true;
         public float paracyteSoftCap = 50f;
         public bool paracyteMagesCount = true;
-        public bool unrestrictedWeaponCopy = false;
+        public bool unrestrictedWeaponCopy;
         public float undeadUpkeepMultiplier = 1f;      
         public bool cameraSnap = true;
         public bool autoCreateAreas = true;
 
         //Draw Options
         public bool AIMarking = true;
-        public bool AIFighterMarking = false;
-        public bool AIFriendlyMarking = false;
+        public bool AIFighterMarking;
+        public bool AIFriendlyMarking;
         public bool showIconsMultiSelect = true;
         public bool showGizmo = true;
         public bool changeUndeadPawnAppearance = true;
         public bool changeUndeadAnimalAppearance = true;
         public bool showClassIconOnColonistBar = true;
         public float classIconSize = 1f;
-        public bool shrinkIcons = false;
+        public bool shrinkIcons;
         public Vector2 iconPosition = Vector2.zero;
-        public float cloakDepth = 0f;
-        public float cloakDepthNorth = 0f;
-        public bool offSetClothing = false;
+        public float cloakDepth;
+        public float cloakDepthNorth;
+        public bool offSetClothing;
         public float offsetApplyAtValue = .0288f;
         public float offsetMultiLayerClothingAmount = -.025387f;
 
@@ -60,15 +60,15 @@ namespace TorannMagic.ModOptions
 
         //autocast options
         public bool autocastEnabled = true;
-        public bool autocastAnimals = false;
+        public bool autocastAnimals;
         public float autocastMinThreshold = 0.7f;
         public float autocastCombatMinThreshold = 0.2f;
         public int autocastEvaluationFrequency = 180;
-        public bool autocastQueueing = false;
+        public bool autocastQueueing;
 
         //Golem options
-        public bool showDormantFrames = false;
-        public bool showGolemsOnColonistBar = false;
+        public bool showDormantFrames;
+        public bool showGolemsOnColonistBar;
         public bool golemScreenShake = true;
 
         //class options

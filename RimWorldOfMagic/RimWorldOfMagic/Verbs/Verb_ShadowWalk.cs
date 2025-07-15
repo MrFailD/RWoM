@@ -9,9 +9,9 @@ namespace TorannMagic
     internal class Verb_ShadowWalk : Verb_UseAbility  
     {
 
-        private bool validTarg = false;
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private bool validTarg;
+        private int verVal;
+        private int pwrVal;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {            

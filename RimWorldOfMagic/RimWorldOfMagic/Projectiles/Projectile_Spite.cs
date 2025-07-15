@@ -9,9 +9,9 @@ namespace TorannMagic
     public class Projectile_Spite : Projectile_AbilityBase
     {
 
-        private int pwrVal = 0;
-        private int verVal = 0;
-        private float arcaneDmg = 0;
+        private int pwrVal;
+        private int verVal;
+        private float arcaneDmg;
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
             Map map = base.Map;

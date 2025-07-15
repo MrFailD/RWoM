@@ -8,11 +8,11 @@ namespace TorannMagic
     internal class HediffComp_Disguise : HediffComp
     {
 
-        private bool initialized = false;
-        private bool hasDisguise = false;
-        private bool hasPossess = false;
-        private bool disguiseFlag = false;
-        private bool possessFlag = false;
+        private bool initialized;
+        private bool hasDisguise;
+        private bool hasPossess;
+        private bool disguiseFlag;
+        private bool possessFlag;
         private int age;
 
         public string labelCap

@@ -13,8 +13,8 @@ namespace TorannMagic
     public class Verb_TigerStrike : Verb_UseAbility
     {
 
-        public int verVal = 0;
-        public int pwrVal = 0;
+        public int verVal;
+        public int pwrVal;
 
         protected override bool TryCastShot()
         {

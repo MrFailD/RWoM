@@ -24,7 +24,7 @@ namespace TorannMagic
         public const float ThreshVeryHigh = 0.9f;
 
         public float lastNeed;
-        private float lastCast = 0;
+        private float lastCast;
 
         public float drainMinion;
         public float drainUndead;
@@ -48,7 +48,7 @@ namespace TorannMagic
 
         private int lastGainTick;
 
-        public float paracyteCountReduction = 0;
+        public float paracyteCountReduction;
         private int lastParacyteCheck = 0;
 
         protected new float curLevelInt;

@@ -16,9 +16,9 @@ namespace TorannMagic
         private MightPowerSkill ver;
         private MightPowerSkill str;
 
-        private float weaponDPS = 0;
+        private float weaponDPS;
         private float dmgMultiplier = 1;
-        private float pawnDPS = 0;
+        private float pawnDPS;
         private float skillMultiplier = 1;
         private ThingWithComps weaponComp;
         private int dmgNum = 0;

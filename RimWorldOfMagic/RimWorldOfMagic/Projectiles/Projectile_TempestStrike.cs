@@ -12,7 +12,7 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     internal class Projectile_TempestStrike : Projectile_AbilityBase
     {
-        private int rotationOffset = 0;
+        private int rotationOffset;
         public bool shouldSpin = true;
         private bool spinCheck = true;
 

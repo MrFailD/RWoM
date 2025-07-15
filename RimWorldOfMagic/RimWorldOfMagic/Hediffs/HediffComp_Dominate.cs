@@ -10,14 +10,14 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     internal class HediffComp_Dominate : HediffComp
     {
-        private bool initialized = false;
-        private int age = 0;
+        private bool initialized;
+        private int age;
         private int infectionRate = 120;
         private int lastInfection = 240;
-        private int hediffPwr = 0;
+        private int hediffPwr;
         private int infectionRadius = 3;
-        private int effVal = 0;
-        private int verVal = 0;
+        private int effVal;
+        private int verVal;
         private float minimumSev = .3f;
 
         public int EffVal

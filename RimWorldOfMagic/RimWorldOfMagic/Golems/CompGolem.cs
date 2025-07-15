@@ -15,19 +15,19 @@ namespace TorannMagic.Golems
     public class CompGolem : ThingComp, IThingHolder
 	{
         //saved
-        public int age = 0;
-        private int nextActionTick = 0;
+        public int age;
+        private int nextActionTick;
         public int actionTickAverage80 = 300;
         public IntVec3 dormantPosition = IntVec3.Zero;
-        public Map dormantMap = null;
+        public Map dormantMap;
         public Building_TMGolemBase dormantThing;
         public Rot4 dormantRotation;        
 
-        public Thing threatTarget = null;
+        public Thing threatTarget;
         public float threatRange = 40f;
-        public Pawn pawnMaster = null;
+        public Pawn pawnMaster;
         public bool followsMaster = true;
-        public bool followsMasterDrafted = false;
+        public bool followsMasterDrafted;
         public bool remainDormantWhenUpgrading = true;
         public bool useAbilitiesWhenDormant = true;
         public bool checkThreatPath = false;
@@ -126,14 +126,14 @@ namespace TorannMagic.Golems
         }
 
         //unsaved variables
-        private bool initialized = false;
-        public bool shouldDespawn = false;
-        public bool despawnNow = false;
-        private int abilityTick = 0;
-        private int abilityBurstTick = 0;
-        private int abilityMaxTicks = 0;
+        private bool initialized;
+        public bool shouldDespawn;
+        public bool despawnNow;
+        private int abilityTick;
+        private int abilityBurstTick;
+        private int abilityMaxTicks;
         private LocalTargetInfo abilityTarget = null;
-        private TM_GolemAbility activeAbility = null;
+        private TM_GolemAbility activeAbility;
         private AbilityTargetType abilityTargetType = AbilityTargetType.None;
         private Effecter effecter;
 

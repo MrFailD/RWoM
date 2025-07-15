@@ -10,7 +10,7 @@ namespace TorannMagic
 	public class Projectile_ArrowStorm : Projectile_AbilityBase
 	{
 
-        private bool initialized = false;
+        private bool initialized;
         private static int pwrVal;
         private static int verVal;
         private Pawn pawn;

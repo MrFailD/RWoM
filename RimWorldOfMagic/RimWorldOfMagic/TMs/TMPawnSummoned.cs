@@ -14,11 +14,11 @@ namespace TorannMagic
         private bool temporary;
         private int ticksLeft;
         private int ticksToDestroy = 1800;
-        public bool validSummoning = false;
+        public bool validSummoning;
 
         private CompAbilityUserMagic compSummoner;
         private Pawn spawner;
-        private Pawn original = null;
+        private Pawn original;
 
         private List<float> bodypartDamage = new List<float>();
         private List<DamageDef> bodypartDamageType = new List<DamageDef>();

@@ -14,8 +14,8 @@ namespace TorannMagic
     {
 
         private int age = -1;
-        private bool initialized = false;
-        private bool destroyed = false;
+        private bool initialized;
+        private bool destroyed;
         private int duration = 1800;
         private TMPawnSummoned newPawn = new TMPawnSummoned();
         private Pawn pawn;

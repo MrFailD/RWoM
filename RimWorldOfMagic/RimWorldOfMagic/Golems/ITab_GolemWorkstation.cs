@@ -14,8 +14,8 @@ namespace TorannMagic.Golems
     {
         private static readonly Vector2 WinSize = new Vector2(432f, 550f);
         private Vector2 scrollPosition = Vector2.zero;
-        private bool abilityOptions = false;
-        private bool changeName = false;
+        private bool abilityOptions;
+        private bool changeName;
 
         private string pawnMasterName = "None";
 

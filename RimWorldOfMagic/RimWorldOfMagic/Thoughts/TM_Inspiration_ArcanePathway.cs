@@ -10,7 +10,7 @@ namespace TorannMagic.Thoughts
 {
     public class TM_Inspiration_ArcanePathway : Inspiration
     {
-        public int mageIndex = 0;
+        public int mageIndex;
 
         public override void ExposeData()
         {

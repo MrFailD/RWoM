@@ -12,9 +12,9 @@ namespace TorannMagic
     public class Verb_ShapeshiftDW : Verb_UseAbility  
     {
         private float arcaneDmg = 1f;
-        public int verVal = 0;
-        public int pwrVal = 0;
-        public int effVal = 0;
+        public int verVal;
+        public int pwrVal;
+        public int effVal;
 
         private int duration = 1800;
 

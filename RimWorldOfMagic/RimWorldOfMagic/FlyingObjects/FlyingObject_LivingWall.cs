@@ -20,19 +20,19 @@ namespace TorannMagic
         protected Thing assignedTarget;
         protected Thing flyingThing;
 
-        public ThingDef moteDef = null;
-        public int moteFrequency = 0;
+        public ThingDef moteDef;
+        public int moteFrequency;
 
-        public bool spinning = false;
-        public float curveVariance = 0; // 0 = no curve
+        public bool spinning;
+        public float curveVariance; // 0 = no curve
         private List<Vector3> curvePoints = new List<Vector3>();
         public float force = 1f;
-        private int destinationCurvePoint = 0;
-        private float impactRadius = 0;
+        private int destinationCurvePoint;
+        private float impactRadius;
         private int explosionDamage;
-        private bool isExplosive = false;
-        private DamageDef impactDamageType = null;
-        private bool fliesOverhead = false;
+        private bool isExplosive;
+        private DamageDef impactDamageType;
+        private bool fliesOverhead;
 
         private bool earlyImpact = false;
         private float impactForce = 0;
@@ -40,17 +40,17 @@ namespace TorannMagic
         public DamageInfo? impactDamage;
 
         public bool damageLaunched = true;
-        public bool explosion = false;
+        public bool explosion;
         public int weaponDmg = 0;
-        private int doublesidedVariance = 0;
+        private int doublesidedVariance;
 
         private int searchEnemySpeed = 200;
         private float searchEnemyRange = 3f;
         private float enemyDamage = 12;
 
-        private int idleFor = 0;
+        private int idleFor;
         private Thing targetWall;
-        private bool shouldDestroy = false;
+        private bool shouldDestroy;
 
         private Pawn pawn;
         public Pawn CasterPawn
@@ -299,7 +299,7 @@ namespace TorannMagic
             return direction;
         }
 
-        public static Pawn closestThreat = null;
+        public static Pawn closestThreat;
         public void FindClosestThreat()
         {            
             closestThreat = null;
@@ -405,12 +405,12 @@ namespace TorannMagic
             targetWall = null;
         }
 
-        private int nextWallUpdate = 0;
+        private int nextWallUpdate;
         private int nextWallHealthUpdate = 0;
-        private int nextThreatUpdate = 0;
-        private int nextWallSelectUpdate = 0;
-        private bool pathLocked = false;
-        private bool canAddNewPath = false;
+        private int nextThreatUpdate;
+        private int nextWallSelectUpdate;
+        private bool pathLocked;
+        private bool canAddNewPath;
 
         public void DoPathUpdate()
         {            
@@ -529,9 +529,9 @@ namespace TorannMagic
             }
         }
 
-        private bool threadLocked = false;
-        private int threadLockTick = 0;
-        private int searchEnemyTick = 0;
+        private bool threadLocked;
+        private int threadLockTick;
+        private int searchEnemyTick;
         private static List<Thread> activeThreads = new List<Thread>();
         protected override void Tick()
         {

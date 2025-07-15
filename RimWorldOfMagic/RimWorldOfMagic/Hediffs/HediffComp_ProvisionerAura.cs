@@ -11,13 +11,13 @@ namespace TorannMagic
     public class HediffComp_ProvisionerAura : HediffComp
     {
 
-        private bool initialized = false;
+        private bool initialized;
 
-        private int nextApplyTick = 0;
+        private int nextApplyTick;
 
-        private int pwrVal = 0;
-        private int verVal = 0;
-        private float radius = 0f;
+        private int pwrVal;
+        private int verVal;
+        private float radius;
 
         private List<Pawn> speechPawns = new List<Pawn>();
 

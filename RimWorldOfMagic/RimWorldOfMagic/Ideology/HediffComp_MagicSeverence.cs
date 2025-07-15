@@ -9,11 +9,11 @@ namespace TorannMagic.Ideology
     public class HediffComp_MagicSeverence : HediffComp
     {
         public bool selectableForRetaliation = true;
-        public bool delayedMindburn = false;
+        public bool delayedMindburn;
         private int ticksTillDeath = 10;
 
         //unsaved
-        private bool shouldRemove = false;
+        private bool shouldRemove;
 
         public override void CompExposeData()
         {

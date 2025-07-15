@@ -17,7 +17,7 @@ namespace TorannMagic
         public static float effectRadius = 36f;
         private int rotationRate = 4;
         private float arcaneEnergyCur = 0;
-        private int matRot = 0;
+        private int matRot;
         private float matMagnitude = .5f;
         private float matMagnitudeValue = .01f;
         private static List<IntVec3> portableCells = new List<IntVec3>();

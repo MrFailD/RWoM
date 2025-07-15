@@ -18,14 +18,14 @@ namespace TorannMagic
         private static readonly Material powernodeMat_3 = MaterialPool.MatFrom("Other/energynode_3", false);
         private static readonly Material powernodeMat_4 = MaterialPool.MatFrom("Other/energynode_4", false);
 
-        private int matRng = 0;
+        private int matRng;
         private float matMagnitude = 1;
 
-        private bool initialized = false;
+        private bool initialized;
         private int nextSearch = 10;
-        public bool defensive = false;
-        public bool buffJolt = false;
-        public bool buffShock = false;
+        public bool defensive;
+        public bool buffJolt;
+        public bool buffShock;
 
         public override void SpawnSetup(Map map, bool respawningAfterLoad)
         {

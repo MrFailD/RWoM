@@ -12,8 +12,8 @@ namespace TorannMagic.Conditions
     {
         private const int LerpTicks = 500;
         private int nextStrike = 10;
-        public List<Pawn> enemyPawns = null;
-        public Faction faction = null;
+        public List<Pawn> enemyPawns;
+        public Faction faction;
 
         private SkyColorSet EclipseSkyColors = new SkyColorSet(new Color(0.2f, 0.43f, 0.723f), Color.white, new Color(0.45f, 0.45f, 0.45f), 1f);
 

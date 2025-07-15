@@ -14,22 +14,22 @@ namespace TorannMagic.Golems
     public class GolemWorkstationEffect : IExposable
     {
         public int ticksTillNextEffect80 = 100;
-        public int effectDuration = 0;
-        public SoundDef effectSound = null;
-        public float effectFlashScale = 0f;
+        public int effectDuration;
+        public SoundDef effectSound;
+        public float effectFlashScale;
         public bool doEffectEachBurst = false;
-        public float energyCost = 0f;
-        public bool alwaysDraw = false;
-        public bool requiresTarget = false;
-        public float effectLevelModifier = 0f;
+        public float energyCost;
+        public bool alwaysDraw;
+        public bool requiresTarget;
+        public float effectLevelModifier;
         public Vector3 drawOffset = new Vector3(0, 0, 0);
         public List<TM_GolemItemRecipeDef> recipes = new List<TM_GolemItemRecipeDef>();
 
         public LocalTargetInfo target = null;
         public Building_TMGolemBase parent;
         public TM_GolemUpgrade parentUpgrade;
-        public int startTick = 0;
-        public int nextEffectTick = 0;
+        public int startTick;
+        public int nextEffectTick;
         public float currentLevel;
         public int effectFrequency = 0;
         public int chargesRequired = 0;

@@ -15,31 +15,31 @@ namespace TorannMagic
     public class Building_TMElementalRift_Defenders : Building
     {
 
-        private float arcaneEnergyCur = 0;
+        private float arcaneEnergyCur;
         private float arcaneEnergyMax = 1;
 
         private static readonly Material portalMat_1 = MaterialPool.MatFrom("Motes/rift_swirl1", false);
         private static readonly Material portalMat_2 = MaterialPool.MatFrom("Motes/rift_swirl2", false);
         private static readonly Material portalMat_3 = MaterialPool.MatFrom("Motes/rift_swirl3", false);
 
-        private int ticksTillNextAssault = 0;
+        private int ticksTillNextAssault;
         private float eventFrequencyMultiplier = 1;
         private float difficultyMultiplier = 1;
-        private float STDMultiplier = 0;
-        private int ticksTillNextEvent = 0;
-        private int eventTimer = 0;
-        private int assaultTimer = 0;
-        private int matRng = 0;
-        private float matMagnitude = 0;
-        private int rnd = 0;
+        private float STDMultiplier;
+        private int ticksTillNextEvent;
+        private int eventTimer;
+        private int assaultTimer;
+        private int matRng;
+        private float matMagnitude;
+        private int rnd;
         private int areaRadius = 1;
-        private bool notifier = false;
+        private bool notifier;
 
-        public int age = 0;
+        public int age;
         public int duration = 12500;
         private IntVec2 centerLocation;
 
-        private bool initialized = false;
+        private bool initialized;
 
         public override void ExposeData()
         {

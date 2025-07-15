@@ -13,21 +13,21 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Projectile_Resurrection : Projectile_AbilityBase
     {
-        private bool initialized = false;
-        private bool validTarget = false;
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private bool initialized;
+        private bool validTarget;
+        private int verVal;
+        private int pwrVal;
         private int timeToRaise = 1200;
         private int age = -1;
         private IntVec3 deadPawnPosition = default(IntVec3);
-        private Thing corpseThing = null;
+        private Thing corpseThing;
         private Pawn deadPawn;
         private Pawn caster;
 
         private ColorInt colorInt = new ColorInt(255, 255, 140);
         private Sustainer sustainer;
 
-        private float angle = 0;
+        private float angle;
         private float radius = 5;
 
         private static readonly Material BeamMat = MaterialPool.MatFrom("Other/OrbitalBeam", ShaderDatabase.MoteGlow, MapMaterialRenderQueues.OrbitalBeam);

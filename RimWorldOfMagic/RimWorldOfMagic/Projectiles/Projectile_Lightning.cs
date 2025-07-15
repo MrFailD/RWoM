@@ -18,21 +18,21 @@ namespace TorannMagic
 
         private int maxStrikes = 1;
         private int maxForks = 1;
-        private int strikeTick = 0;
-		private int strikeInt = 0;
+        private int strikeTick;
+		private int strikeInt;
         private float hopRadius = 4f;
 
         public int verVal;
         public int pwrVal;
         public float arcaneDmg = 1;
 
-        private int hopCount = 0;
+        private int hopCount;
         private List<Thing> chainedThings = new List<Thing>();
-        private int lastStrikeTick = 0;
+        private int lastStrikeTick;
         private int strikeDelay = 15;
 
         //unsaved
-        private bool initialized = false;
+        private bool initialized;
 
         public override void ExposeData()
         {

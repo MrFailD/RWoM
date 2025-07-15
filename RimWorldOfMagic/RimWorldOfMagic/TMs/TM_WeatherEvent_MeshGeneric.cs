@@ -8,12 +8,12 @@ namespace TorannMagic
 {
     public class TM_WeatherEvent_MeshGeneric : WeatherEvent
     {
-        private int age = 0;
+        private int age;
         private int durationSolid;
         private int fadeOutTicks = 20;
         private int fadeInTicks = 10;
 
-        private float angle = 0;
+        private float angle;
         private int boltMaxCount = 25;
         private float meshContortionMagnitude = 12f;
 
@@ -21,7 +21,7 @@ namespace TorannMagic
         private Vector3 meshStart = default(Vector3);
         private Vector3 meshEnd = default(Vector3);
         private bool startIsVec = false;
-        private Mesh boltMesh = null;
+        private Mesh boltMesh;
         private static List<Mesh> boltMeshes = new List<Mesh>();
         private static readonly SkyColorSet MeshSkyColors = new SkyColorSet(new Color(0.9f, 0.95f, 1f), new Color(0.784313738f, 0.8235294f, 0.847058833f), new Color(0.9f, 0.95f, 1f), 1.15f);
         private Material meshMat;

@@ -15,8 +15,8 @@ namespace TorannMagic
         private bool initializing = true;
         private int nextAction = 1;
         private int nextSlowAction = 1;
-        private bool removeNow = false;
-        private CompAbilityUserMight comp = null;
+        private bool removeNow;
+        private CompAbilityUserMight comp;
         private float intensity = 1f;
         private float drain = 1f;
 

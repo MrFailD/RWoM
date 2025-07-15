@@ -12,19 +12,19 @@ namespace TorannMagic
     public class HediffComp_BloodShield : HediffComp
     {
 
-        private bool initialized = false;
-        private int initializeDelay = 0;
-        private bool removeNow = false;
-        private bool woundsHealed = false;
+        private bool initialized;
+        private int initializeDelay;
+        private bool removeNow;
+        private bool woundsHealed;
 
         private int eventFrequency = 180;
 
         //private int bfbPwr = 0;  //increased amount blood levels affect ability power
-        private int bloodshieldVer = 0;  //increased blood per bleed rate and blood gift use
+        private int bloodshieldVer;  //increased blood per bleed rate and blood gift use
 
-        private float lastSeverity = 0;
+        private float lastSeverity;
 
-        public Pawn linkedPawn = null;
+        public Pawn linkedPawn;
         private Vector3 directionToLinkedPawn = default(Vector3);
 
         public override void CompExposeData()

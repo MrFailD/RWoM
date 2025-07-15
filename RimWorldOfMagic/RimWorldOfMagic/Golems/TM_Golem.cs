@@ -14,19 +14,19 @@ namespace TorannMagic.Golems
         //Golem Core Defs
         public int activationTicks = 240;
         public int processorEvaluationTicks = 100;
-        public int shardLevel = 0;
+        public int shardLevel;
         public float minimumEnergyPctToActivate = .1f;
 
-        public ThingDef workstationDef = null;
-        public ThingDef pawnDef = null;
-        public TM_GolemDef golemDef = null;
+        public ThingDef workstationDef;
+        public ThingDef pawnDef;
+        public TM_GolemDef golemDef;
 
         public List<TM_GolemUpgrade> upgrades = new List<TM_GolemUpgrade>();
         public List<NeedDef> needs = new List<NeedDef>();
         public List<HediffDef> hediffs = new List<HediffDef>();
 
         //dormat material
-        public Material frameMat = null;
+        public Material frameMat;
 
         public void ExposeData()
         {

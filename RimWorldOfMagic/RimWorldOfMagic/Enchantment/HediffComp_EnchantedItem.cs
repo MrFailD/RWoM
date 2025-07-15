@@ -9,8 +9,8 @@ namespace TorannMagic.Enchantment
 {
     public class HediffComp_EnchantedItem : HediffComp
     {
-        public bool initialized = false;
-        public bool removeNow = false;
+        public bool initialized;
+        public bool removeNow;
         public Apparel enchantedItem;
         public Thing enchantedWeapon;
 

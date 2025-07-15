@@ -14,9 +14,9 @@ namespace TorannMagic.Golems
     public class CompProperties_GolemAbilityEffect_LaunchThing : CompProperties_GolemAbilityEffect
     {
         public ThingDef thing;
-        public float missRadius = 0f;
+        public float missRadius;
         public float hitChance = 1f;
-        public float effectFlashScale = 0f;
+        public float effectFlashScale;
 
         public override void ExposeData()
         {

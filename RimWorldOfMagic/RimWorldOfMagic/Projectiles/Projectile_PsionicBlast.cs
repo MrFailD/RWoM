@@ -11,7 +11,7 @@ namespace TorannMagic
     {
         private ColorInt colorInt = new ColorInt(0, 128, 255);
         private bool initialized = false;
-        private int pwrVal = 0;
+        private int pwrVal;
         private float arcaneDmg = 1f;
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {

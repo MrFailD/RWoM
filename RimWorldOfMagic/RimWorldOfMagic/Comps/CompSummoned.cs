@@ -10,10 +10,10 @@ namespace TorannMagic
 
         private Effecter effecter;
 
-        private bool initialized = false;
+        private bool initialized;
 
         private bool temporary;
-        public bool sustained = false;
+        public bool sustained;
 
         private int ticksLeft;
 

@@ -39,10 +39,10 @@ namespace TorannMagic
             return validTarg;
         }
 
-        private int pwrVal = 0;
-        private int verVal = 0;
-        private int effVal = 0;
-        private Thing totem = null;
+        private int pwrVal;
+        private int verVal;
+        private int effVal;
+        private Thing totem;
 
         protected override bool TryCastShot()
         {

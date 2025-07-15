@@ -12,7 +12,7 @@ namespace TorannMagic
     public class Verb_Sprint : Verb_UseAbility
     {
 
-        private int pwrVal = 0;
+        private int pwrVal;
 
         protected override bool TryCastShot()
         {

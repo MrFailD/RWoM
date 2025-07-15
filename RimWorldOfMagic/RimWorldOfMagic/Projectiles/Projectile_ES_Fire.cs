@@ -10,7 +10,7 @@ namespace TorannMagic
     internal class Projectile_ES_Fire : Projectile_AbilityBase
     {
 
-        private int verVal = 0;
+        private int verVal;
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {
             Map map = base.Map;

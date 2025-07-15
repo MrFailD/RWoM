@@ -17,7 +17,7 @@ namespace TorannMagic
         private int drainFrequency = 20;
         private int moteFrequency = 4;
         private int duration = 600;
-        private float drainFrequencyReduction = 0;
+        private float drainFrequencyReduction;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

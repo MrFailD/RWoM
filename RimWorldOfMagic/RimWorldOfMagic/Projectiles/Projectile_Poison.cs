@@ -11,14 +11,14 @@ namespace TorannMagic
     public class Projectile_Poison : Projectile_AbilityBase
     {
         private BodyPartRecord[] vulnerableParts = new BodyPartRecord[10];
-        private bool initialized = false;
-        private int age = 0;
-        private int lastPoison = 0;
+        private bool initialized;
+        private int age;
+        private int lastPoison;
         private int poisonRate = 270;
         private int duration = 2700;
         private IntVec3 oldPosition;
-        private Pawn hitPawn = null;
-        private Pawn caster = null;
+        private Pawn hitPawn;
+        private Pawn caster;
 
         private MagicPowerSkill pwr;
         private MagicPowerSkill ver;

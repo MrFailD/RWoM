@@ -12,7 +12,7 @@ namespace TorannMagic
     [Serializable]
     public class CompAIController : ThingComp
 	{
-        private bool initialized = false;
+        private bool initialized;
 
         private List<Pawn> threatList = new List<Pawn>();
         private List<Pawn> closeThreats = new List<Pawn>();
@@ -20,19 +20,19 @@ namespace TorannMagic
         private List<Pawn> meleeThreats = new List<Pawn>();
         private List<Building> buildingThreats = new List<Building>();
 
-        public int nextRangedAttack = 0;
-        public int nextAoEAttack = 0;
-        public int nextKnockbackAttack = 0;
-        public int nextChargeAttack = 0;
-        public int nextTaunt = 0;
+        public int nextRangedAttack;
+        public int nextAoEAttack;
+        public int nextKnockbackAttack;
+        public int nextChargeAttack;
+        public int nextTaunt;
 
-        private int rangedBurstShots = 0;
-        private int rangedNextBurst = 0;
+        private int rangedBurstShots;
+        private int rangedNextBurst;
         private float meleeRange = 1.4f;
         private LocalTargetInfo rangedTarget = null;
 
         private int age = -1;
-        private bool deathOnce = false;
+        private bool deathOnce;
 
         //private int actionReady = 0;
         //private int actionTick = 0;

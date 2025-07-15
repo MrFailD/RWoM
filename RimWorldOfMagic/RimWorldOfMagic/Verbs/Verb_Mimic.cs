@@ -11,7 +11,7 @@ namespace TorannMagic
 {
     internal class Verb_Mimic : Verb_UseAbility  
     {
-        private bool validTarg = false;
+        private bool validTarg;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {            

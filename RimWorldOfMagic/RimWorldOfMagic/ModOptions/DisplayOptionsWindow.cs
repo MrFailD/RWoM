@@ -13,13 +13,13 @@ namespace TorannMagic.ModOptions
         public static float HeaderSize = 28f;
         public static float TextSize = 22f;
 
-        private bool reset = false;
+        private bool reset;
         private bool challenge = false;
 
-        private bool changeOffset = false;
-        private bool changeOffsetVal = false;
-        private bool changeCloakDepth = false;
-        private bool changeCloakDepthNorth = false;
+        private bool changeOffset;
+        private bool changeOffsetVal;
+        private bool changeCloakDepth;
+        private bool changeCloakDepthNorth;
 
         private string multilayerVal = "0";
         private string cloakVal = "0";

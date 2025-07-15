@@ -12,7 +12,7 @@ namespace TorannMagic
     {
         private bool arg_41_0;
         private bool arg_42_0;
-        private bool validTarg = false;
+        private bool validTarg;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {            

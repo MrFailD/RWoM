@@ -13,7 +13,7 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Verb_LightSkipGlobal : Verb_UseAbility  
     {
-        private int pwrVal = 0;
+        private int pwrVal;
         private float arcaneDmg = 1;
         private Pawn pawn;
         private IntVec3 launcherPosition = default(IntVec3);
@@ -22,12 +22,12 @@ namespace TorannMagic
         private List<IntVec3> unroofedCells = new List<IntVec3>();
         private List<CompTransporter> podTList = new List<CompTransporter>();
         private IntVec3 safePos = default(IntVec3);
-        private int gi = 0;
+        private int gi;
         private int MaxLaunchDistance = 300;
 
         private IntVec3 destCell = default(IntVec3);
-        private int destTile = 0;
-        private bool draftFlag = false;
+        private int destTile;
+        private bool draftFlag;
 
         private static readonly Texture2D TargeterMouseAttachment = ContentFinder<Texture2D>.Get("Other/PortalBldg", true);
         private bool validTarg;

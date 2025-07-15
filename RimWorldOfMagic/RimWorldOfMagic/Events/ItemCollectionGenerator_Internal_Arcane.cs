@@ -25,7 +25,7 @@ namespace TorannMagic
         private static readonly IntRange SpellCountRange = new IntRange(1, 2);
         private static readonly IntRange SkillCountRange = new IntRange(1, 2);
 
-        private static float collectiveMarketValue = 0;
+        private static float collectiveMarketValue;
 
         public static List<Thing> Generate(int totalMarketValue)
         {

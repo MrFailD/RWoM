@@ -16,14 +16,14 @@ namespace TorannMagic
         private static readonly Material coolerMat_2 = MaterialPool.MatFrom("Other/coolerB", false);
         private static readonly Material coolerMat_3 = MaterialPool.MatFrom("Other/coolerC", false);
 
-        private int matRng = 0;
+        private int matRng;
         private float matMagnitude = 1;
-        private int nextSearch = 0;
-        public bool defensive = false;
-        public bool buffCool = false;
-        public bool buffFresh = false;
+        private int nextSearch;
+        public bool defensive;
+        public bool buffCool;
+        public bool buffFresh;
 
-        private bool initialized = false;
+        private bool initialized;
 
         //public override void SpawnSetup(Map map, bool respawningAfterLoad)
         //{

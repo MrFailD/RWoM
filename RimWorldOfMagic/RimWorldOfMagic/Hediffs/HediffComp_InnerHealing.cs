@@ -12,7 +12,7 @@ namespace TorannMagic
     {
 
         private bool initializing = true;
-        private CompAbilityUserMight comp = null;
+        private CompAbilityUserMight comp;
 
         public string labelCap
         {

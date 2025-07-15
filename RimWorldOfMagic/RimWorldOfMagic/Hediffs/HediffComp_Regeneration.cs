@@ -10,11 +10,11 @@ namespace TorannMagic
     internal class HediffComp_Regeneration : HediffComp
     {
 
-        private bool initialized = false;
-        private int age = 0;
+        private bool initialized;
+        private int age;
         private int regenRate = 300;
-        private int lastRegen = 0;
-        private int hediffPwr = 0;
+        private int lastRegen;
+        private int hediffPwr;
 
         public string labelCap
         {

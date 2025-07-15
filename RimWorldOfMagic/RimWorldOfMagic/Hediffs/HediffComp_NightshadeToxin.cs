@@ -11,7 +11,7 @@ namespace TorannMagic
     public class HediffComp_NightshadeToxin : HediffComp
     {
 
-        private bool removeNow = false;
+        private bool removeNow;
 
         private int eventFrequency = 60;       
 

@@ -476,9 +476,9 @@ namespace TorannMagic.Enchantment
             return text;
         }
 
-        private bool initialized = false;
-        private bool abilitiesInitialized = false;
-        private bool hasEnchantment = false;
+        private bool initialized;
+        private bool abilitiesInitialized;
+        private bool hasEnchantment;
 
         public EnchantmentTier maxMPTier;
         public EnchantmentTier mpRegenRateTier;
@@ -489,41 +489,41 @@ namespace TorannMagic.Enchantment
         public EnchantmentTier arcaneDmgTier;
 
         //Magic Stats (%)
-        public float maxMP = 0;
-        public float mpRegenRate = 0;
-        public float coolDown = 0;
-        public float mpCost = 0;
-        public float xpGain = 0;
+        public float maxMP;
+        public float mpRegenRate;
+        public float coolDown;
+        public float mpCost;
+        public float xpGain;
 
-        public float arcaneRes = 0;
-        public float arcaneDmg = 0;
+        public float arcaneRes;
+        public float arcaneDmg;
 
         //Might Stats (%)
 
         //Common Stats (%)        
 
-        public float healthRegenRate = 0;
-        private float necroticEnergy = 0f;
+        public float healthRegenRate;
+        private float necroticEnergy;
 
         //Special Abilities
-        public EnchantmentAction enchantmentAction = null;
+        public EnchantmentAction enchantmentAction;
         public EnchantmentTier skillTier = EnchantmentTier.Skill;
-        public bool arcaneSpectre = false;
-        public bool phantomShift = false;
+        public bool arcaneSpectre;
+        public bool phantomShift;
 
-        public float arcalleumCooldown = 0f;
+        public float arcalleumCooldown;
 
-        public int mightEssence = 0;
-        public int magicEssence = 0;
+        public int mightEssence;
+        public int magicEssence;
 
         //Hediffs
-        public HediffDef hediff = null;
-        public float hediffSeverity = 0f;
+        public HediffDef hediff;
+        public float hediffSeverity;
 
         //Abilities
 
         //Thoughts
-        public ThoughtDef enchantmentThought = null;
+        public ThoughtDef enchantmentThought;
 
         public float NecroticEnergy
         {

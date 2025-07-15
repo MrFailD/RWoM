@@ -11,8 +11,8 @@ namespace TorannMagic
         private CompGlower glower = new CompGlower();
         private IntVec3 oldPos = default(IntVec3);
         private CompAbilityUserMagic comp;
-        private bool canCastLightning = false;
-        private int nextLightningTick = 0;
+        private bool canCastLightning;
+        private int nextLightningTick;
 
         public ColorInt glowColor = new ColorInt(255, 255, 204, 1);
 

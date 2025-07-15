@@ -16,20 +16,20 @@ namespace TorannMagic
 
         private int age = -1;
 
-        private bool initialized = false;
-        private bool summoning = false;
-        private bool summoningComplete = false;
+        private bool initialized;
+        private bool summoning;
+        private bool summoningComplete;
         private int summoningDuration = 300;
-        private int nextBlackLightning = 0;
+        private int nextBlackLightning;
         private int lightingCount = 1;
-        private bool destroyed = false;
+        private bool destroyed;
 
         private int duration = 6660;
 
         private CompAbilityUserMagic comp;
-        private Pawn sacrificedPawn = null;
-        private Pawn demonPawn = null;
-        private Pawn casterPawn = null;
+        private Pawn sacrificedPawn;
+        private Pawn demonPawn;
+        private Pawn casterPawn;
         private List<IntVec3> summoningCircle = new List<IntVec3>();
 
         public override void ExposeData()

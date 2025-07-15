@@ -12,25 +12,25 @@ namespace TorannMagic.TMDefs
     {
         public AutocastType type = AutocastType.Null;
 
-        public bool mightUser = false;
-        public bool magicUser = false;
-        public bool drafted = false;
-        public bool undrafted = false;
-        public float minRange = 0f;
-        public float maxRange = 0f;
+        public bool mightUser;
+        public bool magicUser;
+        public bool drafted;
+        public bool undrafted;
+        public float minRange;
+        public float maxRange;
 
         //targetting modifiers
-        public bool targetFriendly = false;
+        public bool targetFriendly;
         public bool targetNeutral = true;
-        public bool targetEnemy = false;
+        public bool targetEnemy;
         public bool targetNoFaction = true;
-        public bool includeSelf = false;
+        public bool includeSelf;
         public bool requiresLoS = true;
-        public bool AIUsable = false;
-        public bool hostileCasterOnly = false;
+        public bool AIUsable;
+        public bool hostileCasterOnly;
 
-        public List<string> advancedConditionDefs = null;
-        private List<TM_AutocastCondition> accList = null;
+        public List<string> advancedConditionDefs;
+        private List<TM_AutocastCondition> accList;
         public bool ValidConditions(Pawn caster, LocalTargetInfo target)
         {
             if (advancedConditionDefs != null)

@@ -10,8 +10,8 @@ namespace TorannMagic
     {
 
         private bool initializing = true;
-        private int ticksTillNextMend = 0;
-        private int mendTick = 0;
+        private int ticksTillNextMend;
+        private int mendTick;
 
         public int mendTickTimer = 80;
 

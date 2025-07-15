@@ -11,7 +11,7 @@ namespace TorannMagic
 {
     public class Verb_Prediction : Verb_UseAbility
     {
-        private int pwrVal = 0;
+        private int pwrVal;
 
         protected override bool TryCastShot()
         {

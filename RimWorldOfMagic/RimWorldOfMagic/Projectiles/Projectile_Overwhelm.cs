@@ -16,7 +16,7 @@ namespace TorannMagic
         private int pwrVal;
         private float arcaneDmg = 1;
         private int strikeNum = 1;
-        private bool initialized = false;
+        private bool initialized;
 
         private void Initialize(Pawn pawn)
         {

@@ -14,7 +14,7 @@ namespace TorannMagic
 
         private int verVal;
         private Pawn caster;
-        private Thing spawnedThing = null;
+        private Thing spawnedThing;
 
         //non-saved vars
 

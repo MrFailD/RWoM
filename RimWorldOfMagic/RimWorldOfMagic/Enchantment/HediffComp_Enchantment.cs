@@ -8,7 +8,7 @@ namespace TorannMagic.Enchantment
     internal class HediffComp_Enchantment : HediffComp
     {
         private bool initializing = true;
-        private bool removeNow = false;
+        private bool removeNow;
 
         private string enchantment ="";
 

@@ -15,18 +15,18 @@ namespace TorannMagic
         private IntVec3 strikeLoc = IntVec3.Invalid;
 
         private int age = -1;
-        private bool initialized = false;
-        private int gravityPoints = 0;      //ability ends when gravitypoints reduces to 0 - 3pts to pull from earth, 1pt to throw a nearby rock
-        private int gravityStep = 0;        //pulls rocks from ground on first and every 3rd iteration (0, 3, 6)
+        private bool initialized;
+        private int gravityPoints;      //ability ends when gravitypoints reduces to 0 - 3pts to pull from earth, 1pt to throw a nearby rock
+        private int gravityStep;        //pulls rocks from ground on first and every 3rd iteration (0, 3, 6)
         private int verVal;
         private int pwrVal;
         private Pawn caster;
-        private Thing launchableThing = null;
+        private Thing launchableThing;
         private List<IntVec3> launchCells = new List<IntVec3>();
         private List<Thing> launchableThings = new List<Thing>();
 
         //non-saved vars
-        private int nextStrike = 0;
+        private int nextStrike;
         private int radius = 4;
         private float arcaneDmg = 1;
         private int duration = 1000;         //absolute longest this ability will last - backstop

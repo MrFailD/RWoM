@@ -20,7 +20,7 @@ namespace TorannMagic
 
         private int verVal;
         private int pwrVal;
-        private int dmgNum = 0;
+        private int dmgNum;
 
         private bool validTarg;
         private IntVec3 arg_29_0;

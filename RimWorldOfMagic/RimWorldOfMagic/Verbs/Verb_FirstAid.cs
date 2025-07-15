@@ -12,8 +12,8 @@ namespace TorannMagic
     public class Verb_FirstAid : Verb_UseAbility
     {
 
-        private int pwrVal = 0;
-        private int verVal = 0;
+        private int pwrVal;
+        private int verVal;
 
         protected override bool TryCastShot()
         {

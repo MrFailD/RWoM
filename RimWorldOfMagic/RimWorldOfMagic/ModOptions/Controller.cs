@@ -8,13 +8,13 @@ namespace TorannMagic.ModOptions
     {
         public static Controller Instance;
 
-        private bool reset = false;
-        private bool challenge = false;
+        private bool reset;
+        private bool challenge;
         private bool easy = false;
-        private bool classOptions = false;
-        private bool eventOptions = false;
-        private bool factionOptions = false;
-        private bool displayOptions = false;
+        private bool classOptions;
+        private bool eventOptions;
+        private bool factionOptions;
+        private bool displayOptions;
 
         private Vector2 scrollPosition = Vector2.zero;
 

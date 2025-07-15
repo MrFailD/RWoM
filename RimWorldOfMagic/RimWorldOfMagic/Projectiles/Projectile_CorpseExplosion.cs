@@ -10,13 +10,13 @@ namespace TorannMagic
     internal class Projectile_CorpseExplosion : Projectile_AbilityBase
     {
         private int age = 300;
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private int verVal;
+        private int pwrVal;
         private float arcaneDmg = 1;
         private float radius = 3f;
-        private bool initialized = false;
-        private Corpse targetCorpse = null;
-        private Pawn targetPawn = null;
+        private bool initialized;
+        private Corpse targetCorpse;
+        private Pawn targetPawn;
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {

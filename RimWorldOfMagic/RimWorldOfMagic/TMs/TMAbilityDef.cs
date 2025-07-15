@@ -56,7 +56,7 @@ namespace TorannMagic
 		}
 
         private bool cacheRestriction = true;
-        private int nextRestrictionCheckTick = 0;
+        private int nextRestrictionCheckTick;
         public bool IsRestrictedByEquipment(Pawn p)
         {             
             if (requiredWeaponsOrCategories != null && requiredWeaponsOrCategories.Count > 0)

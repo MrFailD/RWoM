@@ -34,11 +34,11 @@ namespace TorannMagic
 
         public bool damageLaunched = true;
 
-        public bool explosion = false;
+        public bool explosion;
 
         public int timesToDamage = 3;
 
-        public int weaponDmg = 0;
+        public int weaponDmg;
 
         private Pawn pawn;
 

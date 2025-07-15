@@ -11,17 +11,17 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Projectile_HealingCircle : Projectile_AbilityBase
     {
-        private int pwrVal = 0;
-        private int verVal = 0;
+        private int pwrVal;
+        private int verVal;
         private float arcaneDmg = 1;
         private int age = -1;
         private int duration = 1200;
         private float radius = 6;
-        private bool initialized = false;
+        private bool initialized;
         private int healDelay = 40;
         private int waveDelay = 300;
-        private int lastHeal = 0;
-        private int lastWave = 0;
+        private int lastHeal;
+        private int lastWave;
         private Pawn caster;
         private float angle;
         private float innerRing;

@@ -19,27 +19,27 @@ namespace TorannMagic
         private static readonly Material EnergyBarFilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.0f, 0.0f, 1f), false);
         private static readonly Material EnergyBarUnfilledMat = SolidColorMaterials.SimpleSolidColorMaterial(new Color(0.4f, 0.4f, 0.4f), false);
 
-        private bool hasPendingJob = false;
-        private bool isActive = false;
-        private int activeDuration = 0;
+        private bool hasPendingJob;
+        private bool isActive;
+        private int activeDuration;
         private int matRng = 0;
         private float matMagnitude = 5.2f;
 
-        private int nextCircleEffect = 0;
-        private int circleRotation = 0;
+        private int nextCircleEffect;
+        private int circleRotation;
 
         private List<int> resetBills = new List<int>();
         private List<Thing> launchableThings = new List<Thing>();
 
-        private bool suspendReset = false;
-        private int resetDelay = 0;
+        private bool suspendReset;
+        private int resetDelay;
 
         private List<Thing> recipeIngredients = new List<Thing>();
 
-        public Job activeJob = null;
-        public MagicRecipeDef magicRecipeDef = null;
+        public Job activeJob;
+        public MagicRecipeDef magicRecipeDef;
 
-        public float manaReq = 0;
+        public float manaReq;
 
         private List<Pawn> RandomPosIndexMages = new List<Pawn>();
         private List<IntVec3> RandomPosIndexPosition = new List<IntVec3>();

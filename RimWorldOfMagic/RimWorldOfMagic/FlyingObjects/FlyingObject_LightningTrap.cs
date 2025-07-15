@@ -22,7 +22,7 @@ namespace TorannMagic
         private int searchDelay = 10;
         private int maxStrikeDelay = 100;
         private int maxStrikeDelayBldg = 60;
-        private int lastStrike = 0;
+        private int lastStrike;
         private int lastStrikeBldg = 0;
         private int age = -1;
         private float arcaneDmg = 1;
@@ -39,7 +39,7 @@ namespace TorannMagic
         public float speed = .8f;
         protected new int ticksToImpact;
 
-        protected Faction faction = null;
+        protected Faction faction;
         //protected new Thing launcher;
         protected Thing assignedTarget;
         protected Thing flyingThing;
@@ -49,7 +49,7 @@ namespace TorannMagic
 
         public bool damageLaunched = true;
 
-        public bool explosion = false;
+        public bool explosion;
 
         public int timesToDamage = 3;
 

@@ -11,12 +11,12 @@ namespace TorannMagic
     {
         private int age = -1;
         private int duration = 1440;
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private int verVal;
+        private int pwrVal;
         private float arcaneDmg = 1;
         private int strikeDelay = 120;
-        private int lastStrike = 0;
-        private bool initialized = false;
+        private int lastStrike;
+        private bool initialized;
         private ThingDef fog;
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)

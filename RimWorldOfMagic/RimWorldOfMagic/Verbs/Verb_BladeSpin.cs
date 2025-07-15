@@ -12,8 +12,8 @@ namespace TorannMagic
     public class Verb_BladeSpin : Verb_UseAbility
     {
         private bool flag10;
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private int verVal;
+        private int pwrVal;
 
         private static readonly Color bladeColor = new Color(160f, 160f, 160f);
         private static readonly Material bladeMat = MaterialPool.MatFrom("Spells/cleave", false);

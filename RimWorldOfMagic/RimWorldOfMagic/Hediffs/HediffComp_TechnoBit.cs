@@ -13,16 +13,16 @@ namespace TorannMagic
     internal class HediffComp_TechnoBit : HediffComp
     {
 
-        private bool initialized = false;
-        private int pwrVal = 0;
-        private int effVal = 0;
-        private int verVal = 0;
+        private bool initialized;
+        private int pwrVal;
+        private int effVal;
+        private int verVal;
 
-        private int ticksBitWorking = 0;
-        private int nextBitEffect = 0;
-        private int nextBitGrenade = 0;
+        private int ticksBitWorking;
+        private int nextBitEffect;
+        private int nextBitGrenade;
         private int nextBitShock = 0;
-        private int bitGrenadeCount = 0;
+        private int bitGrenadeCount;
         private Vector3 moteLoc = Vector3.zero;
 
         public int PwrVal

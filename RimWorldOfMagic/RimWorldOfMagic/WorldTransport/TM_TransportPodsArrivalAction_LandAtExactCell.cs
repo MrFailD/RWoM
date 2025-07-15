@@ -10,7 +10,7 @@ namespace TorannMagic.WorldTransport
         private MapParent mapParent;
         private IntVec3 cell;
 
-        public bool draftFlag = false;
+        public bool draftFlag;
 
         public TM_TransportPodsArrivalAction_LandAtExactCell()
         {

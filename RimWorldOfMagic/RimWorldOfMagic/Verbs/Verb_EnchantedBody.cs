@@ -10,7 +10,7 @@ namespace TorannMagic
 {
     public class Verb_EnchantedBody : Verb_UseAbility  
     {
-        private int pwrVal = 0;
+        private int pwrVal;
         protected override bool TryCastShot()
         {
             bool result = false;

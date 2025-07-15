@@ -20,9 +20,9 @@ namespace TorannMagic.Ideology
 
         private int age = -1;
         public int durationTicks = 500;
-        public int rotationDegree = 0;
+        public int rotationDegree;
         public float moteSize = 1f;
-        public int moteCount = 0;
+        public int moteCount;
         public int moteOsc = 1;
 
         public static void SeverMagic(Pawn pawn, Pawn doer)

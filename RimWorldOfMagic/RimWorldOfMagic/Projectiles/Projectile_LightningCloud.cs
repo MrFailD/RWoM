@@ -18,11 +18,11 @@ namespace TorannMagic
 
         private int duration = 900;
 
-        private int shockDelay = 0;
+        private int shockDelay;
 
-        private int lastStrike = 0;
+        private int lastStrike;
 
-        private int strikeInt = 0;
+        private int strikeInt;
 
         private int radius;
 

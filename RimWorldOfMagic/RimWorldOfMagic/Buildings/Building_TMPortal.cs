@@ -13,10 +13,10 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Building_TMPortal : Building
     {
-        private bool isPaired = false;
-        private Map portalDestinationMap = null;
+        private bool isPaired;
+        private Map portalDestinationMap;
         private IntVec3 portalDestinationPosition = IntVec3.Invalid;
-        private float arcaneEnergyCur = 0;
+        private float arcaneEnergyCur;
         private float arcaneEnergyMax = 1;
         private float launchDistance;
         private int maxLaunchDistance = 999;
@@ -32,8 +32,8 @@ namespace TorannMagic
         private static readonly Material portalMat_3 = MaterialPool.MatFrom("Motes/portal_swirl3", false);
         private static readonly Material portalMat_4 = MaterialPool.MatFrom("Motes/portal_swirl4", false);
         private static readonly Material portalMat_5 = MaterialPool.MatFrom("Motes/portal_swirl5", false);
-        private int matRng = 0;
-        private float matMagnitude = 0;
+        private int matRng;
+        private float matMagnitude;
 
         public override void ExposeData()
         {

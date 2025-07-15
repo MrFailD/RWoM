@@ -16,7 +16,7 @@ namespace TorannMagic
 
         private static int pwrVal;
         private int verVal;
-        private float armorPen = 0f;
+        private float armorPen;
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {

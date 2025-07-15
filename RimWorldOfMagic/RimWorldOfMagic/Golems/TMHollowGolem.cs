@@ -51,8 +51,8 @@ namespace TorannMagic.Golems
         }
 
         public bool shouldDrawHoverMote = true;
-        public bool hasSlipStreamUpgrade = false;
-        public bool hasDeathCloakUpgrade = false;
+        public bool hasSlipStreamUpgrade;
+        public bool hasDeathCloakUpgrade;
         public bool doomFieldHediffEnabled = true;
         public bool deathFieldHediffEnabled = true;
         public override void PostGolemActivate()

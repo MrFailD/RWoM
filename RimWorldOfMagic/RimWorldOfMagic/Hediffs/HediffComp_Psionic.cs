@@ -13,15 +13,15 @@ namespace TorannMagic
     internal class HediffComp_Psionic : HediffComp
     {
 
-        private bool initialized = false;
-        private int pwrVal = 0;
-        private int effVal = 0;
-        private int verVal = 0;
+        private bool initialized;
+        private int pwrVal;
+        private int effVal;
+        private int verVal;
 
-        private bool doPsionicAttack = false;
-        private int ticksTillPsionicStrike = 0;
-        private int nextPsionicAttack = 0;
-        private Pawn threat =  null;
+        private bool doPsionicAttack;
+        private int ticksTillPsionicStrike;
+        private int nextPsionicAttack;
+        private Pawn threat;
         private CompAbilityUserMight comp;
 
         public int PwrVal

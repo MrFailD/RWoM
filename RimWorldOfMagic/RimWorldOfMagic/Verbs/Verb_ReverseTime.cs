@@ -14,8 +14,8 @@ namespace TorannMagic
     public class Verb_ReverseTime : Verb_UseAbility
     {
 
-        private int verVal =0;
-        private int pwrVal =0;
+        private int verVal;
+        private int pwrVal;
         private float arcaneDmg = 1f;
 
         private bool validTarg;

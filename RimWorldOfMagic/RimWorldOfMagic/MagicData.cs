@@ -11,17 +11,17 @@ namespace TorannMagic
     public class MagicData : IExposable
     {
         private Pawn magicPawn;
-        private int magicUserLevel = 0;
-        private int magicAbilityPoints = 0;
+        private int magicUserLevel;
+        private int magicAbilityPoints;
         private int magicUserXP = 1;
         private int ticksToLearnMagicXP = -1;
-        public bool initialized = false;
-        private Faction affiliation = null;
-        private int ticksAffiliation = 0;
-        private bool isNecromancer = false;
-        private int dominationCount = 0;
+        public bool initialized;
+        private Faction affiliation;
+        private int ticksAffiliation;
+        private bool isNecromancer;
+        private int dominationCount;
 
-        public bool customPowersInitialized = false;
+        public bool customPowersInitialized;
         public List<MagicPower> magicPowerCustom;
         public List<MagicPower> MagicPowersCustom  //supports customs abilities
         {
@@ -1117,7 +1117,7 @@ namespace TorannMagic
             }
         }
 
-        private bool hasPaladinBuff = false;
+        private bool hasPaladinBuff;
         public List<MagicPower> MagicPowersP
         {
             get
@@ -3684,7 +3684,7 @@ namespace TorannMagic
             return hediffAbility[hd.def];
         }
 
-        private int uniquePowersCount = 0;
+        private int uniquePowersCount;
         public int GetUniquePowersWithSkillsCount(List<TMDefs.TM_CustomClass> customClassList)
         {
             List<TMAbilityDef> abilities = new List<TMAbilityDef>();

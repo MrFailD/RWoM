@@ -11,12 +11,12 @@ namespace TorannMagic
     {
         private int age = -1;
         private int duration = 1200;
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private int verVal;
+        private int pwrVal;
         private float arcaneDmg = 1;
         private int strikeDelay = 6;
         private float radius = 5;
-        private bool initialized = false;
+        private bool initialized;
         private List<IntVec3> cellList;
         private List<IntVec3> hediffCellList;
         private Pawn pawn;

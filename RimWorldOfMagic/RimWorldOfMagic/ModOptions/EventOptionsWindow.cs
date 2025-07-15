@@ -13,8 +13,8 @@ namespace TorannMagic.ModOptions
         public static float HeaderSize = 28f;
         public static float TextSize = 22f;
 
-        private bool reset = false;
-        private bool challenge = false;
+        private bool reset;
+        private bool challenge;
 
         public Vector2 scrollPosition = Vector2.zero;
 

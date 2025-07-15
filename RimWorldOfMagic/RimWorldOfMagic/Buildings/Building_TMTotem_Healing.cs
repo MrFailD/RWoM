@@ -7,13 +7,13 @@ namespace TorannMagic
     public class Building_TMTotem_Healing : Building
     {
 
-        private int nextSearch = 0;
+        private int nextSearch;
         private float range = 40;
-        private bool initialized = false;
-        public int pwrVal = 0;
-        public int verVal = 0;
+        private bool initialized;
+        public int pwrVal;
+        public int verVal;
         public float arcanePwr = 1f;
-        private Pawn target = null;
+        private Pawn target;
 
         protected override void Tick()
         {

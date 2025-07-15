@@ -10,8 +10,8 @@ namespace TorannMagic
     internal class HediffComp_Cursed : HediffComp
     {
 
-        private bool initialized = false;
-        private bool shouldRemove = false;
+        private bool initialized;
+        private bool shouldRemove;
 
         public void Initialize()
         {

@@ -13,7 +13,7 @@ namespace TorannMagic.ModOptions
     [StaticConstructorOnStartup]
     public abstract class Constants
     {
-        private static bool pawnInFlight = false;
+        private static bool pawnInFlight;
 
         public static bool GetPawnInFlight()
         {
@@ -68,7 +68,7 @@ namespace TorannMagic.ModOptions
             return technoWeaponCount;
         }
 
-        private static bool bypassPrediction = false;
+        private static bool bypassPrediction;
 
         public static bool GetBypassPrediction()
         {
@@ -399,7 +399,7 @@ namespace TorannMagic.ModOptions
             }
         }
 
-        private static Pawn iconPawn = null;
+        private static Pawn iconPawn;
         private static Dictionary<PawnAbility, int> iconOffset = new Dictionary<PawnAbility, int>();
         public static int GetGizmoCount(Pawn p, PawnAbility pa)
         {
@@ -423,8 +423,8 @@ namespace TorannMagic.ModOptions
             }            
         }
 
-        private static float iconAnchorX = 0f;
-        private static float iconAnchorY = 0f;
+        private static float iconAnchorX;
+        private static float iconAnchorY;
         public static void IconAnchor(Rect r)
         {
             if(iconAnchorX == 0)

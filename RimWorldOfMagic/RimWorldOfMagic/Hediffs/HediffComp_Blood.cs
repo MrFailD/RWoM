@@ -11,14 +11,14 @@ namespace TorannMagic
     public class HediffComp_Blood : HediffComp
     {
 
-        private bool initialized = false;
-        private bool removeNow = false;
+        private bool initialized;
+        private bool removeNow;
 
         private int eventFrequency = 60;
 
-        private int bloodPwr = 0;  //increased amount blood levels affect ability power
-        private int bloodVer = 0;  //increased blood per bleed rate and blood gift use
-        private int bloodEff = 0;  //reduces ability blood costs
+        private int bloodPwr;  //increased amount blood levels affect ability power
+        private int bloodVer;  //increased blood per bleed rate and blood gift use
+        private int bloodEff;  //reduces ability blood costs
         private float arcaneDmg = 1f;
 
         public override void CompExposeData()

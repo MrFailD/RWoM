@@ -3950,7 +3950,7 @@ namespace TorannMagic
         }
 
         public static Dictionary<Pawn, float> DamageCache = new Dictionary<Pawn, float>();
-        private static int DamageCacheTimer = 0;
+        private static int DamageCacheTimer;
 
         public static float GetSkillDamage(Pawn p)
         {
@@ -4012,7 +4012,7 @@ namespace TorannMagic
         }
 
         public static Dictionary<Pawn, float> DamageCache_Melee = new Dictionary<Pawn, float>();
-        private static int DamageCacheTimer_Melee = 0;
+        private static int DamageCacheTimer_Melee;
 
         public static float GetSkillDamage_Melee(Pawn p, float strFactor)
         {
@@ -4033,7 +4033,7 @@ namespace TorannMagic
         }
 
         public static Dictionary<Pawn, float> DamageCache_Ranged = new Dictionary<Pawn, float>();
-        private static int DamageCacheTimer_Ranged = 0;
+        private static int DamageCacheTimer_Ranged;
 
         public static float GetSkillDamage_Range(Pawn p, float strFactor)
         {

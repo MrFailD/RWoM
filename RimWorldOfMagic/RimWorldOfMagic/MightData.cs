@@ -11,17 +11,17 @@ namespace TorannMagic
     public class MightData : IExposable
     {
         private Pawn mightPawn;        
-        private int mightUserLevel = 0;
-        private int mightAbilityPoints = 0;
+        private int mightUserLevel;
+        private int mightAbilityPoints;
         private int mightUserXP = 1;
         private int ticksToLearnMightXP = -1;
-        public bool initialized = false;
-        private Faction affiliation = null;
-        private int ticksAffiliation = 0;
+        public bool initialized;
+        private Faction affiliation;
+        private int ticksAffiliation;
         //public ThingOwner<ThingWithComps> equipmentContainer = new ThingOwner<ThingWithComps>();
 
 
-        public bool customPowersInitialized = false;
+        public bool customPowersInitialized;
         public List<MightPower> mightPowerCustom;
         public List<MightPower> MightPowersCustom  //supports customs abilities
         {
@@ -2311,7 +2311,7 @@ namespace TorannMagic
             return hediffAbility[hd.def];
         }
 
-        private int uniquePowersCount = 0;
+        private int uniquePowersCount;
         public int GetUniquePowersWithSkillsCount(List<TMDefs.TM_CustomClass> customClassList)
         {
             if(uniquePowersCount != 0)

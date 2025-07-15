@@ -13,7 +13,7 @@ namespace TorannMagic.Golems
 {
     public class TM_GolemAbility : IExposable
     {
-        public int lastUsedTick = 0;
+        public int lastUsedTick;
         public int currentLevel = 1;
         public TM_GolemAbilityDef golemAbilityDef;
 

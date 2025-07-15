@@ -17,8 +17,8 @@ namespace TorannMagic
 
         private bool primed = true;
 
-        private int pwrVal = 0;
-        private int verVal = 0;
+        private int pwrVal;
+        private int verVal;
 
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)

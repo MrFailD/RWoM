@@ -15,10 +15,10 @@ namespace TorannMagic
 
         public int level;
 
-        public bool learned = false;
-        public bool autocast = false;
+        public bool learned;
+        public bool autocast;
         public int learnCost = 2;
-        private int interactionTick = 0;
+        private int interactionTick;
         public int maxLevel = 3;
         public int costToLevel = 1;
 

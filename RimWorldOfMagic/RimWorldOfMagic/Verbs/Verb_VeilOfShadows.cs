@@ -8,8 +8,8 @@ namespace TorannMagic
 {
     public class Verb_VeilOfShadows : Verb_UseAbility
     {
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private int verVal;
+        private int pwrVal;
 
         protected override bool TryCastShot()
         {

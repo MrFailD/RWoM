@@ -16,7 +16,7 @@ namespace TorannMagic.ModOptions
         public static float HeaderSize = 28f;
         public static float TextSize = 22f;
 
-        private bool apply = false;
+        private bool apply;
 
         public Vector2 scrollPosition = Vector2.zero;
         public string currentOffset;

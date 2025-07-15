@@ -21,18 +21,18 @@ namespace TorannMagic
     {
         public string LabelKey = "TM_Might";
 
-        public bool mightPowersInitialized = false;
-        public bool firstMightTick = false;
+        public bool mightPowersInitialized;
+        public bool firstMightTick;
 
         private int fortitudeMitigationDelay = 0;
         private int mightXPRate = 900;
-        private int lastMightXPGain = 0;
+        private int lastMightXPGain;
 
-        private int nextSSTend = 0;
+        private int nextSSTend;
 
         private List<IntVec3> deathRing = new List<IntVec3>();
-        public float weaponCritChance = 0f;
-        public bool shouldDrawPsionicShield = false;
+        public float weaponCritChance;
+        public bool shouldDrawPsionicShield;
         public List<TM_EventRecords> mightUsed = new List<TM_EventRecords>();
 
         private float G_Sprint_eff = 0.20f;
@@ -79,52 +79,52 @@ namespace TorannMagic
 
         private float global_seff = 0.03f;
 
-        public bool skill_Sprint = false;
-        public bool skill_GearRepair = false;
-        public bool skill_InnerHealing = false;
-        public bool skill_HeavyBlow = false;
-        public bool skill_StrongBack = false;
-        public bool skill_ThickSkin = false;
-        public bool skill_FightersFocus = false;
-        public bool skill_Teach = false;
-        public bool skill_ThrowingKnife = false;
-        public bool skill_BurningFury = false;
-        public bool skill_PommelStrike = false;
-        public bool skill_Legion = false;
-        public bool skill_TempestStrike = false;
-        public bool skill_PistolWhip = false;
-        public bool skill_SuppressingFire = false;
-        public bool skill_Mk203GL = false;
-        public bool skill_Buckshot = false;
-        public bool skill_BreachingCharge = false;
+        public bool skill_Sprint;
+        public bool skill_GearRepair;
+        public bool skill_InnerHealing;
+        public bool skill_HeavyBlow;
+        public bool skill_StrongBack;
+        public bool skill_ThickSkin;
+        public bool skill_FightersFocus;
+        public bool skill_Teach;
+        public bool skill_ThrowingKnife;
+        public bool skill_BurningFury;
+        public bool skill_PommelStrike;
+        public bool skill_Legion;
+        public bool skill_TempestStrike;
+        public bool skill_PistolWhip;
+        public bool skill_SuppressingFire;
+        public bool skill_Mk203GL;
+        public bool skill_Buckshot;
+        public bool skill_BreachingCharge;
 
         public float maxSP = 1;
         public float spRegenRate = 1;
         public float spCost = 1;
         public float mightPwr = 1;
         private int resMitigationDelay = 0;
-        public float totalApparelWeight = 0;
+        public float totalApparelWeight;
 
-        public bool animalBondingDisabled = false;
+        public bool animalBondingDisabled;
 
         public bool usePsionicAugmentationToggle = true;
         public bool usePsionicMindAttackToggle = true;
         public bool useCleaveToggle = true;
         public bool useCQCToggle = true;
         public List<Thing> combatItems = new List<Thing>();
-        public int allowMeditateTick = 0;
+        public int allowMeditateTick;
         public ThingOwner<ThingWithComps> equipmentContainer = new ThingOwner<ThingWithComps>();
         public int specWpnRegNum = -1;        
 
         public Verb_Deflected deflectVerb;
         private DamageInfo reversal_dinfo;
-        private Thing reversalTarget = null;
-        public Pawn bondedPet = null;
+        private Thing reversalTarget;
+        public Pawn bondedPet;
 
         public Verb_UseAbility lastVerbUsed = null;
-        public int lastTickVerbUsed = 0;
+        public int lastTickVerbUsed;
 
-        public TMAbilityDef mimicAbility = null;
+        public TMAbilityDef mimicAbility;
 
         // Cached values calculated in TM_PawnTracker
         private bool initializedIsMightUser;
@@ -153,13 +153,13 @@ namespace TorannMagic
                 expirationTicks = _expirationTicks;
                 expires = _expires;
             }
-            public TMAbilityDef abilityDef = null;
-            public int expirationTicks = 0;
+            public TMAbilityDef abilityDef;
+            public int expirationTicks;
             public bool expires = true;
         }
         public List<ChainedMightAbility> chainedAbilitiesList = new List<ChainedMightAbility>();
 
-        private MightData mightData = null;
+        private MightData mightData;
         public MightData MightData
         {
             get
@@ -548,7 +548,7 @@ namespace TorannMagic
             }          
         }
 
-        private int deathRetaliationDelayCount = 0;
+        private int deathRetaliationDelayCount;
         public void DoDeathRetaliation()
         {
             if (!this.Pawn.Downed || this.Pawn.Map == null || this.Pawn.IsPrisoner || this.Pawn.Faction == null || !this.Pawn.Faction.HostileTo(Faction.OfPlayerSilentFail))

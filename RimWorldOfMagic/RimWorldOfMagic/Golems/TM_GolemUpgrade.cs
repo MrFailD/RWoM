@@ -13,10 +13,10 @@ namespace TorannMagic.Golems
 {
     public class TM_GolemUpgrade : IExposable
     {
-        public int currentLevel = 0;
+        public int currentLevel;
         public bool enabled = true;
         public TM_GolemUpgradeDef golemUpgradeDef;
-        public List<Material> animationMats = null;
+        public List<Material> animationMats;
 
         public TM_GolemUpgrade()
         {

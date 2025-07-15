@@ -10,8 +10,8 @@ namespace TorannMagic
     internal class HediffComp_Inspirational : HediffComp
     {
         private bool initializing = true;
-        private int pwrVal = 0;
-        private int verVal = 0;
+        private int pwrVal;
+        private int verVal;
 
         public string labelCap
         {

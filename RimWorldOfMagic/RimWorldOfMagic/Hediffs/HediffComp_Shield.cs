@@ -41,13 +41,13 @@ namespace TorannMagic
             }
         }
 
-        private float lastSev = 0;
+        private float lastSev;
 
         private float energy;
 
         private bool initializing = true;
 
-        private bool broken = false;
+        private bool broken;
 
         public string labelCap
         {

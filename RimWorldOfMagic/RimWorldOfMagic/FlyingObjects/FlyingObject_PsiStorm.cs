@@ -29,7 +29,7 @@ namespace TorannMagic
 
         private int effectsTick = 0;
         private int boltDelayTicks = 10;
-        private int nextStrikeGenTick = 0;
+        private int nextStrikeGenTick;
         private float magnitudeAdjuster = 1f;
         private float initialOffsetMagnitude = 10f;
 
@@ -42,8 +42,8 @@ namespace TorannMagic
         public Vector3 drawingScale;
         public Vector3 drawingPosition;
 
-        private int pwrVal = 0;
-        private int verVal = 0;
+        private int pwrVal;
+        private int verVal;
         private int effVal = 0;
         private float radius = 1.4f;
 
@@ -61,7 +61,7 @@ namespace TorannMagic
 
         public bool damageLaunched = true;
 
-        public bool explosion = false;
+        public bool explosion;
 
         private bool initialized = true;
 

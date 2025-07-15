@@ -27,14 +27,14 @@ namespace TorannMagic
 
         public float curveVariance = 0; // 0 = no curve
         private List<Vector3> curvePoints = new List<Vector3>();
-        private int destinationCurvePoint = 0;
-        private int stage = 0;
-        private float curveAngle = 0;
+        private int destinationCurvePoint;
+        private int stage;
+        private float curveAngle;
 
         protected float speed = 40f;
 
         protected new int ticksToImpact = 60;
-        private int nextAttackTick = 0;
+        private int nextAttackTick;
 
         protected Thing assignedTarget;
         protected Thing flyingThing;
@@ -42,9 +42,9 @@ namespace TorannMagic
         public DamageInfo? impactDamage;
 
         public bool damageLaunched = true;
-        public bool explosion = false;
+        public bool explosion;
         public int timesToDamage = 3;
-        public int weaponDmg = 0;
+        public int weaponDmg;
 
         private Pawn pawn;
 

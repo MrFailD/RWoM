@@ -18,20 +18,20 @@ namespace TorannMagic
 
         private int age = -1;
         private float arcaneDmg = 1;
-        private bool powered = false;
+        private bool powered;
         public Matrix4x4 drawingMatrix = default(Matrix4x4);
         public Vector3 drawingScale;
         public Vector3 drawingPosition;
 
-        private int pwrVal = 0;
-        private int verVal = 0;
+        private int pwrVal;
+        private int verVal;
         private float radius = 1.4f;
         private int scanFrequency = 1;
         private float lightPotency = .5f;
 
         protected float speed = 30f;
         protected new int ticksToImpact;
-        private bool impacted = false;
+        private bool impacted;
 
         protected Thing assignedTarget;
         protected Thing flyingThing;
@@ -42,7 +42,7 @@ namespace TorannMagic
 
         public bool damageLaunched = true;
 
-        public bool explosion = false;
+        public bool explosion;
 
         private bool initialized = true;        
 

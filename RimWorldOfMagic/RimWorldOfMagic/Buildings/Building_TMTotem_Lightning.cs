@@ -6,12 +6,12 @@ namespace TorannMagic
     public class Building_TMTotem_Lightning : Building
     {
 
-        private int nextSearch = 0;
+        private int nextSearch;
         private float range = 40;
-        private bool initialized = false;
-        public int pwrVal = 0;
-        public int verVal = 0;
-        private Pawn target = null;
+        private bool initialized;
+        public int pwrVal;
+        public int verVal;
+        private Pawn target;
 
         protected override void Tick()
         {

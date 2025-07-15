@@ -11,16 +11,16 @@ namespace TorannMagic
 {
     public class CompSentinel : ThingComp
 	{
-        private bool initialized = false;
+        private bool initialized;
         private List<Pawn> threatList = new List<Pawn>();
         public LocalTargetInfo target = null;
         private int age = -1;
-        private bool shouldDespawn = false;
+        private bool shouldDespawn;
         public IntVec3 sentinelLoc;
         public Rot4 rotation;
-        public Pawn sustainerPawn = null;
+        public Pawn sustainerPawn;
 
-        private int killNow = 0;
+        private int killNow;
 
         private int threatRange = 40;
 

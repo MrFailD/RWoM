@@ -13,8 +13,8 @@ namespace TorannMagic
 
         private int age = -1;
 
-        private bool initialized = false;
-        private bool destroyed = false;
+        private bool initialized;
+        private bool destroyed;
 
         private int duration = 72000;
         private int durationMultiplier = 36000;

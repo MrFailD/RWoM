@@ -14,12 +14,12 @@ namespace TorannMagic.Golems
 {
     public class GolemAbilityUpgrade : IExposable
     {
-        public float damageModifier = 0f;
-        public float cooldownModifier = 0f;
-        public float energyCostModifier = 0f;
-        public float durationModifier = 0f;
-        public float healingModifier = 0f;
-        public float processingModifier = 0f;
+        public float damageModifier;
+        public float cooldownModifier;
+        public float energyCostModifier;
+        public float durationModifier;
+        public float healingModifier;
+        public float processingModifier;
 
         public virtual void ExposeData()
         {

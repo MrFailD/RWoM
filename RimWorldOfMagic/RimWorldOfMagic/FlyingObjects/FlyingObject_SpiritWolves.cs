@@ -21,10 +21,10 @@ namespace TorannMagic
 
         public DamageInfo? impactDamage;
         public bool damageLaunched = true;
-        public bool explosion = false;
+        public bool explosion;
 
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private int verVal;
+        private int pwrVal;
         private float arcaneDmg = 1f;
 
         public override void ExposeData()

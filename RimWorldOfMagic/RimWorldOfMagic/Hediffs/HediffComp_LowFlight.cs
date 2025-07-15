@@ -10,11 +10,11 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     internal class HediffComp_LowFlight : HediffComp
     {
-        private bool initialized = false;
+        private bool initialized;
         public List<Graphic> _nakedGraphicCycle = new List<Graphic>();
-        public Graphic _nakedGraphicDefault = null;
-        public Graphic _nakedGraphicActive = null;
-        private int cycleIndex = 0;
+        public Graphic _nakedGraphicDefault;
+        public Graphic _nakedGraphicActive;
+        private int cycleIndex;
         public int cycleFrequency = 12;
         public float minDistanceToFly = 10;
 

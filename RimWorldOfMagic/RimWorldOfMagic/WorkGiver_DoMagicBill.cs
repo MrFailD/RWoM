@@ -111,7 +111,7 @@ namespace TorannMagic
 
         public override PathEndMode PathEndMode => PathEndMode.InteractionCell;
 
-        private Building_TMMagicCircleBase magicCircle = null;
+        private Building_TMMagicCircleBase magicCircle;
 
         public override ThingRequest PotentialWorkThingRequest
         {

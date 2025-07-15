@@ -10,7 +10,7 @@ namespace TorannMagic
     public class Verb_Rainmaker : Verb_UseAbility
     {
         public Type eventClass;
-        private bool isViolent = false;
+        private bool isViolent;
 
         protected override bool TryCastShot()
         {

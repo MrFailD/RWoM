@@ -15,7 +15,7 @@ namespace TorannMagic
 
         private int age = -1;
         private int duration = 1;
-        private float sevBonus = 0;
+        private float sevBonus;
 
 		protected override void Impact(Thing hitThing, bool blockedByShield = false)
 		{            

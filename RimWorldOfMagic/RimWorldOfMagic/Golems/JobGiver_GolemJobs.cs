@@ -14,7 +14,7 @@ namespace TorannMagic.Golems
 {
     public class JobGiver_GolemJobs : ThinkNode_JobGiver
     {
-        private List<TM_GolemAbilityDef> jobAbilities = null;
+        private List<TM_GolemAbilityDef> jobAbilities;
         private IEnumerable<Thing> workThings;
         private IEnumerable<LocalTargetInfo> workTargets;
 

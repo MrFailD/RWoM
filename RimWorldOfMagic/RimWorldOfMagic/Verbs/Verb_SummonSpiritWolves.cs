@@ -39,9 +39,9 @@ namespace TorannMagic
             return validTarg;
         }
 
-        private int pwrVal = 0;
-        private int verVal = 0;
-        private int effVal = 0;
+        private int pwrVal;
+        private int verVal;
+        private int effVal;
         private List<IntVec3> cellList = new List<IntVec3>();
 
         protected override bool TryCastShot()

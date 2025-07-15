@@ -9,8 +9,8 @@ namespace TorannMagic
 {
     public class HediffComp_DiseaseImmunity : HediffComp
     {
-        private bool initialized = false;
-        public int verVal = 0;
+        private bool initialized;
+        public int verVal;
 
         public string labelCap
         {

@@ -11,14 +11,14 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Hediff_Possessor : HediffWithCompsExtra
     {
-        private bool initialized = false;
+        private bool initialized;
         private bool removeNow = false;
 
         private int eventFrequency = 60;
 
-        private int pwrVal = 0;  //increased maximum hediff value
-        private int verVal = 0;  //increased amount of herbs found during harvesting
-        private int effVal = 0;  //reduces expiration rate
+        private int pwrVal;  //increased maximum hediff value
+        private int verVal;  //increased amount of herbs found during harvesting
+        private int effVal;  //reduces expiration rate
 
         private float possessionCompatibility = .5f;
         public float PossessionCompatibility
@@ -30,14 +30,14 @@ namespace TorannMagic
             }
         }
 
-        public FactionDef previousFaction = null;
-        public bool wasDead = false;
+        public FactionDef previousFaction;
+        public bool wasDead;
 
-        private int spiritLevel = 0;
+        private int spiritLevel;
         public int SpiritLevel => spiritLevel;
-        public List<TraitDef> traitCompatibilityList = null;
-        public List<BackstoryDef> backstoryCompatibilityList = null;
-        public List<string> backstoryIdentifiers = null;
+        public List<TraitDef> traitCompatibilityList;
+        public List<BackstoryDef> backstoryCompatibilityList;
+        public List<string> backstoryIdentifiers;
 
         public List<BackstoryDef> BackstoryCompatibilityList
         {

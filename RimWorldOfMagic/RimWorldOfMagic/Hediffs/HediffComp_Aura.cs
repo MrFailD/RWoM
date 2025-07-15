@@ -11,11 +11,11 @@ namespace TorannMagic
     public class HediffComp_Aura : HediffComp
     {
 
-        private bool initialized = false;
+        private bool initialized;
 
-        private int nextApplyTick = 0;
+        private int nextApplyTick;
 
-        private HediffDef hediffDef = null;
+        private HediffDef hediffDef;
 
         public override void CompExposeData()
         {

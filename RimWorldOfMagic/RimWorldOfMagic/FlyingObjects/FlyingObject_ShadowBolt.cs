@@ -24,8 +24,8 @@ namespace TorannMagic
         public Vector3 drawingScale;
         public Vector3 drawingPosition;
 
-        private int pwrVal = 0;
-        private int verVal = 0;
+        private int pwrVal;
+        private int verVal;
         private float radius = 1.4f;
 
         private float proximityRadius = .4f;
@@ -42,7 +42,7 @@ namespace TorannMagic
 
         public bool damageLaunched = true;
 
-        public bool explosion = false;
+        public bool explosion;
 
         private bool initialized = true;        
 

@@ -15,11 +15,11 @@ namespace TorannMagic
 
         private int duration;
         public AbilityContext context => job.count == 1 ? AbilityContext.Player : AbilityContext.AI;
-        public Verb_UseAbility verb = null; //new Verb_UseAbility(); // = this.pawn.CurJob.verbToUse as Verb_UseAbility;
-        private bool wildCheck = false;
-        private bool cooldownFlag = false;
-        private bool energyFlag = false;
-        private bool validCastFlag = false;
+        public Verb_UseAbility verb; //new Verb_UseAbility(); // = this.pawn.CurJob.verbToUse as Verb_UseAbility;
+        private bool wildCheck;
+        private bool cooldownFlag;
+        private bool energyFlag;
+        private bool validCastFlag;
 
         public override void ExposeData()
         {

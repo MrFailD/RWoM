@@ -18,7 +18,7 @@ namespace TorannMagic
         private int effVal;
         private float arcaneDmg = 1f;
 
-        private Thing turret = null;
+        private Thing turret;
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {

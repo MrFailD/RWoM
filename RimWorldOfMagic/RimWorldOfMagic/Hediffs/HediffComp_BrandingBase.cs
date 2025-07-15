@@ -10,12 +10,12 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class HediffComp_BrandingBase : HediffComp
     {
-        private bool initialized = false;
-        private bool shouldRemove = false;
-        private int nextUpdateTick = 0;
-        private Pawn branderPawn = null;
-        private float pwrVal = 0f;
-        private float verVal = 0f;
+        private bool initialized;
+        private bool shouldRemove;
+        private int nextUpdateTick;
+        private Pawn branderPawn;
+        private float pwrVal;
+        private float verVal;
 
         public override string CompLabelInBracketsExtra => branderPawn != null ? branderPawn.LabelShort + base.CompLabelInBracketsExtra : base.CompLabelInBracketsExtra;
 

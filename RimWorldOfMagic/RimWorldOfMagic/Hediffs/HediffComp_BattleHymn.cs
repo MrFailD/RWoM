@@ -11,9 +11,9 @@ namespace TorannMagic
         private bool initializing = true;
         private float chantRange = 15f;
         private int chantFrequency = 300;
-        private int pwrVal = 0;
-        private int verVal = 0;
-        private int effVal = 0;
+        private int pwrVal;
+        private int verVal;
+        private int effVal;
 
         public string labelCap
         {

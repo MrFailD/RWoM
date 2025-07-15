@@ -9,11 +9,11 @@ namespace TorannMagic.Golems
     public class CompGolemEnergyHandler : CompPowerBattery
     {
         private static readonly Vector2 EnergyBarSize = new Vector2(.32f, 0.18f);
-        private float storedEnergyUpgradeCount = 0;
-        private float conversionEfficiencyUpgradeCount = 0;
+        private float storedEnergyUpgradeCount;
+        private float conversionEfficiencyUpgradeCount;
         private float energyRegenerationFactor = 1f;
         private float storedEnergySaved;
-        public bool canDrawPower = false;
+        public bool canDrawPower;
 
         public bool CanDrawPower => canDrawPower || Props.canDrawPower;
         public static FieldInfo storedEnergyRef = typeof(CompGolemEnergyHandler).GetField("storedEnergy", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);

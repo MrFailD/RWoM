@@ -10,7 +10,7 @@ namespace TorannMagic
     {
         private int age = -1;
         private int duration = 14400;
-        private bool primed = false;
+        private bool primed;
         private Thing placedThing;
         private int verVal;
         private int pwrVal;

@@ -29,7 +29,7 @@ namespace TorannMagic
     public class HediffComp_AbilityResource : HediffComp
     {
 
-        private bool initialized = false;
+        private bool initialized;
         private bool removeNow = false;
 
         private int eventFrequency = 300;

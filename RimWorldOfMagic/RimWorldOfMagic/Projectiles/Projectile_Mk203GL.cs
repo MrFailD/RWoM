@@ -8,8 +8,8 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Projectile_Mk203GL : Projectile_AbilityBase
     {
-        private bool initialized = false;
-        private int verVal = 0;
+        private bool initialized;
+        private int verVal;
         private float mightPwr = 1f;
         private IntVec3 strikePos = default(IntVec3);
         private Pawn caster;

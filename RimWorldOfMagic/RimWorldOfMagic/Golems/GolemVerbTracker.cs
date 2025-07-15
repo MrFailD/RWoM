@@ -11,8 +11,8 @@ namespace TorannMagic.Golems
 {
     public class GolemVerbTracker
     {
-        public Verb verb = null;
-        public int lastUsedTick = 0;
+        public Verb verb;
+        public int lastUsedTick;
 
         public GolemVerbTracker(Verb v, int tick)
         {

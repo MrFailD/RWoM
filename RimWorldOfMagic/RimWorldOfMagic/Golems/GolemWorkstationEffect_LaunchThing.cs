@@ -13,7 +13,7 @@ namespace TorannMagic.Golems
 {
     public class GolemWorkstationEffect_LaunchThing : GolemWorkstationEffect
     {
-        public ThingDef thing = null;
+        public ThingDef thing;
         public int ticksBetweenBursts;
         public float missRadius;
         public float hitChance;

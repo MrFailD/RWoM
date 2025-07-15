@@ -12,10 +12,10 @@ namespace TorannMagic
     internal class HediffComp_NanoStimulant : HediffComp
     {
 
-        private bool initialized = false;
-        private int age = 0;
+        private bool initialized;
+        private int age;
         private int duration = 1500;
-        private int hediffPwr = 0;
+        private int hediffPwr;
 
         public string labelCap
         {

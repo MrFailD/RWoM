@@ -17,7 +17,7 @@ namespace TorannMagic
         private int barrierSearchFrequency = 1;
         private int duration = 900;
         private bool psiFlag;
-        private float psiEnergy = 0;
+        private float psiEnergy;
         private List<IntVec3> barrierCells = new List<IntVec3>();
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)

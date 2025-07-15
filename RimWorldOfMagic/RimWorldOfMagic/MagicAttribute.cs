@@ -9,7 +9,7 @@ namespace TorannMagic
 {
     public class MagicAttribute : IExposable
     {
-        public  int level = 0;
+        public  int level;
 
         public List<AbilityDef> TMattributeDefs;
 

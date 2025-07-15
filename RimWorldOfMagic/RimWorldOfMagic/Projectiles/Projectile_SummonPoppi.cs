@@ -11,12 +11,12 @@ namespace TorannMagic
     public class Projectile_SummonPoppi : Projectile_Ability
     {
 
-        private bool initialized = false;
+        private bool initialized;
         private TMPawnSummoned newPawn = new TMPawnSummoned();
         private Pawn pawn;
 
-        private int pwrVal = 0;
-        private int verVal = 0;
+        private int pwrVal;
+        private int verVal;
         private float arcaneDmg = 1f;
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)

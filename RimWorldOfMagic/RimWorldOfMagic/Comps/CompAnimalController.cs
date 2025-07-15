@@ -12,7 +12,7 @@ namespace TorannMagic
 {
     public class CompAnimalController : ThingComp
 	{
-        private bool initialized = false;
+        private bool initialized;
 
         private List<Pawn> threatList = new List<Pawn>();
         private List<Pawn> closeThreats = new List<Pawn>();
@@ -26,20 +26,20 @@ namespace TorannMagic
         private int scanTick = 281;
         private int age = -1;
 
-        public Pawn summonerPawn = null;
-        private int verVal = 0;
-        private int pwrVal = 0;
+        public Pawn summonerPawn;
+        private int verVal;
+        private int pwrVal;
         private int tauntRange = 15;
         private int tauntTargetsMax = 4;
         private float tauntChance = .6f;
         private int damageMitigation = 4;
-        private int damageMitigationDelay = 0;
+        private int damageMitigationDelay;
         private int shadowStrikeDamage = 11;
         private float shadowStrikeCritChance = .4f;
         private int invisDuration = 90;
         private int hasteDuration = 120;
         private float hexChance = .5f;
-        private int nextEvalTick = 0;
+        private int nextEvalTick;
 
         public override void PostExposeData()
         {

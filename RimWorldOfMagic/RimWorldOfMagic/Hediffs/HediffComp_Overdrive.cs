@@ -12,10 +12,10 @@ namespace TorannMagic
     internal class HediffComp_Overdrive : HediffComp
     {
 
-        private bool initialized = false;
+        private bool initialized;
         private int feedbackRate = 300;
-        private int nextFeedback = 0;
-        private int hediffPwr = 0;
+        private int nextFeedback;
+        private int hediffPwr;
 
         public override void CompExposeData()
         {

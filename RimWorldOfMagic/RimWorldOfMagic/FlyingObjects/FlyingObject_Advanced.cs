@@ -22,30 +22,30 @@ namespace TorannMagic
         protected Thing assignedTarget;
         protected Thing flyingThing;
 
-        public ThingDef moteDef = null;
-        public int moteFrequency = 0;
+        public ThingDef moteDef;
+        public int moteFrequency;
         public float moteSize = 1f;
 
-        public bool spinning = false;
-        public float curveVariance = 0; // 0 = no curve
+        public bool spinning;
+        public float curveVariance; // 0 = no curve
         private List<Vector3> curvePoints = new List<Vector3>();
         public float force = 1f;
-        private int destinationCurvePoint = 0;
-        private float impactRadius = 0;
+        private int destinationCurvePoint;
+        private float impactRadius;
         private int explosionDamage;
-        private bool isExplosive = false;
-        private DamageDef impactDamageType = null;
-        private bool fliesOverhead = false;
+        private bool isExplosive;
+        private DamageDef impactDamageType;
+        private bool fliesOverhead;
 
-        private bool earlyImpact = false;
-        private float impactForce = 0;
+        private bool earlyImpact;
+        private float impactForce;
 
         public DamageInfo? impactDamage;
 
         public bool damageLaunched = true;
-        public bool explosion = false;
+        public bool explosion;
         public int weaponDmg = 0;
-        private int doublesidedVariance = 0;
+        private int doublesidedVariance;
 
         private Pawn pawn;
 

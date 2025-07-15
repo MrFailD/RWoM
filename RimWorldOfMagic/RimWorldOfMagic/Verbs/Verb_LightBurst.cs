@@ -13,7 +13,7 @@ namespace TorannMagic
         private int verVal;
         private int pwrVal;
         private int burstCount = 2;
-        private bool initialized = false;
+        private bool initialized;
         private float arcaneDmg = 1f;
         private float lightPotency = .5f;
 

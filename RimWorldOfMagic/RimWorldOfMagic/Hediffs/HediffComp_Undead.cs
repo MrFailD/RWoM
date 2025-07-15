@@ -13,10 +13,10 @@ namespace TorannMagic
     internal class HediffComp_Undead : HediffComp
     {
         private bool necroValid = true;
-        private int lichStrike = 0;
-        private bool initialized = false;
+        private int lichStrike;
+        private bool initialized;
 
-        public Pawn linkedPawn = null;
+        public Pawn linkedPawn;
         private static readonly string[] nonStandardNeedsToAutoFulfill = new[] {
             "Mood",
             "Suppression",

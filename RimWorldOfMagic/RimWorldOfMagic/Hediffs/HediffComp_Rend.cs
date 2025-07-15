@@ -12,19 +12,19 @@ namespace TorannMagic
     public class HediffComp_Rend : HediffComp
     {
 
-        private bool initialized = false;
-        private int initializeDelay = 0;
-        private bool removeNow = false;
+        private bool initialized;
+        private int initializeDelay;
+        private bool removeNow;
 
         private int eventFrequency = 20;
 
-        private int rendPwr = 0;  //increased amount blood levels affect ability power
-        private int rendVer = 0;  //increased blood per bleed rate and blood gift use
+        private int rendPwr;  //increased amount blood levels affect ability power
+        private int rendVer;  //increased blood per bleed rate and blood gift use
         private float arcaneDmg = 1;
 
         private float bleedRate = 0;
 
-        public Pawn linkedPawn = null;
+        public Pawn linkedPawn;
 
         public override void CompExposeData()
         {

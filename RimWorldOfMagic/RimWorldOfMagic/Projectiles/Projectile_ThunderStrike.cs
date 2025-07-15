@@ -17,18 +17,18 @@ namespace TorannMagic
         private Vector3 directionOffsetRight;
         private Vector3 directionOffsetLeft;
 
-        private int iteration = 0;
+        private int iteration;
         private int maxIteration = 4;
         private float directionMagnitudeOffset = 1.5f;
-        private bool initialized = false;
+        private bool initialized;
 
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private int verVal;
+        private int pwrVal;
         private float arcaneDmg = 1f;
 
-        private int nextEventTick = 0;
-        private int nextRightEventTick = 0;
-        private int nextLeftEventTick = 0;
+        private int nextEventTick;
+        private int nextRightEventTick;
+        private int nextLeftEventTick;
 
         public override void ExposeData()
         {

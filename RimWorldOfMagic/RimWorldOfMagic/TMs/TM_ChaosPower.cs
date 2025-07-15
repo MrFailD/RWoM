@@ -9,8 +9,8 @@ namespace TorannMagic
 {
     public class TM_ChaosPowers //: IExposable
     {
-        private List<MagicPowerSkill> skills = null;
-        private TMAbilityDef ability = null;
+        private List<MagicPowerSkill> skills;
+        private TMAbilityDef ability;
 
 
 

@@ -11,7 +11,7 @@ namespace TorannMagic.WorldTransport
         public Settlement parent;
 
         public int delayTicks = 100;
-        private int age = 0;
+        private int age;
 
         public override void CompTick()
         {

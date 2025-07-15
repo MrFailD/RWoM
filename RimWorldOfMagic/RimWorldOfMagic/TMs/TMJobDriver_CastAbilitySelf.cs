@@ -14,9 +14,9 @@ namespace TorannMagic
     {
         public Verb_UseAbility verb = new Verb_UseAbility();
         private bool cooldownFlag = false;
-        private bool energyFlag = false;
-        private bool validCastFlag = false;
-        private bool wildCheck = false;
+        private bool energyFlag;
+        private bool validCastFlag;
+        private bool wildCheck;
         private int duration;
 
         protected override IEnumerable<Toil> MakeNewToils()

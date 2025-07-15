@@ -11,7 +11,7 @@ namespace TorannMagic
     {
         private bool initialized = true;
         public float explosionRadius = 2f;
-        private int nextLeap = 0;
+        private int nextLeap;
 
         private Pawn Pawn
         {

@@ -35,10 +35,10 @@ namespace TorannMagic
         private int spreadRate = 12;
         private float arcaneDmg = 1;
 
-        private bool initialized = false;
+        private bool initialized;
         private int duration = 500;
         public List<ThingDef> bloodTypes = new List<ThingDef>();
-        private ThingDef pawnBloodDef = null;
+        private ThingDef pawnBloodDef;
 
         private List<BloodFire> BF = new List<BloodFire>();
 

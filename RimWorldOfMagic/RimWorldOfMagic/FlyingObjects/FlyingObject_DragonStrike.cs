@@ -13,21 +13,21 @@ namespace TorannMagic
         protected new Vector3 destination;
 
         protected float speed = 40f;
-        private bool drafted = false;
-        private int verVal = 0;
+        private bool drafted;
+        private int verVal;
 
         protected new int ticksToImpact;
 
-        protected Thing assignedTarget = null;
+        protected Thing assignedTarget;
         protected Thing flyingThing;
 
-        private float distanceToTarget = 0;
+        private float distanceToTarget;
         private float damageMultiplier = 1;
         public DamageInfo? impactDamage;
 
         public bool damageLaunched = true;
 
-        public bool explosion = false;
+        public bool explosion;
 
         public int weaponDmg = 0;
 

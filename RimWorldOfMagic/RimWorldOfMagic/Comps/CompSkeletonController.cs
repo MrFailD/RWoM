@@ -13,23 +13,23 @@ namespace TorannMagic
     [Serializable]
     public class CompSkeletonController : ThingComp
 	{
-        private bool initialized = false;
+        private bool initialized;
 
         private List<Pawn> threatList = new List<Pawn>();
         private List<Pawn> closeThreats = new List<Pawn>();
         private List<Pawn> farThreats = new List<Pawn>();
         public List<Building> buildingThreats = new List<Building>();
 
-        public int nextRangedAttack = 0;
-        public int nextAoEAttack = 0;
-        public int nextKnockbackAttack = 0;
-        public int nextChargeAttack = 0;
-        public int nextTaunt = 0;
+        public int nextRangedAttack;
+        public int nextAoEAttack;
+        public int nextKnockbackAttack;
+        public int nextChargeAttack;
+        public int nextTaunt;
 
-        private int rangedBurstShots = 0;
-        private int rangedNextBurst = 0;
+        private int rangedBurstShots;
+        private int rangedNextBurst;
         private LocalTargetInfo rangedTarget = null;
-        private Thing launchableThing = null;
+        private Thing launchableThing;
 
         private int scanTick = 279;
 

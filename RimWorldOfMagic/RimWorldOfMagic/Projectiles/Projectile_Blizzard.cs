@@ -9,21 +9,21 @@ namespace TorannMagic
 {
 	public class Projectile_Blizzard : Projectile_AbilityBase
 	{
-        private int age = 0;
+        private int age;
         private int duration = 720;
-        private int lastStrikeTiny = 0;
-        private int lastStrikeSmall = 0;
-        private int lastStrikeLarge = 0;
-        private int snowCount = 0;
+        private int lastStrikeTiny;
+        private int lastStrikeSmall;
+        private int lastStrikeLarge;
+        private int snowCount;
         private int[] ticksTillSnow = new int[400];
         private IntVec3[] snowPos = new IntVec3[400];
-        private bool initialized = false;
+        private bool initialized;
         private CellRect cellRect;
         private Pawn pawn;
         private MagicPowerSkill pwr;
         private MagicPowerSkill ver;
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private int verVal;
+        private int pwrVal;
 
         public override void ExposeData()
         {

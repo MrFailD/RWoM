@@ -9,8 +9,8 @@ namespace TorannMagic.Weapon
 {
     public class Verb_ArcaneBarrier : Verb_UseAbility
     {
-        private float xProbL = 0;
-        private float xProbR = 0;
+        private float xProbL;
+        private float xProbR;
 
         private IntVec3 currentPosL = IntVec3.Invalid;
         private IntVec3 currentPosR = IntVec3.Invalid;

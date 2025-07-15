@@ -12,7 +12,7 @@ namespace TorannMagic
     public class Verb_TimeMark : Verb_UseAbility  
     {
 
-        private int pwrVal = 0;
+        private int pwrVal;
         private CompAbilityUserMagic comp;
         private Map map;
 

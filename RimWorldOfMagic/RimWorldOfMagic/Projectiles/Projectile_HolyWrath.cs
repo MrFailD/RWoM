@@ -12,9 +12,9 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Projectile_HolyWrath : Projectile_AbilityBase
     {
-        private bool initialized = false;
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private bool initialized;
+        private int verVal;
+        private int pwrVal;
         private int timeToSmite = 360;
         private int strikeNum;
         private int age = -1;
@@ -26,7 +26,7 @@ namespace TorannMagic
         private ColorInt colorInt = new ColorInt(255, 255, 140);
         private Sustainer sustainer;
 
-        private float angle = 0;
+        private float angle;
         private float radius = 5;
 
         private static readonly Material BeamMat = MaterialPool.MatFrom("Other/OrbitalBeam", ShaderDatabase.MoteGlow, MapMaterialRenderQueues.OrbitalBeam);

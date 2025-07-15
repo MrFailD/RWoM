@@ -8,7 +8,7 @@ namespace TorannMagic
     public class Projectile_Heater : Projectile_AbilityBase
     {
 
-        private bool primed = false;
+        private bool primed;
         private CompAbilityUserMagic comp;
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)

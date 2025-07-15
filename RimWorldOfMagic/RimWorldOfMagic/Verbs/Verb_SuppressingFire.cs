@@ -9,9 +9,9 @@ namespace TorannMagic
 {
     public class Verb_SuppressingFire : Verb_UseAbility  
     {
-        private bool initialized = false;
+        private bool initialized;
         private int effVal;
-        private int shotcount = 0;
+        private int shotcount;
 
         protected override bool TryCastShot()
         {

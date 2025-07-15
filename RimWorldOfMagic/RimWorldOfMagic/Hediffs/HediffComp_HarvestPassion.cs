@@ -11,18 +11,18 @@ namespace TorannMagic
     {
         public bool consumeJoy = false;
         public float reductionFactor = 1f;
-        private bool initialized = false;        
+        private bool initialized;        
 
         //unsaved
-        private bool shouldRemove = false;
-        private int rotationDegree = 0;
+        private bool shouldRemove;
+        private int rotationDegree;
 
-        private int verVal = 0;
-        private int pwrVal = 0;
-        private int effVal = 0;
+        private int verVal;
+        private int pwrVal;
+        private int effVal;
         private float arcaneDmg = 1f;
 
-        public Pawn caster = null;
+        public Pawn caster;
 
         public List<SkillRecord> validSkillPassions = new List<SkillRecord>();
 

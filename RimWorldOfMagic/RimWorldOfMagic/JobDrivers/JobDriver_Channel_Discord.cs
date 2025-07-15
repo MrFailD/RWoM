@@ -17,7 +17,7 @@ namespace TorannMagic
         private int discordFrequency = 20;
         private int moteFrequency = 12;
         private int duration = 2010;
-        private int headDamageCount = 0;
+        private int headDamageCount;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

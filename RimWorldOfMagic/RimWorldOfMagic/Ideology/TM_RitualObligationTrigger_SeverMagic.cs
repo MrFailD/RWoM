@@ -12,7 +12,7 @@ namespace TorannMagic.Ideology
     public class TM_RitualObligationTrigger_SeverMagic : RitualObligationTrigger_EveryMember
     {
         private static List<Pawn> existingObligations = new List<Pawn>();
-        private int nextObligationCheck = 0;
+        private int nextObligationCheck;
 
         public override void Tick()
         {

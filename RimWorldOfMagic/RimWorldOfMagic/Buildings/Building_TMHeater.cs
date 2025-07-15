@@ -8,11 +8,11 @@ namespace TorannMagic
     public class Building_TMHeater : Building_WorkTable
     {
 
-        private int nextSearch = 0;
-        private bool initialized = false;
-        public bool defensive = false;
-        public bool buffWarm = false;
-        public bool boostJoy = false;
+        private int nextSearch;
+        private bool initialized;
+        public bool defensive;
+        public bool buffWarm;
+        public bool boostJoy;
 
                 
         protected override void Tick()

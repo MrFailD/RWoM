@@ -11,8 +11,8 @@ namespace TorannMagic
     public class HediffComp_Chi : HediffComp
     {
 
-        private bool initialized = false;
-        private bool removeNow = false;
+        private bool initialized;
+        private bool removeNow;
 
         private int eventFrequency = 120;
         private int chiFrequency = 4;
@@ -21,9 +21,9 @@ namespace TorannMagic
 
         public float maxSev = 100f;
 
-        private int pwrVal = 0;
-        private int verVal = 0;
-        private int effVal = 0;
+        private int pwrVal;
+        private int verVal;
+        private int effVal;
 
         public override void CompExposeData()
         {

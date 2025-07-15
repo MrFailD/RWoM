@@ -18,14 +18,14 @@ namespace TorannMagic.Buildings
         private const int RocketMinRange = 5;
         private int rocketTicksToFire = 600;
         private int rocketCount = 1;
-        private int nextRocketFireTick = 0;
+        private int nextRocketFireTick;
         private float rocketManaCost = .04f;
 
-        private int verVal = 0;
-        private int pwrVal = 0;
-        private int effVal = 0;
+        private int verVal;
+        private int pwrVal;
+        private int effVal;
 
-        private int age = 0;
+        private int age;
         private int duration = 3600;
 
         private bool MannedByColonist => mannableComp?.ManningPawn != null && mannableComp.ManningPawn.Faction == Faction.OfPlayer;
@@ -34,14 +34,14 @@ namespace TorannMagic.Buildings
         private bool WarmingUp => burstWarmupTicksLeft > 0;
         protected override bool CanSetForcedTarget => mannableComp != null && PlayerControlled;
         private bool CanToggleHoldFire => PlayerControlled;
-        private bool initialized = false;
+        private bool initialized;
         private bool burstActivated;
 
-        public IntVec3 Cell = new IntVec3();
+        public IntVec3 Cell;
         public override IntVec3 InteractionCell => Cell;
 
         private CompAbilityUserMagic comp;
-        public Pawn ManPawn = null;
+        public Pawn ManPawn;
 
         readonly FieldInfo holdFireField = typeof(Building_TurretGun).GetField("holdFire", BindingFlags.Instance | BindingFlags.NonPublic);
 

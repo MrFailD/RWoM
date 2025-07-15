@@ -10,8 +10,8 @@ namespace TorannMagic
 {
     internal class Verb_Meteor : Verb_UseAbility
     {
-        private int pwrVal = 0;
-        private int verVal = 0;
+        private int pwrVal;
+        private int verVal;
 
         public override bool CanHitTargetFrom(IntVec3 casterPos, LocalTargetInfo targ)
         {

@@ -12,7 +12,7 @@ namespace TorannMagic
     {
         private bool initialized = true;
 
-        public bool isBad = false;
+        public bool isBad;
         public int durationTicks = 6000;
         private int tickEffect = 300;
         private int tickPeriod = 120;

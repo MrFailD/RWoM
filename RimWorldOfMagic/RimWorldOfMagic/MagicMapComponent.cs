@@ -11,9 +11,9 @@ namespace TorannMagic
 {
     public class MagicMapComponent: MapComponent
     {
-        public float windSpeed = 0f;
-        public int windSpeedEndTick = 0;
-        public bool allowAllIncidents = false;
+        public float windSpeed;
+        public int windSpeedEndTick;
+        public bool allowAllIncidents;
         public int weatherControlExpiration;
 
         public MagicMapComponent(Map map): base(map)

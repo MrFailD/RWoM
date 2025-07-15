@@ -6,8 +6,8 @@ namespace TorannMagic
     public class HediffComp_SymbiosisCaster : HediffComp
     {
         private bool initializing = true;
-        private bool shouldRemove = false;
-        public Pawn symbiosisHost = null;
+        private bool shouldRemove;
+        public Pawn symbiosisHost;
 
         public override void CompExposeData()
         {

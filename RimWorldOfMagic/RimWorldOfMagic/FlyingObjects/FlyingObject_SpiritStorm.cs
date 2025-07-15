@@ -29,7 +29,7 @@ namespace TorannMagic
 
         public bool damageLaunched = true;
 
-        public bool explosion = false;
+        public bool explosion;
 
         public int timesToDamage = 3;
 
@@ -39,11 +39,11 @@ namespace TorannMagic
 
         public float radius = 4;
         public float spellDamage = 5;
-        public int destinationTick = 0;
-        public int frenzyBonus = 0;
+        public int destinationTick;
+        public int frenzyBonus;
 
         public Vector3 ManualDestination = default(Vector3);
-        public bool PlayerTargetSet = false;
+        public bool PlayerTargetSet;
 
         protected new int StartingTicksToImpact
         {

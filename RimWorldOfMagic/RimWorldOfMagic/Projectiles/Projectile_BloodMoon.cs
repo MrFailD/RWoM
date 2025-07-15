@@ -11,11 +11,11 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Projectile_BloodMoon : Projectile_AbilityBase
     {
-        private bool initialized = false;
+        private bool initialized;
         private bool validTarget = false;
-        private int verVal = 0;
-        private int pwrVal = 0;
-        private int effVal = 0;
+        private int verVal;
+        private int pwrVal;
+        private int effVal;
         private float arcaneDmg = 1;
         private int duration = 1200;
         private int age = -1;
@@ -30,12 +30,12 @@ namespace TorannMagic
         private List<float> wolfDmg = new List<float>();
 
         private int delayTicks = 25;
-        private int nextAttack = 0;
+        private int nextAttack;
 
         private ColorInt colorInt = new ColorInt(45, 0, 4, 250);
         private Sustainer sustainer;
 
-        private float angle = 0;
+        private float angle;
         private float radius = 5;
 
         private static readonly Material BeamMat = MaterialPool.MatFrom("Other/OrbitalBeam", ShaderDatabase.MoteGlow, MapMaterialRenderQueues.OrbitalBeam);

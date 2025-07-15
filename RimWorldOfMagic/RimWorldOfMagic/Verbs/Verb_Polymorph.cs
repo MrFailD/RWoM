@@ -22,7 +22,7 @@ namespace TorannMagic
         private int min = 20;
         private int max = 100;
 
-        private bool drafted = false;
+        private bool drafted;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

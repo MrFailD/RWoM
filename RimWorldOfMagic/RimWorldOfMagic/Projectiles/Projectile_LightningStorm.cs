@@ -17,11 +17,11 @@ namespace TorannMagic
 
 		private int duration = 480;
 
-		private int boltDelay = 0;
+		private int boltDelay;
 
-		private int lastStrike = 0;
+		private int lastStrike;
 
-		private int strikeInt = 0;
+		private int strikeInt;
 
         private int verVal;
         private int pwrVal;

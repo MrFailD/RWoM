@@ -15,9 +15,9 @@ namespace TorannMagic
 
         private int pwrVal;
 
-        private bool flagHTL = false;
-        private bool flagSA = false;
-        private bool flagMO = false;
+        private bool flagHTL;
+        private bool flagSA;
+        private bool flagMO;
 
         public new List<LocalTargetInfo> TargetsAoE = new List<LocalTargetInfo>();
 

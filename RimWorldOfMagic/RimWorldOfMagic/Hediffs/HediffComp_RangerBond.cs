@@ -10,7 +10,7 @@ namespace TorannMagic
     internal class HediffComp_RangerBond : HediffComp
     {
         private bool initializing = true;
-        public Pawn bonderPawn = null;
+        public Pawn bonderPawn;
 
         public override string CompLabelInBracketsExtra => bonderPawn != null ? bonderPawn.LabelShort + base.CompLabelInBracketsExtra : base.CompLabelInBracketsExtra;
 

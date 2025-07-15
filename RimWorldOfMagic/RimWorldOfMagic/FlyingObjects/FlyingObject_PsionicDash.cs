@@ -8,8 +8,8 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class FlyingObject_PsionicDash : Projectile
     {
-        private int verVal = 0;
-        private int pwrVal = 0;
+        private int verVal;
+        private int pwrVal;
         private float arcaneDmg = 1f;
 
         protected new Vector3 origin;
@@ -19,8 +19,8 @@ namespace TorannMagic
         private Vector3 direction;
         private float trueAngle;
 
-        private int dashStep = 0;
-        private bool earlyImpact = false;
+        private int dashStep;
+        private bool earlyImpact;
         private int drawTicks = 300;
         private bool shouldDrawPawn = true;
 
@@ -33,9 +33,9 @@ namespace TorannMagic
         public DamageInfo? impactDamage;
 
         public bool damageLaunched = true;
-        public bool explosion = false;
-        public int weaponDmg = 0;
-        private bool drafted = false;
+        public bool explosion;
+        public int weaponDmg;
+        private bool drafted;
         private Pawn pawn;
 
         //step variables

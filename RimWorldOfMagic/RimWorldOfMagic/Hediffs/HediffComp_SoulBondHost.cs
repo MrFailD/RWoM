@@ -9,8 +9,8 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     internal class HediffComp_SoulBondHost : HediffComp
     {
-        private bool initialized = false;
-        private bool soulPawnRemove = false;
+        private bool initialized;
+        private bool soulPawnRemove;
 
         public Pawn bonderPawn;
         public Pawn polyHost;

@@ -21,21 +21,21 @@ namespace TorannMagic
         private bool arg_42_0;
         private bool vflag;
 
-        private bool destinationReached = false;
+        private bool destinationReached;
 
-        private float hyp = 0;
-        private float angleRad = 0;
-        private float angleDeg = 0;
+        private float hyp;
+        private float angleRad;
+        private float angleDeg;
         private float xProb;
 
         private float xProbOrigin;
         private IntVec3 originPos;
 
 
-        private bool xflag = false;
-        private bool zflag = false;
+        private bool xflag;
+        private bool zflag;
 
-        public int lastMove = 0;
+        public int lastMove;
         public int moveRate = 2;
         private int age = -1;
         private IntVec3 newPos;

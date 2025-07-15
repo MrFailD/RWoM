@@ -12,13 +12,13 @@ namespace TorannMagic
     public class HediffComp_Nightshade : HediffComp
     {
 
-        private bool initialized = false;
-        private bool removeNow = false;
+        private bool initialized;
+        private bool removeNow;
 
         private int eventFrequency = 240;
 
-        private int pwrVal = 0;  //increased amount blood levels affect ability power
-        private int verVal = 0;  //increased blood per bleed rate and blood gift use
+        private int pwrVal;  //increased amount blood levels affect ability power
+        private int verVal;  //increased blood per bleed rate and blood gift use
 
         public float GetApplicationSeverity
         {

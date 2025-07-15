@@ -15,19 +15,19 @@ namespace TorannMagic
         private Vector3 drawPosition;
 
         public float speed = 10f;
-        public int spinRate = 0;        //spin rate > 0 makes the object rotate every spinRate Ticks
-        public float xVariation = 0;    //x variation makes the object move side to side by +- variation
-        public float zVariation = 0;    //z variation makes the object move up and down by +- variation
-        private int rotation = 0;
+        public int spinRate;        //spin rate > 0 makes the object rotate every spinRate Ticks
+        public float xVariation;    //x variation makes the object move side to side by +- variation
+        public float zVariation;    //z variation makes the object move up and down by +- variation
+        private int rotation;
         protected new int ticksToImpact;
         //protected new Thing launcher;
         protected Thing assignedTarget;
         protected Thing flyingThing;
-        private bool drafted = false;
-        public float destroyPctAtEnd = 0f;
+        private bool drafted;
+        public float destroyPctAtEnd;
 
-        public int moteFrequency = 0;
-        public ThingDef moteDef = null;
+        public int moteFrequency;
+        public ThingDef moteDef;
         public float fadeInTime = .25f;
         public float fadeOutTime = .25f;
         public float solidTime = .5f;
@@ -44,7 +44,7 @@ namespace TorannMagic
 
         public bool damageLaunched = true;
 
-        public bool explosion = false;
+        public bool explosion;
 
         public int weaponDmg = 0;
 

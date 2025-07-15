@@ -5,7 +5,7 @@ namespace TorannMagic
 {
     public class HediffComp_Taunt : HediffComp
     {
-        public Pawn tauntTarget = null;
+        public Pawn tauntTarget;
 
         public override void CompExposeData()
         {

@@ -1225,7 +1225,7 @@ namespace TorannMagic
             transferVerb = __instance;
         }
 
-        public static Verb transferVerb = null;
+        public static Verb transferVerb;
 
         public static bool TM_DualWield_NotForCasting(Verb __instance, LocalTargetInfo castTarg)
         {
@@ -5756,7 +5756,7 @@ namespace TorannMagic
             }
         }
 
-        public static float sX = 0;
+        public static float sX;
 
         [HarmonyPatch(typeof(GizmoGridDrawer), "DrawGizmoGrid", null)]
         public static class DrawGizmo_Patch

@@ -26,7 +26,7 @@ namespace TorannMagic
 
         public int ticksUntilBaseSet = 500;
 
-        public float lastGainPct = 0f;
+        public float lastGainPct;
 
         private int lastGainTick;
 
@@ -36,7 +36,7 @@ namespace TorannMagic
 
         public float InitSpiritLevel = 65f;
 
-        public bool wasDead = false;
+        public bool wasDead;
 
         public override void ExposeData()
         {

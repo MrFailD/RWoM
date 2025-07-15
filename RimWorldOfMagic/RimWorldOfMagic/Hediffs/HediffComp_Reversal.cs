@@ -8,7 +8,7 @@ namespace TorannMagic
     internal class HediffComp_Reversal : HediffComp
     {
 
-        private bool initialized = false;
+        private bool initialized;
         private int age;
 
         public string labelCap

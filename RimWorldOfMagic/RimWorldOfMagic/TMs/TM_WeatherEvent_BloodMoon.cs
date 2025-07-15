@@ -18,7 +18,7 @@ namespace TorannMagic
         private Vector2 shadowVector;
         public int duration;
         public float darkness;
-        private int age = 0;
+        private int age;
 
         private const int FlashFadeInTicks = 3;
         private const int MinFlashDuration = 15;

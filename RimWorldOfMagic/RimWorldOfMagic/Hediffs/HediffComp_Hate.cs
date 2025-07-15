@@ -11,17 +11,17 @@ namespace TorannMagic
     public class HediffComp_Hate : HediffComp
     {
 
-        private bool initialized = false;
-        private bool removeNow = false;
+        private bool initialized;
+        private bool removeNow;
 
         private int eventFrequency = 10;
         private int shroudFrequency = 4;
-        private int lastHateTick = 0;
-        private float lastHate = 0;
+        private int lastHateTick;
+        private float lastHate;
 
-        private int hatePwr = 0;
-        private int hateVer = 0;
-        private int hateEff = 0;
+        private int hatePwr;
+        private int hateVer;
+        private int hateEff;
 
         private List<StatModifier> stats;
         private float dmgMultiplierStat = .05f;

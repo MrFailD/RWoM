@@ -10,7 +10,7 @@ namespace TorannMagic
     public class Verb_Buckshot : Verb_UseAbility  
     {
         private int effVal;
-        private int shotcount = 0;
+        private int shotcount;
 
         protected override bool TryCastShot()
         {

@@ -6,8 +6,8 @@ namespace TorannMagic.Buildings
 {
     public class Building_LightningTrap : Building_ExplosiveProximityTrap
     {
-        public bool ExtendedTrap = false;
-        public bool IceTrap = false;
+        public bool ExtendedTrap;
+        public bool IceTrap;
 
         public override void ExposeData()
         {

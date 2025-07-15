@@ -12,8 +12,8 @@ namespace TorannMagic
     public class Verb_MechaniteReprogramming : Verb_UseAbility
     {
         private bool validTarg;
-        private int pwrVal = 0;
-        private int verVal = 0;
+        private int pwrVal;
+        private int verVal;
 
         private float arcaneDmg = 1f;
         //Used specifically for non-unique verbs that ignore LOS (can be used with shield belt)

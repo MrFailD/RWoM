@@ -12,10 +12,10 @@ namespace TorannMagic
 	{
         private int age = -1;
         private int duration = 360;
-        private bool initialized = false;
+        private bool initialized;
         private float radius = 4;
         private int strikeDelay = 40;
-        private int lastStrike = 0;
+        private int lastStrike;
 
         public override void ExposeData()
         {

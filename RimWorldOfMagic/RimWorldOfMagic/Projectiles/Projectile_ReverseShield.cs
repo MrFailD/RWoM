@@ -19,14 +19,14 @@ namespace TorannMagic
 
         public int age = -1;
         public int duration = 1200;
-        private bool initialized = false;
+        private bool initialized;
         private int tickFrequency = 3;
         public float radius = 5;
-        public int lastInterceptTick = 0;
+        public int lastInterceptTick;
         private List<IntVec3> shieldBlockCells = new List<IntVec3>();
         private List<IntVec3> shieldInternalCells = new List<IntVec3>();
         private Color shieldColor = new Color(.15f, 0, .4f);
-        private bool impacted = false;
+        private bool impacted;
 
         private static readonly Material ForceFieldMat = MaterialPool.MatFrom("Other/ForceField", ShaderDatabase.MoteGlow);
         private static readonly MaterialPropertyBlock MatPropertyBlock = new MaterialPropertyBlock();

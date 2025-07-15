@@ -12,7 +12,7 @@ namespace TorannMagic
     public class FlyingObject_PsionicLeap : Projectile
     {
 
-        private int effVal = 0;
+        private int effVal;
 
         protected new Vector3 origin;
         private Vector3 trueOrigin;
@@ -21,8 +21,8 @@ namespace TorannMagic
         private Vector3 direction;
         private float trueAngle;
 
-        private bool isSelected = false;
-        private bool earlyImpact = false;
+        private bool isSelected;
+        private bool earlyImpact;
 
         protected float speed = 75f;
 
@@ -33,11 +33,11 @@ namespace TorannMagic
         public DamageInfo? impactDamage;
 
         public bool damageLaunched = true;
-        public bool explosion = false;
+        public bool explosion;
         public int weaponDmg = 0;
 
         private Pawn pawn;
-        private Thing oldjobTarget = null;
+        private Thing oldjobTarget;
 
         protected new int StartingTicksToImpact
         {

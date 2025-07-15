@@ -12,13 +12,13 @@ namespace TorannMagic
     {
 
         private bool initialized = false;
-        private bool removeNow = false;
+        private bool removeNow;
 
         private int eventFrequency = 1251;
 
-        private int pwrVal = 0;  //bonus to empathy bleed and mental break threshold
-        private int verVal = 0;  //improves resistance penetration
-        private int effVal = 0;  //event frequency and range
+        private int pwrVal;  //bonus to empathy bleed and mental break threshold
+        private int verVal;  //improves resistance penetration
+        private int effVal;  //event frequency and range
         private float radius = 25f;
         private float arcaneDmg = 1f;
 

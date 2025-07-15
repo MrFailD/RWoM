@@ -10,7 +10,7 @@ namespace TorannMagic
 {
     public class Projectile_FertileLands : Projectile_AbilityBase
     {
-        private bool initialized = false;
+        private bool initialized;
         private Pawn caster;
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)

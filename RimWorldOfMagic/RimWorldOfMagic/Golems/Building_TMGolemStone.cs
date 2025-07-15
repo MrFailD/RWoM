@@ -16,7 +16,7 @@ namespace TorannMagic.Golems
 {
     public class Building_TMGolemStone : Building_TMGolemBase
     {
-        public ThingDef madeFromChunk = null;
+        public ThingDef madeFromChunk;
 
         public override void ExposeData()
         {

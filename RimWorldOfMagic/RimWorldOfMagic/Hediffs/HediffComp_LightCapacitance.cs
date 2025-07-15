@@ -7,7 +7,7 @@ namespace TorannMagic
 {
     public class HediffComp_LightCapacitance : HediffComp
     {
-        private bool initialized = false;
+        private bool initialized;
         private float lightEnergy = 10f;
         private string lightPowerString = "";
 
