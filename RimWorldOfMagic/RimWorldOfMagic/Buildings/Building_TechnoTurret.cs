@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using System.Reflection;
+using RimWorld;
 using TorannMagic.Weapon;
 using UnityEngine;
 using Verse;
@@ -24,29 +25,27 @@ namespace TorannMagic.Buildings
         private int pwrVal = 0;
         private int effVal = 0;
 
-        public int age = 0;
-        public int duration = 3600;
+        private int age = 0;
+        private int duration = 3600;
 
-        private bool MannedByColonist => mannableComp != null && mannableComp.ManningPawn != null && mannableComp.ManningPawn.Faction == Faction.OfPlayer;
-        private bool MannedByNonColonist => mannableComp != null && mannableComp.ManningPawn != null && mannableComp.ManningPawn.Faction != Faction.OfPlayer;
+        private bool MannedByColonist => mannableComp?.ManningPawn != null && mannableComp.ManningPawn.Faction == Faction.OfPlayer;
+        private bool MannedByNonColonist => mannableComp?.ManningPawn != null && mannableComp.ManningPawn.Faction != Faction.OfPlayer;
         private bool PlayerControlled => (base.Faction == Faction.OfPlayer || MannedByColonist) && !MannedByNonColonist;
-        private bool Manned => MannedByColonist || MannedByNonColonist;
-        private bool holdFire;
         private bool WarmingUp => burstWarmupTicksLeft > 0;
-        private bool CanSetForcedTarget => mannableComp != null && PlayerControlled;
+        protected override bool CanSetForcedTarget => mannableComp != null && PlayerControlled;
         private bool CanToggleHoldFire => PlayerControlled;
-        private bool IsMortar => def.building.IsMortar;
-        private bool IsMortarOrProjectileFliesOverhead => AttackVerb.ProjectileFliesOverhead() || IsMortar;
         private bool initialized = false;
         private bool burstActivated;
 
-        public IntVec3 iCell = new IntVec3();
-        public override IntVec3 InteractionCell => iCell;
+        public IntVec3 Cell = new IntVec3();
+        public override IntVec3 InteractionCell => Cell;
 
         private CompAbilityUserMagic comp;
-        public Pawn manPawn = null;
+        public Pawn ManPawn = null;
 
-        public bool TT_Active
+        readonly FieldInfo holdFireField = typeof(Building_TurretGun).GetField("holdFire", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private bool TT_Active
         {
             get
             {
@@ -79,8 +78,8 @@ namespace TorannMagic.Buildings
             Scribe_Values.Look<float>(ref this.rocketManaCost, "rocketManaCost", 0.05f, false);
             Scribe_Values.Look<float>(ref this.mortarManaCost, "mortarManaCost", 0.1f, false);
             Scribe_Values.Look(ref burstActivated, "burstActivated", false);
-            Scribe_Values.Look<Pawn>(ref this.manPawn, "manPawn");
-            Scribe_Values.Look<IntVec3>(ref this.iCell, "iCell");
+            Scribe_Values.Look<Pawn>(ref this.ManPawn, "manPawn");
+            Scribe_Values.Look<IntVec3>(ref this.Cell, "iCell");
             Scribe_Values.Look<int>(ref this.age, "age", 0);
             Scribe_Values.Look<int>(ref this.duration, "duration", 3600);
         }
@@ -94,7 +93,7 @@ namespace TorannMagic.Buildings
             {
                 if (!initialized)
                 {
-                    comp = manPawn.GetCompAbilityUserMagic();
+                    comp = ManPawn.GetCompAbilityUserMagic();
                     this.verVal = comp.MagicData.MagicPowerSkill_TechnoTurret.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_TechnoTurret_ver").level;
                     this.pwrVal = comp.MagicData.MagicPowerSkill_TechnoTurret.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_TechnoTurret_pwr").level;
                     this.effVal = comp.MagicData.MagicPowerSkill_TechnoTurret.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_TechnoTurret_eff").level;
@@ -114,7 +113,7 @@ namespace TorannMagic.Buildings
                     this.initialized = true;
                 }
 
-                if (!manPawn.DestroyedOrNull() && !manPawn.Dead && !manPawn.Downed && comp != null && comp.Mana != null)
+                if (!ManPawn.DestroyedOrNull() && !ManPawn.Dead && !ManPawn.Downed && comp != null && comp.Mana != null)
                 {
                     if (this.verVal >= 5 && this.nextRocketFireTick < Find.TickManager.TicksGame && this.TargetCurrentlyAimingAt != null && comp.Mana.CurLevel >= this.rocketManaCost)
                     {
@@ -190,7 +189,7 @@ namespace TorannMagic.Buildings
                     }
                     if (!CanToggleHoldFire)
                     {
-                        holdFire = false;
+                        holdFireField.SetValue(this, true);
                     }
                     if (forcedTarget.ThingDestroyed)
                     {
@@ -290,12 +289,12 @@ namespace TorannMagic.Buildings
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {
-            if (this.HitPoints < 1 && manPawn != null && !manPawn.Dead)
+            if (this.HitPoints < 1 && ManPawn != null && !ManPawn.Dead)
             {
                 int rnd = Mathf.RoundToInt(Rand.Range(3, 5) - (.2f * this.effVal));
                 for (int i = 0; i < rnd; i++)
                 {
-                    TM_Action.DamageEntities(manPawn, null, Rand.Range(4f, 8f), DamageDefOf.Burn, this);
+                    TM_Action.DamageEntities(ManPawn, null, Rand.Range(4f, 8f), DamageDefOf.Burn, this);
                 }
             }
             base.Destroy(mode);            

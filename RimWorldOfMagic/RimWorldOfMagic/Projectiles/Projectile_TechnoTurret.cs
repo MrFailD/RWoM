@@ -78,8 +78,8 @@ namespace TorannMagic
                     this.turret.def.building.turretBurstCooldownTime = 4.5f - (.1f * pwrVal);
 
                     Building_TechnoTurret b_tt = this.turret as Building_TechnoTurret;
-                    b_tt.manPawn = pawn;
-                    b_tt.iCell = this.launcher.Position;
+                    b_tt.ManPawn = pawn;
+                    b_tt.Cell = this.launcher.Position;
 
                     for (int i = 0; i < 4; i++)
                     {
