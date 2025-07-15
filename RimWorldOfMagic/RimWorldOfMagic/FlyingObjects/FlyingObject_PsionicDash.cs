@@ -36,7 +36,7 @@ namespace TorannMagic
         public bool explosion = false;
         public int weaponDmg = 0;
         private bool drafted = false;
-        Pawn pawn;
+        private Pawn pawn;
 
         //step variables
         private float sideForwardMagnitude = 2f;

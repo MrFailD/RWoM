@@ -7,7 +7,7 @@ using TorannMagic.Weapon;
 
 namespace TorannMagic
 {
-    class Projectile_ES_Fire : Projectile_AbilityBase
+    internal class Projectile_ES_Fire : Projectile_AbilityBase
     {
 
         private int verVal = 0;

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TorannMagic
 {
-    class HediffComp_Inspirational : HediffComp
+    internal class HediffComp_Inspirational : HediffComp
     {
         private bool initializing = true;
         private int pwrVal = 0;

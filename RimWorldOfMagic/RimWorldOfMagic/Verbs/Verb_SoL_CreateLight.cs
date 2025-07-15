@@ -9,7 +9,7 @@ namespace TorannMagic
 {
     public class Verb_SoL_CreateLight : Verb_UseAbility  
     {
-        bool validTarg;
+        private bool validTarg;
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
             if (targ.IsValid && targ.CenterVector3.InBoundsWithNullCheck(base.CasterPawn.Map) && !targ.Cell.Fogged(base.CasterPawn.Map) && targ.Cell.Walkable(base.CasterPawn.Map))

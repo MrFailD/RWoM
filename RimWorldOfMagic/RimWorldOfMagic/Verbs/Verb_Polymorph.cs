@@ -15,12 +15,12 @@ namespace TorannMagic
 
         private int verVal;
         private int pwrVal;
-        bool validTarg;
+        private bool validTarg;
         private float arcaneDmg = 1;
 
         private int duration = 1800;
-        int min = 20;
-        int max = 100;
+        private int min = 20;
+        private int max = 100;
 
         private bool drafted = false;
 

@@ -7,7 +7,7 @@ using Verse;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_RangerBond : HediffComp
+    internal class HediffComp_RangerBond : HediffComp
     {
         private bool initializing = true;
         public Pawn bonderPawn = null;

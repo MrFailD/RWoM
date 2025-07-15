@@ -8,20 +8,20 @@ using RimWorld;
 
 namespace TorannMagic
 {
-    class Projectile_ChronostaticField : Projectile_AbilityBase
+    internal class Projectile_ChronostaticField : Projectile_AbilityBase
     {
-        int age = -1;
-        int duration = 20;
-        int verVal = 0;
-        int pwrVal = 0;
-        float arcaneDmg = 1;
-        int strikeDelay = 4;
-        int strikeNum = 1;
-        float radius = 5;
-        bool initialized = false;
-        List<IntVec3> cellList;
-        Pawn casterPawn;
-        IEnumerable<IntVec3> targets;
+        private int age = -1;
+        private int duration = 20;
+        private int verVal = 0;
+        private int pwrVal = 0;
+        private float arcaneDmg = 1;
+        private int strikeDelay = 4;
+        private int strikeNum = 1;
+        private float radius = 5;
+        private bool initialized = false;
+        private List<IntVec3> cellList;
+        private Pawn casterPawn;
+        private IEnumerable<IntVec3> targets;
 
         public override void ExposeData()
         {

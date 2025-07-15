@@ -10,7 +10,7 @@ using TorannMagic.Utils;
 
 namespace TorannMagic
 {
-    class MightCardUtility //original code by Jecrell
+    internal class MightCardUtility //original code by Jecrell
     {
 
         public static Vector2 mightCardSize = default(Vector2); // new Vector2(700f, 556f);

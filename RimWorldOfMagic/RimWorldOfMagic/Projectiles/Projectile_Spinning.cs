@@ -10,7 +10,7 @@ using System.Linq;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class Projectile_Spinning : Projectile_AbilityBase
+    internal class Projectile_Spinning : Projectile_AbilityBase
     {
         private int rotationOffset = 0;
         public int daggerCount = 2;

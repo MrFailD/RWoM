@@ -7,14 +7,14 @@ using UnityEngine;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_HarvestPassion : HediffComp
+    internal class HediffComp_HarvestPassion : HediffComp
     {
         public bool consumeJoy = false;
         public float reductionFactor = 1f;
         private bool initialized = false;        
 
         //unsaved
-        bool shouldRemove = false;
+        private bool shouldRemove = false;
         private int rotationDegree = 0;
 
         private int verVal = 0;

@@ -3,7 +3,7 @@ using System;
 
 namespace TorannMagic
 {
-    class MagicAdventureWorker : IncidentWorker
+    internal class MagicAdventureWorker : IncidentWorker
     {
 
     }

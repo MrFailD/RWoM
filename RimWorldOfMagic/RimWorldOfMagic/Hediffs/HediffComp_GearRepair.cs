@@ -7,7 +7,7 @@ using System.Linq;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_GearRepair : HediffComp
+    internal class HediffComp_GearRepair : HediffComp
     {
 
         private bool initializing = true;

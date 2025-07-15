@@ -11,10 +11,10 @@ namespace TorannMagic
     internal class JobDriver_Entertain : JobDriver
     {
         private const TargetIndex entertaineeTI = TargetIndex.A;
-        CompAbilityUserMagic comp;
+        private CompAbilityUserMagic comp;
 
-        int age = -1;
-        int duration = 120;
+        private int age = -1;
+        private int duration = 120;
 
         protected Pawn entertaineePawn
         {

@@ -9,11 +9,12 @@ using TorannMagic.Utils;
 
 namespace TorannMagic
 {
-    class Verb_Heal : Verb_UseAbility
+    internal class Verb_Heal : Verb_UseAbility
     {
         private int verVal;
         private int pwrVal;
-        bool validTarg;
+
+        private bool validTarg;
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

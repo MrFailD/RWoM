@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace TorannMagic
 {
-    class Verb_ShadowStep : Verb_UseAbility  
+    internal class Verb_ShadowStep : Verb_UseAbility  
     {
 
         protected override bool TryCastShot()

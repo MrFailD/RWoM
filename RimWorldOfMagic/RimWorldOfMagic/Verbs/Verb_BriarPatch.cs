@@ -9,9 +9,9 @@ using System.Collections.Generic;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class Verb_BriarPatch : Verb_UseAbility  
+    internal class Verb_BriarPatch : Verb_UseAbility  
     {
-        bool validTarg;
+        private bool validTarg;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

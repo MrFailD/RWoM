@@ -25,7 +25,7 @@ namespace TorannMagic
 
         private int pwrVal = 0;
         private int verVal = 0;
-        float radius = 1.4f;
+        private float radius = 1.4f;
         private int scanFrequency = 1;
         private float lightPotency = .5f;
 
@@ -35,7 +35,7 @@ namespace TorannMagic
 
         protected Thing assignedTarget;
         protected Thing flyingThing;
-        Pawn pawn;
+        private Pawn pawn;
         private List<Pawn> filteredTargets = new List<Pawn>();
 
         public DamageInfo? impactDamage;

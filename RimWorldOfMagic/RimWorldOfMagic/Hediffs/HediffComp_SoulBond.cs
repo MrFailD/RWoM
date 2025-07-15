@@ -7,11 +7,11 @@ using Verse;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_SoulBond : HediffComp
+    internal class HediffComp_SoulBond : HediffComp
     {
         private bool initializing = true;
         private bool soulPawnRemove = false;
-        Pawn bondedPawn = null;
+        private Pawn bondedPawn = null;
 
         public override string CompLabelInBracketsExtra => bondedPawn != null ? bondedPawn.LabelShort + "[+]" + base.CompLabelInBracketsExtra : base.CompLabelInBracketsExtra;
 

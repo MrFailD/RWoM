@@ -1,26 +1,24 @@
-﻿using System.Text;
-using RimWorld;
+﻿using RimWorld;
 using TorannMagic.Weapon;
-using Verse;
 using UnityEngine;
+using Verse;
 using Verse.Sound;
 
-
-namespace TorannMagic
+namespace TorannMagic.Buildings
 {   
     [StaticConstructorOnStartup]
     public class Building_TechnoTurret : Building_TurretGun
     {
-        int mortarMaxRange = 180;
-        int mortarMinRange = 40;
-        int mortarTicksToFire = 900;
-        float mortarManaCost = .08f;
+        private int mortarMaxRange = 180;
+        private const int MortarMinRange = 40;
+        private int mortarTicksToFire = 900;
+        private float mortarManaCost = .08f;
 
-        int rocketMinRange = 5;
-        int rocketTicksToFire = 600;
-        int rocketCount = 1;
-        int nextRocketFireTick = 0;
-        float rocketManaCost = .04f;
+        private const int RocketMinRange = 5;
+        private int rocketTicksToFire = 600;
+        private int rocketCount = 1;
+        private int nextRocketFireTick = 0;
+        private float rocketManaCost = .04f;
 
         private int verVal = 0;
         private int pwrVal = 0;
@@ -45,7 +43,7 @@ namespace TorannMagic
         public IntVec3 iCell = new IntVec3();
         public override IntVec3 InteractionCell => iCell;
 
-        CompAbilityUserMagic comp;
+        private CompAbilityUserMagic comp;
         public Pawn manPawn = null;
 
         public bool TT_Active
@@ -120,7 +118,7 @@ namespace TorannMagic
                 {
                     if (this.verVal >= 5 && this.nextRocketFireTick < Find.TickManager.TicksGame && this.TargetCurrentlyAimingAt != null && comp.Mana.CurLevel >= this.rocketManaCost)
                     {
-                        if (this.TargetCurrentlyAimingAt.Cell.IsValid && this.TargetCurrentlyAimingAt.Cell.DistanceToEdge(this.Map) > 5 && (this.TargetCurrentlyAimingAt.Cell - this.Position).LengthHorizontal >= this.rocketMinRange)
+                        if (this.TargetCurrentlyAimingAt.Cell.IsValid && this.TargetCurrentlyAimingAt.Cell.DistanceToEdge(this.Map) > 5 && (this.TargetCurrentlyAimingAt.Cell - this.Position).LengthHorizontal >= RocketMinRange)
                         {
                             bool flag = this.TargetCurrentlyAimingAt.Cell != default(IntVec3);
                             if (flag)
@@ -154,7 +152,7 @@ namespace TorannMagic
                     if (this.verVal >= 10 && this.mortarTicksToFire < Find.TickManager.TicksGame && comp.Mana.CurLevel >= this.mortarManaCost)
                     {
                         this.mortarTicksToFire = Find.TickManager.TicksGame + (900 - ((verVal - 10) * 40));
-                        Pawn target = TM_Calc.FindNearbyEnemy(this.Position, this.Map, this.Faction, this.mortarMaxRange, this.mortarMinRange);
+                        Pawn target = TM_Calc.FindNearbyEnemy(this.Position, this.Map, this.Faction, this.mortarMaxRange, MortarMinRange);
                         if (target != null && target.Position.DistanceToEdge(this.Map) > 8)
                         {
                             bool flag = target.Position != default(IntVec3);

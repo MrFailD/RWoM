@@ -31,7 +31,7 @@ namespace TorannMagic
 
         public Pawn pawn;
         public Enchantment.CompEnchantedItem iComp = null;
-        HediffWithCompsExtra customHediff = null;           //must use custom hediff
+        private HediffWithCompsExtra customHediff = null;           //must use custom hediff
 
         public override float GetWidth(float maxWidth)
         {

@@ -27,8 +27,8 @@ namespace TorannMagic
 
         public int weaponDmg = 0;
 
-        Pawn pawn;
-        CompAbilityUserMagic comp;
+        private Pawn pawn;
+        private CompAbilityUserMagic comp;
 
         protected new int StartingTicksToImpact
         {

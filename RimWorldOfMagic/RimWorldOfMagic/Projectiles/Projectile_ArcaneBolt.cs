@@ -7,7 +7,7 @@ using TorannMagic.Weapon;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class Projectile_ArcaneBolt : Projectile_AbilityBase
+    internal class Projectile_ArcaneBolt : Projectile_AbilityBase
     {
         private int rotationOffset = 0;
 

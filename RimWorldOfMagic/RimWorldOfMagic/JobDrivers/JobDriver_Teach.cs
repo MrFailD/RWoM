@@ -14,13 +14,13 @@ namespace TorannMagic
     {
         private const TargetIndex caster = TargetIndex.B;
 
-        int age = -1;
-        int lastEffect = 0;
-        int ticksTillEffects = 200;
+        private int age = -1;
+        private int lastEffect = 0;
+        private int ticksTillEffects = 200;
         public int duration = 1260;
-        bool isMageTeaching = false;
-        bool isFighterTeaching = false;
-        bool success = true;
+        private bool isMageTeaching = false;
+        private bool isFighterTeaching = false;
+        private bool success = true;
 
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)

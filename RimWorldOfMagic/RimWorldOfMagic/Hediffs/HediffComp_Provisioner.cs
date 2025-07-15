@@ -9,7 +9,7 @@ using TorannMagic.Utils;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Provisioner : HediffComp
+    internal class HediffComp_Provisioner : HediffComp
     {
 
         private bool initializing = true;

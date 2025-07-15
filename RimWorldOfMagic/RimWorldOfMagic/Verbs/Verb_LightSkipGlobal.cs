@@ -13,25 +13,26 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Verb_LightSkipGlobal : Verb_UseAbility  
     {
-        int pwrVal = 0;
-        float arcaneDmg = 1;
-        Pawn pawn;
-        IntVec3 launcherPosition = default(IntVec3);
-        List<Thing> pods = new List<Thing>();
-        List<Pawn> pawnList = new List<Pawn>();
-        List<IntVec3> unroofedCells = new List<IntVec3>();
-        List<CompTransporter> podTList = new List<CompTransporter>();
-        IntVec3 safePos = default(IntVec3);
+        private int pwrVal = 0;
+        private float arcaneDmg = 1;
+        private Pawn pawn;
+        private IntVec3 launcherPosition = default(IntVec3);
+        private List<Thing> pods = new List<Thing>();
+        private List<Pawn> pawnList = new List<Pawn>();
+        private List<IntVec3> unroofedCells = new List<IntVec3>();
+        private List<CompTransporter> podTList = new List<CompTransporter>();
+        private IntVec3 safePos = default(IntVec3);
         private int gi = 0;
         private int MaxLaunchDistance = 300;
 
-        IntVec3 destCell = default(IntVec3);
-        int destTile = 0;
-        bool draftFlag = false;
+        private IntVec3 destCell = default(IntVec3);
+        private int destTile = 0;
+        private bool draftFlag = false;
 
         private static readonly Texture2D TargeterMouseAttachment = ContentFinder<Texture2D>.Get("Other/PortalBldg", true);
-        bool validTarg;
-        CompLaunchable cl = null;
+        private bool validTarg;
+
+        private CompLaunchable cl = null;
         //Used specifically for non-unique verbs that ignore LOS (can be used with shield belt), Light Skip requires unroofed destination
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)

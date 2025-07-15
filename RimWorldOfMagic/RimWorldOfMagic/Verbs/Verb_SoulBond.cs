@@ -6,17 +6,17 @@ using System.Linq;
 
 namespace TorannMagic
 {
-    class Verb_SoulBond : Verb_UseAbility  
+    internal class Verb_SoulBond : Verb_UseAbility  
     {
-        bool flagSD = false;
-        bool flagWD = false;
-        new Pawn caster;
-        Pawn pawn;
-        Pawn oldBondPawn;
-        int verVal;
-        int pwrVal;
+        private bool flagSD = false;
+        private bool flagWD = false;
+        private new Pawn caster;
+        private Pawn pawn;
+        private Pawn oldBondPawn;
+        private int verVal;
+        private int pwrVal;
 
-        bool validTarg;
+        private bool validTarg;
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

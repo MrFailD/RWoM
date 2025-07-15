@@ -8,10 +8,9 @@ using RimWorld;
 
 namespace TorannMagic
 {
-    class Verb_ChiBurst : Verb_UseAbility  
+    internal class Verb_ChiBurst : Verb_UseAbility  
     {
-
-        bool validTarg;
+        private bool validTarg;
         private int pwrVal;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)

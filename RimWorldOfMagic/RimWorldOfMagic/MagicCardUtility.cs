@@ -9,7 +9,7 @@ using TorannMagic.Utils;
 
 namespace TorannMagic
 {
-    class MagicCardUtility //original code by Jecrell
+    internal class MagicCardUtility //original code by Jecrell
     {
         public static Vector2 magicCardSize = default(Vector2); // new Vector2(700f, 556f);
         public static Vector2 MagicCardSize

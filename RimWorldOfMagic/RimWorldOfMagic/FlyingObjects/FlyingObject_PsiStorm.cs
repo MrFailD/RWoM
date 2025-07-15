@@ -25,7 +25,7 @@ namespace TorannMagic
         private List<int> boltTick = new List<int>();
         private List<float> boltMagnitude = new List<float>();
 
-        List<IntVec3> strikeCells;
+        private List<IntVec3> strikeCells;
 
         private int effectsTick = 0;
         private int boltDelayTicks = 10;
@@ -45,7 +45,7 @@ namespace TorannMagic
         private int pwrVal = 0;
         private int verVal = 0;
         private int effVal = 0;
-        float radius = 1.4f;
+        private float radius = 1.4f;
 
         private float proximityRadius = .4f;
         private int proximityFrequency = 6;
@@ -55,7 +55,7 @@ namespace TorannMagic
 
         protected Thing assignedTarget;
         protected Thing flyingThing;
-        Pawn pawn;
+        private Pawn pawn;
 
         public DamageInfo? impactDamage;
 

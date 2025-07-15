@@ -8,10 +8,10 @@ using System.Collections.Generic;
 
 namespace TorannMagic
 {
-    class Verb_Blink : Verb_BLOS 
+    internal class Verb_Blink : Verb_BLOS 
     {
-        bool arg_41_0;
-        bool arg_42_0;
+        private bool arg_41_0;
+        private bool arg_42_0;
         private bool validTarg = false;
         
 

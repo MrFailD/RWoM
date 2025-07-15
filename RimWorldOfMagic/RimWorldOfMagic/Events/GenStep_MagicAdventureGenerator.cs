@@ -5,7 +5,7 @@ using Verse;
 
 namespace TorannMagic 
 {
-    class GenStep_MagicAdventureGenerator : GenStep
+    internal class GenStep_MagicAdventureGenerator : GenStep
     {
         protected MagicAdventureWorker adventure = null;
 

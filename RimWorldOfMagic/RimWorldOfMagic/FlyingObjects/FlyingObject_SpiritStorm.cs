@@ -23,7 +23,7 @@ namespace TorannMagic
         //protected new Thing launcher;
         protected Thing assignedTarget;
         protected Thing flyingThing;
-        Pawn pawn;
+        private Pawn pawn;
 
         public DamageInfo? impactDamage;
 

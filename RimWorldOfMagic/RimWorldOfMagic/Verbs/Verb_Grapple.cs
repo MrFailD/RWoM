@@ -8,11 +8,11 @@ namespace TorannMagic
 {
     public class Verb_Grapple : Verb_UseAbility_TrueBurst
     {
-        Vector3 pVect;
+        private Vector3 pVect;
 
-        DamageInfo dinfo;
+        private DamageInfo dinfo;
 
-        bool validTarg;
+        private bool validTarg;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

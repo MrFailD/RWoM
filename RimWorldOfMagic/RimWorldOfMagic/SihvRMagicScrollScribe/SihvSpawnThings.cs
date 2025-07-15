@@ -3,7 +3,7 @@ using Verse;
 
 namespace TorannMagic.SihvRMagicScrollScribe
 {
-    class SihvSpawnThings
+    internal class SihvSpawnThings
     {
         public static void SpawnThingDefOfCountAt(ThingDef of, int count, TargetInfo target)
         {

@@ -27,20 +27,20 @@ namespace TorannMagic
         }
     }
 
-    class Projectile_Sabotage : Projectile_AbilityBase
+    internal class Projectile_Sabotage : Projectile_AbilityBase
     {
-        int age = -1;
-        int duration = 1800;
-        int verVal = 0;
-        int pwrVal = 0;
-        float arcaneDmg = 1;
-        int strikeDelay = 120;
-        int lastStrike = 0;
-        int targetThingCount = 0;
-        bool initialized = false;
+        private int age = -1;
+        private int duration = 1800;
+        private int verVal = 0;
+        private int pwrVal = 0;
+        private float arcaneDmg = 1;
+        private int strikeDelay = 120;
+        private int lastStrike = 0;
+        private int targetThingCount = 0;
+        private bool initialized = false;
 
-        List<IntVec3> targetCells;
-        List<SabotageThing> targetThings;
+        private List<IntVec3> targetCells;
+        private List<SabotageThing> targetThings;
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {

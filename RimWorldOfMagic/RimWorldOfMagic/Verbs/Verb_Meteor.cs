@@ -8,11 +8,10 @@ using System.Linq;
 
 namespace TorannMagic
 {
-    class Verb_Meteor : Verb_UseAbility
+    internal class Verb_Meteor : Verb_UseAbility
     {
-
-        int pwrVal = 0;
-        int verVal = 0;
+        private int pwrVal = 0;
+        private int verVal = 0;
 
         public override bool CanHitTargetFrom(IntVec3 casterPos, LocalTargetInfo targ)
         {

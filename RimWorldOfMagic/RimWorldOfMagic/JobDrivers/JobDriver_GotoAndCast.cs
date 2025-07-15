@@ -14,13 +14,13 @@ namespace TorannMagic
     {
         private const TargetIndex caster = TargetIndex.B;
 
-        int age = -1;
-        int lastEffect = 0;
-        int ticksTillEffects = 20;
+        private int age = -1;
+        private int lastEffect = 0;
+        private int ticksTillEffects = 20;
         public int duration = 5;
-        Vector3 positionBetween = Vector3.zero;
+        private Vector3 positionBetween = Vector3.zero;
         public PawnAbility ability = null;
-        Thing targetThing = null;
+        private Thing targetThing = null;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

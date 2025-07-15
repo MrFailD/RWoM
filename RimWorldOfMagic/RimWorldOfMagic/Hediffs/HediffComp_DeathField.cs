@@ -11,14 +11,13 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class HediffComp_DeathField : HediffComp
     {
-
-        int nextTick = 0;
-        bool shouldRemove = false;
+        private int nextTick = 0;
+        private bool shouldRemove = false;
         public bool shouldStrike = false;
         private int lastStrikeTick = 0;
         private int strikeDelay = 6;
 
-        Pawn target = null;
+        private Pawn target = null;
 
         public string labelCap
         {

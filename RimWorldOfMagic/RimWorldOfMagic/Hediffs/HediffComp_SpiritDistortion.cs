@@ -7,7 +7,7 @@ using System.Linq;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_SpiritDistortion : HediffComp
+    internal class HediffComp_SpiritDistortion : HediffComp
     {
 
         private bool initialized = false;

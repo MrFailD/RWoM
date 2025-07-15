@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace TorannMagic
 {
-    class Verb_Legion : Verb_UseAbility  
+    internal class Verb_Legion : Verb_UseAbility  
     {
         private bool validTarg = false;
 

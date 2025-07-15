@@ -7,7 +7,7 @@ using System.Linq;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Medigel : HediffComp
+    internal class HediffComp_Medigel : HediffComp
     {
 
         private bool initializing = true;

@@ -25,7 +25,7 @@ namespace TorannMagic
         private float bleedRate = 0;
 
         public Pawn linkedPawn = null;
-        Vector3 directionToLinkedPawn = default(Vector3);
+        private Vector3 directionToLinkedPawn = default(Vector3);
 
         public override void CompExposeData()
         {

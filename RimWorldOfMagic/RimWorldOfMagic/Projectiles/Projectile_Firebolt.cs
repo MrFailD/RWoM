@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace TorannMagic
 {
-    class Projectile_Firebolt : Projectile_AbilityBase
+    internal class Projectile_Firebolt : Projectile_AbilityBase
     {
 
         private int pwrVal = 0;

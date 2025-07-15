@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_DurationEffect : HediffComp
+    internal class HediffComp_DurationEffect : HediffComp
     {
 
         private bool initialized = false;
@@ -23,7 +23,7 @@ namespace TorannMagic
         private int rotationRate = 0;
 
 
-        ThingDef moteDef;
+        private ThingDef moteDef;
 
         public override void CompExposeData()
         {

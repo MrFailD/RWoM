@@ -15,11 +15,11 @@ namespace TorannMagic
     {
         private int age = -1;
         public int durationTicks = 8000;
-        Hediff chiHD = null;
-        int effVal = 0;
-        int verVal = 0;
-        int pwrVal = 0;
-        int chiMultiplier = 1;
+        private Hediff chiHD = null;
+        private int effVal = 0;
+        private int verVal = 0;
+        private int pwrVal = 0;
+        private int chiMultiplier = 1;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

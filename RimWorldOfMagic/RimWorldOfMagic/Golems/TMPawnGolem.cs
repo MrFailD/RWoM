@@ -260,7 +260,7 @@ namespace TorannMagic.Golems
 
         }
 
-        List<GolemDrawClass> removeGDC = new List<GolemDrawClass>();
+        private List<GolemDrawClass> removeGDC = new List<GolemDrawClass>();
 
         protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {

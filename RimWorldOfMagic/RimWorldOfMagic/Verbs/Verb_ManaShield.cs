@@ -7,10 +7,9 @@ using System.Collections.Generic;
 
 namespace TorannMagic
 {
-    class Verb_ManaShield : Verb_UseAbility  
+    internal class Verb_ManaShield : Verb_UseAbility  
     {
-
-        bool validTarg;
+        private bool validTarg;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

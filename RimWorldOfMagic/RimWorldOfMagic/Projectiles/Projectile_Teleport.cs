@@ -8,7 +8,7 @@ using UnityEngine;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class Projectile_Teleport : Projectile_AbilityBase , IExposable
+    internal class Projectile_Teleport : Projectile_AbilityBase , IExposable
     {
 
         private int destructTimer = 4800;

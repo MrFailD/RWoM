@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace TorannMagic.Weapon
 {
-    class Projectile_LightningWand : Projectile_AbilityLaser
+    internal class Projectile_LightningWand : Projectile_AbilityLaser
     {
         private float arcaneDmg = 1;
 

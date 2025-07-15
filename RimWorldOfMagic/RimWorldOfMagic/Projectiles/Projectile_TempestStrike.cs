@@ -10,7 +10,7 @@ using System.Linq;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class Projectile_TempestStrike : Projectile_AbilityBase
+    internal class Projectile_TempestStrike : Projectile_AbilityBase
     {
         private int rotationOffset = 0;
         public bool shouldSpin = true;

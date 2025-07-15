@@ -10,9 +10,9 @@ namespace TorannMagic.Enchantment
 {
     public class HediffComp_CatEyes : HediffComp_EnchantedItem
     {
-        CompProperties_Glower gProps = new CompProperties_Glower();
-        CompGlower glower = new CompGlower();
-        IntVec3 oldPos = default(IntVec3);
+        private CompProperties_Glower gProps = new CompProperties_Glower();
+        private CompGlower glower = new CompGlower();
+        private IntVec3 oldPos = default(IntVec3);
 
         public ColorInt glowColor = new ColorInt(0, 205, 102, 1);
 

@@ -11,22 +11,22 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Projectile_HealingCircle : Projectile_AbilityBase
     {
-        int pwrVal = 0;
-        int verVal = 0;
+        private int pwrVal = 0;
+        private int verVal = 0;
         private float arcaneDmg = 1;
-        int age = -1;
-        int duration = 1200;
-        float radius = 6;
-        bool initialized = false;
-        int healDelay = 40;
-        int waveDelay = 300;
-        int lastHeal = 0;
-        int lastWave = 0;
-        Pawn caster;
-        float angle;
-        float innerRing;
-        float outerRing;
-        float ringFrac;
+        private int age = -1;
+        private int duration = 1200;
+        private float radius = 6;
+        private bool initialized = false;
+        private int healDelay = 40;
+        private int waveDelay = 300;
+        private int lastHeal = 0;
+        private int lastWave = 0;
+        private Pawn caster;
+        private float angle;
+        private float innerRing;
+        private float outerRing;
+        private float ringFrac;
 
         private static readonly Material BeamMat = MaterialPool.MatFrom("Other/OrbitalBeam", ShaderDatabase.MoteGlow, MapMaterialRenderQueues.OrbitalBeam);
 

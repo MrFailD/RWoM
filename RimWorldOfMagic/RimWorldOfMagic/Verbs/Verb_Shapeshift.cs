@@ -11,7 +11,7 @@ namespace TorannMagic
 {
     public class Verb_Shapeshift : Verb_UseAbility  
     {
-        float arcaneDmg = 1f;
+        private float arcaneDmg = 1f;
         public int verVal = 0;
         public int pwrVal = 0;
         public int effVal = 0;

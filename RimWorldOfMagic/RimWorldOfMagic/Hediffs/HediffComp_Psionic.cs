@@ -10,7 +10,7 @@ using UnityEngine;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Psionic : HediffComp
+    internal class HediffComp_Psionic : HediffComp
     {
 
         private bool initialized = false;
@@ -21,8 +21,8 @@ namespace TorannMagic
         private bool doPsionicAttack = false;
         private int ticksTillPsionicStrike = 0;
         private int nextPsionicAttack = 0;
-        Pawn threat =  null;
-        CompAbilityUserMight comp;
+        private Pawn threat =  null;
+        private CompAbilityUserMight comp;
 
         public int PwrVal
         {

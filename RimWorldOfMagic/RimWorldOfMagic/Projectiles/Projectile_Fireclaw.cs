@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace TorannMagic
 {
-	class Projectile_Fireclaw : Projectile_AbilityBase
+    internal class Projectile_Fireclaw : Projectile_AbilityBase
 	{
 		private IntVec3 strikeLoc = IntVec3.Invalid;
 
@@ -24,10 +24,10 @@ namespace TorannMagic
         private bool oflag = true;
         private bool primed = true;
 
-        float hyp = 0;
-        float angleRad = 0;
-        float angleDeg = 0;
-        float xProb = 0;
+        private float hyp = 0;
+        private float angleRad = 0;
+        private float angleDeg = 0;
+        private float xProb = 0;
 
         private int verVal;
         private int pwrVal;
@@ -51,29 +51,29 @@ namespace TorannMagic
         private IntVec3 currentPos4 = IntVec3.Invalid;
         private IntVec3 currentPos5 = IntVec3.Invalid;
 
-        bool posFlag = false;
-        bool pos1Flag = false;
-        bool pos11Flag = false;
-        bool pos12Flag = false;
-        bool pos2Flag = false;
-        bool pos21Flag = false;
-        bool pos22Flag = false;
-        bool pos3Flag = false;
-        bool pos31Flag = false;
-        bool pos4Flag = false;
-        bool pos5Flag = false;
+        private bool posFlag = false;
+        private bool pos1Flag = false;
+        private bool pos11Flag = false;
+        private bool pos12Flag = false;
+        private bool pos2Flag = false;
+        private bool pos21Flag = false;
+        private bool pos22Flag = false;
+        private bool pos3Flag = false;
+        private bool pos31Flag = false;
+        private bool pos4Flag = false;
+        private bool pos5Flag = false;
 
-        bool posFlagw = true;
-        bool pos1Flagw = true;
-        bool pos11Flagw = true;
-        bool pos12Flagw = true;
-        bool pos2Flagw = true;
-        bool pos21Flagw = true;
-        bool pos22Flagw = true;
-        bool pos3Flagw = true;
-        bool pos31Flagw = true;
-        bool pos4Flagw = true;
-        bool pos5Flagw = true;
+        private bool posFlagw = true;
+        private bool pos1Flagw = true;
+        private bool pos11Flagw = true;
+        private bool pos12Flagw = true;
+        private bool pos2Flagw = true;
+        private bool pos21Flagw = true;
+        private bool pos22Flagw = true;
+        private bool pos3Flagw = true;
+        private bool pos31Flagw = true;
+        private bool pos4Flagw = true;
+        private bool pos5Flagw = true;
 
         private int posAge;
         private int pos1Age;

@@ -19,12 +19,12 @@ namespace TorannMagic
         private int pwrVal = 0;
         private int timeToRaise = 1200;
         private int age = -1;
-        IntVec3 deadPawnPosition = default(IntVec3);
-        Thing corpseThing = null;
-        Pawn deadPawn;
-        Pawn caster;
+        private IntVec3 deadPawnPosition = default(IntVec3);
+        private Thing corpseThing = null;
+        private Pawn deadPawn;
+        private Pawn caster;
 
-        ColorInt colorInt = new ColorInt(255, 255, 140);
+        private ColorInt colorInt = new ColorInt(255, 255, 140);
         private Sustainer sustainer;
 
         private float angle = 0;

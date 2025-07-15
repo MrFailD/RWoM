@@ -23,10 +23,10 @@ namespace TorannMagic.Golems
         public int damageMin = 10;
         public int damageMax = 20;
         public int projectilesPerBurst = 1;
-        DamageDef damageType;
-        bool flyOverhead = true;
-        float accuracy = 1f;
-        float rangeAroundTarget = 0;
+        private DamageDef damageType;
+        private bool flyOverhead = true;
+        private float accuracy = 1f;
+        private float rangeAroundTarget = 0;
         
 
         public override void DoEffect(Pawn launcher, LocalTargetInfo target)

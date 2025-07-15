@@ -42,25 +42,25 @@ namespace TorannMagic
         private int wingDelay = 0;
         private bool wingDisplay = true;
 
-        IntVec3 expCell1;
-        IntVec3 expCell2;
-        float hyp = 0;
-        float angleRad = 0;
-        float angleDeg = 0;
-        float xProb;
+        private IntVec3 expCell1;
+        private IntVec3 expCell2;
+        private float hyp = 0;
+        private float angleRad = 0;
+        private float angleDeg = 0;
+        private float xProb;
 
-        bool xflag = false;
-        bool zflag = false;
+        private bool xflag = false;
+        private bool zflag = false;
 
-        Pawn pawn;
-        CompAbilityUserMagic comp;
-        MagicPowerSkill pwr;
-        MagicPowerSkill ver;
+        private Pawn pawn;
+        private CompAbilityUserMagic comp;
+        private MagicPowerSkill pwr;
+        private MagicPowerSkill ver;
         private int verVal;
         private int pwrVal;
         private float arcaneDmg = 1;
 
-        TMPawnSummoned newPawn = new TMPawnSummoned();
+        private TMPawnSummoned newPawn = new TMPawnSummoned();
 
         protected new int StartingTicksToImpact
         {

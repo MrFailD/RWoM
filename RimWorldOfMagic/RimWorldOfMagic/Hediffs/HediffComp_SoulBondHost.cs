@@ -7,7 +7,7 @@ using Verse;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_SoulBondHost : HediffComp
+    internal class HediffComp_SoulBondHost : HediffComp
     {
         private bool initialized = false;
         private bool soulPawnRemove = false;

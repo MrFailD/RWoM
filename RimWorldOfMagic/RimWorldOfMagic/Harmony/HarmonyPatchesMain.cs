@@ -872,7 +872,7 @@ namespace TorannMagic
         [HarmonyPatch(typeof(MentalBreaker), "TestMoodMentalBreak", null)]
         public class MentalBreaker_TestMoodMentalBreak
         {
-            static void Postfix(Pawn ___pawn, ref bool __result)
+            private static void Postfix(Pawn ___pawn, ref bool __result)
             {
                 if (!__result) return;
                 if (___pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_EmotionSuppressionHD))
@@ -885,7 +885,7 @@ namespace TorannMagic
         [HarmonyPatch(typeof(Need_Mood), "DrawOnGUI", null)]
         public static class Need_Mood_DrawOnGUI
         {
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
+            private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions,
                 ILGenerator generator)
             {
                 CodeInstruction[] codes = instructions.ToArray();
@@ -2353,7 +2353,7 @@ namespace TorannMagic
         [HarmonyPatch(typeof(FloatMenuOptionProvider_WorkGivers), "GetWorkGiversOptionsFor")]
         public class SkipPolymorph_UndraftedOrders_Patch
         {
-            static bool Prefix(Pawn pawn, LocalTargetInfo target, FloatMenuContext context, ref IEnumerable<FloatMenuOption> __result)
+            private static bool Prefix(Pawn pawn, LocalTargetInfo target, FloatMenuContext context, ref IEnumerable<FloatMenuOption> __result)
             {
                 if (pawn != null && (pawn.GetComp<CompPolymorph>()?.Original != null || pawn.def == TorannMagicDefOf.TM_SpiritTD))
                 {

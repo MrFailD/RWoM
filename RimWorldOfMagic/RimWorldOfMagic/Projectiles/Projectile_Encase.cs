@@ -21,15 +21,15 @@ namespace TorannMagic
         private int duration = 1800;
         private int pwrVal = 0;
         private int verVal = 0;
-        List<IntVec3> wallPositions = new List<IntVec3>();
-        List<Thing> despawnedThingList = new List<Thing>();
-        List<TerrainDef> terrainList = new List<TerrainDef>();
+        private List<IntVec3> wallPositions = new List<IntVec3>();
+        private List<Thing> despawnedThingList = new List<Thing>();
+        private List<TerrainDef> terrainList = new List<TerrainDef>();
 
-        List<TMDefs.Encase> wall = new List<TMDefs.Encase>();
-        Pawn caster;
+        private List<TMDefs.Encase> wall = new List<TMDefs.Encase>();
+        private Pawn caster;
 
         //unsaved variables
-        ThingDef spawnDef = ThingDef.Named("Sandstone");
+        private ThingDef spawnDef = ThingDef.Named("Sandstone");
 
         public override void ExposeData()
         {

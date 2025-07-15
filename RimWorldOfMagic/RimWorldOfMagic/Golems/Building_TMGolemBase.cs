@@ -14,7 +14,7 @@ namespace TorannMagic.Golems
 {
     public class Building_TMGolemBase : Building_WorkTable, IThingHolder, IAttackTarget, IAttackTargetSearcher
     {
-        int activationAge = 0;
+        private int activationAge = 0;
 		public bool activating = false;
         private bool initialized = false;
         private int nextEvaluationTick = 0;
@@ -31,13 +31,13 @@ namespace TorannMagic.Golems
 
         public Pawn tmpGolem = null;
 
-        ThingOwner innerContainer = null;
+        private ThingOwner innerContainer = null;
 
         private List<GolemWorkstationEffect> activeEffects = new List<GolemWorkstationEffect>();
 
-        CompProperties_Glower glowerProps = new CompProperties_Glower();
+        private CompProperties_Glower glowerProps = new CompProperties_Glower();
         public CompGlower glower = null;
-        bool glowingInt = false;
+        private bool glowingInt = false;
 
         public override bool TransmitsPowerNow => Energy.CanDrawPower;
 

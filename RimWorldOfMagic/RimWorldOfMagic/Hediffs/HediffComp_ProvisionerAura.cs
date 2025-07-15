@@ -19,7 +19,7 @@ namespace TorannMagic
         private int verVal = 0;
         private float radius = 0f;
 
-        List<Pawn> speechPawns = new List<Pawn>();
+        private List<Pawn> speechPawns = new List<Pawn>();
 
         public override void CompExposeData()
         {

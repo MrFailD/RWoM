@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TorannMagic
 {
-    class PlaceWorker_ShowDMPRadius : PlaceWorker
+    internal class PlaceWorker_ShowDMPRadius : PlaceWorker
     {
         public override void DrawGhost(ThingDef def, IntVec3 center, Rot4 rot, Color ghostCol, Thing thing = null)
         {

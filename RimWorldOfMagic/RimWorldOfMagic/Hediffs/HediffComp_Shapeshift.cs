@@ -23,7 +23,7 @@ namespace TorannMagic
         private int hateVer = 0;
         private int hateEff = 0;
 
-        List<StatModifier> stats;
+        private List<StatModifier> stats;
         private float dmgMultiplierStat = .05f;
         private float armorBluntStat = .1f;
         private float armorSharpStat = .1f;

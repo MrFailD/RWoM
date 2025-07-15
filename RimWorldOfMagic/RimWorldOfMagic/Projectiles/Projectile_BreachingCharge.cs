@@ -13,7 +13,7 @@ namespace TorannMagic
         private float mightPwr = 1f;
         private int ticksToDetonation = 210;
         private int explosionCount = 5;
-        Pawn caster;
+        private Pawn caster;
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {

@@ -9,12 +9,12 @@ using System;
 
 namespace TorannMagic
 {
-    class Projectile_Sentinel : Projectile_AbilityBase
+    internal class Projectile_Sentinel : Projectile_AbilityBase
     {
 
         private int verVal;
-        Pawn caster;
-        Thing spawnedThing = null;
+        private Pawn caster;
+        private Thing spawnedThing = null;
 
         //non-saved vars
 

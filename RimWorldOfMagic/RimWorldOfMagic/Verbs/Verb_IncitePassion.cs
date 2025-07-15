@@ -12,7 +12,7 @@ namespace TorannMagic
 {
     public class Verb_IncitePassion : Verb_UseAbility
     {
-        bool validTarg;
+        private bool validTarg;
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
             if (targ.Thing != null && targ.Thing == this.caster)

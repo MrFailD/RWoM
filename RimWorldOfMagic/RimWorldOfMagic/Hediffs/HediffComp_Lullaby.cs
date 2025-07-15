@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Lullaby : HediffComp
+    internal class HediffComp_Lullaby : HediffComp
     {
 
         private bool initializing = true;

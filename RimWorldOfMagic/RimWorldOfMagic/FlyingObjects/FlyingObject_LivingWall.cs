@@ -52,7 +52,7 @@ namespace TorannMagic
         private Thing targetWall;
         private bool shouldDestroy = false;
 
-        Pawn pawn;
+        private Pawn pawn;
         public Pawn CasterPawn
         {
             get
@@ -70,8 +70,8 @@ namespace TorannMagic
         }
 
         //Magic related
-        CompAbilityUserMagic comp;
-        TMPawnSummoned newPawn = new TMPawnSummoned();
+        private CompAbilityUserMagic comp;
+        private TMPawnSummoned newPawn = new TMPawnSummoned();
 
         public Building OccupiedWall
         {
@@ -393,7 +393,7 @@ namespace TorannMagic
             return true;
         }
 
-        List<Vector3> updatedPath = new List<Vector3>();
+        private List<Vector3> updatedPath = new List<Vector3>();
         public void CreatePath()
         {
             List<IntVec3> tmpList = new List<IntVec3>();
@@ -532,7 +532,7 @@ namespace TorannMagic
         private bool threadLocked = false;
         private int threadLockTick = 0;
         private int searchEnemyTick = 0;
-        static List<Thread> activeThreads = new List<Thread>();
+        private static List<Thread> activeThreads = new List<Thread>();
         protected override void Tick()
         {
             Vector3 exactPosition = this.ExactPosition;

@@ -11,8 +11,7 @@ namespace TorannMagic.Weapon
 {
     public class Verb_FreezingWinds : Verb_Shoot
     {
-
-        bool validTarg;
+        private bool validTarg;
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

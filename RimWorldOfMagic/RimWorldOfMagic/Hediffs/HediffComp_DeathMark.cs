@@ -7,9 +7,9 @@ using Verse.AI;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_DeathMark : HediffComp
+    internal class HediffComp_DeathMark : HediffComp
     {
-        Pawn instigator;
+        private Pawn instigator;
         private bool initializing = true;
 
         public string labelCap

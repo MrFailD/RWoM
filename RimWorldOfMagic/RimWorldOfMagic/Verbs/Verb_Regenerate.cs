@@ -10,7 +10,7 @@ namespace TorannMagic
 {
     public class Verb_Regenerate : Verb_UseAbility
     {
-        bool validTarg;
+        private bool validTarg;
         private int verVal =0;
         private int pwrVal =0;
         private float arcaneDmg = 1;

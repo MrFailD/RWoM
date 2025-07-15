@@ -11,13 +11,13 @@ using HarmonyLib;
 
 namespace TorannMagic.Conditions
 {
-    class GameCondition_WanderingLich : GameCondition
+    internal class GameCondition_WanderingLich : GameCondition
     {
         public IntVec2 centerLocation;
         public IntVec2 edgeLocation;
         private int areaRadius = 4;
-        bool initialized = false;
-        bool disabled = false;
+        private bool initialized = false;
+        private bool disabled = false;
         public Thing thing;
         private int nextEventTick = 0;
         private int ticksBetweenEvents = 4000;

@@ -16,12 +16,12 @@ namespace TorannMagic
         private float wallLength = 0;
         private int age = -1;
         private int duration = 300;
-        Vector3 wallStart = default(Vector3);
-        Vector3 wallDir = default(Vector3);
-        Vector3 wallEnd = default(Vector3);
-        List<IntVec3> wallPositions = new List<IntVec3>();
-        LocalTargetInfo secondTarget = null;
-        Pawn caster;
+        private Vector3 wallStart = default(Vector3);
+        private Vector3 wallDir = default(Vector3);
+        private Vector3 wallEnd = default(Vector3);
+        private List<IntVec3> wallPositions = new List<IntVec3>();
+        private LocalTargetInfo secondTarget = null;
+        private Pawn caster;
         public static readonly MaterialPropertyBlock MatPropertyBlock = new MaterialPropertyBlock();
 
         private int pwrVal = 0;

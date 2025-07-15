@@ -14,8 +14,8 @@ namespace TorannMagic
         private bool shouldRemove = false;
         private int nextUpdateTick = 0;
         private Pawn branderPawn = null;
-        float pwrVal = 0f;
-        float verVal = 0f;
+        private float pwrVal = 0f;
+        private float verVal = 0f;
 
         public override string CompLabelInBracketsExtra => branderPawn != null ? branderPawn.LabelShort + base.CompLabelInBracketsExtra : base.CompLabelInBracketsExtra;
 

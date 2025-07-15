@@ -7,16 +7,16 @@ using TorannMagic.Weapon;
 
 namespace TorannMagic
 {
-    class Projectile_CorpseExplosion : Projectile_AbilityBase
+    internal class Projectile_CorpseExplosion : Projectile_AbilityBase
     {
-        int age = 300;
-        int verVal = 0;
-        int pwrVal = 0;
-        float arcaneDmg = 1;
-        float radius = 3f;
-        bool initialized = false;
-        Corpse targetCorpse = null;
-        Pawn targetPawn = null;
+        private int age = 300;
+        private int verVal = 0;
+        private int pwrVal = 0;
+        private float arcaneDmg = 1;
+        private float radius = 3f;
+        private bool initialized = false;
+        private Corpse targetCorpse = null;
+        private Pawn targetPawn = null;
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {

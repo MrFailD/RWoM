@@ -8,7 +8,7 @@ using HarmonyLib;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Lich : HediffComp
+    internal class HediffComp_Lich : HediffComp
     {
         public int lastDamageTick = 0;
         

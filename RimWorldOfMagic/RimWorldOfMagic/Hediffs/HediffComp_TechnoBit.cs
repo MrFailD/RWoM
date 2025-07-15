@@ -10,7 +10,7 @@ using UnityEngine;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_TechnoBit : HediffComp
+    internal class HediffComp_TechnoBit : HediffComp
     {
 
         private bool initialized = false;
@@ -23,7 +23,7 @@ namespace TorannMagic
         private int nextBitGrenade = 0;
         private int nextBitShock = 0;
         private int bitGrenadeCount = 0;
-        Vector3 moteLoc = Vector3.zero;
+        private Vector3 moteLoc = Vector3.zero;
 
         public int PwrVal
         {

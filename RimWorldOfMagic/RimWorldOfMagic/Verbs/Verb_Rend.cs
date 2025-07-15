@@ -15,7 +15,7 @@ namespace TorannMagic
         private int verVal;
         private float arcaneDmg = 1f;
 
-        bool validTarg;
+        private bool validTarg;
         //can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

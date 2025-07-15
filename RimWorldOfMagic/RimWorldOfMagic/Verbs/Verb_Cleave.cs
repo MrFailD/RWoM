@@ -8,20 +8,20 @@ using System.Linq;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class Verb_Cleave : Verb_UseAbility_TrueBurst
+    internal class Verb_Cleave : Verb_UseAbility_TrueBurst
     {
-        DamageInfo dinfo;
+        private DamageInfo dinfo;
 
-        MightPowerSkill pwr;
-        MightPowerSkill ver;
-        MightPowerSkill str;
+        private MightPowerSkill pwr;
+        private MightPowerSkill ver;
+        private MightPowerSkill str;
 
-        float weaponDPS = 0;
-        float dmgMultiplier = 1;
-        float pawnDPS = 0;
-        float skillMultiplier = 1;
-        ThingWithComps weaponComp;
-        int dmgNum = 0;
+        private float weaponDPS = 0;
+        private float dmgMultiplier = 1;
+        private float pawnDPS = 0;
+        private float skillMultiplier = 1;
+        private ThingWithComps weaponComp;
+        private int dmgNum = 0;
 
         private static readonly Color cleaveColor = new Color(160f, 160f, 160f);
         private static readonly Material cleavingMat = MaterialPool.MatFrom("Spells/cleave_straight", ShaderDatabase.Transparent, Verb_Cleave.cleaveColor);

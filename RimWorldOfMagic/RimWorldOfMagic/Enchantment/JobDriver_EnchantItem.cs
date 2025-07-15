@@ -9,9 +9,9 @@ namespace TorannMagic.Enchantment
 {
     public class JobDriver_EnchantItem : JobDriver
     {
-        Thing thing;
-        IntVec3 thingLoc;
-        Pawn actor;
+        private Thing thing;
+        private IntVec3 thingLoc;
+        private Pawn actor;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

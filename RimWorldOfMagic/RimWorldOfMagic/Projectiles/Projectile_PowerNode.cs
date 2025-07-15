@@ -9,7 +9,7 @@ namespace TorannMagic
     {
 
         private bool primed = false;
-        CompAbilityUserMagic comp;
+        private CompAbilityUserMagic comp;
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {

@@ -13,8 +13,8 @@ namespace TorannMagic
         private int age = -1;
         public int durationTicks = 1200;
 
-        CompAbilityUserMagic comp;
-        Pawn markedPawn;
+        private CompAbilityUserMagic comp;
+        private Pawn markedPawn;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

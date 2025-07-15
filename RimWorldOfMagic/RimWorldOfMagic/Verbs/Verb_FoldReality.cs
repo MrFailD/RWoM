@@ -15,8 +15,8 @@ namespace TorannMagic
     {
         private static readonly Texture2D TargeterMouseAttachment = ContentFinder<Texture2D>.Get("Other/gatewayring", true);
 
-        int MaxLaunchDistance = 999;
-        CompAbilityUserMagic comp;
+        private int MaxLaunchDistance = 999;
+        private CompAbilityUserMagic comp;
 
         protected override bool TryCastShot()
         {

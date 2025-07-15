@@ -9,13 +9,13 @@ using Verse.Sound;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class Verb_SnapFreeze : Verb_UseAbility  
+    internal class Verb_SnapFreeze : Verb_UseAbility  
     {
         private float arcaneDmg = 1f;
-        List<Pawn> pawns = new List<Pawn>();
-        List<Plant> plants = new List<Plant>();
+        private List<Pawn> pawns = new List<Pawn>();
+        private List<Plant> plants = new List<Plant>();
 
-        bool validTarg;
+        private bool validTarg;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

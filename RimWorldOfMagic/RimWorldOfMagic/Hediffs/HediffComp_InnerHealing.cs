@@ -8,11 +8,11 @@ using TorannMagic.Utils;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_InnerHealing : HediffComp
+    internal class HediffComp_InnerHealing : HediffComp
     {
 
         private bool initializing = true;
-        CompAbilityUserMight comp = null;
+        private CompAbilityUserMight comp = null;
 
         public string labelCap
         {

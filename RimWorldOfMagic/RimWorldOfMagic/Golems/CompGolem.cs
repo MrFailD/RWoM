@@ -58,7 +58,7 @@ namespace TorannMagic.Golems
 
         public List<TM_GolemAbility> abilityList = new List<TM_GolemAbility>();
 
-        ThingOwner innerContainer;
+        private ThingOwner innerContainer;
 
         private TM_Golem golem;  
 

@@ -8,7 +8,7 @@ namespace TorannMagic
 {    
     public class Effect_LightLance : Verb_UseAbility
     {
-        bool validTarg;
+        private bool validTarg;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

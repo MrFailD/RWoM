@@ -129,7 +129,7 @@ namespace TorannMagic.Golems
             yield return init;
         }
 
-        bool TryStartAttack(Pawn pawn, LocalTargetInfo targ, Verb verb)
+        private bool TryStartAttack(Pawn pawn, LocalTargetInfo targ, Verb verb)
         {            
             if(pawn.stances.FullBodyBusy)
             {

@@ -36,13 +36,13 @@ namespace TorannMagic
         private float arcaneDmg = 1;
 
         private bool initialized = false;
-        int duration = 500;
+        private int duration = 500;
         public List<ThingDef> bloodTypes = new List<ThingDef>();
         private ThingDef pawnBloodDef = null;
 
-        List<BloodFire> BF = new List<BloodFire>();       
+        private List<BloodFire> BF = new List<BloodFire>();
 
-        Vector3 direction = default(Vector3);
+        private Vector3 direction = default(Vector3);
         
 
         public override void ExposeData()

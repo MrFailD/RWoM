@@ -7,10 +7,10 @@ namespace TorannMagic
     public class HediffComp_MageLight : HediffComp
     {
         private bool initializing = true;
-        CompProperties_Glower gProps = new CompProperties_Glower();
-        CompGlower glower = new CompGlower();
-        IntVec3 oldPos = default(IntVec3);
-        CompAbilityUserMagic comp;
+        private CompProperties_Glower gProps = new CompProperties_Glower();
+        private CompGlower glower = new CompGlower();
+        private IntVec3 oldPos = default(IntVec3);
+        private CompAbilityUserMagic comp;
         private bool canCastLightning = false;
         private int nextLightningTick = 0;
 

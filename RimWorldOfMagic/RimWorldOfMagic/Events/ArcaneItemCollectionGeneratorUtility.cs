@@ -6,7 +6,7 @@ using RimWorld;
 
 namespace TorannMagic
 {
-    class ArcaneItemCollectionGeneratorUtility
+    internal class ArcaneItemCollectionGeneratorUtility
     {
         public static List<ThingDef> allArcaneItems = new List<ThingDef>();
 

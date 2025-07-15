@@ -10,14 +10,14 @@ namespace TorannMagic
     public class FlyingObject_SpiritWolves : Projectile
     {
         private float angle;
-        Vector3 direction = default(Vector3);
-        Vector3 directionP = default(Vector3);
-        IEnumerable<IntVec3> lastRadial;
+        private Vector3 direction = default(Vector3);
+        private Vector3 directionP = default(Vector3);
+        private IEnumerable<IntVec3> lastRadial;
 
         protected float speed = 20f;
         protected Thing assignedTarget;
         protected Thing flyingThing;
-        Pawn pawn;
+        private Pawn pawn;
 
         public DamageInfo? impactDamage;
         public bool damageLaunched = true;

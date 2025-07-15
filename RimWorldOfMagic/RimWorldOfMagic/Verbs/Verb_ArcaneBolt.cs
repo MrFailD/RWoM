@@ -5,10 +5,9 @@ using System.Linq;
 
 namespace TorannMagic
 {
-    class Verb_ArcaneBolt : Verb_UseAbility  
+    internal class Verb_ArcaneBolt : Verb_UseAbility  
     {
-
-        bool validTarg;
+        private bool validTarg;
         private int verVal;
         private int pwrVal;
 

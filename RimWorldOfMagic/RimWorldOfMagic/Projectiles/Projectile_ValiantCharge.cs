@@ -16,33 +16,33 @@ namespace TorannMagic
         private static readonly Material wingsE = MaterialPool.MatFrom("Other/angelwings_up_east", ShaderDatabase.Transparent, Projectile_ValiantCharge.wingColor);
         private static readonly Material wingsW = MaterialPool.MatFrom("Other/angelwings_up_west", ShaderDatabase.Transparent, Projectile_ValiantCharge.wingColor);
 
-        bool arg_40_0;
-        bool arg_41_0;
-        bool arg_42_0;
-        bool vflag;
+        private bool arg_40_0;
+        private bool arg_41_0;
+        private bool arg_42_0;
+        private bool vflag;
 
         private bool destinationReached = false;
 
-        float hyp = 0;
-        float angleRad = 0;
-        float angleDeg = 0;
-        float xProb;
+        private float hyp = 0;
+        private float angleRad = 0;
+        private float angleDeg = 0;
+        private float xProb;
 
-        float xProbOrigin;
-        IntVec3 originPos;
-        
-        
-        bool xflag = false;
-        bool zflag = false;
+        private float xProbOrigin;
+        private IntVec3 originPos;
+
+
+        private bool xflag = false;
+        private bool zflag = false;
 
         public int lastMove = 0;
         public int moveRate = 2;
         private int age = -1;
-        IntVec3 newPos;
+        private IntVec3 newPos;
 
         private bool initialize = true;
 
-        Pawn pawn;
+        private Pawn pawn;
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {

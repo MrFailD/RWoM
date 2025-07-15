@@ -37,7 +37,7 @@ namespace TorannMagic
 
         public int age = 0;
         public int duration = 12500;
-        IntVec2 centerLocation;
+        private IntVec2 centerLocation;
 
         private bool initialized = false;
 

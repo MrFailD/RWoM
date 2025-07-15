@@ -10,9 +10,8 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Verb_ThunderStrike : Verb_UseAbility
     {
-
-        bool flag10;
-        bool validTarg;
+        private bool flag10;
+        private bool validTarg;
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
             if (targ.Thing != null && targ.Thing == this.caster)

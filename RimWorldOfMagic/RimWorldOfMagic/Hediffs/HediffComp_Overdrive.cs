@@ -9,7 +9,7 @@ using UnityEngine;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Overdrive : HediffComp
+    internal class HediffComp_Overdrive : HediffComp
     {
 
         private bool initialized = false;

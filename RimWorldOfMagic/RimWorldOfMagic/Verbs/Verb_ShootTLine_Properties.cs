@@ -18,8 +18,8 @@ namespace TorannMagic
 
     public class Verb_ShootTLine : Verb_SB
     {
-        int ShotsSoFar;
-        bool validTarg;
+        private int ShotsSoFar;
+        private bool validTarg;
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
             if (targ.Thing != null && targ.Thing == this.caster)

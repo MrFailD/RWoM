@@ -4,7 +4,7 @@ using RimWorld;
 
 namespace TorannMagic
 {
-    class TMDamageDefOf
+    internal class TMDamageDefOf
     {
         [DefOf]
         public static class DamageDefOf

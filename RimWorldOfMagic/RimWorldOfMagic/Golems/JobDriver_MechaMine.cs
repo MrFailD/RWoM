@@ -14,11 +14,11 @@ namespace TorannMagic.Golems
     {
         private int age = -1;
         public int durationTicks = 300;
-        int maxTargets = 3;
-        int ticksToLaserPick = 12;
+        private int maxTargets = 3;
+        private int ticksToLaserPick = 12;
         public List<Mineable> targets;
-        LocalTargetInfo secondCell;
-        Effecter effecter;
+        private LocalTargetInfo secondCell;
+        private Effecter effecter;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

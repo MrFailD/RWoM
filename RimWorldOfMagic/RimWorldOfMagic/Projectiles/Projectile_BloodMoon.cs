@@ -21,18 +21,18 @@ namespace TorannMagic
         private int age = -1;
         private int bloodFrequency = 8;
         private float attackFrequency = 30;
-        List<IntVec3> bloodCircleCells = new List<IntVec3>();
-        List<IntVec3> bloodCircleOuterCells = new List<IntVec3>();
-        
-        Pawn caster;
-        List<Pawn> victims = new List<Pawn>();
-        List<int> victimHitTick = new List<int>();
-        List<float> wolfDmg = new List<float>();
+        private List<IntVec3> bloodCircleCells = new List<IntVec3>();
+        private List<IntVec3> bloodCircleOuterCells = new List<IntVec3>();
+
+        private Pawn caster;
+        private List<Pawn> victims = new List<Pawn>();
+        private List<int> victimHitTick = new List<int>();
+        private List<float> wolfDmg = new List<float>();
 
         private int delayTicks = 25;
         private int nextAttack = 0;
 
-        ColorInt colorInt = new ColorInt(45, 0, 4, 250);
+        private ColorInt colorInt = new ColorInt(45, 0, 4, 250);
         private Sustainer sustainer;
 
         private float angle = 0;

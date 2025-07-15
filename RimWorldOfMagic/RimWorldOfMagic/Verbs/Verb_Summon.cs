@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace TorannMagic
 {
-    class Verb_Summon : Verb_UseAbility
+    internal class Verb_Summon : Verb_UseAbility
     {
-        Vector3 pVect;
+        private Vector3 pVect;
         
         public override bool CanHitTargetFrom(IntVec3 casterPos, LocalTargetInfo targ)
         {

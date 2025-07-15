@@ -15,9 +15,9 @@ namespace TorannMagic
     public class Building_TMSentinel : Building
     {
         private bool initialized = false;
-        Pawn sustainerPawn = null;
-        Pawn hostilePawn = null;
-        TMPawnSummoned newPawn = new TMPawnSummoned();
+        private Pawn sustainerPawn = null;
+        private Pawn hostilePawn = null;
+        private TMPawnSummoned newPawn = new TMPawnSummoned();
         private int age = -1;
         private int pwrVal = 0;
         private int threatRange = 35;

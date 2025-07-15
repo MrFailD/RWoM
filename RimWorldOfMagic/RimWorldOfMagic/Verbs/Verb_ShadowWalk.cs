@@ -6,12 +6,12 @@ using UnityEngine;
 
 namespace TorannMagic
 {
-    class Verb_ShadowWalk : Verb_UseAbility  
+    internal class Verb_ShadowWalk : Verb_UseAbility  
     {
 
         private bool validTarg = false;
-        int verVal = 0;
-        int pwrVal = 0;
+        private int verVal = 0;
+        private int pwrVal = 0;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {            

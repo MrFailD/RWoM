@@ -15,8 +15,8 @@ namespace TorannMagic.Golems
     public class JobGiver_GolemJobs : ThinkNode_JobGiver
     {
         private List<TM_GolemAbilityDef> jobAbilities = null;
-        IEnumerable<Thing> workThings;
-        IEnumerable<LocalTargetInfo> workTargets;
+        private IEnumerable<Thing> workThings;
+        private IEnumerable<LocalTargetInfo> workTargets;
 
         public override ThinkNode DeepCopy(bool resolve = true)
         {

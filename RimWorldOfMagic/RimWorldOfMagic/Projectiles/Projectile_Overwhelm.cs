@@ -7,12 +7,11 @@ using System.Collections.Generic;
 
 namespace TorannMagic
 {
-    class Projectile_Overwhelm : Projectile_AbilityBase
+    internal class Projectile_Overwhelm : Projectile_AbilityBase
     {
-
-        IntVec3 pos;
-        MagicPowerSkill pwr;
-        MagicPowerSkill ver;
+        private IntVec3 pos;
+        private MagicPowerSkill pwr;
+        private MagicPowerSkill ver;
         private int verVal;
         private int pwrVal;
         private float arcaneDmg = 1;

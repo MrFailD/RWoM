@@ -15,7 +15,7 @@ namespace TorannMagic
         private IntVec3 strikeLoc = IntVec3.Invalid;
         private Mesh boltMesh = null;
 
-        Material weatherMeshMat;
+        private Material weatherMeshMat;
         //SkyColorSet weatherSkyColors;
         //private static readonly Material LightningMat = MatLoader.LoadMat("Weather/LightningBolt", -1);
 
@@ -27,7 +27,7 @@ namespace TorannMagic
         private int damageAmount = -1;
         private float soundVolume = 1f;
         private float soundPitch = 1f;
-        Thing instigator = null;
+        private Thing instigator = null;
 
         private const int FlashFadeInTicks = 3;
         private const int MinFlashDuration = 15;

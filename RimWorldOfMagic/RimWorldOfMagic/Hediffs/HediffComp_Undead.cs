@@ -10,7 +10,7 @@ using HarmonyLib;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Undead : HediffComp
+    internal class HediffComp_Undead : HediffComp
     {
         private bool necroValid = true;
         private int lichStrike = 0;

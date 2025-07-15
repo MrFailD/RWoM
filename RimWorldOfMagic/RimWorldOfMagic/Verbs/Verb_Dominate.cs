@@ -7,14 +7,14 @@ using System.Linq;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class Verb_Dominate : Verb_UseAbility  
+    internal class Verb_Dominate : Verb_UseAbility  
     {
 
         private int verVal;
         private int pwrVal;
         private int effVal;
 
-        bool validTarg;
+        private bool validTarg;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

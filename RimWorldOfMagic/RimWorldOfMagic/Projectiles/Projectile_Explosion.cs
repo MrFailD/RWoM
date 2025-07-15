@@ -26,13 +26,13 @@ namespace TorannMagic
         private int expandingTick = 0;
         private bool phase2Flag = false;
         private bool phase3Flag = false;
-        IntVec3 strikePos = default(IntVec3);
-        List<IntVec3> outerRing = new List<IntVec3>();
-        Pawn caster;
-        IEnumerable<IntVec3> oldExplosionCells;
-        IEnumerable<IntVec3> newExplosionCells;
+        private IntVec3 strikePos = default(IntVec3);
+        private List<IntVec3> outerRing = new List<IntVec3>();
+        private Pawn caster;
+        private IEnumerable<IntVec3> oldExplosionCells;
+        private IEnumerable<IntVec3> newExplosionCells;
 
-        ColorInt colorInt = new ColorInt(200, 50, 0);
+        private ColorInt colorInt = new ColorInt(200, 50, 0);
         private Sustainer sustainer;
 
         private float angle = 0;

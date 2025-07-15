@@ -11,11 +11,11 @@ namespace TorannMagic.Conditions
 {
     public class GameCondition_DivineBlessing : GameCondition
     {
-        int age = -1;        
-        
-        List<Corpse> potentialResurrection = new List<Corpse>();
-        List<Pawn> diseasedPawns = new List<Pawn>();
-        List<Pawn> injuredPawns = new List<Pawn>();
+        private int age = -1;
+
+        private List<Corpse> potentialResurrection = new List<Corpse>();
+        private List<Pawn> diseasedPawns = new List<Pawn>();
+        private List<Pawn> injuredPawns = new List<Pawn>();
 
         public override void Init()
         {

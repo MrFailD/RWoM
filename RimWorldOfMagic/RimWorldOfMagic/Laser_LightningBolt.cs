@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TorannMagic
 {
-    class Laser_LightningBolt : Projectile_AbilityLaser 
+    internal class Laser_LightningBolt : Projectile_AbilityLaser 
     {
         private int verVal;
         private int pwrVal;

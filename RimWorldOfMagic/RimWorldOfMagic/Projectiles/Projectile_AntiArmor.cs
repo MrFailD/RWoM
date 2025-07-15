@@ -12,12 +12,11 @@ namespace TorannMagic
 {
     public class Projectile_AntiArmor : Projectile_AbilityBase
     {
-
-        float xProb;
-        IntVec3 newPos;
-        bool xflag = false;
-        bool zflag = false;
-        int value = 0;
+        private float xProb;
+        private IntVec3 newPos;
+        private bool xflag = false;
+        private bool zflag = false;
+        private int value = 0;
 
         private int verVal;
         private int pwrVal;

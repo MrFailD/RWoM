@@ -5,7 +5,7 @@ using AbilityUser;
 
 namespace TorannMagic.Weapon
 {
-    class SeerRing_Ice : Projectile_AbilityBase
+    internal class SeerRing_Ice : Projectile_AbilityBase
     {
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {

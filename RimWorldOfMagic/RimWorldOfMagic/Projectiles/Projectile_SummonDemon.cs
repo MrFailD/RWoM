@@ -26,11 +26,11 @@ namespace TorannMagic
 
         private int duration = 6660;
 
-        CompAbilityUserMagic comp;
-        Pawn sacrificedPawn = null;
-        Pawn demonPawn = null;
-        Pawn casterPawn = null;
-        List<IntVec3> summoningCircle = new List<IntVec3>();
+        private CompAbilityUserMagic comp;
+        private Pawn sacrificedPawn = null;
+        private Pawn demonPawn = null;
+        private Pawn casterPawn = null;
+        private List<IntVec3> summoningCircle = new List<IntVec3>();
 
         public override void ExposeData()
         {

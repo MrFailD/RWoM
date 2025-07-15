@@ -19,10 +19,10 @@ namespace TorannMagic
         private int age = -1;
         private float arcaneDmg = 1;
         private float lightPotency = .5f;
-        IntVec3 launchPosition;
-        Pawn caster;
+        private IntVec3 launchPosition;
+        private Pawn caster;
 
-        ColorInt colorInt = new ColorInt(255, 255, 140);
+        private ColorInt colorInt = new ColorInt(255, 255, 140);
         private Sustainer sustainer;
 
         private float angle = 0;
@@ -32,13 +32,13 @@ namespace TorannMagic
         private static readonly Material BeamEndMat = MaterialPool.MatFrom("Other/OrbitalBeamEnd", ShaderDatabase.MoteGlow, MapMaterialRenderQueues.OrbitalBeam);
         private static readonly MaterialPropertyBlock MatPropertyBlock = new MaterialPropertyBlock();
 
-        Vector3 lanceAngle;
-        Vector3 lanceAngleInv;
-        Vector3 drawPosStart;
-        Vector3 drawPosEnd;
-        float lanceLength;
-        Vector3 lanceVector;
-        Vector3 lanceVectorInv;
+        private Vector3 lanceAngle;
+        private Vector3 lanceAngleInv;
+        private Vector3 drawPosStart;
+        private Vector3 drawPosEnd;
+        private float lanceLength;
+        private Vector3 lanceVector;
+        private Vector3 lanceVectorInv;
 
         public override void ExposeData()
         {

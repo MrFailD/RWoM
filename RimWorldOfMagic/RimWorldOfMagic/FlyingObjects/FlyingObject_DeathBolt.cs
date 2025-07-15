@@ -25,7 +25,7 @@ namespace TorannMagic
 
         private int pwrVal = 0;
         private int verVal = 0;
-        float radius = 1.4f;
+        private float radius = 1.4f;
 
         protected float speed = 30f;
         protected new int ticksToImpact;
@@ -34,7 +34,7 @@ namespace TorannMagic
 
         protected Thing assignedTarget;
         protected Thing flyingThing;
-        Pawn pawn;
+        private Pawn pawn;
 
         public DamageInfo? impactDamage;
 

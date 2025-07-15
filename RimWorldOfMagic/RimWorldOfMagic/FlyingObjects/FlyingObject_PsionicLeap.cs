@@ -36,8 +36,8 @@ namespace TorannMagic
         public bool explosion = false;
         public int weaponDmg = 0;
 
-        Pawn pawn;
-        Thing oldjobTarget = null;
+        private Pawn pawn;
+        private Thing oldjobTarget = null;
 
         protected new int StartingTicksToImpact
         {

@@ -37,18 +37,18 @@ namespace TorannMagic.Utils
 
     // ====== Harmony Patches ======================================================================================
     [HarmonyPatch(typeof(TraitSet), nameof(TraitSet.GainTrait))]
-    class TM_PawnTracker__GainTrait__Postfix
+    internal class TM_PawnTracker__GainTrait__Postfix
     {
-        static void Postfix(Pawn ___pawn)
+        private static void Postfix(Pawn ___pawn)
         {
             TM_PawnTracker.ResolveComps(___pawn);
         }
     }
 
     [HarmonyPatch(typeof(TraitSet), nameof(TraitSet.RemoveTrait))]
-    class TM_PawnTracker__RemoveTrait__Postfix
+    internal class TM_PawnTracker__RemoveTrait__Postfix
     {
-        static void Postfix(Pawn ___pawn)
+        private static void Postfix(Pawn ___pawn)
         {
             TM_PawnTracker.ResolveComps(___pawn);
         }
@@ -56,9 +56,9 @@ namespace TorannMagic.Utils
 
     // This is how pawns gain/lose WildMan status
     [HarmonyPatch(typeof(Pawn), nameof(Pawn.ChangeKind))]
-    class TM_PawnTracker__ChangeKind__Postfix
+    internal class TM_PawnTracker__ChangeKind__Postfix
     {
-        static void Postfix(Pawn __instance)
+        private static void Postfix(Pawn __instance)
         {
             TM_PawnTracker.ResolveComps(__instance);
         }

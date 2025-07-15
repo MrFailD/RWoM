@@ -19,10 +19,10 @@ namespace TorannMagic
         private int age = -1;
         private int beamDuration = 120;
         private int targettingAge = 300;
-        IntVec3 strikePos = default(IntVec3);
-        Pawn caster;
+        private IntVec3 strikePos = default(IntVec3);
+        private Pawn caster;
 
-        ColorInt colorInt = new ColorInt(153, 0, 0);
+        private ColorInt colorInt = new ColorInt(153, 0, 0);
         private Sustainer sustainer;
 
         private float angle = 0;

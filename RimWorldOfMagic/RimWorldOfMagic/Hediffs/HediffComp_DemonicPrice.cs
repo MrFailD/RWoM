@@ -7,7 +7,7 @@ using UnityEngine;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_DemonicPrice : HediffComp
+    internal class HediffComp_DemonicPrice : HediffComp
     {
         public string labelCap
         {

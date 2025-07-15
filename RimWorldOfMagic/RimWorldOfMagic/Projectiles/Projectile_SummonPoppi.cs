@@ -12,8 +12,8 @@ namespace TorannMagic
     {
 
         private bool initialized = false;
-        TMPawnSummoned newPawn = new TMPawnSummoned();
-        Pawn pawn;
+        private TMPawnSummoned newPawn = new TMPawnSummoned();
+        private Pawn pawn;
 
         private int pwrVal = 0;
         private int verVal = 0;

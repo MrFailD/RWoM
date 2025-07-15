@@ -9,7 +9,7 @@ using UnityEngine;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Stoneskin : HediffComp
+    internal class HediffComp_Stoneskin : HediffComp
     {
         private bool initializing = true;
         public int maxSev = 4;

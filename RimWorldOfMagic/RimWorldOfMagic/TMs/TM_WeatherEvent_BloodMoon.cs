@@ -12,7 +12,7 @@ namespace TorannMagic
 
         private IntVec3 strikeLoc = IntVec3.Invalid;
 
-        SkyColorSet weatherSkyColors;
+        private SkyColorSet weatherSkyColors;
         //private static readonly Material LightningMat = MatLoader.LoadMat("Weather/LightningBolt", -1);
 
         private Vector2 shadowVector;

@@ -12,7 +12,7 @@ namespace TorannMagic
     {
 
         public float destroyParentPartPctTo = 0.50f;
-        Pawn pawn;
+        private Pawn pawn;
 
         private static int pwrVal;
         private int verVal;

@@ -9,7 +9,7 @@ namespace TorannMagic
     internal class JobDriver_DeactivatePortal : JobDriver
     {
         private const TargetIndex building = TargetIndex.A;
-        Building_TMPortal portalBldg = new Building_TMPortal();
+        private Building_TMPortal portalBldg = new Building_TMPortal();
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

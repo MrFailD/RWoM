@@ -8,7 +8,7 @@ using UnityEngine;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Dominate : HediffComp
+    internal class HediffComp_Dominate : HediffComp
     {
         private bool initialized = false;
         private int age = 0;

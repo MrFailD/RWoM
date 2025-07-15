@@ -14,7 +14,7 @@ namespace TorannMagic
 
         private int verVal = 0;
         private int pwrVal = 0;
-        bool validTarg;
+        private bool validTarg;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

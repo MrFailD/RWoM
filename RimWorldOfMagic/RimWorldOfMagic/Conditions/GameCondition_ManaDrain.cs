@@ -10,7 +10,7 @@ namespace TorannMagic
 {
     public class GameCondition_ManaDrain : GameCondition
     {
-        List<Pawn> victims;
+        private List<Pawn> victims;
 
         public override void Init()
         {

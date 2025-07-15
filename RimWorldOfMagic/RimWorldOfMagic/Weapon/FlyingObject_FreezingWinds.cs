@@ -11,12 +11,12 @@ namespace TorannMagic.Weapon
     [StaticConstructorOnStartup]
     public class FlyingObject_FreezingWinds : FlyingObject_Advanced
     {
-        int actionTick = 10;
-        int age = 0;
-        int rotationOffset = 0;
-        float rotationRate = 1f;
-        float moteAngle = 0;
-        Thing hitThing = null;
+        private int actionTick = 10;
+        private int age = 0;
+        private int rotationOffset = 0;
+        private float rotationRate = 1f;
+        private float moteAngle = 0;
+        private Thing hitThing = null;
 
         public override void PreInitialize()
         {

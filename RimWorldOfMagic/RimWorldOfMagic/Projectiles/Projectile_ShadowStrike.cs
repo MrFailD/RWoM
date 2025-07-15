@@ -11,14 +11,14 @@ namespace TorannMagic
 {
     public class Projectile_ShadowStrike : Projectile_AbilityBase
     {
-        int age = -1;
-        int duration = 300;
-        int verVal = 0;
-        bool initialized = false;
-        IntVec3 startPos;
-        Pawn caster;
-        float weaponDamage = 5f;
-        float critChance = 0f;
+        private int age = -1;
+        private int duration = 300;
+        private int verVal = 0;
+        private bool initialized = false;
+        private IntVec3 startPos;
+        private Pawn caster;
+        private float weaponDamage = 5f;
+        private float critChance = 0f;
 
         public override void ExposeData()
         {

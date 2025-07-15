@@ -9,13 +9,13 @@ namespace TorannMagic.Weapon
 {
     public class Verb_ArcaneBarrier : Verb_UseAbility
     {
-        float xProbL = 0;
-        float xProbR = 0;
+        private float xProbL = 0;
+        private float xProbR = 0;
 
         private IntVec3 currentPosL = IntVec3.Invalid;
         private IntVec3 currentPosR = IntVec3.Invalid;
 
-        bool validTarg;
+        private bool validTarg;
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
             if (targ.Thing != null && targ.Thing == this.caster)

@@ -26,7 +26,7 @@ namespace TorannMagic.ModOptions
             return true;
         }
 
-        static List<IntVec3> growthCells = new List<IntVec3>();
+        private static List<IntVec3> growthCells = new List<IntVec3>();
 
         public static List<IntVec3> GetGrowthCells()
         {
@@ -111,7 +111,7 @@ namespace TorannMagic.ModOptions
             }
         }
 
-        static List<Pawn> overdrivePawns = new List<Pawn>();
+        private static List<Pawn> overdrivePawns = new List<Pawn>();
 
         public static bool ClearOverdrivePawns()
         {

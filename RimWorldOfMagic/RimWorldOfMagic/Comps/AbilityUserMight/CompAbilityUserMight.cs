@@ -117,8 +117,8 @@ namespace TorannMagic
         public int specWpnRegNum = -1;        
 
         public Verb_Deflected deflectVerb;
-        DamageInfo reversal_dinfo;
-        Thing reversalTarget = null;
+        private DamageInfo reversal_dinfo;
+        private Thing reversalTarget = null;
         public Pawn bondedPet = null;
 
         public Verb_UseAbility lastVerbUsed = null;

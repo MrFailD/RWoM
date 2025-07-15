@@ -10,20 +10,20 @@ using System.Collections.Generic;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class Verb_PhaseStrike : Verb_UseAbility  
+    internal class Verb_PhaseStrike : Verb_UseAbility  
     {
-        bool arg_41_0;
-        bool arg_42_0;
-        MightPowerSkill pwr;
-        MightPowerSkill ver;
-        MightPowerSkill str;
+        private bool arg_41_0;
+        private bool arg_42_0;
+        private MightPowerSkill pwr;
+        private MightPowerSkill ver;
+        private MightPowerSkill str;
 
         private int verVal;
         private int pwrVal;
         private int dmgNum = 0;
 
-        bool validTarg;
-        IntVec3 arg_29_0;
+        private bool validTarg;
+        private IntVec3 arg_29_0;
 
         private static readonly Color bladeColor = new Color(160f, 160f, 160f);
         private static readonly Material bladeMat = MaterialPool.MatFrom("Spells/cleave", false);

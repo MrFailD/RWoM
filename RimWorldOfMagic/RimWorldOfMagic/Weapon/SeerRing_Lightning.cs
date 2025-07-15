@@ -8,7 +8,7 @@ using Verse.Sound;
 
 namespace TorannMagic.Weapon
 {
-    class SeerRing_Lightning : Projectile_AbilityLaser
+    internal class SeerRing_Lightning : Projectile_AbilityLaser
     {
 
 

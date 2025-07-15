@@ -4,7 +4,7 @@ using Verse;
 
 namespace TorannMagic
 {
-    class ThoughtWorker_MinionAlways : ThoughtWorker
+    internal class ThoughtWorker_MinionAlways : ThoughtWorker
     {
         protected override ThoughtState CurrentStateInternal(Pawn p)
         {

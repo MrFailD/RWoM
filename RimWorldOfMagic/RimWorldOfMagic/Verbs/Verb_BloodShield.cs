@@ -12,12 +12,11 @@ namespace TorannMagic
 {
     public class Verb_BloodShield : Verb_UseAbility  
     {
-        
-        int pwrVal;
-        CompAbilityUserMagic comp;
-        float arcaneDmg = 1;
+        private int pwrVal;
+        private CompAbilityUserMagic comp;
+        private float arcaneDmg = 1;
 
-        bool validTarg;
+        private bool validTarg;
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

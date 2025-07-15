@@ -7,7 +7,7 @@ using UnityEngine;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Demon : HediffComp
+    internal class HediffComp_Demon : HediffComp
     {
         private int ticksUntilDestruction = 6660;
 

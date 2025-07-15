@@ -11,7 +11,7 @@ namespace TorannMagic
 {
     public class JobGiver_MonkMeditate : ThinkNode_JobGiver 
     {
-        int verVal = 0;
+        private int verVal = 0;
         public override float GetPriority(Pawn pawn)
         {
             

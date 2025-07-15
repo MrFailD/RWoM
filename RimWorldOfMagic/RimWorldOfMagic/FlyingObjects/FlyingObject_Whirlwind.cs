@@ -40,7 +40,7 @@ namespace TorannMagic
 
         public int weaponDmg = 0;
 
-        Pawn pawn;
+        private Pawn pawn;
 
         protected new int StartingTicksToImpact
         {

@@ -16,7 +16,7 @@ namespace TorannMagic
         public bool isBad = false;
         public int durationTicks = 6000;
         private int tickEffect = 300;
-        float maxAge = 100f;
+        private float maxAge = 100f;
 
         private int currentAge = 1;
 

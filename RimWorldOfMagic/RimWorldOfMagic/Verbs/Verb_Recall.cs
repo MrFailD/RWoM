@@ -8,11 +8,11 @@ using System.Linq;
 
 namespace TorannMagic
 {
-    class Verb_Recall : Verb_UseAbility
+    internal class Verb_Recall : Verb_UseAbility
     {
         private int pwrVal = 0;
-        CompAbilityUserMagic comp;
-        Map map;
+        private CompAbilityUserMagic comp;
+        private Map map;
 
         protected override bool TryCastShot()
         {

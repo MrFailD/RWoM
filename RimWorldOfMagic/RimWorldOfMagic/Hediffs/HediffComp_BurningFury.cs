@@ -9,14 +9,14 @@ using TorannMagic.Golems;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_BurningFury : HediffComp
+    internal class HediffComp_BurningFury : HediffComp
     {
 
         private bool initializing = true;
         private int nextAction = 1;
         private int nextSlowAction = 1;
         private bool removeNow = false;
-        CompAbilityUserMight comp = null;
+        private CompAbilityUserMight comp = null;
         private float intensity = 1f;
         private float drain = 1f;
 

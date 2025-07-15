@@ -1117,7 +1117,7 @@ namespace TorannMagic
             }
         }
 
-        bool hasPaladinBuff = false;
+        private bool hasPaladinBuff = false;
         public List<MagicPower> MagicPowersP
         {
             get
@@ -3740,7 +3740,7 @@ namespace TorannMagic
             }
         }
 
-        List<MagicPower> allMagicPowersForChaosMageList = new List<MagicPower>();
+        private List<MagicPower> allMagicPowersForChaosMageList = new List<MagicPower>();
         public List<MagicPower> AllMagicPowersForChaosMage
         {
             get
@@ -3814,7 +3814,7 @@ namespace TorannMagic
             }
         }
 
-        List<MagicPower> allMagicPowersList = new List<MagicPower>();
+        private List<MagicPower> allMagicPowersList = new List<MagicPower>();
         public List<MagicPower> AllMagicPowers
         {
             get
@@ -3831,7 +3831,7 @@ namespace TorannMagic
             }
         }
 
-        List<MagicPower> allMagicPowersWithSkillsList = new List<MagicPower>();
+        private List<MagicPower> allMagicPowersWithSkillsList = new List<MagicPower>();
         public List<MagicPower> AllMagicPowersWithSkills
         {
             get
@@ -3893,7 +3893,7 @@ namespace TorannMagic
             }
         }
 
-        List<MagicPowerSkill> allMagicPowerSkillsList = new List<MagicPowerSkill>();
+        private List<MagicPowerSkill> allMagicPowerSkillsList = new List<MagicPowerSkill>();
         public List<MagicPowerSkill> AllMagicPowerSkills
         {
             get

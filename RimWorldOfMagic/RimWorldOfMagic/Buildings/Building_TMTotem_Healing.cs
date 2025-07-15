@@ -13,7 +13,7 @@ namespace TorannMagic
         public int pwrVal = 0;
         public int verVal = 0;
         public float arcanePwr = 1f;
-        Pawn target = null;
+        private Pawn target = null;
 
         protected override void Tick()
         {

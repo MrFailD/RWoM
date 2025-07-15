@@ -13,9 +13,9 @@ namespace TorannMagic
     public class TMJobDriver_CastAbilitySelf : JobDriver_CastAbilityVerb
     {
         public Verb_UseAbility verb = new Verb_UseAbility();
-        bool cooldownFlag = false;
-        bool energyFlag = false;
-        bool validCastFlag = false;
+        private bool cooldownFlag = false;
+        private bool energyFlag = false;
+        private bool validCastFlag = false;
         private bool wildCheck = false;
         private int duration;
 

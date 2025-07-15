@@ -14,7 +14,7 @@ namespace TorannMagic
         private bool shouldUnPossess = false;
         private int failCheck = 0;
 
-        ThingOwner innerContainer = null;
+        private ThingOwner innerContainer = null;
 
         //public IThingHolder ParentHolder => ((IThingHolder)SpiritPawn).ParentHolder;
         public IThingHolder ParentHolder => ((IThingHolder)Pawn);

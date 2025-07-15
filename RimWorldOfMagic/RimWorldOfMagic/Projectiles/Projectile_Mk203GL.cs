@@ -11,8 +11,8 @@ namespace TorannMagic
         private bool initialized = false;
         private int verVal = 0;
         private float mightPwr = 1f;
-        IntVec3 strikePos = default(IntVec3);
-        Pawn caster;
+        private IntVec3 strikePos = default(IntVec3);
+        private Pawn caster;
         private float radius = 4;
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)

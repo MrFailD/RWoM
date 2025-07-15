@@ -28,9 +28,9 @@ namespace TorannMagic
         public Matrix4x4 drawingMatrix = default(Matrix4x4);
         public Vector3 drawingScale;
         public Vector3 drawingPosition;
-        IntVec3[] from = new IntVec3[10];
-        Vector3[] to = new Vector3[10];
-        int[] fadeTimer = new int[10];
+        private IntVec3[] from = new IntVec3[10];
+        private Vector3[] to = new Vector3[10];
+        private int[] fadeTimer = new int[10];
 
         private int pwrVal = 0;
         private int verVal = 0;
@@ -41,7 +41,7 @@ namespace TorannMagic
         //protected new Thing launcher;
         protected Thing assignedTarget;
         protected Thing flyingThing;
-        Pawn pawn;
+        private Pawn pawn;
 
         public DamageInfo? impactDamage;
 

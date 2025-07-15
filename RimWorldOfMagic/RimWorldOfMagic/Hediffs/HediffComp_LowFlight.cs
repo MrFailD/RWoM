@@ -8,13 +8,13 @@ using UnityEngine;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_LowFlight : HediffComp
+    internal class HediffComp_LowFlight : HediffComp
     {
         private bool initialized = false;
         public List<Graphic> _nakedGraphicCycle = new List<Graphic>();
         public Graphic _nakedGraphicDefault = null;
         public Graphic _nakedGraphicActive = null;
-        int cycleIndex = 0;
+        private int cycleIndex = 0;
         public int cycleFrequency = 12;
         public float minDistanceToFly = 10;
 

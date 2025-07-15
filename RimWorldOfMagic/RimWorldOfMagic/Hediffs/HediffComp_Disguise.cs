@@ -5,7 +5,7 @@ using UnityEngine;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Disguise : HediffComp
+    internal class HediffComp_Disguise : HediffComp
     {
 
         private bool initialized = false;

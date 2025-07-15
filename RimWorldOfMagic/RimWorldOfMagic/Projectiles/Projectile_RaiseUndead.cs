@@ -10,10 +10,10 @@ using TorannMagic.TMDefs;
 
 namespace TorannMagic
 {
-    class Projectile_RaiseUndead : Projectile_AbilityBase
+    internal class Projectile_RaiseUndead : Projectile_AbilityBase
     {
-        MagicPowerSkill pwr;
-        MagicPowerSkill ver;
+        private MagicPowerSkill pwr;
+        private MagicPowerSkill ver;
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {

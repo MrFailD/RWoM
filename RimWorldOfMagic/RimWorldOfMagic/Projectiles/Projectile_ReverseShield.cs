@@ -23,10 +23,10 @@ namespace TorannMagic
         private int tickFrequency = 3;
         public float radius = 5;
         public int lastInterceptTick = 0;
-        List<IntVec3> shieldBlockCells = new List<IntVec3>();
-        List<IntVec3> shieldInternalCells = new List<IntVec3>();
-        Color shieldColor = new Color(.15f, 0, .4f);
-        bool impacted = false;
+        private List<IntVec3> shieldBlockCells = new List<IntVec3>();
+        private List<IntVec3> shieldInternalCells = new List<IntVec3>();
+        private Color shieldColor = new Color(.15f, 0, .4f);
+        private bool impacted = false;
 
         private static readonly Material ForceFieldMat = MaterialPool.MatFrom("Other/ForceField", ShaderDatabase.MoteGlow);
         private static readonly MaterialPropertyBlock MatPropertyBlock = new MaterialPropertyBlock();

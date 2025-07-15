@@ -16,7 +16,7 @@ namespace TorannMagic
         private bool initialized = false;
         private bool destroyed = false;
         private int duration = 1;
-        TMPawnSummoned newPawn = new TMPawnSummoned();        
+        private TMPawnSummoned newPawn = new TMPawnSummoned();        
         private int verVal;
         private int pwrVal;
         private float arcaneDmg = 1f;

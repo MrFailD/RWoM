@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace TorannMagic
 {
-    class Verb_NanoStimulant : Verb_UseAbility  
+    internal class Verb_NanoStimulant : Verb_UseAbility  
     {
         protected override bool TryCastShot()
         {

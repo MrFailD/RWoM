@@ -11,10 +11,9 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class HediffComp_DoomField : HediffComp
     {
-
-        int tickAction = 901;
-        bool shouldRemove = false;
-        float energyCost = 8f;
+        private int tickAction = 901;
+        private bool shouldRemove = false;
+        private float energyCost = 8f;
 
         public string labelCap
         {

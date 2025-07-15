@@ -7,7 +7,7 @@ using System.Linq;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_HerbalElixir : HediffComp
+    internal class HediffComp_HerbalElixir : HediffComp
     {
 
         public float verVal = 0;

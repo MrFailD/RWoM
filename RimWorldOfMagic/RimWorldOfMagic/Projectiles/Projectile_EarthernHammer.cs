@@ -9,7 +9,7 @@ using System;
 
 namespace TorannMagic
 {
-    class Projectile_EarthernHammer : Projectile_AbilityBase
+    internal class Projectile_EarthernHammer : Projectile_AbilityBase
     {
 
         private IntVec3 strikeLoc = IntVec3.Invalid;
@@ -20,10 +20,10 @@ namespace TorannMagic
         private int gravityStep = 0;        //pulls rocks from ground on first and every 3rd iteration (0, 3, 6)
         private int verVal;
         private int pwrVal;
-        Pawn caster;
-        Thing launchableThing = null;
-        List<IntVec3> launchCells = new List<IntVec3>();
-        List<Thing> launchableThings = new List<Thing>();
+        private Pawn caster;
+        private Thing launchableThing = null;
+        private List<IntVec3> launchCells = new List<IntVec3>();
+        private List<Thing> launchableThings = new List<Thing>();
 
         //non-saved vars
         private int nextStrike = 0;

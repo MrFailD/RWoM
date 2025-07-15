@@ -15,8 +15,8 @@ namespace TorannMagic
         private static readonly Texture2D TargeterMouseAttachment = ContentFinder<Texture2D>.Get("Other/PortalBldg", true);
 
         private const TargetIndex building = TargetIndex.A;
-        Building_TMPortal portalBldg; // = new Building_TMPortal();
-        CompAbilityUserMagic comp;
+        private Building_TMPortal portalBldg; // = new Building_TMPortal();
+        private CompAbilityUserMagic comp;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

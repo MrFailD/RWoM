@@ -7,7 +7,7 @@ using System.Linq;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class Verb_MageLight : Verb_UseAbility  
+    internal class Verb_MageLight : Verb_UseAbility  
     {
         protected override bool TryCastShot()
         {

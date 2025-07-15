@@ -15,9 +15,9 @@ namespace TorannMagic
 	{
         private bool initialized = false;
 
-        List<Pawn> threatList = new List<Pawn>();
-        List<Pawn> closeThreats = new List<Pawn>();
-        List<Pawn> farThreats = new List<Pawn>();
+        private List<Pawn> threatList = new List<Pawn>();
+        private List<Pawn> closeThreats = new List<Pawn>();
+        private List<Pawn> farThreats = new List<Pawn>();
         public List<Building> buildingThreats = new List<Building>();
 
         public int nextRangedAttack = 0;

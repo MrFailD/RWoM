@@ -13,7 +13,7 @@ namespace TorannMagic.Golems
 {
     public class GolemWorkstationEffect_ScarecrowGrow : GolemWorkstationEffect
     {
-        float growthPerEffectTick = .001f;
+        private float growthPerEffectTick = .001f;
 
         public override void StartEffect(Building_TMGolemBase golem_building, TM_GolemUpgrade upgrade, float effectLevel = 1)
         {

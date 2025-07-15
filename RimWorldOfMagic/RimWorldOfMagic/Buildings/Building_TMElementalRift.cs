@@ -36,7 +36,7 @@ namespace TorannMagic
         private int rnd = 0;
         private int areaRadius = 1;
         private bool notifier = false;
-        IntVec2 centerLocation;
+        private IntVec2 centerLocation;
 
         private bool initialized = false;
 

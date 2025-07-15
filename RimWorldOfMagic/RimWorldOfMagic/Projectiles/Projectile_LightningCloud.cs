@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace TorannMagic
 {
-    class Projectile_LightningCloud : Projectile_AbilityBase
+    internal class Projectile_LightningCloud : Projectile_AbilityBase
     {
 
         private IntVec3 strikeLoc = IntVec3.Invalid;
@@ -28,8 +28,8 @@ namespace TorannMagic
 
         private List<Pawn> insideCloud = new List<Pawn>();
 
-        MagicPowerSkill pwr;
-        MagicPowerSkill ver;
+        private MagicPowerSkill pwr;
+        private MagicPowerSkill ver;
         private int verVal;
         private int pwrVal;
         private float arcaneDmg = 1;

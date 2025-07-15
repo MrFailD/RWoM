@@ -11,10 +11,10 @@ namespace TorannMagic.Conditions
 {
     public class GameCondition_TargetedPredatorInsanity : GameCondition
     {
-        int age = -1;        
-        
-        List<Pawn> enragedPredators = new List<Pawn>();
-        List<Pawn> potentialHostiles = new List<Pawn>();
+        private int age = -1;
+
+        private List<Pawn> enragedPredators = new List<Pawn>();
+        private List<Pawn> potentialHostiles = new List<Pawn>();
 
         public override void Init()
         {

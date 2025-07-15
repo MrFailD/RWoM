@@ -12,9 +12,9 @@ namespace TorannMagic.Golems
 {
     public class MainTabWindow_Golems : MainTabWindow
     {
-        List<TMPawnGolem> glist = new List<TMPawnGolem>();
-        List<Building_TMGolemBase> blist = new List<Building_TMGolemBase>();
-        List<Pawn> allGolems = new List<Pawn>();
+        private List<TMPawnGolem> glist = new List<TMPawnGolem>();
+        private List<Building_TMGolemBase> blist = new List<Building_TMGolemBase>();
+        private List<Pawn> allGolems = new List<Pawn>();
 
         protected PawnTableDef PawnTableDef => TorannMagicDefOf.TM_Golems;
         private PawnTable table;

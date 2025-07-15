@@ -8,14 +8,14 @@ using System.Collections.Generic;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class Verb_DeathMark : Verb_UseAbility  
+    internal class Verb_DeathMark : Verb_UseAbility  
     {
 
         private int verVal;
         private int pwrVal;
         private float arcaneDmg = 1f;
 
-        bool validTarg;
+        private bool validTarg;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

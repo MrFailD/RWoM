@@ -6,7 +6,7 @@ using RimWorld;
 
 namespace TorannMagic
 {
-    class HediffComp_BattleHymn : HediffComp
+    internal class HediffComp_BattleHymn : HediffComp
     {
         private bool initializing = true;
         private float chantRange = 15f;

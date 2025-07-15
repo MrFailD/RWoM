@@ -11,11 +11,11 @@ namespace TorannMagic
 {
     public class Verb_MechaniteReprogramming : Verb_UseAbility
     {
+        private bool validTarg;
+        private int pwrVal = 0;
+        private int verVal = 0;
 
-        bool validTarg;
-        int pwrVal = 0;
-        int verVal = 0;
-        float arcaneDmg = 1f;
+        private float arcaneDmg = 1f;
         //Used specifically for non-unique verbs that ignore LOS (can be used with shield belt)
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

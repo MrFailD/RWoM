@@ -16,12 +16,12 @@ namespace TorannMagic
         private IntVec3[] shrapnelPos = new IntVec3[200];
         private int heavyCount = 0;
         private bool initialized = false;
-        CellRect cellRect;
-        Pawn pawn;
+        private CellRect cellRect;
+        private Pawn pawn;
         private int verVal = 0;
         private int pwrVal = 0;
-        MagicPowerSkill pwr;
-        MagicPowerSkill ver;
+        private MagicPowerSkill pwr;
+        private MagicPowerSkill ver;
 
         public override void ExposeData()
         {

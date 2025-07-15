@@ -5,7 +5,7 @@ namespace TorannMagic
 {
     public class Verb_SB : Verb_UseAbility
     {
-        bool validTarg;
+        private bool validTarg;
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

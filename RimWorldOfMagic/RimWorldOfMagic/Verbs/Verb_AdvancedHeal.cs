@@ -9,10 +9,9 @@ using TorannMagic.Utils;
 
 namespace TorannMagic
 {
-    class Verb_AdvancedHeal : Verb_UseAbility
+    internal class Verb_AdvancedHeal : Verb_UseAbility
     {
-
-        bool validTarg;
+        private bool validTarg;
         private int verVal;
         private int pwrVal;
         //Used for non-unique abilities that can be used with shieldbelt

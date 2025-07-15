@@ -15,9 +15,9 @@ namespace TorannMagic
         private int age;
         private int eventFrequency;
 
-        Vector3 waveDirection;
-        Vector3 currentVec;
-        List<IntVec3> validCells;
+        private Vector3 waveDirection;
+        private Vector3 currentVec;
+        private List<IntVec3> validCells;
 
         public override bool Expired => age >= duration;
 

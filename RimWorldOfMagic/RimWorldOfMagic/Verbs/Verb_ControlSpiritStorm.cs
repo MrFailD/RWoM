@@ -9,7 +9,7 @@ using Verse.Sound;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class Verb_ControlSpiritStorm : Verb_BLOS 
+    internal class Verb_ControlSpiritStorm : Verb_BLOS 
     {
         public Map map = null;
         protected override bool TryCastShot()

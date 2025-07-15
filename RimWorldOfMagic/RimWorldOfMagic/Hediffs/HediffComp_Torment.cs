@@ -4,7 +4,7 @@ using Verse;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Torment : HediffComp
+    internal class HediffComp_Torment : HediffComp
     {
 
         private bool initializing = true;

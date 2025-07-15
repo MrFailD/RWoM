@@ -15,8 +15,8 @@ namespace TorannMagic
         protected new Vector3 origin;
         protected new Vector3 destination;
 
-        CompProperties_Glower gProps = new CompProperties_Glower();
-        CompGlower glower = new CompGlower();
+        private CompProperties_Glower gProps = new CompProperties_Glower();
+        private CompGlower glower = new CompGlower();
         public IntVec3 glowCenter = default(IntVec3);
 
         private static readonly Material sol_up = MaterialPool.MatFrom("PawnKind/sol_up", ShaderDatabase.Transparent, Color.white);
@@ -40,7 +40,7 @@ namespace TorannMagic
         //protected new Thing launcher;
         protected Thing assignedTarget;
         protected Thing flyingThing;
-        Pawn pawn;
+        private Pawn pawn;
 
         public DamageInfo? impactDamage;
 

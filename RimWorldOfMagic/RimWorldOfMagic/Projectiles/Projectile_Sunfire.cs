@@ -21,16 +21,16 @@ namespace TorannMagic
         private int age = -1;
         private float arcaneDmg = 1;
         private float lightPotency = .5f;
-        Pawn caster;
+        private Pawn caster;
 
-        List<Vector3> sfBeams = new List<Vector3>();
-        List<Vector3> sfBeamsDest = new List<Vector3>();
-        List<Vector3> sfBeamsROM = new List<Vector3>();
-        List<Vector3> sfBeamsCurve = new List<Vector3>();
-        List<int> sfBeamsStep = new List<int>();
-        List<int> sfBeamsStartTick = new List<int>();
+        private List<Vector3> sfBeams = new List<Vector3>();
+        private List<Vector3> sfBeamsDest = new List<Vector3>();
+        private List<Vector3> sfBeamsROM = new List<Vector3>();
+        private List<Vector3> sfBeamsCurve = new List<Vector3>();
+        private List<int> sfBeamsStep = new List<int>();
+        private List<int> sfBeamsStartTick = new List<int>();
 
-        ColorInt colorInt = new ColorInt(255, 255, 140);
+        private ColorInt colorInt = new ColorInt(255, 255, 140);
         private Sustainer sustainer;
 
         private float angle = 0;

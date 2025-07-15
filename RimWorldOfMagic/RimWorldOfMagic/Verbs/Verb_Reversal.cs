@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace TorannMagic
 {
-    class Verb_Reversal : Verb_UseAbility  
+    internal class Verb_Reversal : Verb_UseAbility  
     {
         protected override bool TryCastShot()
         {

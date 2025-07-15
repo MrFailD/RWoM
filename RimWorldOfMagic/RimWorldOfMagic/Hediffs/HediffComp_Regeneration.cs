@@ -7,7 +7,7 @@ using RimWorld;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Regeneration : HediffComp
+    internal class HediffComp_Regeneration : HediffComp
     {
 
         private bool initialized = false;

@@ -12,12 +12,11 @@ namespace TorannMagic
 {
     public class Verb_Stoneskin : Verb_UseAbility  
     {
-        
-        int pwrVal;
-        int verVal;
-        CompAbilityUserMagic comp;
+        private int pwrVal;
+        private int verVal;
+        private CompAbilityUserMagic comp;
 
-        bool validTarg;
+        private bool validTarg;
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

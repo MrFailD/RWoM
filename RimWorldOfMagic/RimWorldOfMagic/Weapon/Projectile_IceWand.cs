@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TorannMagic.Weapon
 {
-    class Projectile_IceWand : Projectile_AbilityBase
+    internal class Projectile_IceWand : Projectile_AbilityBase
     {
         private float arcaneDmg = 1;
 

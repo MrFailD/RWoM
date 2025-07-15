@@ -13,12 +13,12 @@ namespace TorannMagic
     {
         private const TargetIndex building = TargetIndex.A;
 
-        int age = -1;
-        int barrierSearchFrequency = 1;
-        int duration = 900;
-        bool psiFlag;
-        float psiEnergy = 0;
-        List<IntVec3> barrierCells = new List<IntVec3>();
+        private int age = -1;
+        private int barrierSearchFrequency = 1;
+        private int duration = 900;
+        private bool psiFlag;
+        private float psiEnergy = 0;
+        private List<IntVec3> barrierCells = new List<IntVec3>();
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

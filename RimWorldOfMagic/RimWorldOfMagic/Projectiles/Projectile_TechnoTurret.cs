@@ -5,6 +5,7 @@ using System.Linq;
 using Verse.AI;
 using UnityEngine;
 using HarmonyLib;
+using TorannMagic.Buildings;
 
 
 namespace TorannMagic
@@ -17,7 +18,7 @@ namespace TorannMagic
         private int effVal;
         private float arcaneDmg = 1f;
 
-        Thing turret = null;
+        private Thing turret = null;
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)
         {

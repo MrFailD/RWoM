@@ -8,10 +8,9 @@ using Verse.Sound;
 
 namespace TorannMagic
 {
-    class Verb_TempestStrike : Verb_UseAbility  
+    internal class Verb_TempestStrike : Verb_UseAbility  
     {
-
-        bool validTarg;
+        private bool validTarg;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

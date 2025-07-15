@@ -11,25 +11,24 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Projectile_ThunderStrike : Projectile_AbilityBase
     {
+        private Vector3 origin;
+        private Vector3 destination;
+        private Vector3 direction;
+        private Vector3 directionOffsetRight;
+        private Vector3 directionOffsetLeft;
 
-        Vector3 origin;
-        Vector3 destination;
-        Vector3 direction;
-        Vector3 directionOffsetRight;
-        Vector3 directionOffsetLeft;
-
-        int iteration = 0;
-        int maxIteration = 4;
-        float directionMagnitudeOffset = 1.5f;
+        private int iteration = 0;
+        private int maxIteration = 4;
+        private float directionMagnitudeOffset = 1.5f;
         private bool initialized = false;
 
         private int verVal = 0;
         private int pwrVal = 0;
         private float arcaneDmg = 1f;
 
-        int nextEventTick = 0;
-        int nextRightEventTick = 0;
-        int nextLeftEventTick = 0;
+        private int nextEventTick = 0;
+        private int nextRightEventTick = 0;
+        private int nextLeftEventTick = 0;
 
         public override void ExposeData()
         {

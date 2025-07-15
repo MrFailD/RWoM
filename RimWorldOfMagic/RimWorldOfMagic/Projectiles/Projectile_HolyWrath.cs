@@ -19,11 +19,11 @@ namespace TorannMagic
         private int strikeNum;
         private int age = -1;
         private float arcaneDmg = 1;
-        List<int> wrathAge = new List<int>();
-        List<IntVec3> smitePos = new List<IntVec3>();
-        Pawn caster;
+        private List<int> wrathAge = new List<int>();
+        private List<IntVec3> smitePos = new List<IntVec3>();
+        private Pawn caster;
 
-        ColorInt colorInt = new ColorInt(255, 255, 140);
+        private ColorInt colorInt = new ColorInt(255, 255, 140);
         private Sustainer sustainer;
 
         private float angle = 0;

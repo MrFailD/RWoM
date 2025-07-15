@@ -19,7 +19,7 @@ namespace TorannMagic.ModOptions
 
         public Vector2 scrollPosition = Vector2.zero;
 
-        FactionDictionary fDic = new FactionDictionary();
+        private FactionDictionary fDic = new FactionDictionary();
 
         public FactionOptionsWindow()
         {

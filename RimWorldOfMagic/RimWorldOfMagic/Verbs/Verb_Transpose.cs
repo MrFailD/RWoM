@@ -8,10 +8,10 @@ using System.Linq;
 
 namespace TorannMagic
 {
-    class Verb_Transpose : Verb_UseAbility  
+    internal class Verb_Transpose : Verb_UseAbility  
     {
-        bool arg_41_0;
-        bool arg_42_0;
+        private bool arg_41_0;
+        private bool arg_42_0;
         private bool validTarg = false;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)

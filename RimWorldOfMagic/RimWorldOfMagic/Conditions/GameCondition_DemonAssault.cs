@@ -11,28 +11,28 @@ using HarmonyLib;
 
 namespace TorannMagic.Conditions
 {
-    class GameCondition_DemonAssault : GameCondition
+    internal class GameCondition_DemonAssault : GameCondition
     {
         public IntVec2 centerLocation;
         public IntVec2 edgeLocation;
-        List<IntVec3> summoningCircle = new List<IntVec3>();
+        private List<IntVec3> summoningCircle = new List<IntVec3>();
         private int summoningDuration = 300;
         private int nextBlackLightning = 300;
         public LookTargets lookTarget;
         private int areaRadius = 4;
-        bool initialized = false;
-        bool disabled = false;
+        private bool initialized = false;
+        private bool disabled = false;
         public List<Pawn> spawnedThings;
         private int nextEventTick = 0;
         private int ticksBetweenEvents = 4000;
-        IntVec3 rndTarg = default(IntVec3);
+        private IntVec3 rndTarg = default(IntVec3);
         private bool doEventAction = false;
-        float wealth = 0;
-        float wealthMultiplier = 1f;
-        float storytellerThreat = 1f;
-        int eventDifficulty = 1;
-        int minPointsForSpawn = 75000;
-        int eventSpawnPoints = 75000;
+        private float wealth = 0;
+        private float wealthMultiplier = 1f;
+        private float storytellerThreat = 1f;
+        private int eventDifficulty = 1;
+        private int minPointsForSpawn = 75000;
+        private int eventSpawnPoints = 75000;
 
         public override void GameConditionTick()
         {

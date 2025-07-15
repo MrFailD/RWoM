@@ -14,7 +14,7 @@ namespace TorannMagic.Ideology
         private int ticksTillInspiration = 10;
 
         //unsaved
-        bool shouldRemove = false;
+        private bool shouldRemove = false;
 
         public override void CompExposeData()
         {

@@ -3,7 +3,7 @@ using Verse;
 
 namespace TorannMagic
 {
-    class GenStep_EnemyRaidOnArrival : GenStep
+    internal class GenStep_EnemyRaidOnArrival : GenStep
     {
         public override int SeedPart
         {

@@ -8,30 +8,30 @@ namespace TorannMagic
 {
     public class Projectile_LightSkipMass : Projectile_AbilityBase
     {
-        int age = -1;
-        int duration = 30;
-        int verVal = 0;
-        int pwrVal = 0;
-        float arcaneDmg = 1;
-        int strikeDelay = 4;
-        int strikeNum = 1;
-        float radius = 5;
-        bool initialized = false;
-        float angle = 0;
-        bool allPawnsLaunched = false;
-        Pawn pawn;
-        IntVec3 launcherPosition = default(IntVec3);
-        List<Thing> pods = new List<Thing>();
-        List<Pawn> pawnList = new List<Pawn>();
-        List<IntVec3> unroofedCells = new List<IntVec3>();
-        List<CompTransporter> podTList = new List<CompTransporter>();
-        IntVec3 safePos = default(IntVec3);
+        private int age = -1;
+        private int duration = 30;
+        private int verVal = 0;
+        private int pwrVal = 0;
+        private float arcaneDmg = 1;
+        private int strikeDelay = 4;
+        private int strikeNum = 1;
+        private float radius = 5;
+        private bool initialized = false;
+        private float angle = 0;
+        private bool allPawnsLaunched = false;
+        private Pawn pawn;
+        private IntVec3 launcherPosition = default(IntVec3);
+        private List<Thing> pods = new List<Thing>();
+        private List<Pawn> pawnList = new List<Pawn>();
+        private List<IntVec3> unroofedCells = new List<IntVec3>();
+        private List<CompTransporter> podTList = new List<CompTransporter>();
+        private IntVec3 safePos = default(IntVec3);
         private int gi = 0;
 
-        bool launchedFlag = false;
-        bool pivotFlag = false;
-        bool landedFlag = false;
-        bool draftFlag = false;
+        private bool launchedFlag = false;
+        private bool pivotFlag = false;
+        private bool landedFlag = false;
+        private bool draftFlag = false;
 
         public override void ExposeData()
         {

@@ -11,8 +11,7 @@ namespace TorannMagic
 {
     public class Verb_SpiritRally : Verb_SB 
     {
-
-        int rallyBonus = 0;
+        private int rallyBonus = 0;
         protected override bool TryCastShot()
         {
             Pawn caster = this.CasterPawn;

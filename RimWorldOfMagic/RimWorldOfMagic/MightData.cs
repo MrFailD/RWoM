@@ -1993,7 +1993,7 @@ namespace TorannMagic
             }
         }
 
-        List<MightPower> allMightPowersList = new List<MightPower>();
+        private List<MightPower> allMightPowersList = new List<MightPower>();
         public List<MightPower> AllMightPowers
         {
             get

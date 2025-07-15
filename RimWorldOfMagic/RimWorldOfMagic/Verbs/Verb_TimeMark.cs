@@ -13,8 +13,8 @@ namespace TorannMagic
     {
 
         private int pwrVal = 0;
-        CompAbilityUserMagic comp;
-        Map map;
+        private CompAbilityUserMagic comp;
+        private Map map;
 
         protected override bool TryCastShot()
         {

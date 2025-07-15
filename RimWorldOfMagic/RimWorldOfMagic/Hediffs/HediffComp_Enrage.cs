@@ -7,7 +7,7 @@ using UnityEngine;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Enrage : HediffComp
+    internal class HediffComp_Enrage : HediffComp
     {
         public bool consumeJoy = false;
         public float reductionFactor = 1f;
@@ -15,8 +15,8 @@ namespace TorannMagic
         private bool initialized = false;
 
         //unsaved
-        float reductionAmount = .04f;
-        bool shouldRemove = false;
+        private float reductionAmount = .04f;
+        private bool shouldRemove = false;
 
         public override void CompExposeData()
         {

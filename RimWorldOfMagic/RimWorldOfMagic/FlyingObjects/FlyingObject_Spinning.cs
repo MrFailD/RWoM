@@ -38,10 +38,10 @@ namespace TorannMagic
 
         public int weaponDmg = 0;
 
-        Pawn pawn;
-        CompAbilityUserMagic comp;
+        private Pawn pawn;
+        private CompAbilityUserMagic comp;
 
-        TMPawnSummoned newPawn = new TMPawnSummoned();
+        private TMPawnSummoned newPawn = new TMPawnSummoned();
 
         protected new int StartingTicksToImpact
         {

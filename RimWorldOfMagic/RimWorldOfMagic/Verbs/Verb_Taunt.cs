@@ -14,9 +14,9 @@ namespace TorannMagic
 {
     public class Verb_Taunt : Verb_UseAbility
     {
-        float radius = 15f;
-        float tauntChance = .6f;
-        int targetsMax = 5;
+        private float radius = 15f;
+        private float tauntChance = .6f;
+        private int targetsMax = 5;
 
         protected override bool TryCastShot()
         {

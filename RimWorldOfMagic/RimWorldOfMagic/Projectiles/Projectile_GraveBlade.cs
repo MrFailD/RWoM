@@ -11,21 +11,21 @@ namespace TorannMagic
 {
     public class Projectile_GraveBlade : Projectile_AbilityBase
     {
-        int age = -1;
-        int duration = 65;
-        int verVal = 0;
-        int pwrVal = 0;
-        float arcaneDmg = 1;
-        int strikeDelay = 15;
-        int effectIndex1 = 0;
-        int effectIndex2 = 0;
-        float radius = 3;
-        bool initialized = false;
-        List<IntVec3> ringCellList;
-        List<IntVec3> innerCellList;
-        Pawn caster;
+        private int age = -1;
+        private int duration = 65;
+        private int verVal = 0;
+        private int pwrVal = 0;
+        private float arcaneDmg = 1;
+        private int strikeDelay = 15;
+        private int effectIndex1 = 0;
+        private int effectIndex2 = 0;
+        private float radius = 3;
+        private bool initialized = false;
+        private List<IntVec3> ringCellList;
+        private List<IntVec3> innerCellList;
+        private Pawn caster;
 
-        int effectDelay = 1;
+        private int effectDelay = 1;
 
         public override void ExposeData()
         {

@@ -9,11 +9,10 @@ namespace TorannMagic
 {
 	public class Projectile_Lightning : Projectile_AbilityBase
 	{
-
-        List<IntVec3> strikeLocs = new List<IntVec3>();
-        List<IntVec3> newStrikeLocs = new List<IntVec3>();
-        List<Mesh> strikeMeshes = new List<Mesh>();
-        Vector3 direction = default(Vector3);
+        private List<IntVec3> strikeLocs = new List<IntVec3>();
+        private List<IntVec3> newStrikeLocs = new List<IntVec3>();
+        private List<Mesh> strikeMeshes = new List<Mesh>();
+        private Vector3 direction = default(Vector3);
 
 		private int age = -1;
 

@@ -12,10 +12,10 @@ namespace TorannMagic
 {
     public class Verb_60mmMortar : Verb_UseAbility
     {
-        int pwrVal = 0;
-        int verVal = 0;
-        int effVal = 0;
-        Thing mortar = null;
+        private int pwrVal = 0;
+        private int verVal = 0;
+        private int effVal = 0;
+        private Thing mortar = null;
 
         protected override bool TryCastShot()
         {

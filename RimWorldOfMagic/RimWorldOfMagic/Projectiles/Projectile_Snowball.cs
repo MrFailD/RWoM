@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TorannMagic
 {
-	class Projectile_Snowball : Projectile_AbilityBase
+	internal class Projectile_Snowball : Projectile_AbilityBase
 	{
 
         private int verVal;

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace TorannMagic
 {
-    class Verb_Disguise : Verb_UseAbility  
+    internal class Verb_Disguise : Verb_UseAbility  
     {
         protected override bool TryCastShot()
         {

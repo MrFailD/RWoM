@@ -16,7 +16,7 @@ namespace TorannMagic.Golems
         private int age = -1;
         public int duration = 60;
         public TM_GolemAbility ability;
-        Thing targetThing = null;
+        private Thing targetThing = null;
 
         public override void ExposeData()
         {

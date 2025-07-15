@@ -5,15 +5,15 @@ using System.Text;
 
 namespace TorannMagic.Enchantment
 {
-    class HediffComp_Enchantment : HediffComp
+    internal class HediffComp_Enchantment : HediffComp
     {
         private bool initializing = true;
         private bool removeNow = false;
 
         private string enchantment ="";
 
-        CompAbilityUserMagic compMagic;
-        CompAbilityUserMight compMight;
+        private CompAbilityUserMagic compMagic;
+        private CompAbilityUserMight compMight;
 
         public string labelCap
         {

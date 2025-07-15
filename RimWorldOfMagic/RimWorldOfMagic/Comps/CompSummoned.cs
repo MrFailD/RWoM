@@ -17,8 +17,8 @@ namespace TorannMagic
 
         private int ticksLeft;
 
-        CompAbilityUserMagic compSummoner;
-        Pawn spawner;
+        private CompAbilityUserMagic compSummoner;
+        private Pawn spawner;
 
         public CompProperties_Summoned Props
         {

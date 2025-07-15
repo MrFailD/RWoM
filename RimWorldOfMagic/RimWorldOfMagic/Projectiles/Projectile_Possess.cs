@@ -19,13 +19,13 @@ namespace TorannMagic
         private int inventoryCount = 0;
         private IntVec3 oldPosition;
         private bool possessedFlag = false;
-        Faction pFaction = null;
-        Pawn hitPawn = null;
-        Pawn caster = null;
-        List<int> hitPawnWorkSetting = new List<int>();
+        private Faction pFaction = null;
+        private Pawn hitPawn = null;
+        private Pawn caster = null;
+        private List<int> hitPawnWorkSetting = new List<int>();
         private bool prisoner = false;
 
-        Pawn loadPawn = new Pawn();
+        private Pawn loadPawn = new Pawn();
 
         private int verVal;
         private int pwrVal;

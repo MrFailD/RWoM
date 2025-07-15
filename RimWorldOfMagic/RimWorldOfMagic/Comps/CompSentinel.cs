@@ -12,7 +12,7 @@ namespace TorannMagic
     public class CompSentinel : ThingComp
 	{
         private bool initialized = false;
-        List<Pawn> threatList = new List<Pawn>();
+        private List<Pawn> threatList = new List<Pawn>();
         public LocalTargetInfo target = null;
         private int age = -1;
         private bool shouldDespawn = false;

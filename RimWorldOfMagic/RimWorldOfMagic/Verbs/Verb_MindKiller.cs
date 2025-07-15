@@ -13,10 +13,10 @@ namespace TorannMagic
 {
     public class Verb_MindKiller : Verb_UseAbility
     {
-        float radius = 15f;
-        float penetrationChance = .5f;
-        int targetsMax = 8;
-        float maxMoodBurn = .3f;
+        private float radius = 15f;
+        private float penetrationChance = .5f;
+        private int targetsMax = 8;
+        private float maxMoodBurn = .3f;
 
         protected override bool TryCastShot()
         {

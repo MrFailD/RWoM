@@ -7,17 +7,17 @@ using TorannMagic.Weapon;
 
 namespace TorannMagic
 {
-    class Projectile_FogOfTorment : Projectile_AbilityBase
+    internal class Projectile_FogOfTorment : Projectile_AbilityBase
     {
-        int age = -1;
-        int duration = 1440;
-        int verVal = 0;
-        int pwrVal = 0;
-        float arcaneDmg = 1;
-        int strikeDelay = 120;
-        int lastStrike = 0;
-        bool initialized = false;
-        ThingDef fog;
+        private int age = -1;
+        private int duration = 1440;
+        private int verVal = 0;
+        private int pwrVal = 0;
+        private float arcaneDmg = 1;
+        private int strikeDelay = 120;
+        private int lastStrike = 0;
+        private bool initialized = false;
+        private ThingDef fog;
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {

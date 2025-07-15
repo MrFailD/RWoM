@@ -14,7 +14,7 @@ namespace TorannMagic
     {
         private int verVal;
 
-        Verb verb;
+        private Verb verb;
 
         protected new Vector3 origin;
         protected new Vector3 destination;
@@ -23,7 +23,7 @@ namespace TorannMagic
         private Vector3 nearApex;
         private Vector3 farApex;
         private Vector3 direction;
-        List<IntVec3> targetCells;
+        private List<IntVec3> targetCells;
 
         public float curveVariance = 0; // 0 = no curve
         private List<Vector3> curvePoints = new List<Vector3>();
@@ -46,14 +46,14 @@ namespace TorannMagic
         public int timesToDamage = 3;
         public int weaponDmg = 0;
 
-        Pawn pawn;
+        private Pawn pawn;
 
         //local variables
-        float targetCellRadius = 4;
-        float circleFlightSpeed = 10;
-        float circleRadius = 10;
-        int attackFrequencyLow = 10;
-        int attackFrequencyHigh = 40;
+        private float targetCellRadius = 4;
+        private float circleFlightSpeed = 10;
+        private float circleRadius = 10;
+        private int attackFrequencyLow = 10;
+        private int attackFrequencyHigh = 40;
 
         protected new int StartingTicksToImpact
         {

@@ -4,7 +4,7 @@ using Verse;
 namespace TorannMagic.Enchantment
 {
     [StaticConstructorOnStartup]
-    class HediffComp_WinterChill : HediffComp_EnchantedItem
+    internal class HediffComp_WinterChill : HediffComp_EnchantedItem
     {        
 
         public override void PostInitialize()

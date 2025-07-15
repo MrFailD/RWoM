@@ -22,9 +22,9 @@ namespace TorannMagic
         private int verVal;
         private int pwrVal;
 
-        TMPawnSummoned newPawn = new TMPawnSummoned();
-        CompAbilityUserMagic comp;
-        Pawn pawn;
+        private TMPawnSummoned newPawn = new TMPawnSummoned();
+        private CompAbilityUserMagic comp;
+        private Pawn pawn;
 
         public override void ExposeData()
         {

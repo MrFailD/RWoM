@@ -26,12 +26,14 @@ namespace TorannMagic
 
     public class Verb_ApplyRandomHediffFromList : Verb_SB
     {
-        Pawn target => currentTarget.Pawn;
-        Verb_ApplyRandomHediffFromList_Properties Properties => this.verbProps as Verb_ApplyRandomHediffFromList_Properties;
-        List<HediffDef> Effects => Properties?.hediffDefs;
-        int CountUpgrade => Properties.countUpgrade == null ? 0
+        private Pawn target => currentTarget.Pawn;
+        private Verb_ApplyRandomHediffFromList_Properties Properties => this.verbProps as Verb_ApplyRandomHediffFromList_Properties;
+        private List<HediffDef> Effects => Properties?.hediffDefs;
+
+        private int CountUpgrade => Properties.countUpgrade == null ? 0
             : TM_ClassUtility.GetMightPowerSkillFromLabel(this.CasterPawn.GetCompAbilityUserMight(), Properties.countUpgrade).level;
-        int SeverityUpgrade => Properties.severityUpgrade == null ? 0
+
+        private int SeverityUpgrade => Properties.severityUpgrade == null ? 0
             : TM_ClassUtility.GetMightPowerSkillFromLabel(this.CasterPawn.GetCompAbilityUserMight(), Properties.severityUpgrade).level;
 
         protected override bool TryCastShot()

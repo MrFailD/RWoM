@@ -13,7 +13,7 @@ namespace TorannMagic.Ideology
         private int ticksTillDeath = 10;
 
         //unsaved
-        bool shouldRemove = false;
+        private bool shouldRemove = false;
 
         public override void CompExposeData()
         {

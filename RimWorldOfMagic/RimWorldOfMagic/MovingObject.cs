@@ -13,37 +13,37 @@ namespace TorannMagic
         private static readonly Color cleaveColor = new Color(160f, 160f, 160f);
         private static readonly Material cleavingMat = MaterialPool.MatFrom("Spells/cleave", ShaderDatabase.Transparent, MovingObject.cleaveColor);
 
-        bool arg_40_0;
-        bool arg_41_0;
-        bool arg_42_0;
-        bool vflag;
+        private bool arg_40_0;
+        private bool arg_41_0;
+        private bool arg_42_0;
+        private bool vflag;
 
         private bool destinationReached = false;
 
-        float hyp = 0;
-        float angleRad = 0;
-        float angleDeg = 0;
-        float xProb;
+        private float hyp = 0;
+        private float angleRad = 0;
+        private float angleDeg = 0;
+        private float xProb;
 
-        float xProbOrigin;
-        IntVec3 originPos;
-        int weaponDmg = 0;
+        private float xProbOrigin;
+        private IntVec3 originPos;
+        private int weaponDmg = 0;
 
 
-        bool xflag = false;
-        bool zflag = false;
+        private bool xflag = false;
+        private bool zflag = false;
 
         public int lastMove = 0;
         public int moveRate = 2;
         private int age = -5;
-        IntVec3 newPos;
+        private IntVec3 newPos;
 
         private bool initialize = true;
 
-        Pawn pawn;
-        Map map;
-        IntVec3 origin;
-        IntVec3 target;
+        private Pawn pawn;
+        private Map map;
+        private IntVec3 origin;
+        private IntVec3 target;
 
         public void Launch(Pawn pawn_, Map map_, IntVec3 origin_, IntVec3 target_)
         {

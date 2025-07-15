@@ -31,8 +31,8 @@ namespace TorannMagic
 
         public int weaponDmg = 0;
 
-        Pawn pawn;
-        CompAbilityUserMight comp;
+        private Pawn pawn;
+        private CompAbilityUserMight comp;
 
         protected new int StartingTicksToImpact
         {

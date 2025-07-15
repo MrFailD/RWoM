@@ -11,19 +11,19 @@ namespace TorannMagic
     internal class JobDriver_ChargePortal: JobDriver
     {
         private const TargetIndex building = TargetIndex.A;
-        Building_TMPortal portalBldg;
-        Building_TMArcaneCapacitor arcaneCapacitor;
-        Building_TM_DMP dmp;
-        Building bldg;
-        CompAbilityUserMagic comp;
+        private Building_TMPortal portalBldg;
+        private Building_TMArcaneCapacitor arcaneCapacitor;
+        private Building_TM_DMP dmp;
+        private Building bldg;
+        private CompAbilityUserMagic comp;
 
-        int age = -1;
-        int chargeAge = 0;
-        int ticksTillCharge = 30;
-        int effectsAge = 0;
-        int ticksTillEffects = 12;
-        int duration = 1000;
-        int xpNum = 0;
+        private int age = -1;
+        private int chargeAge = 0;
+        private int ticksTillCharge = 30;
+        private int effectsAge = 0;
+        private int ticksTillEffects = 12;
+        private int duration = 1000;
+        private int xpNum = 0;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

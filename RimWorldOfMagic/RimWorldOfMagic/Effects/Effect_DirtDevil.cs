@@ -7,7 +7,7 @@ namespace TorannMagic
 {    
     public class Effect_DirtDevil : Verb_UseAbility
     {
-        bool validTarg;
+        private bool validTarg;
 
         public virtual void Effect()
         {

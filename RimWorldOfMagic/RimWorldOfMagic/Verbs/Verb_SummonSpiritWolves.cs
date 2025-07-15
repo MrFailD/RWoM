@@ -12,7 +12,7 @@ namespace TorannMagic
 {
     public class Verb_SummonSpiritWolves : Verb_UseAbility
     {
-        bool validTarg;
+        private bool validTarg;
         //Used for non-unique abilities that can be used with shieldbelt
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
@@ -39,10 +39,10 @@ namespace TorannMagic
             return validTarg;
         }
 
-        int pwrVal = 0;
-        int verVal = 0;
-        int effVal = 0;
-        List<IntVec3> cellList = new List<IntVec3>();
+        private int pwrVal = 0;
+        private int verVal = 0;
+        private int effVal = 0;
+        private List<IntVec3> cellList = new List<IntVec3>();
 
         protected override bool TryCastShot()
         {

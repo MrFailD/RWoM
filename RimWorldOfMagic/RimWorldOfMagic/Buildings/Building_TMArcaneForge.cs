@@ -15,7 +15,7 @@ namespace TorannMagic
         private Thing targetThing = null;
         private LocalTargetInfo infoTarget = null;
 
-        List<RecipeDef> replicatedRecipes = new List<RecipeDef>();
+        private List<RecipeDef> replicatedRecipes = new List<RecipeDef>();
 
         //Saved forge recipe variables
         private bool hasSavedRecipe = false;

@@ -7,12 +7,12 @@ using RimWorld;
 
 namespace TorannMagic.Conditions
 {
-    class GameCondition_ElementalAssault : GameCondition
+    internal class GameCondition_ElementalAssault : GameCondition
     {
         public IntVec2 centerLocation;
         private int areaRadius = 2;
-        bool initialized = false;
-        bool disabled = false;
+        private bool initialized = false;
+        private bool disabled = false;
         public Thing thing;
 
         public override void GameConditionTick()

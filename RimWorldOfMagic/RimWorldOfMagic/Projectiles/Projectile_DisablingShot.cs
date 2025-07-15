@@ -12,8 +12,7 @@ namespace TorannMagic
 {
     public class Projectile_DisablingShot : Projectile_AbilityBase
     {
-
-        BodyPartRecord vitalPart = null;
+        private BodyPartRecord vitalPart = null;
         private int verVal;
 
         protected override void Impact(Thing hitThing, bool blockedByShield = false)

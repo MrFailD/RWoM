@@ -7,9 +7,9 @@ using TorannMagic.Weapon;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class Projectile_PsionicBlast : Projectile_AbilityBase
+    internal class Projectile_PsionicBlast : Projectile_AbilityBase
     {
-        ColorInt colorInt = new ColorInt(0, 128, 255);
+        private ColorInt colorInt = new ColorInt(0, 128, 255);
         private bool initialized = false;
         private int pwrVal = 0;
         private float arcaneDmg = 1f;

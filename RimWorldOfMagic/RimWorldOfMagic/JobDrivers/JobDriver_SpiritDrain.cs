@@ -13,11 +13,11 @@ namespace TorannMagic
     {
         private const TargetIndex building = TargetIndex.A;
 
-        int age = -1;
-        int drainFrequency = 20;
-        int moteFrequency = 4;
-        int duration = 600;
-        float drainFrequencyReduction = 0;
+        private int age = -1;
+        private int drainFrequency = 20;
+        private int moteFrequency = 4;
+        private int duration = 600;
+        private float drainFrequencyReduction = 0;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {

@@ -6,7 +6,7 @@ namespace TorannMagic
 {    
     public class Effect_PsionicDash : Verb_UseAbility
     {
-        bool validTarg;
+        private bool validTarg;
 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

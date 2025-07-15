@@ -15,7 +15,7 @@ namespace TorannMagic
     {
         private int age = -1;
         public int durationTicks = 60;
-        Pawn waitForPawn = null;
+        private Pawn waitForPawn = null;
         public JobDef targetJobDef = null;
 
         public override bool TryMakePreToilReservations(bool errorOnFailed)

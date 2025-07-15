@@ -7,12 +7,11 @@ using UnityEngine;
 namespace TorannMagic
 {
     [StaticConstructorOnStartup]
-    class HediffComp_Decay : HediffComp
+    internal class HediffComp_Decay : HediffComp
     {
-
-        int tickAction = 21;
-        bool shouldRemove = false;
-        Pawn hediffInstigator = null;
+        private int tickAction = 21;
+        private bool shouldRemove = false;
+        private Pawn hediffInstigator = null;
 
         public override void CompExposeData()
         {

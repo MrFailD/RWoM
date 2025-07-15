@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TorannMagic
 {
-	class Projectile_Icebolt : Projectile_AbilityBase
+    internal class Projectile_Icebolt : Projectile_AbilityBase
 	{
         private int verVal;
         private int pwrVal;

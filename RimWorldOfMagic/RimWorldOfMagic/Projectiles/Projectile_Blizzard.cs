@@ -18,10 +18,10 @@ namespace TorannMagic
         private int[] ticksTillSnow = new int[400];
         private IntVec3[] snowPos = new IntVec3[400];
         private bool initialized = false;
-        CellRect cellRect;
-        Pawn pawn;
-        MagicPowerSkill pwr;
-        MagicPowerSkill ver;
+        private CellRect cellRect;
+        private Pawn pawn;
+        private MagicPowerSkill pwr;
+        private MagicPowerSkill ver;
         private int verVal = 0;
         private int pwrVal = 0;
 

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace TorannMagic
 {
-	class Projectile_PsychicShock : Projectile_AbilityBase
+    internal class Projectile_PsychicShock : Projectile_AbilityBase
 	{
         private bool initialized = false;
         private int age = 0;
@@ -17,12 +17,12 @@ namespace TorannMagic
         private float arcaneDmg = 1;
         private int frequency = 6;
         private int maxRadius = 6;
-        List<IntVec3> explosionCenters = new List<IntVec3>();
-        List<int> explosionRadii = new List<int>();
-        List<Pawn> shockedPawns = new List<Pawn>();
-        Pawn pawn;
+        private List<IntVec3> explosionCenters = new List<IntVec3>();
+        private List<int> explosionRadii = new List<int>();
+        private List<Pawn> shockedPawns = new List<Pawn>();
+        private Pawn pawn;
 
-        IEnumerable<IntVec3> targets;
+        private IEnumerable<IntVec3> targets;
 
         public override void Destroy(DestroyMode mode = DestroyMode.Vanish)
         {

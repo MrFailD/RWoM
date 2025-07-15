@@ -3,7 +3,7 @@ using RimWorld;
 
 namespace TorannMagic
 {
-    class TMDefOf
+    internal class TMDefOf
     {
         [AttributeUsage(AttributeTargets.Class)]
         public class DefOf : Attribute

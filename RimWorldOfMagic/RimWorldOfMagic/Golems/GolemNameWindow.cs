@@ -20,7 +20,7 @@ namespace TorannMagic.Golems
 
         public Vector2 scrollPosition = Vector2.zero;
         public CompGolem cg = null;
-        List<TM_GolemUpgrade> upgrades = new List<TM_GolemUpgrade>();
+        private List<TM_GolemUpgrade> upgrades = new List<TM_GolemUpgrade>();
         public string golemName = "";
 
 

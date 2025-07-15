@@ -16,14 +16,14 @@ namespace TorannMagic
         private int ticksToDestroy = 1800;
         public bool validSummoning = false;
 
-        CompAbilityUserMagic compSummoner;
-        Pawn spawner;
-        Pawn original = null;
+        private CompAbilityUserMagic compSummoner;
+        private Pawn spawner;
+        private Pawn original = null;
 
-        List<float> bodypartDamage = new List<float>();
-        List<DamageDef> bodypartDamageType = new List<DamageDef>();
+        private List<float> bodypartDamage = new List<float>();
+        private List<DamageDef> bodypartDamageType = new List<DamageDef>();
 
-        List<Hediff_Injury> injuries = new List<Hediff_Injury>();
+        private List<Hediff_Injury> injuries = new List<Hediff_Injury>();
 
         public Pawn Original
         {

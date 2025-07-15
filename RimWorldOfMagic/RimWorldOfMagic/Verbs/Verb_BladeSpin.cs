@@ -11,15 +11,14 @@ namespace TorannMagic
     [StaticConstructorOnStartup]
     public class Verb_BladeSpin : Verb_UseAbility
     {
-
-        bool flag10;
+        private bool flag10;
         private int verVal = 0;
         private int pwrVal = 0;
 
         private static readonly Color bladeColor = new Color(160f, 160f, 160f);
         private static readonly Material bladeMat = MaterialPool.MatFrom("Spells/cleave", false);
 
-        bool validTarg;
+        private bool validTarg;
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {
             if (targ.Thing != null && targ.Thing == this.caster)

@@ -47,11 +47,11 @@ namespace TorannMagic
         public int weaponDmg = 0;
         private int doublesidedVariance = 0;
 
-        Pawn pawn;
+        private Pawn pawn;
 
         //Magic related
-        CompAbilityUserMagic comp;
-        TMPawnSummoned newPawn = new TMPawnSummoned();
+        private CompAbilityUserMagic comp;
+        private TMPawnSummoned newPawn = new TMPawnSummoned();
 
         protected new int StartingTicksToImpact
         {

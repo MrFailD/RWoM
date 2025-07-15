@@ -8,10 +8,9 @@ using UnityEngine;
 
 namespace TorannMagic
 {
-    class Verb_ConsumeCorpse_Mass : Verb_UseAbility
+    internal class Verb_ConsumeCorpse_Mass : Verb_UseAbility
     {
-
-        bool validTarg;
+        private bool validTarg;
         //Used specifically for non-unique verbs that ignore LOS (can be used with shield belt) 
         public override bool CanHitTargetFrom(IntVec3 root, LocalTargetInfo targ)
         {

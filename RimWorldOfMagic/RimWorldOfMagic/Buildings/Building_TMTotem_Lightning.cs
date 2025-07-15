@@ -11,7 +11,7 @@ namespace TorannMagic
         private bool initialized = false;
         public int pwrVal = 0;
         public int verVal = 0;
-        Pawn target = null;
+        private Pawn target = null;
 
         protected override void Tick()
         {

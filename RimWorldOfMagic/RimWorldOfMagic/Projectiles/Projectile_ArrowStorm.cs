@@ -13,7 +13,7 @@ namespace TorannMagic
         private bool initialized = false;
         private static int pwrVal;
         private static int verVal;
-        Pawn pawn;
+        private Pawn pawn;
 
         public void Initialize(Map map)
         {

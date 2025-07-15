@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace TorannMagic
 {
-    class Verb_Mimic : Verb_UseAbility  
+    internal class Verb_Mimic : Verb_UseAbility  
     {
         private bool validTarg = false;
 
