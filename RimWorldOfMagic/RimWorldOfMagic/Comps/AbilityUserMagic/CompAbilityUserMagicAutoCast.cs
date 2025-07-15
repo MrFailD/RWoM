@@ -331,7 +331,7 @@ namespace TorannMagic
 
                     float minDistance = ActualManaCost(tmAbilityDef) * 240;
                     AutoCast.Blink.Evaluate(
-                        this, tmAbilityDef, ability, mp, minDistance, out bool castSuccessLearned);
+                        this, tmAbilityDef, ability, minDistance, out bool castSuccessLearned);
 
                     if (castSuccessLearned)
                         return true;
@@ -346,7 +346,7 @@ namespace TorannMagic
 
                 float minDistanceAbilityPower = ActualManaCost(tmAbilityDef) * 200;
                 AutoCast.Blink.Evaluate(
-                    this, tmAbilityDef, abilityPower, mp, minDistanceAbilityPower, out bool castSuccess);
+                    this, tmAbilityDef, abilityPower, minDistanceAbilityPower, out bool castSuccess);
 
                 if (castSuccess)
                     return true;
