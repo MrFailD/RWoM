@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using AbilityUser;
+using RimWorld;
+using TorannMagic.Weapon;
+using UnityEngine;
 using Verse;
 using Verse.AI.Group;
-using System.Diagnostics;
-using UnityEngine;
-using RimWorld;
-using AbilityUser;
-using TorannMagic.Weapon;
 
-namespace TorannMagic
+namespace TorannMagic.Buildings
 {
     [StaticConstructorOnStartup]
     public class Building_TMElementalRift_Defenders : Building
@@ -18,14 +18,14 @@ namespace TorannMagic
         private float arcaneEnergyCur;
         private float arcaneEnergyMax = 1;
 
-        private static readonly Material portalMat_1 = MaterialPool.MatFrom("Motes/rift_swirl1", false);
-        private static readonly Material portalMat_2 = MaterialPool.MatFrom("Motes/rift_swirl2", false);
-        private static readonly Material portalMat_3 = MaterialPool.MatFrom("Motes/rift_swirl3", false);
+        private static readonly Material PortalMat1 = MaterialPool.MatFrom("Motes/rift_swirl1", false);
+        private static readonly Material PortalMat2 = MaterialPool.MatFrom("Motes/rift_swirl2", false);
+        private static readonly Material PortalMat3 = MaterialPool.MatFrom("Motes/rift_swirl3", false);
 
         private int ticksTillNextAssault;
         private float eventFrequencyMultiplier = 1;
         private float difficultyMultiplier = 1;
-        private float STDMultiplier;
+        private float stdMultiplier;
         private int ticksTillNextEvent;
         private int eventTimer;
         private int assaultTimer;
@@ -35,8 +35,8 @@ namespace TorannMagic
         private int areaRadius = 1;
         private bool notifier;
 
-        public int age;
-        public int duration = 12500;
+        private int age;
+        public int Duration = 12500;
         private IntVec2 centerLocation;
 
         private bool initialized;
@@ -60,14 +60,8 @@ namespace TorannMagic
         
         public float ArcaneEnergyCur
         {
-            get
-            {
-                return arcaneEnergyCur;
-            }
-            set
-            {
-                arcaneEnergyCur = value;
-            }
+            get => arcaneEnergyCur;
+            set => arcaneEnergyCur = value;
         }
                 
         protected override void Tick()
@@ -80,7 +74,7 @@ namespace TorannMagic
                 ModOptions.SettingsRef settings = new ModOptions.SettingsRef();
                 if (Find.Storyteller.difficulty.threatScale != 0)
                 {
-                    STDMultiplier = (float)(Find.Storyteller.difficulty.threatScale / 20f);
+                    stdMultiplier = (float)(Find.Storyteller.difficulty.threatScale / 20f);
                 }
                 if(settings.riftChallenge <= 3f)
                 {
@@ -94,7 +88,7 @@ namespace TorannMagic
                 {
                     difficultyMultiplier = .75f;
                 }
-                difficultyMultiplier -= STDMultiplier;
+                difficultyMultiplier -= stdMultiplier;
                 ticksTillNextAssault = (int)(Rand.Range(2000, 3000) * difficultyMultiplier);
                 ticksTillNextEvent = (int)(Rand.Range(160, 300) * eventFrequencyMultiplier);
                 initialized = true;
@@ -146,7 +140,7 @@ namespace TorannMagic
                 notifier = false;
             }
             age++;
-            if(age >= duration)
+            if(age >= Duration)
             {
                 Destroy(DestroyMode.Vanish);
             }
@@ -223,15 +217,8 @@ namespace TorannMagic
             bool flag2 = loc.IsValid;
             bool flag3 = !loc.Fogged(Map);
             bool flag4 = loc.DistanceToEdge(Map) > 2;
-            if(flag1 && flag2 && flag3 && flag4)
-            {
-                if(loc.Roofed(Map))
-                {
-                    return false;                    
-                }
-                return true;
-            }
-            return false;
+            if (!flag1 || !flag2 || !flag3 || !flag4) return false;
+            return !loc.Roofed(Map);
         }
 
         private bool IsGoodCenterLocation(IntVec2 loc)
@@ -357,7 +344,7 @@ namespace TorannMagic
             base.Destroy(mode);
         }
 
-        public void DetermineElementalType()
+        private void DetermineElementalType()
         {
             System.Random random = new System.Random();
             random = new System.Random();
@@ -442,7 +429,6 @@ namespace TorannMagic
                         {
                             FleckMaker.ThrowSmoke(curCell.ToVector3(), Map, 1f);
                             FleckMaker.ThrowMicroSparks(curCell.ToVector3(), Map);
-                            SoundDefOf.Ambient_AltitudeWind.sustainFadeoutTime.Equals(30.0f);
                             rogueElemental.def = TorannMagicDefOf.TM_Earth_ElementalR;
                             rogueElemental.kindDef = PawnKindDef.Named("TM_Earth_Elemental");
                         }
@@ -450,7 +436,6 @@ namespace TorannMagic
                         {
                             FleckMaker.ThrowSmoke(curCell.ToVector3(), Map, 1f);
                             FleckMaker.ThrowMicroSparks(curCell.ToVector3(), Map);
-                            SoundDefOf.Ambient_AltitudeWind.sustainFadeoutTime.Equals(30.0f);
                             rogueElemental.def = TorannMagicDefOf.TM_LesserEarth_ElementalR;
                             rogueElemental.kindDef = PawnKindDef.Named("TM_LesserEarth_Elemental");
                         }
@@ -501,7 +486,6 @@ namespace TorannMagic
                         if (Rand.Chance(geChance))
                         {
                             FleckMaker.ThrowSmoke(curCell.ToVector3(), Map, 1);
-                            SoundDefOf.Ambient_AltitudeWind.sustainFadeoutTime.Equals(30.0f);
                             FleckMaker.ThrowTornadoDustPuff(curCell.ToVector3(), Map, 1, Color.blue);
                             FleckMaker.ThrowTornadoDustPuff(curCell.ToVector3(), Map, 1, Color.blue);
                             FleckMaker.ThrowTornadoDustPuff(curCell.ToVector3(), Map, 1, Color.blue);
@@ -511,7 +495,6 @@ namespace TorannMagic
                         else if (Rand.Chance(eChance))
                         {
                             FleckMaker.ThrowSmoke(curCell.ToVector3(), Map, 1);
-                            SoundDefOf.Ambient_AltitudeWind.sustainFadeoutTime.Equals(30.0f);
                             FleckMaker.ThrowTornadoDustPuff(curCell.ToVector3(), Map, 1, Color.blue);
                             FleckMaker.ThrowTornadoDustPuff(curCell.ToVector3(), Map, 1, Color.blue);
                             FleckMaker.ThrowTornadoDustPuff(curCell.ToVector3(), Map, 1, Color.blue);
@@ -521,7 +504,6 @@ namespace TorannMagic
                         else if (Rand.Chance(leChance))
                         {
                             FleckMaker.ThrowSmoke(curCell.ToVector3(), Map, 1);
-                            SoundDefOf.Ambient_AltitudeWind.sustainFadeoutTime.Equals(30.0f);
                             FleckMaker.ThrowTornadoDustPuff(curCell.ToVector3(), Map, 1, Color.blue);
                             FleckMaker.ThrowTornadoDustPuff(curCell.ToVector3(), Map, 1, Color.blue);
                             FleckMaker.ThrowTornadoDustPuff(curCell.ToVector3(), Map, 1, Color.blue);
@@ -542,7 +524,6 @@ namespace TorannMagic
                             rogueElemental.def = TorannMagicDefOf.TM_GreaterWind_ElementalR;
                             rogueElemental.kindDef = PawnKindDef.Named("TM_GreaterWind_Elemental");
                             FleckMaker.ThrowSmoke(curCell.ToVector3(), Map, 1 + 1 * 2);
-                            SoundDefOf.Ambient_AltitudeWind.sustainFadeoutTime.Equals(30.0f);
                             FleckMaker.ThrowTornadoDustPuff(curCell.ToVector3(), Map, 1, Color.white);
                         }
                         else if (Rand.Chance(eChance))
@@ -550,7 +531,6 @@ namespace TorannMagic
                             rogueElemental.def = TorannMagicDefOf.TM_Wind_ElementalR;
                             rogueElemental.kindDef = PawnKindDef.Named("TM_Wind_Elemental");
                             FleckMaker.ThrowSmoke(curCell.ToVector3(), Map, 1 + 1 * 2);
-                            SoundDefOf.Ambient_AltitudeWind.sustainFadeoutTime.Equals(30.0f);
                             FleckMaker.ThrowTornadoDustPuff(curCell.ToVector3(), Map, 1, Color.white);
                         }
                         else if (Rand.Chance(leChance))
@@ -558,7 +538,6 @@ namespace TorannMagic
                             rogueElemental.def = TorannMagicDefOf.TM_LesserWind_ElementalR;
                             rogueElemental.kindDef = PawnKindDef.Named("TM_LesserWind_Elemental");
                             FleckMaker.ThrowSmoke(curCell.ToVector3(), Map, 1 + 1 * 2);
-                            SoundDefOf.Ambient_AltitudeWind.sustainFadeoutTime.Equals(30.0f);
                             FleckMaker.ThrowTornadoDustPuff(curCell.ToVector3(), Map, 1, Color.white);
                         }
                         else
@@ -576,7 +555,7 @@ namespace TorannMagic
         }
 
 
-        public void SingleSpawnLoop(SpawnThings spawnables, IntVec3 position, Map map)
+        private void SingleSpawnLoop(SpawnThings spawnables, IntVec3 position, Map map)
         {
             bool flag = spawnables.def != null;
             if (flag)
@@ -597,12 +576,6 @@ namespace TorannMagic
                         newPawn.validSummoning = true;
                         //newPawn.Spawner = this.Caster;
                         newPawn.Temporary = false;
-                        //if (newPawn.Faction == null || !newPawn.Faction.HostileTo(Faction.OfPlayer))
-                        //{
-                        //    Log.Message("elemental faction was null or not hostile - fixing");
-                        //    newPawn.SetFaction(faction, null);
-                        //    faction.TryAffectGoodwillWith(Faction.OfPlayer, -200, false, false, null, null);
-                        //}
                         GenSpawn.Spawn(newPawn, position, Map);
                         if (newPawn.Faction != null && newPawn.Faction != Faction.OfPlayer)
                         {
@@ -640,22 +613,22 @@ namespace TorannMagic
             base.DrawAt(drawLoc, flip);
 
             Vector3 vector = base.DrawPos;
-            vector.y = Altitudes.AltitudeFor(AltitudeLayer.MoteOverhead);
+            vector.y = AltitudeLayer.MoteOverhead.AltitudeFor();
             Vector3 s = new Vector3(matMagnitude, matMagnitude, matMagnitude);
             Matrix4x4 matrix = default(Matrix4x4);
             float angle = 0f;
             matrix.SetTRS(vector, Quaternion.AngleAxis(angle, Vector3.up), s);
             if (matRng == 0)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, portalMat_1, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, PortalMat1, 0);
             }
             else if (matRng == 1)
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, portalMat_2, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, PortalMat2, 0);
             }
             else 
             {
-                Graphics.DrawMesh(MeshPool.plane10, matrix, portalMat_3, 0);
+                Graphics.DrawMesh(MeshPool.plane10, matrix, PortalMat3, 0);
             }            
         }
     }

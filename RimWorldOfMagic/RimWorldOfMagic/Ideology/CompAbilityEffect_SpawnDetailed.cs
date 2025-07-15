@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RimWorld;
+using TorannMagic.Buildings;
 using Verse;
 using Verse.Sound;
 
@@ -29,7 +30,7 @@ namespace TorannMagic.Ideology
 				spawnables.temporary = Props.temporary;		
 
 				Building_TMElementalRift_Defenders thing = (Building_TMElementalRift_Defenders)TM_Action.SingleSpawnLoop(parent.pawn, spawnables, target.Cell, parent.pawn.Map, Props.durationTicks, Props.temporary, false, parent.pawn.Faction, false, ThingDef.Named("BlocksMarble"));
-				thing.duration = Props.durationTicks;
+				thing.Duration = Props.durationTicks;
 			}
 		}
 
