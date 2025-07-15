@@ -3,7 +3,7 @@
 <Defs>
 
   <ThingDef Name="TrapSummonedExplosiveBase" ParentName="TM_BuildingBase" Abstract="True">
-    <thingClass>TorannMagic.Building.Building_ExplosiveProximityTrap</thingClass>
+    <thingClass>TorannMagic.Buildings.Building_ExplosiveProximityTrap</thingClass>
     <graphicData>
       <graphicClass>Graphic_Single</graphicClass>
       <damageData>
@@ -40,7 +40,7 @@
   </ThingDef>
   
   <ThingDef Name="PoisonTrapBase" ParentName="TM_BuildingBase" Abstract="True">
-    <thingClass>TorannMagic.Building.Building_PoisonTrap</thingClass>
+    <thingClass>TorannMagic.Buildings.Building_PoisonTrap</thingClass>
     <graphicData>
       <graphicClass>Graphic_Single</graphicClass>
       <damageData>
@@ -84,7 +84,7 @@
   </ThingDef>
   
   <ThingDef Name="LightningTrapBase" ParentName="TM_BuildingBase" Abstract="True">
-    <thingClass>TorannMagic.Building.Building_LightningTrap</thingClass>
+    <thingClass>TorannMagic.Buildings.Building_LightningTrap</thingClass>
     <graphicData>
       <graphicClass>Graphic_Single</graphicClass>
       <damageData>
@@ -694,7 +694,7 @@
   <ThingDef ParentName="TM_BuildingBase" Name="TM_ArcaneBarrier">
     <defName>TM_ArcaneBarrier</defName>
     <label>arcane barrier</label>
-    <thingClass>TorannMagic.Building.Building_TMBarrier</thingClass>
+    <thingClass>TorannMagic.Buildings.Building_TMBarrier</thingClass>
     <category>Building</category>
     <description>An impassable wall made from solidified arcane power. Provides protection or creates an impassable barrier.</description>
     <graphicData>
@@ -775,7 +775,7 @@
 Technomancers have since adapted the system and use their control over arcane energy to provide the turret with ammunition while deployed and energy for repairs and the miniaturization process.
 
 Due to its weight, the Mark-IV cannot be moved while deployed.</description>
-    <thingClass>TorannMagic.Building.Building_TechnoTurret</thingClass>
+    <thingClass>TorannMagic.Buildings.Building_TechnoTurret</thingClass>
     <graphicData>
       <texPath>Other/TechnoTurret_Base</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -981,7 +981,7 @@ Due to its weight, the Mark-IV cannot be moved while deployed.</description>
 	<description>60mm Mortar is a personally transportable and deployable indirect fire system. Due to the weight of the system, the shells are typically distributed for transport. The system is intended for indirect fire and only amateurs attempt to use the system for direct lay as it is both inaccurate and exposes the mortar-man. 
 	
 	The range and firepower of the system are limited compared to stationary systems due the containment capacity of the mortar tube and the blast cartridge.</description>
-    <thingClass>TorannMagic.Building.Building_60mmMortar</thingClass>
+    <thingClass>TorannMagic.Buildings.Building_60mmMortar</thingClass>
     <graphicData>
       <texPath>Other/60mmMortar_Pod</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -1050,7 +1050,7 @@ Due to its weight, the Mark-IV cannot be moved while deployed.</description>
   <ThingDef ParentName="TM_BuildingBase">
     <defName>TM_LightningTotem</defName>
     <label>Lightning Totem</label>
-    <thingClass>TorannMagic.Building.Building_TMTotem_Lightning</thingClass>
+    <thingClass>TorannMagic.Buildings.Building_TMTotem_Lightning</thingClass>
     <graphicData>
       <texPath>Other/totem_claw</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -1113,7 +1113,7 @@ Due to its weight, the Mark-IV cannot be moved while deployed.</description>
   <ThingDef ParentName="TM_BuildingBase">
     <defName>TM_HealingTotem</defName>
     <label>Healing Totem</label>
-    <thingClass>TorannMagic.Building.Building_TMTotem_Healing</thingClass>
+    <thingClass>TorannMagic.Buildings.Building_TMTotem_Healing</thingClass>
     <graphicData>
       <texPath>Other/totem_wing</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -1176,7 +1176,7 @@ Due to its weight, the Mark-IV cannot be moved while deployed.</description>
   <ThingDef ParentName="TM_BuildingBase">
     <defName>TM_EarthTotem</defName>
     <label>Earth Totem</label>
-    <thingClass>TorannMagic.Building.Building_TMTotem_Earth</thingClass>
+    <thingClass>TorannMagic.Buildings.Building_TMTotem_Earth</thingClass>
     <graphicData>
       <texPath>Other/totem_monolith</texPath>
       <graphicClass>Graphic_Single</graphicClass>

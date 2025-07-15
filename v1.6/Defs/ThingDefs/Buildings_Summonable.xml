@@ -473,7 +473,7 @@
   <ThingDef ParentName="TM_BuildingBase">
     <defName>TM_Heater</defName>
     <label>magical heater</label>
-    <thingClass>TorannMagic.Building.Building_TMHeater</thingClass>
+    <thingClass>TorannMagic.Buildings.Building_TMHeater</thingClass>
     <description>An active dimensional tap into the Plane of Fire that can be used to heat confined spaces. Can also be used for various cooking or cremating tasks. Remains as long as it is sustained by a mage.</description>    
     <category>Building</category>
     <graphicData>
@@ -549,7 +549,7 @@
   
   <ThingDef ParentName="TM_BuildingBase">
     <defName>TM_Cooler</defName>
-	<thingClass>TorannMagic.Building.Building_TMCooler</thingClass>
+	<thingClass>TorannMagic.Buildings.Building_TMCooler</thingClass>
     <label>magical cooler</label>
     <description>An active dimensional tap into the Plane of Ice that can be used to cool confined spaces.</description>
     <category>Building</category>
@@ -609,7 +609,7 @@
   <ThingDef ParentName="TM_BuildingBase">
     <defName>TM_PowerNode</defName>
     <label>Arcane power node</label>
-	<thingClass>TorannMagic.Building.Building_TMPowerNode</thingClass>
+	<thingClass>TorannMagic.Buildings.Building_TMPowerNode</thingClass>
     <description>An arcane energy node that provides power as long as it is sustained by a mage.</description>
     <category>Building</category>
     <graphicData>
@@ -669,7 +669,7 @@
    
   <ThingDef ParentName="TM_BuildingBase">
     <defName>TM_Sunlight</defName>
-	<thingClass>TorannMagic.Building.Building_TMSunlight</thingClass>
+	<thingClass>TorannMagic.Buildings.Building_TMSunlight</thingClass>
     <label>sun light</label>
     <description>A dimensional pocket emitting a continous source of light strong enough to grow crops.</description>
     <category>Building</category>
@@ -726,7 +726,7 @@
   <ThingDef ParentName="TM_BuildingBase">
     <defName>TM_Sentinel</defName>
     <label>Sentinel</label>
-    <thingClass>TorannMagic.Building.Building_TMSentinel</thingClass>
+    <thingClass>TorannMagic.Buildings.Building_TMSentinel</thingClass>
     <graphicData>
       <texPath>PawnKind/gargoyle</texPath>
       <graphicClass>Graphic_Multi</graphicClass>
@@ -783,7 +783,7 @@ As you drawn near the statue, an eerie glint from the eyes of the stone sentinel
   
   <ThingDef ParentName="TM_BuildingBase">
     <defName>TM_MageLightTD</defName>
-	<thingClass>TorannMagic.Building.Building_TMMageLight</thingClass>
+	<thingClass>TorannMagic.Buildings.Building_TMMageLight</thingClass>
     <label>magelight</label>
     <description>A light source created by a mage.</description>    
     <graphicData>

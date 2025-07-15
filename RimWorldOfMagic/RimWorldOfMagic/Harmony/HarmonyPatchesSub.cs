@@ -23,7 +23,8 @@ namespace TorannMagic
         {
             public static void Postfix(Pawn pawn, ref Job __result)
             {
-                if (pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadHD"), false) || pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadAnimalHD")))
+                if (pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadHD"), false) ||
+                    pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadAnimalHD")))
                 {
                     __result = null;
                 }
@@ -78,7 +79,10 @@ namespace TorannMagic
                 bool valid = !thing.DestroyedOrNull() && thing.TryGetQuality(out QualityCategory qc);
                 if (valid)
                 {
-                    if (((thing.def.thingClass != null && thing.def.thingClass.ToString() == "RimWorld.Apparel") || thing.TryGetComp<CompEquippable>() != null) && thing.TryGetComp<Enchantment.CompEnchantedItem>() != null)
+                    if (((thing.def.thingClass != null &&
+                          thing.def.thingClass.ToString() == "RimWorld.Apparel") ||
+                         thing.TryGetComp<CompEquippable>() != null) &&
+                        thing.TryGetComp<Enchantment.CompEnchantedItem>() != null)
                     {
                         if (thing.TryGetComp<Enchantment.CompEnchantedItem>().HasEnchantment)
                         {
@@ -86,61 +90,86 @@ namespace TorannMagic
                             string str1 = "-- Enchanted (";
                             string str2 = "Enchanted \n\n";
 
-                            Enchantment.CompEnchantedItem enchantedItem = thing.TryGetComp<Enchantment.CompEnchantedItem>();
+                            Enchantment.CompEnchantedItem enchantedItem =
+                                thing.TryGetComp<Enchantment.CompEnchantedItem>();
                             if (enchantedItem.maxMP != 0)
                             {
-                                GUI.color = Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem.maxMPTier);
+                                GUI.color =
+                                    Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem.maxMPTier);
                                 str1 += "M";
                                 str2 += enchantedItem.MaxMPLabel + "\n";
                             }
+
                             if (enchantedItem.mpCost != 0)
                             {
-                                GUI.color = Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem.mpCostTier);
+                                GUI.color =
+                                    Enchantment.GenEnchantmentColor
+                                        .EnchantmentColor(enchantedItem.mpCostTier);
                                 str1 += "C";
                                 str2 += enchantedItem.MPCostLabel + "\n";
                             }
+
                             if (enchantedItem.mpRegenRate != 0)
                             {
-                                GUI.color = Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem.mpRegenRateTier);
+                                GUI.color =
+                                    Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem
+                                        .mpRegenRateTier);
                                 str1 += "R";
                                 str2 += enchantedItem.MPRegenRateLabel + "\n";
                             }
+
                             if (enchantedItem.coolDown != 0)
                             {
-                                GUI.color = Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem.coolDownTier);
+                                GUI.color =
+                                    Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem
+                                        .coolDownTier);
                                 str1 += "D";
                                 str2 += enchantedItem.CoolDownLabel + "\n";
                             }
+
                             if (enchantedItem.xpGain != 0)
                             {
-                                GUI.color = Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem.xpGainTier);
+                                GUI.color =
+                                    Enchantment.GenEnchantmentColor
+                                        .EnchantmentColor(enchantedItem.xpGainTier);
                                 str1 += "G";
                                 str2 += enchantedItem.XPGainLabel + "\n";
                             }
+
                             if (enchantedItem.arcaneRes != 0)
                             {
-                                GUI.color = Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem.arcaneResTier);
+                                GUI.color =
+                                    Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem
+                                        .arcaneResTier);
                                 str1 += "X";
                                 str2 += enchantedItem.ArcaneResLabel + "\n";
                             }
+
                             if (enchantedItem.arcaneDmg != 0)
                             {
-                                GUI.color = Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem.arcaneDmgTier);
+                                GUI.color =
+                                    Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem
+                                        .arcaneDmgTier);
                                 str1 += "Z";
                                 str2 += enchantedItem.ArcaneDmgLabel + "\n";
                             }
+
                             if (enchantedItem.arcaneSpectre != false)
                             {
-                                GUI.color = Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem.skillTier);
+                                GUI.color =
+                                    Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem.skillTier);
                                 str1 += "*S";
                                 str2 += enchantedItem.ArcaneSpectreLabel + "\n";
                             }
+
                             if (enchantedItem.phantomShift != false)
                             {
-                                GUI.color = Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem.skillTier);
+                                GUI.color =
+                                    Enchantment.GenEnchantmentColor.EnchantmentColor(enchantedItem.skillTier);
                                 str1 += "*P";
                                 str2 += enchantedItem.PhantomShiftLabel + "\n";
                             }
+
                             str1 += ")";
                             y -= 6f;
                             Rect rect = new Rect(48f, y, width - 36f, 28f);
@@ -148,7 +177,7 @@ namespace TorannMagic
 
                             TooltipHandler.TipRegion(rect, () => string.Concat(new string[]
                             {
-                            str2,
+                                str2,
                             }), 398512);
 
                             y += 28f;
@@ -165,7 +194,8 @@ namespace TorannMagic
         {
             //public static FieldInfo pawn = typeof(ITab_Pawn_Gear).GetField("SelPawnForGear", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
 
-            public static void Postfix(ITab_Pawn_Gear __instance, ref float curY, float width, StatDef stat, string label)
+            public static void Postfix(ITab_Pawn_Gear __instance, ref float curY, float width, StatDef stat,
+                string label)
             {
                 if (stat.defName == "ArmorRating_Heat")
                 {
@@ -193,8 +223,10 @@ namespace TorannMagic
                                     }
                                 }
                             }
+
                             num += allParts[i].coverageAbs * (1f - num3);
                         }
+
                         num = Mathf.Clamp(num * 2f, 0f, 2f);
                         Rect rect = new Rect(0f, curY, width, 100f);
                         Widgets.Label(rect, label.Truncate(120f, null));
@@ -214,18 +246,23 @@ namespace TorannMagic
                 CompAbilityUserMagic comp = initiator.GetCompAbilityUserMagic();
                 if (initiator.story?.traits != null)
                 {
-                    if ((initiator.story.traits.HasTrait(TorannMagicDefOf.TM_Bard) || TM_ClassUtility.ClassHasAbility(TorannMagicDefOf.TM_Entertain, comp, null)))
+                    if ((initiator.story.traits.HasTrait(TorannMagicDefOf.TM_Bard) ||
+                         TM_ClassUtility.ClassHasAbility(TorannMagicDefOf.TM_Entertain, comp, null)))
                     {
-                        MagicPowerSkill ver = comp.MagicData.MagicPowerSkill_Entertain.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Entertain_ver");
+                        MagicPowerSkill ver =
+                            comp.MagicData.MagicPowerSkill_Entertain.FirstOrDefault((MagicPowerSkill x) =>
+                                x.label == "TM_Entertain_ver");
                         __result = __result / (1 + ver.level);
-
                     }
+
                     if (initiator.story.traits.HasTrait(TorannMagicDefOf.TM_Sniper))
                     {
                         __result *= 1.2f;
                     }
                 }
-                if (initiator.mindState != null && initiator.mindState.mentalStateHandler != null && initiator.Inspired && initiator.InspirationDef.defName == "Outgoing")
+
+                if (initiator.mindState != null && initiator.mindState.mentalStateHandler != null &&
+                    initiator.Inspired && initiator.InspirationDef.defName == "Outgoing")
                 {
                     __result = __result * .5f;
                 }
@@ -237,16 +274,16 @@ namespace TorannMagic
         {
             public static bool Prefix(InspirationHandler __instance, ref bool __result)
             {
-                if (__instance.pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadHD")) || __instance.pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_LichHD")))
+                if (__instance.pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadHD")) ||
+                    __instance.pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_LichHD")))
                 {
                     __result = false;
                     return false;
                 }
+
                 return true;
             }
         }
-
-        private static readonly SimpleCache<string, TraitIconMap.TraitIconValue> ColonistBarColonistDrawerCache = new SimpleCache<string, TraitIconMap.TraitIconValue>(5);
 
         [HarmonyPatch(typeof(ColonistBarColonistDrawer), "DrawIcons", null)]
         public class ColonistBarColonistDrawer_Patch
@@ -255,50 +292,41 @@ namespace TorannMagic
             {
                 if (colonist.Dead) return;
 
-                
-                var traitIconValue = ColonistBarColonistDrawerCache.GetOrCreate(
-                    colonist.ThingID,
-                    () =>
+                TraitIconMap.TraitIconValue traitIconValue = null;
+                if (colonist.health.hediffSet.HasHediff(TorannMagicDefOf.TM_UndeadHD))
+                {
+                    traitIconValue = new TraitIconMap.TraitIconValue(
+                        TM_RenderQueue.necroMarkMat,
+                        TM_MatPool.Icon_Undead,
+                        "TM_Icon_Undead"
+                    );
+                }
+                else if (ModOptions.Settings.Instance.showClassIconOnColonistBar && colonist.story != null)
+                {
+                    foreach (Trait trait in colonist.story.traits.allTraits.Where(trait =>
+                                 TraitIconMap.ContainsKey(trait.def)))
                     {
-                        if (colonist.health.hediffSet.HasHediff(TorannMagicDefOf.TM_UndeadHD))
-                        {
-                            return new TraitIconMap.TraitIconValue(TM_RenderQueue.necroMarkMat, TM_MatPool.Icon_Undead, "TM_Icon_Undead");                        
-                        }
-                        // Early exit condition
-                        if (!ModOptions.Settings.Instance.showClassIconOnColonistBar || colonist.story == null)
-                        {
-                            return null;
-                        }
-                        //Custom Classes loaded at startup                        
-
-                        for (int i = 0; i < colonist.story.traits.allTraits.Count; i++)
-                        {
-                            TraitDef trait = colonist.story.traits.allTraits[i].def;
-                            if (TraitIconMap.ContainsKey(trait))
-                            {
-                                return TraitIconMap.Get(trait);                                
-                            }
-                        }
-                        return null;
-                    }, 5);
+                        traitIconValue = TraitIconMap.Get(trait.def);
+                        break;
+                    }
+                }
 
                 // Skip rendering if there's nothing to render
                 if (traitIconValue == null) return;
 
-                // Otherwise render away!
                 float num = 20f * Find.ColonistBar.Scale * ModOptions.Settings.Instance.classIconSize;
                 Vector2 vector = new Vector2(rect.x + 1f, rect.yMin + 1f);
                 rect = new Rect(vector.x, vector.y, num, num);
                 GUI.DrawTexture(rect, traitIconValue.IconTexture);
                 TooltipHandler.TipRegion(rect, traitIconValue.IconType.Translate());
-                vector.x += num;
             }
         }
 
         [HarmonyPatch(typeof(Pawn_InteractionsTracker), "InteractionsTrackerTickInterval", null)]
         public class InteractionsTrackerTick_Patch
         {
-            public static void Postfix(Pawn_InteractionsTracker __instance, Pawn ___pawn, ref bool ___wantsRandomInteract, int ___lastInteractionTime)
+            public static void Postfix(Pawn_InteractionsTracker __instance, Pawn ___pawn,
+                ref bool ___wantsRandomInteract, int ___lastInteractionTime)
             {
                 if (Find.TickManager.TicksGame % 1200 == 0)
                 {
@@ -306,14 +334,20 @@ namespace TorannMagic
                     {
                         CompAbilityUserMagic comp = ___pawn.GetCompAbilityUserMagic();
 
-                        if (comp != null && comp.IsMagicUser && (comp.Pawn.story.traits.HasTrait(TorannMagicDefOf.TM_Bard) || TM_ClassUtility.ClassHasAbility(TorannMagicDefOf.TM_Entertain, comp, null)))
+                        if (comp != null && comp.IsMagicUser &&
+                            (comp.Pawn.story.traits.HasTrait(TorannMagicDefOf.TM_Bard) ||
+                             TM_ClassUtility.ClassHasAbility(TorannMagicDefOf.TM_Entertain, comp, null)))
                         {
-                            MagicPowerSkill pwr = comp.MagicData.MagicPowerSkill_Entertain.FirstOrDefault((MagicPowerSkill x) => x.label == "TM_Entertain_pwr");
-                            if ((Find.TickManager.TicksGame - ___lastInteractionTime) > (3000 - (450 * pwr.level)))
+                            MagicPowerSkill pwr =
+                                comp.MagicData.MagicPowerSkill_Entertain.FirstOrDefault((MagicPowerSkill x) =>
+                                    x.label == "TM_Entertain_pwr");
+                            if ((Find.TickManager.TicksGame - ___lastInteractionTime) >
+                                (3000 - (450 * pwr.level)))
                             {
                                 ___wantsRandomInteract = true;
                             }
                         }
+
                         if (___pawn.Inspired && ___pawn.InspirationDef.defName == "ID_Outgoing")
                         {
                             if ((Find.TickManager.TicksGame - ___lastInteractionTime) > (1800))
@@ -321,7 +355,9 @@ namespace TorannMagic
                                 ___wantsRandomInteract = true;
                             }
                         }
-                        if (___pawn.health != null && ___pawn.health.hediffSet != null && ___pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_TaskMasterHD))
+
+                        if (___pawn.health != null && ___pawn.health.hediffSet != null &&
+                            ___pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_TaskMasterHD))
                         {
                             if ((Find.TickManager.TicksGame - ___lastInteractionTime) < 30000)
                             {
@@ -338,13 +374,15 @@ namespace TorannMagic
         {
             //public static FieldInfo pawn = typeof(MentalStateHandler).GetField("pawn", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
 
-            public static bool Prefix(MentalStateHandler __instance, MentalStateDef stateDef, Pawn otherPawn, Pawn ___pawn, ref bool __result)
+            public static bool Prefix(MentalStateHandler __instance, MentalStateDef stateDef, Pawn otherPawn,
+                Pawn ___pawn, ref bool __result)
             {
                 if (___pawn.RaceProps.Humanlike && (TM_Calc.IsUndeadNotVamp(___pawn)))
                 {
                     __result = false;
                     return false;
                 }
+
                 return true;
             }
         }
@@ -354,7 +392,8 @@ namespace TorannMagic
         public static class Pawn_NeedsTracker_Patch
         {
             //public static FieldInfo pawn = typeof(Pawn_NeedsTracker).GetField("pawn", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetField);
-            public static bool Prefix(Pawn_NeedsTracker __instance, NeedDef nd, Pawn ___pawn, ref bool __result)
+            public static bool Prefix(Pawn_NeedsTracker __instance, NeedDef nd, Pawn ___pawn,
+                ref bool __result)
             {
                 //Traverse traverse = Traverse.Create(__instance);
                 Pawn pawn = ___pawn;
@@ -366,28 +405,40 @@ namespace TorannMagic
                         {
                             return true;
                         }
+
                         return false;
                     }
-                    if (nd.defName == "ROMV_Blood" && (pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadHD")) || pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadAnimalHD")) || pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_LichHD"))))
+
+                    if (nd.defName == "ROMV_Blood" &&
+                        (pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadHD")) ||
+                         pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadAnimalHD")) ||
+                         pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_LichHD"))))
                     {
-                        bool hasVampHediff = pawn.health.hediffSet.HasHediff(HediffDef.Named("ROM_Vampirism"));
+                        bool hasVampHediff =
+                            pawn.health.hediffSet.HasHediff(HediffDef.Named("ROM_Vampirism"));
                         if (hasVampHediff)
                         {
                             return true;
                         }
+
                         __result = false;
                         return false;
                     }
-                    if ((nd.defName == "TM_Mana" || nd.defName == "TM_Stamina") && pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadHD")))
+
+                    if ((nd.defName == "TM_Mana" || nd.defName == "TM_Stamina") &&
+                        pawn.health.hediffSet.HasHediff(HediffDef.Named("TM_UndeadHD")))
                     {
                         __result = false;
                         return false;
                     }
-                    if (nd == TorannMagicDefOf.TM_Travel)// && pawn.story != null && pawn.story.traits != null)
+
+                    if (nd == TorannMagicDefOf
+                            .TM_Travel) // && pawn.story != null && pawn.story.traits != null)
                     {
                         __result = false;
                         return false;
                     }
+
                     if (TM_GolemUtility.GolemPawns.Contains(pawn.def))
                     {
                         foreach (NeedDef n in TM_GolemUtility.GetGolemDefFromThing(___pawn).needs)
@@ -400,10 +451,11 @@ namespace TorannMagic
                         }
                     }
                 }
+
                 return true;
             }
         }
-        
+
         [HarmonyPatch(typeof(PawnGenerator), "GenerateTraits", null)]
         public static class PawnGenerator_Patch
         {
@@ -414,7 +466,7 @@ namespace TorannMagic
 
                 List<TraitDef> allTraits = DefDatabase<TraitDef>.AllDefsListForReading;
                 List<Trait> pawnTraits = pawn.story.traits.allTraits;
-                
+
                 bool flag = pawnTraits != null;
                 bool anyFightersEnabled = false;
                 bool anyMagesEnabled = false;
@@ -427,915 +479,809 @@ namespace TorannMagic
                 float mageFactor = 1f;
                 if (pawn.Faction != null)
                 {
-                    if (ModOptions.Settings.Instance.FactionFighterSettings.ContainsKey(pawn.Faction.def.defName))
-                    {
-                        fighterFactor = ModOptions.Settings.Instance.FactionFighterSettings[pawn.Faction.def.defName];
-                    }
-                    if (ModOptions.Settings.Instance.FactionMageSettings.ContainsKey(pawn.Faction.def.defName))
-                    {
-                        mageFactor = ModOptions.Settings.Instance.FactionMageSettings[pawn.Faction.def.defName];
-                    }
+                    ModOptions.Settings.Instance.FactionFighterSettings.TryGetValue(pawn.Faction.def.defName,
+                        out fighterFactor);
+
+                    ModOptions.Settings.Instance.FactionMageSettings.TryGetValue(pawn.Faction.def.defName,
+                        out mageFactor);
                 }
+
                 if (TM_ClassUtility.CustomFighterClasses == null)
                 {
                     TM_ClassUtility.LoadCustomClasses();
                 }
+
                 if (TM_ClassUtility.CustomMageClasses == null)
                 {
                     TM_ClassUtility.LoadCustomClasses();
                 }
 
                 List<TM_CustomClass> customFighters = TM_ClassUtility.CustomFighterClasses;
-                List<TM_CustomClass> customMages = TM_ClassUtility.CustomMageClasses;              
+                List<TM_CustomClass> customMages = TM_ClassUtility.CustomMageClasses;
 
                 mageCount += customMages.Count;
                 fighterCount += customFighters.Count;
-                if (customFighters.Count > 0 || ModOptions.Settings.Instance.Gladiator || ModOptions.Settings.Instance.Bladedancer || ModOptions.Settings.Instance.Ranger || ModOptions.Settings.Instance.Sniper || ModOptions.Settings.Instance.Faceless || ModOptions.Settings.Instance.DeathKnight || ModOptions.Settings.Instance.Psionic || ModOptions.Settings.Instance.Monk || ModOptions.Settings.Instance.Wayfarer || ModOptions.Settings.Instance.Commander || ModOptions.Settings.Instance.SuperSoldier)
+                if (customFighters.Count > 0 || ModOptions.Settings.Instance.Gladiator ||
+                    ModOptions.Settings.Instance.Bladedancer || ModOptions.Settings.Instance.Ranger ||
+                    ModOptions.Settings.Instance.Sniper || ModOptions.Settings.Instance.Faceless ||
+                    ModOptions.Settings.Instance.DeathKnight || ModOptions.Settings.Instance.Psionic ||
+                    ModOptions.Settings.Instance.Monk || ModOptions.Settings.Instance.Wayfarer ||
+                    ModOptions.Settings.Instance.Commander || ModOptions.Settings.Instance.SuperSoldier)
                 {
                     anyFightersEnabled = true;
                 }
-                if (customMages.Count > 0 || ModOptions.Settings.Instance.Arcanist || ModOptions.Settings.Instance.FireMage || ModOptions.Settings.Instance.IceMage || ModOptions.Settings.Instance.LitMage || ModOptions.Settings.Instance.Druid || ModOptions.Settings.Instance.Paladin || ModOptions.Settings.Instance.Summoner || ModOptions.Settings.Instance.Priest || ModOptions.Settings.Instance.Necromancer || ModOptions.Settings.Instance.Bard || ModOptions.Settings.Instance.Demonkin || ModOptions.Settings.Instance.Geomancer || ModOptions.Settings.Instance.Technomancer || ModOptions.Settings.Instance.BloodMage || ModOptions.Settings.Instance.Enchanter || ModOptions.Settings.Instance.Chronomancer || ModOptions.Settings.Instance.Wanderer || ModOptions.Settings.Instance.ChaosMage)
+
+                if (customMages.Count > 0 || ModOptions.Settings.Instance.Arcanist ||
+                    ModOptions.Settings.Instance.FireMage || ModOptions.Settings.Instance.IceMage ||
+                    ModOptions.Settings.Instance.LitMage || ModOptions.Settings.Instance.Druid ||
+                    ModOptions.Settings.Instance.Paladin || ModOptions.Settings.Instance.Summoner ||
+                    ModOptions.Settings.Instance.Priest || ModOptions.Settings.Instance.Necromancer ||
+                    ModOptions.Settings.Instance.Bard || ModOptions.Settings.Instance.Demonkin ||
+                    ModOptions.Settings.Instance.Geomancer || ModOptions.Settings.Instance.Technomancer ||
+                    ModOptions.Settings.Instance.BloodMage || ModOptions.Settings.Instance.Enchanter ||
+                    ModOptions.Settings.Instance.Chronomancer || ModOptions.Settings.Instance.Wanderer ||
+                    ModOptions.Settings.Instance.ChaosMage)
                 {
                     anyMagesEnabled = true;
                 }
+
                 if (flag)
                 {
-                    float baseMageChance = mageFactor * ModOptions.Settings.Instance.baseMageChance * baseCount;
-                    float baseFighterChance = fighterFactor * ModOptions.Settings.Instance.baseFighterChance * baseCount;
+                    float baseMageChance =
+                        mageFactor * ModOptions.Settings.Instance.baseMageChance * baseCount;
+                    float baseFighterChance = fighterFactor * ModOptions.Settings.Instance.baseFighterChance *
+                                              baseCount;
                     float advMageChance = mageCount * ModOptions.Settings.Instance.advMageChance * mageFactor;
-                    float advFighterChance = fighterCount * ModOptions.Settings.Instance.advFighterChance * fighterFactor;
+                    float advFighterChance = fighterCount * ModOptions.Settings.Instance.advFighterChance *
+                                             fighterFactor;
 
-                    if (false) //ModCheck.Validate.AlienHumanoidRaces.IsInitialized())
+                    if (Rand.Chance((baseMageChance + baseFighterChance + advMageChance + advFighterChance) /
+                                    (allTraits.Count)))
                     {
-                        if (Rand.Chance(((baseFighterChance) + (baseMageChance) + (advFighterChance) + (advMageChance)) / (allTraits.Count)))
+                        if (pawnTraits.Count > 2)
                         {
-                            if (pawnTraits.Count > 0)
+                            pawnTraits.Remove(pawnTraits[pawnTraits.Count - 1]);
+                        }
+
+                        float rnd = Rand.Range(0,
+                            baseMageChance + baseFighterChance + advFighterChance + advMageChance);
+                        if (rnd < (baseMageChance) &&
+                            !pawn.story.AllBackstories.Any(bs =>
+                                bs.DisallowsTrait(TorannMagicDefOf.TM_Gifted, 0)) &&
+                            !pawn.story.traits.allTraits.Any(td =>
+                                td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Gifted)))
+                        {
+                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Gifted, 0, false));
+                        }
+                        else if (rnd >= baseMageChance && rnd < (baseMageChance + baseFighterChance) &&
+                                 !pawn.story.AllBackstories.Any(bs =>
+                                     bs.DisallowsTrait(TorannMagicDefOf.PhysicalProdigy, 0)) &&
+                                 !pawn.story.traits.allTraits.Any(td =>
+                                     td.def.conflictingTraits.Contains(TorannMagicDefOf.PhysicalProdigy)))
+                        {
+                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.PhysicalProdigy, 0,
+                                false));
+                        }
+                        else if (rnd >= (baseMageChance + baseFighterChance) &&
+                                 rnd < (baseMageChance + baseFighterChance + advFighterChance))
+                        {
+                            if (anyFightersEnabled && pawn.ageTracker?.AgeBiologicalYears >= 6)
                             {
-                                pawnTraits.Remove(pawnTraits[pawnTraits.Count - 1]);
-                            }
-                            float rnd = Rand.Range(0, baseMageChance + baseFighterChance + advMageChance + advFighterChance);
-                            if (rnd < (baseMageChance) && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Gifted, 0)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.TM_Gifted) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Gifted)))
-                            {
-                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Gifted, 0, false));
-                            }
-                            else if (rnd >= baseMageChance && rnd < (baseMageChance + baseFighterChance) && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.PhysicalProdigy, 0)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.PhysicalProdigy) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.PhysicalProdigy)))
-                            {
-                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.PhysicalProdigy, 0, false));
-                            }
-                            else if (rnd >= (baseMageChance + baseFighterChance) && rnd < (baseMageChance + baseFighterChance + advFighterChance))
-                            {
-                                if (anyFightersEnabled)
+                                int rndF = Rand.RangeInclusive(1, fighterCount);
+                                switch (rndF)
                                 {
-                                    int rndF = Rand.RangeInclusive(1, fighterCount);
-                                    switch (rndF)
-                                    {
-                                        case 1:
-                                            //Gladiator:;
-                                            if (ModOptions.Settings.Instance.Gladiator && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Gladiator, 0)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Gladiator) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Gladiator)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Gladiator, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Sniper;
-                                            //}
-                                            break;
-                                        case 2:
-                                            //Sniper:;
-                                            if (ModOptions.Settings.Instance.Sniper && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Sniper, 0)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.TM_Sniper) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Sniper)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Sniper, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Bladedancer;
-                                            //}
-                                            break;
-                                        case 3:
-                                            Bladedancer:;
-                                            if (ModOptions.Settings.Instance.Bladedancer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Bladedancer, 0)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Bladedancer) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Bladedancer)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Bladedancer, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Ranger;
-                                            //}
-                                            break;
-                                        case 4:
-                                            Ranger:;
-                                            if (ModOptions.Settings.Instance.Ranger && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Ranger, 0)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Ranger) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Ranger)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Ranger, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Faceless;
-                                            //}
-                                            break;
-                                        case 5:
-                                            Faceless:;
-                                            if (ModOptions.Settings.Instance.Faceless && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Faceless, 0)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Faceless) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Faceless)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Faceless, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Psionic;
-                                            //}
-                                            break;
-                                        case 6:
-                                            Psionic:;
-                                            if (ModOptions.Settings.Instance.Psionic && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Psionic, 0)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.TM_Psionic) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Psionic)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Psionic, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto DeathKnight;
-                                            //}
-                                            break;
-                                        case 7:
-                                            DeathKnight:;
-                                            if (ModOptions.Settings.Instance.DeathKnight && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.DeathKnight, 0)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.DeathKnight) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.DeathKnight)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.DeathKnight, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Monk;
-                                            //}
-                                            break;
-                                        case 8:
-                                            Monk:;
-                                            if (ModOptions.Settings.Instance.Monk && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Monk, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.TM_Monk) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Monk)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Monk, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Wayfarer;
-                                            //}
-                                            break;
-                                        case 9:
-                                            Wayfarer:;
-                                            if (ModOptions.Settings.Instance.Wayfarer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Wayfarer, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.TM_Wayfarer) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Wayfarer)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Wayfarer, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Commander;
-                                            //}
-                                            break;
-                                        case 10:
-                                            Commander:;
-                                            if (ModOptions.Settings.Instance.Commander && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Commander, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.TM_Commander) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Commander)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Commander, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto SuperSoldier;
-                                            //}
-                                            break;
-                                        case 11:
-                                            SuperSoldier:;
-                                            if (ModOptions.Settings.Instance.SuperSoldier && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_SuperSoldier, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.TM_SuperSoldier) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_SuperSoldier)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_SuperSoldier, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Gladiator;
-                                            //}
-                                            break;
-                                        case int val when rndF > 11:
-                                            TM_CustomClass cFighter = TM_ClassUtility.GetRandomCustomFighter();
-                                            if (!pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(cFighter.classTrait, cFighter.traitDegree)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, cFighter.classTrait) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(cFighter.classTrait)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(cFighter.classTrait, cFighter.traitDegree, false));
-                                            }
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    goto TraitEnd;
+                                    case 1:
+                                        //Gladiator:;
+                                        if (ModOptions.Settings.Instance.Gladiator &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Gladiator, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .Gladiator)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Gladiator,
+                                                0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Sniper;
+                                        //}
+                                        break;
+                                    case 2:
+                                        //Sniper:;
+                                        if (ModOptions.Settings.Instance.Sniper &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.TM_Sniper, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .TM_Sniper)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Sniper,
+                                                0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Bladedancer;
+                                        //}
+                                        break;
+                                    case 3:
+                                        Bladedancer: ;
+                                        if (ModOptions.Settings.Instance.Bladedancer &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Bladedancer, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(
+                                                    TorannMagicDefOf.Bladedancer)))
+                                        {
+                                            pawn.story.traits.GainTrait(
+                                                new Trait(TorannMagicDefOf.Bladedancer, 0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Ranger;
+                                        //}
+                                        break;
+                                    case 4:
+                                        Ranger: ;
+                                        if (ModOptions.Settings.Instance.Ranger &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Ranger, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf.Ranger)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Ranger, 0,
+                                                false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Faceless;
+                                        //}
+                                        break;
+                                    case 5:
+                                        Faceless: ;
+                                        if (ModOptions.Settings.Instance.Faceless &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Faceless, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf.Faceless)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Faceless,
+                                                0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Psionic;
+                                        //}
+                                        break;
+                                    case 6:
+                                        Psionic: ;
+                                        if (ModOptions.Settings.Instance.Psionic &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.TM_Psionic, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .TM_Psionic)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Psionic,
+                                                0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto DeathKnight;
+                                        //}
+                                        break;
+                                    case 7:
+                                        DeathKnight: ;
+                                        if (ModOptions.Settings.Instance.DeathKnight &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.DeathKnight, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(
+                                                    TorannMagicDefOf.DeathKnight)))
+                                        {
+                                            pawn.story.traits.GainTrait(
+                                                new Trait(TorannMagicDefOf.DeathKnight, 0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Monk;
+                                        //}
+                                        break;
+                                    case 8:
+                                        Monk: ;
+                                        if (ModOptions.Settings.Instance.Monk &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.TM_Monk, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Monk)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Monk, 0,
+                                                false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Wayfarer;
+                                        //}
+                                        break;
+                                    case 9:
+                                        Wayfarer: ;
+                                        if (ModOptions.Settings.Instance.Wayfarer &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.TM_Wayfarer, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(
+                                                    TorannMagicDefOf.TM_Wayfarer)))
+                                        {
+                                            pawn.story.traits.GainTrait(
+                                                new Trait(TorannMagicDefOf.TM_Wayfarer, 0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Commander;
+                                        //}
+                                        break;
+                                    case 10:
+                                        Commander: ;
+                                        if (ModOptions.Settings.Instance.Commander &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.TM_Commander, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .TM_Commander)))
+                                        {
+                                            pawn.story.traits.GainTrait(
+                                                new Trait(TorannMagicDefOf.TM_Commander, 0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto SuperSoldier;
+                                        //}
+                                        break;
+                                    case 11:
+                                        SuperSoldier: ;
+                                        if (ModOptions.Settings.Instance.SuperSoldier &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.TM_SuperSoldier, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .TM_SuperSoldier)))
+                                        {
+                                            pawn.story.traits.GainTrait(
+                                                new Trait(TorannMagicDefOf.TM_SuperSoldier, 0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Gladiator;
+                                        //}
+                                        break;
+                                    case int val when rndF > 11:
+                                        TM_CustomClass cFighter = customFighters.RandomElement();
+                                        if (!pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(cFighter.classTrait,
+                                                    cFighter.traitDegree)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(cFighter.classTrait)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(cFighter.classTrait,
+                                                cFighter.traitDegree, false));
+                                        }
+
+                                        break;
                                 }
                             }
                             else
                             {
-                                if (anyMagesEnabled)
-                                {
-                                    int rndM = Rand.RangeInclusive(1, (mageCount + 1));
-                                    switch (rndM)
-                                    {
-                                        case 1:
-                                            FireMage:;
-                                            if (ModOptions.Settings.Instance.FireMage && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.InnerFire, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.InnerFire) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.InnerFire)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.InnerFire, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto IceMage;
-                                            //}
-                                            break;
-                                        case 2:
-                                            IceMage:;
-                                            if (ModOptions.Settings.Instance.IceMage && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.HeartOfFrost, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.HeartOfFrost) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.HeartOfFrost)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.HeartOfFrost, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto LitMage;
-                                            //}
-                                            break;
-                                        case 3:
-                                            LitMage:;
-                                            if (ModOptions.Settings.Instance.LitMage && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.StormBorn, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.StormBorn) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.StormBorn)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.StormBorn, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Arcanist;
-                                            //}
-                                            break;
-                                        case 4:
-                                            Arcanist:;
-                                            if (ModOptions.Settings.Instance.Arcanist && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Arcanist, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Arcanist) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Arcanist)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Arcanist, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Druid;
-                                            //}
-                                            break;
-                                        case 5:
-                                            Druid:;
-                                            if (ModOptions.Settings.Instance.Druid && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Druid, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Druid) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Druid)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Druid, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Paladin;
-                                            //}
-                                            break;
-                                        case 6:
-                                            Paladin:;
-                                            if (ModOptions.Settings.Instance.Paladin && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Paladin, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Paladin) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Paladin)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Paladin, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Summoner;
-                                            //}
-                                            break;
-                                        case 7:
-                                            Summoner:;
-                                            if (ModOptions.Settings.Instance.Summoner && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Summoner, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Summoner) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Summoner)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Summoner, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Necromancer;
-                                            //}
-                                            break;
-                                        case 8:
-                                            Necromancer:;
-                                            if (ModOptions.Settings.Instance.Necromancer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Necromancer, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Necromancer) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Necromancer)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Necromancer, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Priest;
-                                            //}
-                                            break;
-                                        case 9:
-                                            Priest:;
-                                            if (ModOptions.Settings.Instance.Priest && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Priest, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Priest) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Priest)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Priest, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Demonkin;
-                                            //}
-                                            break;
-                                        case 10:
-                                            Demonkin:;
-                                            if (ModOptions.Settings.Instance.Demonkin && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Warlock, 4)) && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Succubus, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Succubus) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Warlock) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Succubus)))
-                                            {
-                                                if (pawn.gender != Gender.Female)
-                                                {
-                                                    pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Warlock, 4, false));
-                                                }
-                                                else
-                                                {
-                                                    pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Succubus, 4, false));
-                                                }
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Bard;
-                                            //}
-                                            break;
-                                        case 11:
-                                            if (ModOptions.Settings.Instance.Demonkin && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Warlock, 4)) && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Succubus, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Succubus) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Warlock) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Warlock)))
-                                            {
-                                                if (pawn.gender != Gender.Male)
-                                                {
-                                                    pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Succubus, 4, false));
-                                                }
-                                                else
-                                                {
-                                                    pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Warlock, 4, false));
-                                                }
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Bard;
-                                            //}
-                                            break;
-                                        case 12:
-                                            Bard:;
-                                            if (ModOptions.Settings.Instance.Bard && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Bard, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.TM_Bard) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Bard)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Bard, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Geomancer;
-                                            //}
-                                            break;
-                                        case 13:
-                                            Geomancer:;
-                                            if (ModOptions.Settings.Instance.Geomancer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Geomancer, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Geomancer) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Geomancer)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Geomancer, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Technomancer;
-                                            //}
-                                            break;
-                                        case 14:
-                                            Technomancer:;
-                                            if (ModOptions.Settings.Instance.Technomancer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Technomancer, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Technomancer) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Technomancer)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Technomancer, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto BloodMage;
-                                            //}
-                                            break;
-                                        case 15:
-                                            BloodMage:;
-                                            if (ModOptions.Settings.Instance.Technomancer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.BloodMage, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.BloodMage) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.BloodMage)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.BloodMage, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Enchanter;
-                                            //}
-                                            break;
-                                        case 16:
-                                            Enchanter:;
-                                            if (ModOptions.Settings.Instance.Technomancer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Enchanter, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Enchanter) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Enchanter)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Enchanter, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Chronomancer;
-                                            //}
-                                            break;
-                                        case 17:
-                                            Chronomancer:;
-                                            if (ModOptions.Settings.Instance.Chronomancer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Chronomancer, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.Chronomancer) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Chronomancer)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Chronomancer, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Wanderer;
-                                            //}
-                                            break;
-                                        case 18:
-                                            Wanderer:;
-                                            if (ModOptions.Settings.Instance.Wanderer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Wanderer, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.TM_Wanderer) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Wanderer)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Wanderer, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto ChaosMage;
-                                            //}
-                                            break;
-                                        case 19:
-                                            ChaosMage:;
-                                            if (ModOptions.Settings.Instance.ChaosMage && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.ChaosMage, 4)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, TorannMagicDefOf.ChaosMage) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.ChaosMage)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.ChaosMage, 4, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto FireMage;
-                                            //}
-                                            break;
-                                        case int val when rndM > 19:
-                                            TM_CustomClass cMage = customMages.RandomElement();
-                                            if (!pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(cMage.classTrait, cMage.traitDegree)) && ModCheck.AlienHumanoidRaces.TryGetBackstory_DisallowedTrait(pawn.def, pawn, cMage.classTrait) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(cMage.classTrait)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(cMage.classTrait, cMage.traitDegree, false));
-                                            }
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    goto TraitEnd;
-                                }
+                                goto TraitEnd;
                             }
                         }
-                    }
-                    else
-                    {
-                        if (Rand.Chance((baseMageChance + baseFighterChance + advMageChance + advFighterChance) / (allTraits.Count)))
+                        else
                         {
+                            if (anyMagesEnabled && pawn.ageTracker?.AgeBiologicalYears >= 6)
+                            {
+                                int rndM = Rand.RangeInclusive(1, (mageCount + 1));
+                                switch (rndM)
+                                {
+                                    case 1:
+                                        FireMage: ;
+                                        if (ModOptions.Settings.Instance.FireMage &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.InnerFire, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .InnerFire)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.InnerFire,
+                                                0, false));
+                                        }
 
-                            if (pawnTraits.Count > 2)
-                            {
-                                pawnTraits.Remove(pawnTraits[pawnTraits.Count - 1]);
-                            }
-                            float rnd = Rand.Range(0, baseMageChance + baseFighterChance + advFighterChance + advMageChance);
-                            if (rnd < (baseMageChance) && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Gifted, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Gifted)))
-                            {
-                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Gifted, 0, false));
-                            }
-                            else if (rnd >= baseMageChance && rnd < (baseMageChance + baseFighterChance) && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.PhysicalProdigy, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.PhysicalProdigy)))
-                            {
-                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.PhysicalProdigy, 0, false));
-                            }
-                            else if (rnd >= (baseMageChance + baseFighterChance) && rnd < (baseMageChance + baseFighterChance + advFighterChance))
-                            {
-                                if (anyFightersEnabled && pawn.ageTracker?.AgeBiologicalYears >= 6)
-                                {
-                                    int rndF = Rand.RangeInclusive(1, fighterCount);
-                                    switch (rndF)
-                                    {
-                                        case 1:
-                                            //Gladiator:;
-                                            if (ModOptions.Settings.Instance.Gladiator && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Gladiator, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Gladiator)))
+                                        //else
+                                        //{
+                                        //    goto IceMage;
+                                        //}
+                                        break;
+                                    case 2:
+                                        IceMage: ;
+                                        if (ModOptions.Settings.Instance.IceMage &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.HeartOfFrost, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .HeartOfFrost)))
+                                        {
+                                            pawn.story.traits.GainTrait(
+                                                new Trait(TorannMagicDefOf.HeartOfFrost, 0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto LitMage;
+                                        //}
+                                        break;
+                                    case 3:
+                                        LitMage: ;
+                                        if (ModOptions.Settings.Instance.LitMage &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.StormBorn, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .StormBorn)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.StormBorn,
+                                                0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Arcanist;
+                                        //}
+                                        break;
+                                    case 4:
+                                        Arcanist: ;
+                                        if (ModOptions.Settings.Instance.Arcanist &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Arcanist, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf.Arcanist)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Arcanist,
+                                                0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Druid;
+                                        //}
+                                        break;
+                                    case 5:
+                                        Druid: ;
+                                        if (ModOptions.Settings.Instance.Druid &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Druid, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf.Druid)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Druid, 0,
+                                                false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Paladin;
+                                        //}
+                                        break;
+                                    case 6:
+                                        Paladin: ;
+                                        if (ModOptions.Settings.Instance.Paladin &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Paladin, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf.Paladin)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Paladin, 0,
+                                                false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Summoner;
+                                        //}
+                                        break;
+                                    case 7:
+                                        Summoner: ;
+                                        if (ModOptions.Settings.Instance.Summoner &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Summoner, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf.Summoner)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Summoner,
+                                                0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Necromancer;
+                                        //}
+                                        break;
+                                    case 8:
+                                        Necromancer: ;
+                                        if (ModOptions.Settings.Instance.Necromancer &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Necromancer, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(
+                                                    TorannMagicDefOf.Necromancer)))
+                                        {
+                                            pawn.story.traits.GainTrait(
+                                                new Trait(TorannMagicDefOf.Necromancer, 0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Priest;
+                                        //}
+                                        break;
+                                    case 9:
+                                        Priest: ;
+                                        if (ModOptions.Settings.Instance.Priest &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Priest, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf.Priest)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Priest, 0,
+                                                false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Demonkin;
+                                        //}
+                                        break;
+                                    case 10:
+                                        Demonkin: ;
+                                        if (ModOptions.Settings.Instance.Demonkin &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Warlock, 0)) &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Succubus, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .Succubus)) && !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf.Warlock)))
+                                        {
+                                            if (pawn.gender != Gender.Female)
                                             {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Gladiator, 0, false));
+                                                pawn.story.traits.GainTrait(
+                                                    new Trait(TorannMagicDefOf.Warlock, 0, false));
                                             }
-                                            //else
-                                            //{
-                                            //    goto Sniper;
-                                            //}
-                                            break;
-                                        case 2:
-                                            //Sniper:;
-                                            if (ModOptions.Settings.Instance.Sniper && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Sniper, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Sniper)))
+                                            else
                                             {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Sniper, 0, false));
+                                                pawn.story.traits.GainTrait(
+                                                    new Trait(TorannMagicDefOf.Succubus, 0, false));
                                             }
-                                            //else
-                                            //{
-                                            //    goto Bladedancer;
-                                            //}
-                                            break;
-                                        case 3:
-                                            Bladedancer:;
-                                            if (ModOptions.Settings.Instance.Bladedancer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Bladedancer, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Bladedancer)))
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Bard;
+                                        //}
+                                        break;
+                                    case 11:
+                                        if (ModOptions.Settings.Instance.Demonkin &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Warlock, 0)) &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Succubus, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .Succubus)) && !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf.Warlock)))
+                                        {
+                                            if (pawn.gender != Gender.Male)
                                             {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Bladedancer, 0, false));
+                                                pawn.story.traits.GainTrait(
+                                                    new Trait(TorannMagicDefOf.Succubus, 0, false));
                                             }
-                                            //else
-                                            //{
-                                            //    goto Ranger;
-                                            //}
-                                            break;
-                                        case 4:
-                                            Ranger:;
-                                            if (ModOptions.Settings.Instance.Ranger && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Ranger, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Ranger)))
+                                            else
                                             {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Ranger, 0, false));
+                                                pawn.story.traits.GainTrait(
+                                                    new Trait(TorannMagicDefOf.Warlock, 0, false));
                                             }
-                                            //else
-                                            //{
-                                            //    goto Faceless;
-                                            //}
-                                            break;
-                                        case 5:
-                                            Faceless:;
-                                            if (ModOptions.Settings.Instance.Faceless && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Faceless, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Faceless)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Faceless, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Psionic;
-                                            //}
-                                            break;
-                                        case 6:
-                                            Psionic:;
-                                            if (ModOptions.Settings.Instance.Psionic && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Psionic, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Psionic)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Psionic, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto DeathKnight;
-                                            //}
-                                            break;
-                                        case 7:
-                                            DeathKnight:;
-                                            if (ModOptions.Settings.Instance.DeathKnight && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.DeathKnight, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.DeathKnight)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.DeathKnight, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Monk;
-                                            //}
-                                            break;
-                                        case 8:
-                                            Monk:;
-                                            if (ModOptions.Settings.Instance.Monk && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Monk, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Monk)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Monk, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Wayfarer;
-                                            //}
-                                            break;
-                                        case 9:
-                                            Wayfarer:;
-                                            if (ModOptions.Settings.Instance.Wayfarer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Wayfarer, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Wayfarer)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Wayfarer, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Commander;
-                                            //}
-                                            break;
-                                        case 10:
-                                            Commander:;
-                                            if (ModOptions.Settings.Instance.Commander && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Commander, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Commander)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Commander, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto SuperSoldier;
-                                            //}
-                                            break;
-                                        case 11:
-                                            SuperSoldier:;
-                                            if (ModOptions.Settings.Instance.SuperSoldier && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_SuperSoldier, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_SuperSoldier)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_SuperSoldier, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Gladiator;
-                                            //}
-                                            break;
-                                        case int val when rndF > 11:
-                                            TM_CustomClass cFighter = customFighters.RandomElement();
-                                            if (!pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(cFighter.classTrait, cFighter.traitDegree)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(cFighter.classTrait)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(cFighter.classTrait, cFighter.traitDegree, false));
-                                            }
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    goto TraitEnd;
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Bard;
+                                        //}
+                                        break;
+                                    case 12:
+                                        Bard: ;
+                                        if (ModOptions.Settings.Instance.Bard &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.TM_Bard, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Bard)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Bard, 0,
+                                                false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Geomancer;
+                                        //}
+                                        break;
+                                    case 13:
+                                        Geomancer: ;
+                                        if (ModOptions.Settings.Instance.Geomancer &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Geomancer, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .Geomancer)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Geomancer,
+                                                0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Technomancer;
+                                        //}
+                                        break;
+                                    case 14:
+                                        Technomancer: ;
+                                        if (ModOptions.Settings.Instance.Technomancer &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Technomancer, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .Technomancer)))
+                                        {
+                                            pawn.story.traits.GainTrait(
+                                                new Trait(TorannMagicDefOf.Technomancer, 0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto BloodMage;
+                                        //}
+                                        break;
+                                    case 15:
+                                        BloodMage: ;
+                                        if (ModOptions.Settings.Instance.Technomancer &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.BloodMage, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .BloodMage)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.BloodMage,
+                                                0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Enchanter;
+                                        //}
+                                        break;
+                                    case 16:
+                                        Enchanter: ;
+                                        if (ModOptions.Settings.Instance.Technomancer &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Enchanter, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .Enchanter)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Enchanter,
+                                                0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Chronomancer;
+                                        //}
+                                        break;
+                                    case 17:
+                                        Chronomancer: ;
+                                        if (ModOptions.Settings.Instance.Chronomancer &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.Chronomancer, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .Chronomancer)))
+                                        {
+                                            pawn.story.traits.GainTrait(
+                                                new Trait(TorannMagicDefOf.Chronomancer, 0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto Wanderer;
+                                        //}
+                                        break;
+                                    case 18:
+                                        Wanderer: ;
+                                        if (ModOptions.Settings.Instance.Wanderer &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.TM_Wanderer, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(
+                                                    TorannMagicDefOf.TM_Wanderer)))
+                                        {
+                                            pawn.story.traits.GainTrait(
+                                                new Trait(TorannMagicDefOf.TM_Wanderer, 0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto ChaosMage;
+                                        //}
+                                        break;
+                                    case 19:
+                                        ChaosMage: ;
+                                        if (ModOptions.Settings.Instance.ChaosMage &&
+                                            !pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(TorannMagicDefOf.ChaosMage, 0)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                    .ChaosMage)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.ChaosMage,
+                                                0, false));
+                                        }
+
+                                        //else
+                                        //{
+                                        //    goto FireMage;
+                                        //}
+                                        break;
+                                    case int val when rndM > 19:
+                                        TM_CustomClass cMage = customMages.RandomElement();
+                                        if (!pawn.story.AllBackstories.Any(bs =>
+                                                bs.DisallowsTrait(cMage.classTrait, cMage.traitDegree)) &&
+                                            !pawn.story.traits.allTraits.Any(td =>
+                                                td.def.conflictingTraits.Contains(cMage.classTrait)))
+                                        {
+                                            pawn.story.traits.GainTrait(new Trait(cMage.classTrait,
+                                                cMage.traitDegree, false));
+                                        }
+
+                                        break;
                                 }
                             }
                             else
                             {
-                                if (anyMagesEnabled && pawn.ageTracker?.AgeBiologicalYears >= 6)
-                                {
-                                    int rndM = Rand.RangeInclusive(1, (mageCount + 1));
-                                    switch (rndM)
-                                    {
-                                        case 1:
-                                            FireMage:;
-                                            if (ModOptions.Settings.Instance.FireMage && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.InnerFire, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.InnerFire)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.InnerFire, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto IceMage;
-                                            //}
-                                            break;
-                                        case 2:
-                                            IceMage:;
-                                            if (ModOptions.Settings.Instance.IceMage && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.HeartOfFrost, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.HeartOfFrost)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.HeartOfFrost, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto LitMage;
-                                            //}
-                                            break;
-                                        case 3:
-                                            LitMage:;
-                                            if (ModOptions.Settings.Instance.LitMage && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.StormBorn, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.StormBorn)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.StormBorn, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Arcanist;
-                                            //}
-                                            break;
-                                        case 4:
-                                            Arcanist:;
-                                            if (ModOptions.Settings.Instance.Arcanist && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Arcanist, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Arcanist)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Arcanist, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Druid;
-                                            //}
-                                            break;
-                                        case 5:
-                                            Druid:;
-                                            if (ModOptions.Settings.Instance.Druid && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Druid, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Druid)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Druid, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Paladin;
-                                            //}
-                                            break;
-                                        case 6:
-                                            Paladin:;
-                                            if (ModOptions.Settings.Instance.Paladin && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Paladin, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Paladin)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Paladin, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Summoner;
-                                            //}
-                                            break;
-                                        case 7:
-                                            Summoner:;
-                                            if (ModOptions.Settings.Instance.Summoner && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Summoner, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Summoner)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Summoner, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Necromancer;
-                                            //}
-                                            break;
-                                        case 8:
-                                            Necromancer:;
-                                            if (ModOptions.Settings.Instance.Necromancer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Necromancer, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Necromancer)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Necromancer, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Priest;
-                                            //}
-                                            break;
-                                        case 9:
-                                            Priest:;
-                                            if (ModOptions.Settings.Instance.Priest && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Priest, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Priest)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Priest, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Demonkin;
-                                            //}
-                                            break;
-                                        case 10:
-                                            Demonkin:;
-                                            if (ModOptions.Settings.Instance.Demonkin && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Warlock, 0)) && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Succubus, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Succubus)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Warlock)))
-                                            {
-                                                if (pawn.gender != Gender.Female)
-                                                {
-                                                    pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Warlock, 0, false));
-                                                }
-                                                else
-                                                {
-                                                    pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Succubus, 0, false));
-                                                }
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Bard;
-                                            //}
-                                            break;
-                                        case 11:
-                                            if (ModOptions.Settings.Instance.Demonkin && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Warlock, 0)) && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Succubus, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Succubus)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Warlock)))
-                                            {
-                                                if (pawn.gender != Gender.Male)
-                                                {
-                                                    pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Succubus, 0, false));
-                                                }
-                                                else
-                                                {
-                                                    pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Warlock, 0, false));
-                                                }
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Bard;
-                                            //}
-                                            break;
-                                        case 12:
-                                            Bard:;
-                                            if (ModOptions.Settings.Instance.Bard && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Bard, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Bard)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Bard, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Geomancer;
-                                            //}
-                                            break;
-                                        case 13:
-                                            Geomancer:;
-                                            if (ModOptions.Settings.Instance.Geomancer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Geomancer, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Geomancer)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Geomancer, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Technomancer;
-                                            //}
-                                            break;
-                                        case 14:
-                                            Technomancer:;
-                                            if (ModOptions.Settings.Instance.Technomancer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Technomancer, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Technomancer)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Technomancer, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto BloodMage;
-                                            //}
-                                            break;
-                                        case 15:
-                                            BloodMage:;
-                                            if (ModOptions.Settings.Instance.Technomancer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.BloodMage, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.BloodMage)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.BloodMage, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Enchanter;
-                                            //}
-                                            break;
-                                        case 16:
-                                            Enchanter:;
-                                            if (ModOptions.Settings.Instance.Technomancer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Enchanter, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Enchanter)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Enchanter, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Chronomancer;
-                                            //}
-                                            break;
-                                        case 17:
-                                            Chronomancer:;
-                                            if (ModOptions.Settings.Instance.Chronomancer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.Chronomancer, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.Chronomancer)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.Chronomancer, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto Wanderer;
-                                            //}
-                                            break;
-                                        case 18:
-                                            Wanderer:;
-                                            if (ModOptions.Settings.Instance.Wanderer && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_Wanderer, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_Wanderer)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_Wanderer, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto ChaosMage;
-                                            //}
-                                            break;
-                                        case 19:
-                                            ChaosMage:;
-                                            if (ModOptions.Settings.Instance.ChaosMage && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.ChaosMage, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.ChaosMage)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.ChaosMage, 0, false));
-                                            }
-                                            //else
-                                            //{
-                                            //    goto FireMage;
-                                            //}
-                                            break;
-                                        case int val when rndM > 19:
-                                            TM_CustomClass cMage = customMages.RandomElement();
-                                            if (!pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(cMage.classTrait, cMage.traitDegree)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(cMage.classTrait)))
-                                            {
-                                                pawn.story.traits.GainTrait(new Trait(cMage.classTrait, cMage.traitDegree, false));
-                                            }
-                                            break;
-                                    }
-                                }
-                                else
-                                {
-                                    goto TraitEnd;
-                                }
+                                goto TraitEnd;
                             }
                         }
                     }
 
                     if (Rand.Chance(ModOptions.Settings.Instance.supportTraitChance))
                     {
-                        if (TM_Calc.IsMagicUser(pawn) || pawn.story.traits.HasTrait(TorannMagicDefOf.TM_Gifted))
+                        if (TM_Calc.IsMagicUser(pawn) ||
+                            pawn.story.traits.HasTrait(TorannMagicDefOf.TM_Gifted))
                         {
                             int rndS = Rand.RangeInclusive(1, supportingMageCount);
                             switch (rndS)
                             {
                                 case 1:
-                                    if (ModOptions.Settings.Instance.ArcaneConduit && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_ArcaneConduitTD, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_ArcaneConduitTD)))
+                                    if (ModOptions.Settings.Instance.ArcaneConduit &&
+                                        !pawn.story.AllBackstories.Any(bs =>
+                                            bs.DisallowsTrait(TorannMagicDefOf.TM_ArcaneConduitTD, 0)) &&
+                                        !pawn.story.traits.allTraits.Any(td =>
+                                            td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                .TM_ArcaneConduitTD)))
                                     {
-                                        pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_ArcaneConduitTD, 0, false));
+                                        pawn.story.traits.GainTrait(
+                                            new Trait(TorannMagicDefOf.TM_ArcaneConduitTD, 0, false));
                                     }
+
                                     break;
                                 case 2:
-                                    if (ModOptions.Settings.Instance.ManaWell && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_ManaWellTD, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_ManaWellTD)))
+                                    if (ModOptions.Settings.Instance.ManaWell &&
+                                        !pawn.story.AllBackstories.Any(bs =>
+                                            bs.DisallowsTrait(TorannMagicDefOf.TM_ManaWellTD, 0)) &&
+                                        !pawn.story.traits.allTraits.Any(td =>
+                                            td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                .TM_ManaWellTD)))
                                     {
-                                        pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_ManaWellTD, 0, false));
+                                        pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_ManaWellTD,
+                                            0, false));
                                     }
+
                                     break;
                                 case 3:
-                                    if(ModOptions.Settings.Instance.FaeBlood && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_FaeBloodTD, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_FaeBloodTD)))
+                                    if (ModOptions.Settings.Instance.FaeBlood &&
+                                        !pawn.story.AllBackstories.Any(bs =>
+                                            bs.DisallowsTrait(TorannMagicDefOf.TM_FaeBloodTD, 0)) &&
+                                        !pawn.story.traits.allTraits.Any(td =>
+                                            td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                .TM_FaeBloodTD)))
                                     {
-                                        pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_FaeBloodTD, 0, false));
+                                        pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_FaeBloodTD,
+                                            0, false));
                                     }
+
                                     break;
                                 case 4:
-                                    if (ModOptions.Settings.Instance.Enlightened && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_EnlightenedTD, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_EnlightenedTD)))
+                                    if (ModOptions.Settings.Instance.Enlightened &&
+                                        !pawn.story.AllBackstories.Any(bs =>
+                                            bs.DisallowsTrait(TorannMagicDefOf.TM_EnlightenedTD, 0)) &&
+                                        !pawn.story.traits.allTraits.Any(td =>
+                                            td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                .TM_EnlightenedTD)))
                                     {
-                                        pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_EnlightenedTD, 0, false));
+                                        pawn.story.traits.GainTrait(
+                                            new Trait(TorannMagicDefOf.TM_EnlightenedTD, 0, false));
                                     }
+
                                     break;
                                 case 5:
-                                    if (ModOptions.Settings.Instance.Cursed && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_CursedTD, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_CursedTD)))
+                                    if (ModOptions.Settings.Instance.Cursed &&
+                                        !pawn.story.AllBackstories.Any(bs =>
+                                            bs.DisallowsTrait(TorannMagicDefOf.TM_CursedTD, 0)) &&
+                                        !pawn.story.traits.allTraits.Any(td =>
+                                            td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_CursedTD)))
                                     {
-                                        pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_CursedTD, 0, false));
+                                        pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_CursedTD, 0,
+                                            false));
                                     }
+
                                     break;
                             }
                         }
-                        else if (TM_Calc.IsMightUser(pawn) || pawn.story.traits.HasTrait(TorannMagicDefOf.PhysicalProdigy))
+                        else if (TM_Calc.IsMightUser(pawn) ||
+                                 pawn.story.traits.HasTrait(TorannMagicDefOf.PhysicalProdigy))
                         {
                             int rndS = Rand.RangeInclusive(1, supportingFighterCount);
                             switch (rndS)
                             {
                                 case 1:
-                                    if (ModOptions.Settings.Instance.Boundless && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_BoundlessTD, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_BoundlessTD)))
+                                    if (ModOptions.Settings.Instance.Boundless &&
+                                        !pawn.story.AllBackstories.Any(bs =>
+                                            bs.DisallowsTrait(TorannMagicDefOf.TM_BoundlessTD, 0)) &&
+                                        !pawn.story.traits.allTraits.Any(td =>
+                                            td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                .TM_BoundlessTD)))
                                     {
-                                        pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_BoundlessTD, 0, false));
+                                        pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_BoundlessTD,
+                                            0, false));
                                     }
+
                                     break;
                                 case 2:
-                                    if (ModOptions.Settings.Instance.GiantsBlood && !pawn.story.AllBackstories.Any(bs => bs.DisallowsTrait(TorannMagicDefOf.TM_GiantsBloodTD, 0)) && !pawn.story.traits.allTraits.Any(td => td.def.conflictingTraits.Contains(TorannMagicDefOf.TM_GiantsBloodTD)))
+                                    if (ModOptions.Settings.Instance.GiantsBlood &&
+                                        !pawn.story.AllBackstories.Any(bs =>
+                                            bs.DisallowsTrait(TorannMagicDefOf.TM_GiantsBloodTD, 0)) &&
+                                        !pawn.story.traits.allTraits.Any(td =>
+                                            td.def.conflictingTraits.Contains(TorannMagicDefOf
+                                                .TM_GiantsBloodTD)))
                                     {
-                                        pawn.story.traits.GainTrait(new Trait(TorannMagicDefOf.TM_GiantsBloodTD, 0, false));
+                                        pawn.story.traits.GainTrait(
+                                            new Trait(TorannMagicDefOf.TM_GiantsBloodTD, 0, false));
                                     }
+
                                     break;
                             }
                         }
                     }
                 }
-                TraitEnd:;
+
+                TraitEnd: ;
             }
         }
 
@@ -1348,7 +1294,6 @@ namespace TorannMagic
                 {
                     __result.points *= 1.65f;
                 }
-
             }
         }
 
@@ -1357,11 +1302,13 @@ namespace TorannMagic
         {
             public static bool Prefix(Pawn pawn, ref Job __result)
             {
-                if (pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_UndeadHD) || pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_UndeadAnimalHD))
+                if (pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_UndeadHD) ||
+                    pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_UndeadAnimalHD))
                 {
                     __result = null;
                     return false;
                 }
+
                 return true;
             }
         }
@@ -1371,11 +1318,13 @@ namespace TorannMagic
         {
             public static bool Prefix(Pawn pawn, ref Job __result)
             {
-                if (pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_UndeadHD) || pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_UndeadAnimalHD))
+                if (pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_UndeadHD) ||
+                    pawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_UndeadAnimalHD))
                 {
                     __result = null;
                     return false;
                 }
+
                 return true;
             }
         }
@@ -1385,14 +1334,20 @@ namespace TorannMagic
         {
             public static bool Prefix(Pawn pawn, ref Job __result)
             {
-                if (pawn != null && (pawn.def == TorannMagicDefOf.TM_MinionR || pawn.def == TorannMagicDefOf.TM_GreaterMinionR))
+                if (pawn != null && (pawn.def == TorannMagicDefOf.TM_MinionR ||
+                                     pawn.def == TorannMagicDefOf.TM_GreaterMinionR))
                 {
-                    if (pawn.jobs != null && pawn.CurJob != null && (pawn.CurJob.def == JobDefOf.HaulToCell || pawn.CurJob.def == JobDefOf.HaulToContainer || pawn.CurJob.def == JobDefOf.HaulToTransporter))
+                    if (pawn.jobs != null && pawn.CurJob != null && (pawn.CurJob.def == JobDefOf.HaulToCell ||
+                                                                     pawn.CurJob.def ==
+                                                                     JobDefOf.HaulToContainer ||
+                                                                     pawn.CurJob.def ==
+                                                                     JobDefOf.HaulToTransporter))
                     {
                         __result = null;
                         return false;
                     }
                 }
+
                 return true;
             }
         }
@@ -1400,9 +1355,12 @@ namespace TorannMagic
         [HarmonyPatch(typeof(AbilityUser.AbilityDef), "GetJob", null)]
         public static class AbilityDef_Patch
         {
-            private static bool Prefix(AbilityUser.AbilityDef __instance, AbilityTargetCategory cat, LocalTargetInfo target, ref Job __result)
+            private static bool Prefix(AbilityUser.AbilityDef __instance, AbilityTargetCategory cat,
+                LocalTargetInfo target, ref Job __result)
             {
-                if (__instance.abilityClass.FullName == "TorannMagic.MagicAbility" || __instance.abilityClass.FullName == "TorannMagic.MightAbility" || __instance.defName.Contains("TM_Artifact"))
+                if (__instance.abilityClass.FullName == "TorannMagic.MagicAbility" ||
+                    __instance.abilityClass.FullName == "TorannMagic.MightAbility" ||
+                    __instance.defName.Contains("TM_Artifact"))
                 {
                     Job result;
                     switch (cat)
@@ -1420,10 +1378,12 @@ namespace TorannMagic
                             __result = result;
                             return false;
                     }
+
                     result = new Job(TorannMagicDefOf.TMCastAbilityVerb, target);
                     __result = result;
                     return false;
                 }
+
                 return true;
             }
         }
@@ -1433,7 +1393,6 @@ namespace TorannMagic
         {
             private static void Postfix(JobDriver_Mine __instance)
             {
-                
                 if (Rand.Chance(ModOptions.Settings.Instance.magicyteChance))
                 {
                     Thing thing = null;
@@ -1441,8 +1400,9 @@ namespace TorannMagic
                     thing.stackCount = Rand.Range(9, 25);
                     if (thing != null)
                     {
-                        GenPlace.TryPlaceThing(thing, __instance.pawn.Position, __instance.pawn.Map, ThingPlaceMode.Near, null);
-                        if(!__instance.pawn.Faction.IsPlayer)
+                        GenPlace.TryPlaceThing(thing, __instance.pawn.Position, __instance.pawn.Map,
+                            ThingPlaceMode.Near, null);
+                        if (!__instance.pawn.Faction.IsPlayer)
                         {
                             thing.SetForbidden(true, false);
                         }
@@ -1452,27 +1412,30 @@ namespace TorannMagic
         }
 
         [HarmonyPriority(100)] //Go last
-        public static void AddHumanLikeOrders_RestrictEquipmentPatch(Vector3 clickPos, Pawn pawn, ref List<FloatMenuOption> opts)
+        public static void AddHumanLikeOrders_RestrictEquipmentPatch(Vector3 clickPos, Pawn pawn,
+            ref List<FloatMenuOption> opts)
         {
             IntVec3 c = IntVec3.FromVector3(clickPos);
             if (pawn.equipment != null)
             {
-                if(pawn.def == TorannMagicDefOf.TM_SpiritTD)
+                if (pawn.def == TorannMagicDefOf.TM_SpiritTD)
                 {
                     List<FloatMenuOption> remop = new List<FloatMenuOption>();
                     remop.Clear();
-                    foreach(FloatMenuOption op in opts)
+                    foreach (FloatMenuOption op in opts)
                     {
                         if (op.Label.StartsWith("Pick"))
                         {
                             remop.Add(op);
                         }
                     }
-                    foreach(FloatMenuOption op in remop)
+
+                    foreach (FloatMenuOption op in remop)
                     {
                         opts.Remove(op);
                     }
                 }
+
                 ThingWithComps equipment = null;
                 List<Thing> thingList = c.GetThingList(pawn.Map);
                 for (int i = 0; i < thingList.Count; i++)
@@ -1483,31 +1446,37 @@ namespace TorannMagic
                         break;
                     }
                 }
+
                 if (equipment != null)
                 {
                     string labelShort = equipment.LabelShort;
                     FloatMenuOption nve_option;
-                    if (!(pawn.story.traits.HasTrait(TorannMagicDefOf.Priest) || pawn.WorkTagIsDisabled(WorkTags.Violent)))
+                    if (!(pawn.story.traits.HasTrait(TorannMagicDefOf.Priest) ||
+                          pawn.WorkTagIsDisabled(WorkTags.Violent)))
                     {
                         for (int j = 0; j < opts.Count; j++)
-                        {                            
+                        {
                             if (opts[j].Label.Contains("wear"))
                             {
                                 opts.Remove(opts[j]);
                             }
                         }
-                        nve_option = new FloatMenuOption("TM_ViolentCannotEquip".Translate(pawn.LabelShort, labelShort), null);
+
+                        nve_option =
+                            new FloatMenuOption(
+                                "TM_ViolentCannotEquip".Translate(pawn.LabelShort, labelShort), null);
                         opts.Add(nve_option);
                     }
                 }
             }
+
             foreach (FloatMenuOption op in opts)
             {
                 if (op.Label.StartsWith("TM_Use"))
                 {
                     op.Label = "TM_Use".Translate(op.revalidateClickTarget.Label);
                 }
-                else if(op.Label.StartsWith("TM_Learn"))
+                else if (op.Label.StartsWith("TM_Learn"))
                 {
                     op.Label = "TM_Learn".Translate(op.revalidateClickTarget.Label);
                 }
@@ -1642,9 +1611,11 @@ namespace TorannMagic
         [HarmonyPatch(typeof(FloatMenuOptionProvider_WorkGivers), "GetWorkGiversOptionsFor", null)]
         public static class FloatMenuMakerMap_MagicJobGiver_Patch
         {
-            public static void Postfix(Pawn pawn, LocalTargetInfo target, FloatMenuContext context, ref IEnumerable<FloatMenuOption> __result)
+            public static void Postfix(Pawn pawn, LocalTargetInfo target, FloatMenuContext context,
+                ref IEnumerable<FloatMenuOption> __result)
             {
-                RimWorld.JobGiver_Work jobGiver_Work = pawn.thinker.TryGetMainTreeThinkNode<RimWorld.JobGiver_Work>();
+                RimWorld.JobGiver_Work jobGiver_Work =
+                    pawn.thinker.TryGetMainTreeThinkNode<RimWorld.JobGiver_Work>();
                 if (jobGiver_Work != null)
                 {
                     foreach (Thing item in pawn.Map.thingGrid.ThingsAt(target.Cell))
@@ -1656,8 +1627,11 @@ namespace TorannMagic
                             {
                                 string text = null;
                                 Action action = null;
-                                text = "TM_InsufficientManaForJob".Translate((comp.Mana.CurLevel * 100).ToString("0.##"));
-                                FloatMenuOption menuOption = FloatMenuUtility.DecoratePrioritizedTask(new FloatMenuOption(text, action), pawn, item);
+                                text = "TM_InsufficientManaForJob".Translate(
+                                    (comp.Mana.CurLevel * 100).ToString("0.##"));
+                                FloatMenuOption menuOption =
+                                    FloatMenuUtility.DecoratePrioritizedTask(
+                                        new FloatMenuOption(text, action), pawn, item);
                                 if (!__result.Any((FloatMenuOption op) => op.Label == menuOption.Label))
                                 {
                                     menuOption.Disabled = true;
@@ -1679,6 +1653,7 @@ namespace TorannMagic
                 {
                     return true;
                 }
+
                 __result = false;
                 return false;
             }
@@ -1692,12 +1667,17 @@ namespace TorannMagic
                 if (target is Pawn)
                 {
                     Pawn targetPawn = target as Pawn;
-                    if (targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD, false) || targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_I, false) || targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_II, false) || targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_III, false) || targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_InvisibilityHD, false))
+                    if (targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD, false) ||
+                        targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_I, false) ||
+                        targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_II, false) ||
+                        targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_III, false) ||
+                        targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_InvisibilityHD, false))
                     {
                         __result = false;
                         return false;
                     }
                 }
+
                 return true;
             }
         }
@@ -1710,25 +1690,31 @@ namespace TorannMagic
                 if (target is Pawn)
                 {
                     Pawn targetPawn = target as Pawn;
-                    if (targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD, false) || targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_I, false) || targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_II, false) || targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_III, false) || targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_InvisibilityHD, false))
+                    if (targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD, false) ||
+                        targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_I, false) ||
+                        targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_II, false) ||
+                        targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_DisguiseHD_III, false) ||
+                        targetPawn.health.hediffSet.HasHediff(TorannMagicDefOf.TM_InvisibilityHD, false))
                     {
                         __result = false;
                         return false;
                     }
                 }
+
                 return true;
             }
         }
-        
-        [HarmonyPatch(typeof(QualityUtility), "GenerateQualityCreatedByPawn", 
+
+        [HarmonyPatch(typeof(QualityUtility), "GenerateQualityCreatedByPawn",
             new[] { typeof(Pawn), typeof(SkillDef), typeof(bool) })]
         public static class ArcaneForge_Quality_Patch
         {
-            public static void Postfix(Pawn pawn, SkillDef relevantSkill, bool consumeInspiration, 
+            public static void Postfix(Pawn pawn, SkillDef relevantSkill, bool consumeInspiration,
                 ref QualityCategory __result)
             {
                 CompAbilityUserMagic comp = pawn.GetCompAbilityUserMagic();
-                if (comp != null && comp.IsMagicUser && pawn.story.traits != null && !pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless) && comp.ArcaneForging)
+                if (comp != null && comp.IsMagicUser && pawn.story.traits != null &&
+                    !pawn.story.traits.HasTrait(TorannMagicDefOf.Faceless) && comp.ArcaneForging)
                 {
                     List<IntVec3> cellList = GenRadial.RadialCellsAround(pawn.Position, 2, true).ToList();
                     bool forgeNearby = false;
@@ -1749,33 +1735,40 @@ namespace TorannMagic
                                     }
                                 }
                             }
+
                             if (forgeNearby)
                             {
                                 break;
                             }
                         }
                     }
+
                     if (forgeNearby)
                     {
                         int mageLevel = Rand.Range(0, Mathf.RoundToInt(comp.MagicUserLevel / 15));
                         __result = (QualityCategory)Mathf.Min((int)__result + mageLevel, 6);
-                        SoundInfo info = SoundInfo.InMap(new TargetInfo(pawn.Position, pawn.Map, false), MaintenanceType.None);
+                        SoundInfo info = SoundInfo.InMap(new TargetInfo(pawn.Position, pawn.Map, false),
+                            MaintenanceType.None);
                         info.pitchFactor = .6f;
                         info.volumeFactor = 1.6f;
                         TorannMagicDefOf.TM_Gong.PlayOneShot(info);
                         cellList.Clear();
-                        cellList = GenRadial.RadialCellsAround(pawn.Position, (int)__result, false).ToList<IntVec3>();
+                        cellList = GenRadial.RadialCellsAround(pawn.Position, (int)__result, false)
+                            .ToList<IntVec3>();
                         for (int i = 0; i < cellList.Count; i++)
                         {
                             IntVec3 curCell = cellList[i];
                             Vector3 angle = TM_Calc.GetVector(pawn.Position, curCell);
-                            TM_MoteMaker.ThrowArcaneWaveMote(curCell.ToVector3(), pawn.Map, .4f * (curCell - pawn.Position).LengthHorizontal, .1f, .05f, .1f, 0, 3, (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat(), (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat());
+                            TM_MoteMaker.ThrowArcaneWaveMote(curCell.ToVector3(), pawn.Map,
+                                .4f * (curCell - pawn.Position).LengthHorizontal, .1f, .05f, .1f, 0, 3,
+                                (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat(),
+                                (Quaternion.AngleAxis(90, Vector3.up) * angle).ToAngleFlat());
                         }
                     }
                 }
             }
         }
-        
+
         [HarmonyPatch(typeof(DamageWorker), "ExplosionStart", null)]
         public static class ExplosionNoShaker_Patch
         {
@@ -1839,7 +1832,7 @@ namespace TorannMagic
                 return true;
             }
         }
-        
+
         [HarmonyPatch(typeof(DamageWorker_AddInjury), "Apply", null)]
         public static class DamageWorker_ApplyEnchantmentAction_Patch
         {
@@ -1998,7 +1991,7 @@ namespace TorannMagic
                 }
             }
         }
-        
+
         [HarmonyPatch(typeof(AbilityAIDef), "CanPawnUseThisAbility", null)]
         public static class CanPawnUseThisAbility_Patch
         {
@@ -2085,12 +2078,13 @@ namespace TorannMagic
             }
         }
 
-        [HarmonyPatch(typeof(FloatMenuOptionProvider), "GetOptionsFor", new[] { typeof(Pawn), typeof(FloatMenuContext) })]
+        [HarmonyPatch(typeof(FloatMenuOptionProvider), "GetOptionsFor",
+            new[] { typeof(Pawn), typeof(FloatMenuContext) })]
         [HarmonyPriority(100)]
         public static class FloatMenuMakerMap_ROMV_Undead_Patch
         {
-            public static void Postfix( Pawn clickedPawn, 
-                FloatMenuContext context, 
+            public static void Postfix(Pawn clickedPawn,
+                FloatMenuContext context,
                 ref IEnumerable<FloatMenuOption> __result)
             {
                 // Materialize __result to a list, which we can edit
@@ -2127,7 +2121,7 @@ namespace TorannMagic
                 __result = options;
             }
         }
-        
+
         [HarmonyPatch(typeof(AbilityWorker), "CanPawnUseThisAbility", null)]
         public static class AbilityWorker_CanPawnUseThisAbility_Patch
         {
@@ -2217,7 +2211,7 @@ namespace TorannMagic
                 return false;
             }
         }
-        
+
         [HarmonyPatch(typeof(FertilityGrid), "CalculateFertilityAt", null)]
         public static class FertilityGrid_Patch
         {
@@ -2313,7 +2307,7 @@ namespace TorannMagic
                 return false;
             }
         }
-        
+
         [HarmonyPatch(typeof(Verb), "TryFindShootLineFromTo", null)]
         public static class TryFindShootLineFromTo_Base_Patch
         {
