@@ -172,7 +172,7 @@
     <defName>TableArcaneForge</defName>
     <label>arcane forge</label>
 <!--     <thingClass>Building_WorkTable</thingClass> -->
-	<thingClass>TorannMagic.Building_TMArcaneForge</thingClass>
+	<thingClass>TorannMagic.Building.Building_TMArcaneForge</thingClass>
     <description>The arcane forge allows a mage to wield raw arcane power to create material objects. 
 	
 Scientifically, the arcane forge might be described as a matter fabricator, though the exact mechanics have yet to be determined.  Only those possessing the ability to manipulate arcane power are able to use the arcane forge.
@@ -279,7 +279,7 @@ Using the arcane forge dramatically increases crafting speed but consumes mana. 
 	<ThingDef ParentName="TM_BuildingBase">
     <defName>TableMagicCircle</defName>
     <label>magic circle</label>
-	<thingClass>TorannMagic.Building_TMMagicCircle</thingClass>
+	<thingClass>TorannMagic.Building.Building_TMMagicCircle</thingClass>
     <description>The magic circle is a construct that amplifies magic by aligning the physical and arcane into a focal point. While it may seem simple, the circle is outlined with elaborate runes and constructed with detailed precision.
 
 Mages can use the magic circle to augment their power or combine their energy with other mages to create unique, powerful effects. The circle may accomodate up to six mages.
@@ -378,7 +378,7 @@ Arcalleum: success chance +15%, refunds 25% of mana cost
   <ThingDef ParentName="TM_BuildingBase">
     <defName>TableSmallMagicCircle</defName>
     <label>magic focal point</label>
-	<thingClass>TorannMagic.Building_TMSmallMagicCircle</thingClass>
+	<thingClass>TorannMagic.Building.Building_TMSmallMagicCircle</thingClass>
     <description>Arcane focal points are the byproduct of research into magical ley lines and arcane interconnectivity. The focal point allows a mage to visualize their connection to gaia and other other mages, allowing them greater interaction with nature, order, and chaos. The focal point can link the arcane power of two mages to perform powerful rituals.
 
 The type of material used in construction directly affects the quality of the magic circle.

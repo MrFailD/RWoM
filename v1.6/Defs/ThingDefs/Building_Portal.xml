@@ -4,7 +4,7 @@
 <ThingDef ParentName="TM_BuildingBase">
     <defName>TM_Portal</defName>
     <label>Portal</label>
-    <thingClass>TorannMagic.Building_TMPortal</thingClass>
+    <thingClass>TorannMagic.Building.Building_TMPortal</thingClass>
     <graphicData>
       <texPath>Other/PortalBldg2</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -68,7 +68,7 @@
   <ThingDef Name="TM_ElementalRift" ParentName="TM_BuildingBase">
     <defName>TM_ElementalRift</defName>
     <label>Elemental rift</label>
-    <thingClass>TorannMagic.Building_TMElementalRift</thingClass>
+    <thingClass>TorannMagic.Building.Building_TMElementalRift</thingClass>
     <graphicData>
       <texPath>Other/riftbldg</texPath>
       <graphicClass>Graphic_Single</graphicClass>
@@ -131,7 +131,7 @@
     <label>Elemental rift</label>
 	<description>rift created by a voidseeker</description>
 	<resourcesFractionWhenDeconstructed>0</resourcesFractionWhenDeconstructed>
-    <thingClass>TorannMagic.Building_TMElementalRift_Defenders</thingClass>
+    <thingClass>TorannMagic.Building.Building_TMElementalRift_Defenders</thingClass>
 	<leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
   </ThingDef>
   
